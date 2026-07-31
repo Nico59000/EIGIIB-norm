@@ -9,7 +9,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-TOOL_VERSION = "0.1.1"
+TOOL_VERSION = "0.1.2"
 STANDARD = "EIGIIB-M0-A2-1.0"
 
 PASS_VALUES = {"conformant"}
@@ -72,20 +72,23 @@ class Aggregator:
         return expected
 
     @staticmethod
-    def classify(report: dict[str, Any]) -> tuple[str | None, str | None]:
+    def classify_value(value: str) -> str:
+        if value in PASS_VALUES:
+            return "pass"
+        if value in QUALIFIED_VALUES:
+            return "qualified"
+        if value in INCOMPLETE_VALUES:
+            return "incomplete"
+        if value in FAIL_VALUES:
+            return "fail"
+        return "unsupported"
+
+    @classmethod
+    def classify(cls, report: dict[str, Any]) -> tuple[str | None, str | None]:
         field = next((candidate for candidate in RESULT_FIELDS if isinstance(report.get(candidate), str)), None)
         if field is None:
             return None, None
-        value = report[field]
-        if value in PASS_VALUES:
-            return field, "pass"
-        if value in QUALIFIED_VALUES:
-            return field, "qualified"
-        if value in INCOMPLETE_VALUES:
-            return field, "incomplete"
-        if value in FAIL_VALUES:
-            return field, "fail"
-        return field, "unsupported"
+        return field, cls.classify_value(report[field])
 
     @staticmethod
     def finding_counts(report: dict[str, Any]) -> dict[str, int]:
@@ -144,14 +147,29 @@ class Aggregator:
                     self.add("error", "M0A2.RESULT.TOOL", f"{cid} has no non-empty tool id", str(rel))
                 if not isinstance(standard, str) or not standard:
                     self.add("error", "M0A2.RESULT.STANDARD", f"{cid} has no non-empty standard id", str(rel))
+
                 field, classification = self.classify(report)
+                present_carriers = [
+                    (candidate, report[candidate])
+                    for candidate in RESULT_FIELDS
+                    if isinstance(report.get(candidate), str)
+                ]
                 if field is None:
                     self.add("error", "M0A2.RESULT.FIELD", f"{cid} exposes no supported top-level conformance result", str(rel))
                     result_value = None
                 else:
                     result_value = report[field]
-                    if classification == "unsupported":
-                        self.add("error", "M0A2.RESULT.VALUE", f"{cid} has unsupported {field} value {result_value!r}", str(rel))
+                    for carrier, value in present_carriers:
+                        carrier_class = self.classify_value(value)
+                        if carrier_class == "unsupported":
+                            self.add("error", "M0A2.RESULT.VALUE", f"{cid} has unsupported {carrier} value {value!r}", str(rel))
+                    if classification != "fail" and any(
+                        self.classify_value(value) == "fail"
+                        for carrier, value in present_carriers
+                        if carrier != field
+                    ):
+                        self.add("error", "M0A2.RESULT.CONFLICT", f"{cid} primary {field} hides a secondary non-conformant carrier", str(rel))
+
                 self.components.append({
                     "id": cid,
                     "path": str(rel),
