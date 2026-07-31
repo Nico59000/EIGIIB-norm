@@ -165,6 +165,40 @@ P1-A1 adds no host-clock timestamp, random identifier, signer identity or
 network-derived value. This is intentional: those facts are not available from
 M0-A2 and belong to later authenticated transport stages.
 
+## Post-green transport hardening 0.2
+
+The first complete repository replay of the P1-A1 baseline succeeded. A
+deliberate post-green audit then identified two parser/encoding ambiguities that
+would be undesirable before P1-A2 signs transported material:
+
+1. duplicate JSON object member names can be interpreted differently by
+different parsers or silently collapse under last-wins parsing;
+2. syntactically decodable base64 can have a non-canonical spelling when unused
+trailing bits are not constrained.
+
+P1-A1 therefore applies these additive transport guards without changing the
+capsule semantics:
+
+```text
+duplicate JSON member name -> reject
+base64 decode failure       -> reject
+base64 decode succeeds but re-encode differs -> reject as non-canonical
+```
+
+The builder uses the same duplicate-key-rejecting JSON loader for source
+aggregate reports that the verifier uses for capsules. The self-check applies
+that loader to checked-in capsule/profile material as well.
+
+For transported base64 `s`, validation requires:
+
+```text
+B = strict_base64_decode(s)
+base64_encode(B) = s
+```
+
+Thus byte identity and textual transport representation are both stable. This
+is a portability guard, not a cryptographic authenticity claim.
+
 ## Reference implementation
 
 `tools/eigiib_in_toto_capsule.py` provides three operations:
@@ -178,8 +212,9 @@ check   repository self-check of config, fixtures and M0-A3 implementation state
 The tool:
 
 - reads local files only;
+- rejects duplicate JSON member names in transported material;
 - computes SHA-256 locally;
-- performs strict base64 decoding;
+- performs strict, canonical base64 validation;
 - validates exact boundary constants;
 - never contacts an external service;
 - never signs;
@@ -203,7 +238,8 @@ P1-A1 changes `in-toto-aggregate-export-v1` from:
 specified -> implemented
 ```
 
-and registers the adapter/test/fixture evidence paths.
+and registers the adapter/test/fixture evidence paths, including the transport
+ambiguity hardening tests.
 
 This state means that a repository-local adapter implementing the documented
 mapping exists and is replayed in CI. It does not mean that an independent
