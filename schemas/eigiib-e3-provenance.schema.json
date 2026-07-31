@@ -1,0 +1,511 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e3-provenance.schema.json",
+  "title": "EIGIIB-E3 Provenance Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "revision",
+    "artifacts",
+    "environments",
+    "equivalence_policies",
+    "procedures",
+    "events",
+    "replays",
+    "evidence_bindings"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0"
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "role",
+          "kind",
+          "availability",
+          "identity_state"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "file",
+              "archive",
+              "executable",
+              "dataset",
+              "document",
+              "proof-object",
+              "manifest",
+              "external",
+              "other"
+            ]
+          },
+          "path": {
+            "$ref": "#/$defs/relpath"
+          },
+          "locator": {
+            "type": "string",
+            "minLength": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "digests": {
+            "$ref": "#/$defs/digests"
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "availability": {
+            "enum": [
+              "local",
+              "external",
+              "unavailable"
+            ]
+          },
+          "identity_state": {
+            "enum": [
+              "verified",
+              "declared",
+              "unavailable"
+            ]
+          },
+          "supersedes": {
+            "$ref": "#/$defs/id"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "availability": {
+                  "const": "local"
+                }
+              },
+              "required": [
+                "availability"
+              ]
+            },
+            "then": {
+              "required": [
+                "path",
+                "size",
+                "digests"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "identity_state": {
+                  "const": "verified"
+                }
+              },
+              "required": [
+                "identity_state"
+              ]
+            },
+            "then": {
+              "required": [
+                "size",
+                "digests"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "environments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "properties"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/$defs/scalar_or_list"
+            }
+          },
+          "artifact_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "uniqueItems": true
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "equivalence_policies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "authority"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "kind": {
+            "enum": [
+              "byte-exact",
+              "canonical-equivalent",
+              "semantic-equivalent"
+            ]
+          },
+          "authority": {
+            "$ref": "#/$defs/id"
+          },
+          "comparator_artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "uniqueItems": true
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "procedures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "authority",
+          "implementation_artifacts",
+          "determinism"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "authority": {
+            "$ref": "#/$defs/id"
+          },
+          "implementation_artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "uniqueItems": true
+          },
+          "determinism": {
+            "enum": [
+              "deterministic",
+              "conditionally-deterministic",
+              "nondeterministic",
+              "unknown"
+            ]
+          },
+          "interface": {
+            "type": "string"
+          },
+          "equivalence_policy": {
+            "$ref": "#/$defs/id"
+          },
+          "material_environment": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "subject",
+          "source_revision",
+          "procedure",
+          "environment",
+          "inputs",
+          "outputs",
+          "result"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "subject": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "procedure": {
+            "$ref": "#/$defs/id"
+          },
+          "environment": {
+            "$ref": "#/$defs/id"
+          },
+          "inputs": {
+            "$ref": "#/$defs/bindings"
+          },
+          "outputs": {
+            "$ref": "#/$defs/bindings"
+          },
+          "result": {
+            "enum": [
+              "success",
+              "failure",
+              "inconclusive",
+              "not-run",
+              "unavailable"
+            ]
+          },
+          "observed_at": {
+            "type": "string",
+            "minLength": 1
+          },
+          "executor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supersedes": {
+            "$ref": "#/$defs/id"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "replays": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "target_event",
+          "procedure",
+          "environment",
+          "input_bindings",
+          "observed_outputs",
+          "relation",
+          "result",
+          "independence"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "target_event": {
+            "$ref": "#/$defs/id"
+          },
+          "procedure": {
+            "$ref": "#/$defs/id"
+          },
+          "environment": {
+            "$ref": "#/$defs/id"
+          },
+          "input_bindings": {
+            "$ref": "#/$defs/bindings"
+          },
+          "observed_outputs": {
+            "$ref": "#/$defs/bindings"
+          },
+          "relation": {
+            "enum": [
+              "byte-exact",
+              "canonical-equivalent",
+              "semantic-equivalent",
+              "observation-only"
+            ]
+          },
+          "equivalence_policy": {
+            "$ref": "#/$defs/id"
+          },
+          "result": {
+            "enum": [
+              "match",
+              "mismatch",
+              "inconclusive",
+              "not-run",
+              "unavailable",
+              "not-applicable"
+            ]
+          },
+          "observed_at": {
+            "type": "string",
+            "minLength": 1
+          },
+          "independence": {
+            "enum": [
+              "same-executor",
+              "separate-run",
+              "separate-environment",
+              "separate-implementation",
+              "external-party",
+              "unknown"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "evidence_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence_id"
+        ],
+        "properties": {
+          "evidence_id": {
+            "$ref": "#/$defs/id"
+          },
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "uniqueItems": true
+          },
+          "production_events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "uniqueItems": true
+          },
+          "replays": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "relpath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "digests": {
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "artifact"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/binding"
+      }
+    },
+    "scalar_or_list": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
