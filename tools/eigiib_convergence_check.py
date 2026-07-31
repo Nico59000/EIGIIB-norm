@@ -37,9 +37,14 @@ class Checker:
         self.windows={}
         self.adoption_decisions={}
         self.e7_continuity=set()
+        self.e7_transitions=set()
+        self.invalid_observations=set()
+        self.verified_adoption_ids=set()
         self.adoption_verified=0
         self.legacy_rejection_verified=0
+        self.legacy_rejection_with_exceptions=0
         self.cutover_verified=0
+        self.cutover_with_exceptions=0
 
     def add(self,severity,code,message,path=""):
         self.findings.append(Finding(severity,code,path,message))
@@ -98,6 +103,9 @@ class Checker:
         for x in d.get("decisions",[]):
             if isinstance(x,dict) and x.get("state") in {"continuity-established","closed"} and isinstance(x.get("id"),str):
                 self.e7_continuity.add(x["id"])
+        for x in d.get("transitions",[]):
+            if isinstance(x,dict) and x.get("status")=="verified" and isinstance(x.get("id"),str):
+                self.e7_transitions.add(x["id"])
 
     def map_items(self,key,code):
         out={}
@@ -133,6 +141,8 @@ class Checker:
                 self.add("error","E8.MIGRATION.EPOCH","migration must advance epoch",f"migration:{mid}")
             if m.get("status") not in {"planned","in-progress","cutover","closed","aborted"}:
                 self.add("error","E8.MIGRATION.STATUS","invalid migration status",f"migration:{mid}")
+            if m.get("e7_transition") is not None and m.get("e7_transition") not in self.e7_transitions:
+                self.add("error","E8.MIGRATION.E7_TRANSITION","declared E7 transition is absent or not verified",f"migration:{mid}")
         for oid,o in self.observations.items():
             loc=f"observation:{oid}"
             if o.get("migration") not in self.migrations: self.add("error","E8.OBS.MIGRATION","unresolved migration",loc)
@@ -144,8 +154,12 @@ class Checker:
             ev=o.get("evidence",[])
             if not isinstance(ev,list): self.add("error","E8.OBS.EVIDENCE","evidence must be array",loc)
             for e in ev if isinstance(ev,list) else []:
-                if isinstance(e,dict) and "path" in e: self.safe_path(e["path"])
-                elif not isinstance(e,(str,dict)): self.add("error","E8.OBS.EVIDENCE","invalid evidence item",loc)
+                if isinstance(e,dict) and "path" in e:
+                    if self.safe_path(e["path"]) is None:
+                        self.invalid_observations.add(oid)
+                elif not isinstance(e,(str,dict)):
+                    self.add("error","E8.OBS.EVIDENCE","invalid evidence item",loc)
+                    self.invalid_observations.add(oid)
         for wid,w in self.windows.items():
             loc=f"window:{wid}"
             if w.get("migration") not in self.migrations: self.add("error","E8.WINDOW.MIGRATION","unresolved migration",loc)
@@ -168,6 +182,8 @@ class Checker:
 
     def satisfying_observation(self,o,policy):
         ev=o.get("evidence")
+        if o.get("id") in self.invalid_observations:
+            return False
         if o.get("new_state")!="accepted" or not isinstance(ev,list) or not ev:
             return False
         if policy.get("require_old_rejected") and o.get("old_state")!="rejected":
@@ -194,6 +210,8 @@ class Checker:
                     self.add("error","E8.ADOPTION.OBS","invalid observation reference",loc); continue
                 selected.append(o)
             if state not in {"converged","converged-with-exceptions"}: continue
+            if p.get("minimum",0) < 1:
+                self.add("error","E8.ADOPTION.ZERO_MINIMUM","positive convergence requires minimum >= 1",loc)
             good=[o for o in selected if self.satisfying_observation(o,p)]
             distinct_by=p.get("distinct_by")
             values=set()
@@ -236,7 +254,12 @@ class Checker:
                     self.add("error","E8.ADOPTION.EXCEPTION_COVERAGE","exceptions must exactly expose uncovered required parties",loc)
             if not any(f.severity=="error" and f.path==loc for f in self.findings):
                 self.adoption_verified += 1
-                if p.get("require_old_rejected"): self.legacy_rejection_verified += 1
+                self.verified_adoption_ids.add(did)
+                if p.get("require_old_rejected"):
+                    if state=="converged":
+                        self.legacy_rejection_verified += 1
+                    else:
+                        self.legacy_rejection_with_exceptions += 1
 
     def check_cutover(self):
         cuts=self.map_items("cutover_decisions","E8.CUTOVER")
@@ -255,13 +278,18 @@ class Checker:
                 self.add("error","E8.CUTOVER.MIGRATION_STATE","migration must be cutover or closed",loc)
             if a.get("state") not in {"converged","converged-with-exceptions"}:
                 self.add("error","E8.CUTOVER.ADOPTION","cutover requires converged adoption decision",loc)
+            if c.get("adoption_decision") not in self.verified_adoption_ids:
+                self.add("error","E8.CUTOVER.ADOPTION_UNVERIFIED","cutover requires mechanically verified adoption decision",loc)
             if w.get("state")!="closed" or w.get("allow_old") is not False:
                 self.add("error","E8.CUTOVER.WINDOW","cutover requires closed window with old state disabled",loc)
             if c.get("require_e7_continuity"):
                 if c.get("e7_decision") not in self.e7_continuity:
                     self.add("error","E8.CUTOVER.E7","required E7 continuity decision absent",loc)
             if not any(f.severity=="error" and f.path==loc for f in self.findings):
-                self.cutover_verified += 1
+                if a.get("state")=="converged":
+                    self.cutover_verified += 1
+                else:
+                    self.cutover_with_exceptions += 1
 
     def run(self):
         if self.load():
@@ -278,8 +306,8 @@ class Checker:
             "revision":self.obj.get("revision","unknown"),
             "structural_result":"non-conformant" if errors else "conformant",
             "adoption_result":"verified" if self.adoption_verified else "not-evaluated",
-            "legacy_rejection_result":"verified" if self.legacy_rejection_verified else "not-evaluated",
-            "cutover_result":"verified" if self.cutover_verified else "not-evaluated",
+            "legacy_rejection_result":"verified" if self.legacy_rejection_verified else ("verified-with-exceptions" if self.legacy_rejection_with_exceptions else "not-evaluated"),
+            "cutover_result":"verified" if self.cutover_verified else ("verified-with-exceptions" if self.cutover_with_exceptions else "not-evaluated"),
             "stale_acceptance_observations":stale,
             "findings":[asdict(f) for f in findings],
         }
