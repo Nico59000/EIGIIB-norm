@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e13-policy-composition-hardening.schema.json",
+  "title": "EIGIIB-E13 hardening 0.2 attachment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "applies_to", "rules"],
+  "properties": {
+    "standard": {"const": "EIGIIB-E13-hardening-0.2"},
+    "applies_to": {"const": "E13"},
+    "rules": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {"enum": ["required-member-conclusive", "known-e10-state", "waiver-context-bound"]}
+    }
+  }
+}

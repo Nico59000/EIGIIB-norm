@@ -105,6 +105,16 @@ jobs:
         run: |
           set -o pipefail
           python tools/eigiib_commit_hardening_check.py . --json | tee .eigiib-results/components/e12-h0.2.json
+      - name: EIGIIB E13 policy composition conformance
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_policy_composition_check.py . --json | tee .eigiib-results/components/e13.json
+      - name: EIGIIB E13 policy composition hardening profile
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_policy_composition_hardening_check.py . --json | tee .eigiib-results/components/e13-h0.2.json
       - name: EIGIIB M0-A2 aggregate conformance
         if: always()
         run: |

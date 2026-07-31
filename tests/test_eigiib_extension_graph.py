@@ -16,7 +16,7 @@ sys.modules[spec.name] = mod
 spec.loader.exec_module(mod)
 
 
-CANONICAL = ["Core"] + [f"E{i}" for i in range(1, 13)]
+CANONICAL = ["Core"] + [f"E{i}" for i in range(1, 14)]
 
 
 def base_manifest():
@@ -134,7 +134,7 @@ class GraphTests(unittest.TestCase):
         self.assertTrue(any(f["code"] == "M0.NODES.DEPENDS_REF" for f in r["findings"]))
 
     def test_cycle(self):
-        def mut(m): m["nodes"][0]["depends_on"] = ["E12"]
+        def mut(m): m["nodes"][0]["depends_on"] = ["E13"]
         r = self.check(mut)
         self.assertTrue(any(f["code"] == "M0.GRAPH.CYCLE" for f in r["findings"]))
 
@@ -147,14 +147,14 @@ class GraphTests(unittest.TestCase):
     def test_missing_artifact(self):
         td, root, _ = self.repo()
         self.addCleanup(td.cleanup)
-        (root / "tools/E12.py").unlink()
+        (root / "tools/E13.py").unlink()
         r = mod.Checker(root).run()
         self.assertTrue(any(f["code"] == "M0.NODES.PATH_MISSING" for f in r["findings"]))
 
     def test_authority_binding(self):
         td, root, _ = self.repo()
         self.addCleanup(td.cleanup)
-        text = (root / "EIGIIB.toml").read_text().replace('e12 = "extensions/E12.md"', 'e12 = "extensions/WRONG.md"')
+        text = (root / "EIGIIB.toml").read_text().replace('e13 = "extensions/E13.md"', 'e13 = "extensions/WRONG.md"')
         (root / "EIGIIB.toml").write_text(text)
         r = mod.Checker(root).run()
         self.assertTrue(any(f["code"] == "M0.NODES.AUTHORITY_BINDING" for f in r["findings"]))
@@ -172,18 +172,18 @@ class GraphTests(unittest.TestCase):
     def test_hardening_target_and_attachment(self):
         def mut(m):
             hp = {
-                "id":"E12-H0.2","applies_to":"E12","authority":"extensions/h.md",
+                "id":"E13-H0.2","applies_to":"E13","authority":"extensions/h.md",
                 "schema":"schemas/h.json","checker":"tools/h.py","tests":["tests/h.py"]
             }
             m["hardening_profiles"].append(hp)
-            m["nodes"][-1]["hardening_profiles"]=["E12-H0.2"]
+            m["nodes"][-1]["hardening_profiles"]=["E13-H0.2"]
         r = self.check(mut)
         self.assertEqual("conformant", r["structural_result"])
 
     def test_hardening_wrong_target(self):
         def mut(m):
             hp = {
-                "id":"H","applies_to":"E11","authority":"extensions/h.md",
+                "id":"H","applies_to":"E12","authority":"extensions/h.md",
                 "schema":"schemas/h.json","checker":"tools/h.py","tests":["tests/h.py"]
             }
             m["hardening_profiles"].append(hp)
@@ -194,7 +194,7 @@ class GraphTests(unittest.TestCase):
     def test_unattached_hardening_rejected(self):
         def mut(m):
             hp = {
-                "id":"H","applies_to":"E12","authority":"extensions/h.md",
+                "id":"H","applies_to":"E13","authority":"extensions/h.md",
                 "schema":"schemas/h.json","checker":"tools/h.py","tests":["tests/h.py"]
             }
             m["hardening_profiles"].append(hp)
@@ -205,7 +205,7 @@ class GraphTests(unittest.TestCase):
         def mut(m):
             m["functional_layers"] = [
                 {"id":"early","label":"early","description":"x","nodes":["Core","E1"]},
-                {"id":"late","label":"late","description":"x","nodes":[f"E{i}" for i in range(2,13)]},
+                {"id":"late","label":"late","description":"x","nodes":[f"E{i}" for i in range(2,14)]},
             ]
             m["nodes"][1]["depends_on"] = ["E2"]
         r = self.check(mut)
