@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-TOOL_VERSION = "0.1.1"
+TOOL_VERSION = "0.1.2"
 STANDARD = "EIGIIB-M0-A3-1.0"
 FRESHNESS_BASIS = "declared-observation-date-only"
 
@@ -38,7 +38,7 @@ class Checker:
         self.findings: list[Finding] = []
         self.spec_count = 0
         self.profile_count = 0
-        self.validated_count = 0
+        self.declared_validated_count = 0
 
     def add(self, severity: str, code: str, message: str, path: str = "") -> None:
         self.findings.append(Finding(severity, code, path, message))
@@ -196,7 +196,7 @@ class Checker:
                 self.add("error", "M0A3.PROFILE.STATE", "invalid profile state", loc)
                 continue
             if state == "validated":
-                self.validated_count += 1
+                self.declared_validated_count += 1
 
             sid = profile.get("external_spec")
             spec = specs.get(sid) if isinstance(sid, str) else None
@@ -206,7 +206,7 @@ class Checker:
                 if spec.get("reference_mode") == "moving-reference" or spec.get("status") == "draft":
                     self.add("error", "M0A3.PROFILE.UNSTABLE_VALIDATION", "validated profile cannot rely on moving reference or draft spec", loc)
                 if not self.identity_valid(spec.get("identity")):
-                    self.add("error", "M0A3.PROFILE.SPEC_IDENTITY", "validated profile requires byte-exact external spec identity", loc)
+                    self.add("error", "M0A3.PROFILE.SPEC_IDENTITY", "validated profile requires declared byte-exact external spec identity", loc)
 
             auths = profile.get("eigiib_authorities")
             if not isinstance(auths, list) or not auths:
@@ -284,7 +284,7 @@ class Checker:
             "structural_result": "non-conformant" if failed else "conformant",
             "external_spec_count": self.spec_count,
             "profile_count": self.profile_count,
-            "validated_profile_count": self.validated_count,
+            "declared_validated_profile_count": self.declared_validated_count,
             "findings": [asdict(f) for f in sorted(self.findings)],
         }
 
