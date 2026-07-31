@@ -9,12 +9,14 @@
     {"id": "eigiib.transparency-witnessing", "authority": "e5"},
     {"id": "eigiib.gossip-cross-log-accountability", "authority": "e6"},
     {"id": "eigiib.recovery-remediation-trust-continuity", "authority": "e7"},
+    {"id": "eigiib.relying-party-convergence", "authority": "e8"},
     {"id": "repository.scope", "authority": "scope"},
     {"id": "repository.conformance-evidence", "authority": "evidence"},
     {"id": "repository.provenance", "authority": "provenance"},
     {"id": "repository.trust", "authority": "trust"},
     {"id": "repository.transparency", "authority": "transparency"},
     {"id": "repository.gossip-accountability", "authority": "gossip"},
-    {"id": "repository.recovery", "authority": "recovery"}
+    {"id": "repository.recovery", "authority": "recovery"},
+    {"id": "repository.convergence", "authority": "convergence"}
   ]
 }
