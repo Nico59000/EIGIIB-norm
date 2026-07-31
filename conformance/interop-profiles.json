@@ -1,6 +1,6 @@
 {
   "standard": "EIGIIB-M0-A3-1.0",
-  "revision": "M0-A3-p1-a1-1.0",
+  "revision": "M0-A3-p1-a1-1.1",
   "as_of": "2026-08-01",
   "freshness_basis": "declared-observation-date-only",
   "external_specs": [
@@ -48,7 +48,7 @@
   "profiles": [
     {
       "id": "in-toto-aggregate-export-v1",
-      "revision": "1.1",
+      "revision": "1.2",
       "state": "implemented",
       "external_spec": "in-toto-attestation-1.2.0",
       "direction": "export",
@@ -97,6 +97,7 @@
         "schemas/eigiib-p1-a1-in-toto-capsule.schema.json",
         "tools/eigiib_in_toto_capsule.py",
         "tests/test_eigiib_in_toto_capsule.py",
+        "tests/test_eigiib_in_toto_capsule_hardening.py",
         "tests/fixtures/p1-a1/aggregate.json",
         "tests/fixtures/p1-a1/capsule.json",
         "conformance/p1-a1-in-toto.json"
