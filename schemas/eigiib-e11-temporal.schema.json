@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e11-temporal.schema.json",
+  "title": "EIGIIB-E11 temporal validity registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard","revision","time_domains","time_sources","observations","policies","leases","renewals","replay_assertions","temporal_decisions"],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0+E8-1.0+E9-1.0+E10-1.0+E11-1.0"},
+    "revision": {"type":"string","minLength":1},
+    "time_domains": {"type":"array","items":{"$ref":"#/$defs/domain"}},
+    "time_sources": {"type":"array","items":{"$ref":"#/$defs/source"}},
+    "observations": {"type":"array","items":{"$ref":"#/$defs/observation"}},
+    "policies": {"type":"array","items":{"$ref":"#/$defs/policy"}},
+    "leases": {"type":"array","items":{"$ref":"#/$defs/lease"}},
+    "renewals": {"type":"array","items":{"$ref":"#/$defs/renewal"}},
+    "replay_assertions": {"type":"array","items":{"$ref":"#/$defs/replay"}},
+    "temporal_decisions": {"type":"array","items":{"$ref":"#/$defs/decision"}}
+  },
+  "$defs": {
+    "id": {"type":"string","pattern":"^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "evidenceItem": {"oneOf":[{"type":"string","minLength":1},{"type":"object","additionalProperties":false,"required":["path"],"properties":{"path":{"type":"string","minLength":1}}}]},
+    "evidence": {"type":"array","minItems":1,"items":{"$ref":"#/$defs/evidenceItem"}},
+    "domain": {"type":"object","additionalProperties":true,"required":["id","unit","ordering","status"],"properties":{"id":{"$ref":"#/$defs/id"},"unit":{"enum":["tick","second","millisecond","microsecond","nanosecond","logical"]},"ordering":{"const":"total"},"status":{"enum":["active","retired","unknown"]}}},
+    "source": {"type":"object","additionalProperties":true,"required":["id","domain","kind","status"],"properties":{"id":{"$ref":"#/$defs/id"},"domain":{"$ref":"#/$defs/id"},"kind":{"enum":["wall","monotonic","external","witnessed","logical","unknown"]},"status":{"enum":["active","suspended","retired","unknown"]}}},
+    "observation": {"type":"object","additionalProperties":true,"required":["id","source","tick","uncertainty","evidence"],"properties":{"id":{"$ref":"#/$defs/id"},"source":{"$ref":"#/$defs/id"},"tick":{"type":"integer","minimum":0},"uncertainty":{"type":"integer","minimum":0},"evidence":{"$ref":"#/$defs/evidence"}}},
+    "policy": {"type":"object","additionalProperties":true,"required":["id","revision","domain","require_e10_authorized","require_lease","require_replay_guard","max_observation_uncertainty","max_lease_age_ticks","allow_grace","grace_ticks","max_renewal_depth"],"properties":{"id":{"$ref":"#/$defs/id"},"revision":{"type":"string","minLength":1},"domain":{"$ref":"#/$defs/id"},"require_e10_authorized":{"type":"boolean"},"require_lease":{"type":"boolean"},"require_replay_guard":{"type":"boolean"},"max_observation_uncertainty":{"type":"integer","minimum":0},"max_lease_age_ticks":{"oneOf":[{"type":"integer","minimum":0},{"type":"null"}]},"allow_grace":{"type":"boolean"},"grace_ticks":{"type":"integer","minimum":0},"max_renewal_depth":{"type":"integer","minimum":0}}},
+    "lease": {"type":"object","additionalProperties":true,"required":["id","subject_kind","subject","domain","generation","issued_tick","valid_from","valid_until","status","predecessor"],"properties":{"id":{"$ref":"#/$defs/id"},"subject_kind":{"enum":["e10-decision","delegation","approval","execution","other"]},"subject":{"$ref":"#/$defs/id"},"domain":{"$ref":"#/$defs/id"},"generation":{"type":"integer","minimum":0},"issued_tick":{"type":"integer","minimum":0},"valid_from":{"type":"integer","minimum":0},"valid_until":{"type":"integer","minimum":0},"status":{"enum":["active","suspended","revoked","retired","unknown"]},"predecessor":{"oneOf":[{"$ref":"#/$defs/id"},{"type":"null"}]},"evidence":{"$ref":"#/$defs/evidence"}},"allOf":[{"if":{"properties":{"status":{"const":"active"}}},"then":{"required":["evidence"]}}]},
+    "renewal": {"type":"object","additionalProperties":true,"required":["id","predecessor","successor","state"],"properties":{"id":{"$ref":"#/$defs/id"},"predecessor":{"$ref":"#/$defs/id"},"successor":{"$ref":"#/$defs/id"},"state":{"enum":["approved","rejected","unavailable"]},"evidence":{"$ref":"#/$defs/evidence"}},"allOf":[{"if":{"properties":{"state":{"const":"approved"}}},"then":{"required":["evidence"]}}]},
+    "replay": {"type":"object","additionalProperties":true,"required":["id","namespace","token","subject","state","evidence"],"properties":{"id":{"$ref":"#/$defs/id"},"namespace":{"type":"string","minLength":1},"token":{"type":"string","minLength":1},"subject":{"$ref":"#/$defs/id"},"state":{"enum":["available","consumed","replayed","unknown"]},"evidence":{"$ref":"#/$defs/evidence"}}},
+    "decision": {"type":"object","additionalProperties":true,"required":["id","subject","policy","observation","state"],"properties":{"id":{"$ref":"#/$defs/id"},"subject":{"$ref":"#/$defs/id"},"policy":{"$ref":"#/$defs/id"},"observation":{"$ref":"#/$defs/id"},"lease":{"$ref":"#/$defs/id"},"replay_assertion":{"$ref":"#/$defs/id"},"state":{"enum":["valid","grace-valid","expired","not-yet-valid","stale","replay-rejected","indeterminate","unavailable"]}}}
+  }
+}
