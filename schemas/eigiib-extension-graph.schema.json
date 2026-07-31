@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://eigiib.example/schemas/eigiib-extension-graph.schema.json",
   "title": "EIGIIB M0-A1 extension graph manifest",
-  "description": "Repository-local structural authority for the functional Core/E1..E11 graph and hardening attachments. Graph relations describe specification architecture; they are not runtime dependency claims.",
+  "description": "Repository-local structural authority for the functional Core/E1..E12 graph and hardening attachments. Graph relations describe specification architecture; they are not runtime dependency claims.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -85,7 +85,7 @@
     },
     "nodes": {
       "type": "array",
-      "minItems": 12,
+      "minItems": 13,
       "items": {
         "type": "object",
         "additionalProperties": false,
