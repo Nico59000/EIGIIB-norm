@@ -18,7 +18,9 @@ The E8 reference checker contacts no relying party and mutates no deployment. It
 
 Post-cutover stale acceptance remains a typed observation. It is not automatically a structural failure and MUST NOT be rewritten as compromise, malicious intent or attribution. A convergence or cutover decision becomes non-conformant only when it overclaims relative to its declared policy and observations.
 
-The E9 reference checker contacts no dependency, activates no fallback and changes no routing or trust configuration. Availability observations used positively require evidence. A policy that permits degraded operation does not silently lower a capability's own `minimum_availability`; `unknown` is never treated as `available`; and fallback substitution does not imply semantic identity with the unavailable dependency.
+The E9 baseline checker contacts no dependency, activates no fallback and changes no routing or trust configuration. Availability observations used positively require evidence. A policy that permits degraded operation does not silently lower a capability's own `minimum_availability`; `unknown` is never treated as `available`; and fallback substitution does not imply semantic identity with the unavailable dependency.
+
+E9 hardening profile 0.2 closes three additional mechanically decidable boundaries: an evidence array must contain a material non-empty identifier or repository-confined path object rather than a placeholder; `preserved_guarantees` and `suspended_guarantees` must be disjoint; and a capability requiring `minimum_availability = available` cannot be satisfied through a fallback whose substitute is observed only `degraded`, even if degraded infrastructure is otherwise policy-permitted.
 
 A positive E9 degraded or partial-trust result is bounded to the selected mode, capabilities, policy and observations. Service continuity is not full trust. Read/observe viability is not write/admin viability. `partial-trust-available` is never promoted to nominal restoration. Nominal restoration is separately established and may require a referenced E8 cutover fact when policy declares that premise.
 
