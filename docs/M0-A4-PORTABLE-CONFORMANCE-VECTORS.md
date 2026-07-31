@@ -90,23 +90,21 @@ Later contracts may add adapters through an explicit M0-A4 revision. A vector MU
 
 ## Initial vector set
 
-The first corpus deliberately tests both success and rejection paths:
+The first corpus deliberately starts small and covers both positive and rejection behavior without attempting exhaustive checker coverage.
 
 M0-A2:
 
 - complete conformant aggregation;
-- missing required component report;
-- explicit component non-conformance;
-- contradictory result carriers;
-- stale/extra component report.
+- missing required component report remains `incomplete`;
+- positive primary carrier cannot hide a secondary `non-conformant` carrier.
 
 M0-A3:
 
-- specified profile with a versioned reference;
-- forbidden floating version token;
-- declared validated profile without byte-exact external identity;
-- exact-semantic mapping before validated state;
-- repository-escape evidence path.
+- specified profile with a versioned reference is structurally conformant;
+- declared validated profile without byte-exact external identity is rejected;
+- exact-semantic mapping before declared validated state is rejected.
+
+Further vectors SHOULD be added additively. The initial corpus does not yet cover every error code, every M0 contract, or any Core/E1–E11 checker directly.
 
 These vectors test the infrastructure contracts only. They do not assert external SLSA/in-toto/SPDX/SCITT interoperability.
 
@@ -118,12 +116,14 @@ It verifies:
 
 - vector ids are unique;
 - contract ids are from the closed supported set;
+- every supported contract has vector coverage;
 - fixture shape is object-valued;
 - fixture contains no floating-point value;
 - canonical fixture SHA-256 matches the declared digest;
 - expected result field matches the selected contract adapter;
 - expected result is from the contract result vocabulary;
-- expected error codes are sorted, unique, and non-empty strings.
+- expected error codes are sorted, unique, and non-empty strings;
+- materialized M0-A3 evidence-file fixture paths cannot escape their fixture root.
 
 ## Reference replay
 
@@ -131,6 +131,7 @@ It verifies:
 
 It:
 
+- first requires the vector catalog itself to be structurally conformant;
 - reads the same portable vector corpus;
 - materializes each fixture in a temporary directory;
 - invokes only the repository-owned M0-A2 or M0-A3 Python checker class;
