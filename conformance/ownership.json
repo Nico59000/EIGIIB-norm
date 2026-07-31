@@ -6,9 +6,11 @@
     {"id": "eigiib.repository-checking", "authority": "e2"},
     {"id": "eigiib.provenance-artifact-identity", "authority": "e3"},
     {"id": "eigiib.authenticated-attestations", "authority": "e4"},
+    {"id": "eigiib.transparency-witnessing", "authority": "e5"},
     {"id": "repository.scope", "authority": "scope"},
     {"id": "repository.conformance-evidence", "authority": "evidence"},
     {"id": "repository.provenance", "authority": "provenance"},
-    {"id": "repository.trust", "authority": "trust"}
+    {"id": "repository.trust", "authority": "trust"},
+    {"id": "repository.transparency", "authority": "transparency"}
   ]
 }
