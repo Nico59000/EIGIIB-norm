@@ -1,10 +1,10 @@
 standard = "EIGIIB-1.0"
-extensions = ["E1-1.0", "E2-1.0", "E3-1.0", "E4-1.0", "E5-1.0", "E6-1.0", "E7-1.0", "E8-1.0", "E9-1.0", "E10-1.0", "E11-1.0", "E12-1.0"]
+extensions = ["E1-1.0", "E2-1.0", "E3-1.0", "E4-1.0", "E5-1.0", "E6-1.0", "E7-1.0", "E8-1.0", "E9-1.0", "E10-1.0", "E11-1.0", "E12-1.0", "E13-1.0"]
 conformance_target = "EIGIIB-C2"
-revision = "EIGIIB-E12-draft-1.0"
+revision = "EIGIIB-E13-draft-1.0"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors"]
 
 [authorities]
 scope = "README.md"
@@ -21,6 +21,7 @@ e9 = "extensions/E9-DEGRADED-OPERATION-SAFE-FALLBACK-PARTIAL-TRUST-AVAILABILITY.
 e10 = "extensions/E10-POLICY-SAFE-AUTOMATION-DELEGATED-EXECUTION-DECISION-ACCOUNTABILITY.md"
 e11 = "extensions/E11-TEMPORAL-VALIDITY-FRESHNESS-LEASES-REPLAY-RESISTANCE.md"
 e12 = "extensions/E12-ATOMIC-AUTHORIZATION-CONSUMPTION-COMMIT-TIME-REVALIDATION-TOCTOU-CLOSURE.md"
+e13 = "extensions/E13-POLICY-COMPOSITION-CONFLICT-RESOLUTION-OBLIGATIONS.md"
 evidence = "conformance/e1-registry.json"
 provenance = "conformance/provenance.json"
 trust = "conformance/trust.json"
@@ -32,6 +33,7 @@ degraded = "conformance/degraded.json"
 automation = "conformance/automation.json"
 temporal = "conformance/temporal.json"
 commit = "conformance/commit.json"
+policy_composition = "conformance/policy-composition.json"
 extension_graph = "conformance/extension-graph.json"
 aggregate_conformance = "docs/M0-A2-AGGREGATE-CONFORMANCE-REPORT.md"
 interop_profile_contract = "docs/M0-A3-EXTERNAL-INTEROPERABILITY-PROFILES.md"
@@ -113,3 +115,9 @@ id = "commit-revalidation-boundary-review"
 status = "complete"
 authority = "e12"
 attestation = "conformance/E12-MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "policy-composition-boundary-review"
+status = "complete"
+authority = "e13"
+attestation = "conformance/E13-MANUAL-REVIEW.md"
