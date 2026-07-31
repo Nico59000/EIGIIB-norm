@@ -38,6 +38,8 @@
     {"id": "repository.external-interop-profile-mappings", "authority": "interop_profiles"},
     {"id": "repository.conformance-vector-contract", "authority": "conformance_vector_contract"},
     {"id": "repository.conformance-vector-corpus", "authority": "conformance_vectors"},
-    {"id": "repository.portable-error-code-expectations", "authority": "conformance_vectors"}
+    {"id": "repository.portable-error-code-expectations", "authority": "conformance_vectors"},
+    {"id": "repository.p1-in-toto-capsule-contract", "authority": "p1_in_toto_contract"},
+    {"id": "repository.p1-in-toto-capsule-state", "authority": "p1_in_toto_state"}
   ]
 }
