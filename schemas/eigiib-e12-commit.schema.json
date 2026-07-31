@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e12-commit.schema.json",
+  "title": "EIGIIB-E12 atomic commit and TOCTOU closure registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "revision", "atomic_stores", "policies", "operations", "idempotency_records", "attempts", "consumptions", "commits", "decisions"],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0+E8-1.0+E9-1.0+E10-1.0+E11-1.0+E12-1.0"},
+    "revision": {"type": "string", "minLength": 1},
+    "atomic_stores": {"type": "array", "items": {"$ref": "#/$defs/store"}},
+    "policies": {"type": "array", "items": {"$ref": "#/$defs/policy"}},
+    "operations": {"type": "array", "items": {"$ref": "#/$defs/operation"}},
+    "idempotency_records": {"type": "array", "items": {"$ref": "#/$defs/idempotency"}},
+    "attempts": {"type": "array", "items": {"$ref": "#/$defs/attempt"}},
+    "consumptions": {"type": "array", "items": {"$ref": "#/$defs/consumption"}},
+    "commits": {"type": "array", "items": {"$ref": "#/$defs/commit"}},
+    "decisions": {"type": "array", "items": {"$ref": "#/$defs/decision"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "evidenceItem": {"oneOf": [{"type": "string", "minLength": 1}, {"type": "object", "additionalProperties": false, "required": ["path"], "properties": {"path": {"type": "string", "minLength": 1}}}]},
+    "evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidenceItem"}},
+    "identity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["algorithm", "digest", "bytes"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "bytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "boundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["proposal_revision", "policy_revision", "context_revision"],
+      "properties": {
+        "proposal_revision": {"type": "string", "minLength": 1},
+        "policy_revision": {"type": "string", "minLength": 1},
+        "context_revision": {"type": "string", "minLength": 1}
+      }
+    },
+    "store": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "mode", "status"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "mode": {"enum": ["atomic-compare-and-set", "transactional-unique-key", "external-serialized", "unknown"]},
+        "status": {"enum": ["active", "suspended", "unavailable", "unknown"]},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "policy": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "revision", "allowed_check_temporal_states", "allowed_commit_temporal_states", "require_consumption", "require_idempotency"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "revision": {"type": "string", "minLength": 1},
+        "allowed_check_temporal_states": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["valid", "grace-valid"]}},
+        "allowed_commit_temporal_states": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["valid", "grace-valid"]}},
+        "require_consumption": {"type": "boolean"},
+        "require_idempotency": {"type": "boolean"}
+      }
+    },
+    "operation": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "revision", "policy", "e10_decision", "check_temporal_decision", "action", "scope", "target", "operation_identity", "e10_boundary"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "revision": {"type": "string", "minLength": 1},
+        "policy": {"$ref": "#/$defs/id"},
+        "e10_decision": {"$ref": "#/$defs/id"},
+        "check_temporal_decision": {"$ref": "#/$defs/id"},
+        "action": {"type": "string", "minLength": 1},
+        "scope": {"$ref": "#/$defs/id"},
+        "target": {"type": "string", "minLength": 1},
+        "operation_identity": {"$ref": "#/$defs/identity"},
+        "e10_boundary": {"$ref": "#/$defs/boundary"}
+      }
+    },
+    "attempt": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "operation", "e10_execution", "commit_temporal_decision", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "operation": {"$ref": "#/$defs/id"},
+        "e10_execution": {"$ref": "#/$defs/id"},
+        "commit_temporal_decision": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["prepared", "committed", "reused", "aborted", "failed", "unavailable"]},
+        "consumption": {"$ref": "#/$defs/id"},
+        "idempotency_record": {"$ref": "#/$defs/id"}
+      }
+    },
+    "consumption": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "store", "namespace", "token", "operation", "attempt", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "store": {"$ref": "#/$defs/id"},
+        "namespace": {"type": "string", "minLength": 1},
+        "token": {"type": "string", "minLength": 1},
+        "operation": {"$ref": "#/$defs/id"},
+        "attempt": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["reserved", "consumed", "released", "contested", "unavailable"]},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      },
+      "allOf": [{"if": {"properties": {"state": {"const": "consumed"}}, "required": ["state"]}, "then": {"required": ["evidence"]}}]
+    },
+    "idempotency": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "store", "namespace", "key", "operation", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "store": {"$ref": "#/$defs/id"},
+        "namespace": {"type": "string", "minLength": 1},
+        "key": {"type": "string", "minLength": 1},
+        "operation": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["open", "committed", "retired", "contested", "unavailable"]},
+        "canonical_commit": {"$ref": "#/$defs/id"},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      },
+      "allOf": [{"if": {"properties": {"state": {"const": "committed"}}, "required": ["state"]}, "then": {"required": ["canonical_commit", "evidence"]}}]
+    },
+    "commit": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "operation", "attempt", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "operation": {"$ref": "#/$defs/id"},
+        "attempt": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["committed", "compensated", "disputed", "unavailable"]},
+        "consumption": {"$ref": "#/$defs/id"},
+        "idempotency_record": {"$ref": "#/$defs/id"},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      },
+      "allOf": [{"if": {"properties": {"state": {"enum": ["committed", "compensated"]}}, "required": ["state"]}, "then": {"required": ["evidence"]}}]
+    },
+    "decision": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "operation", "attempt", "policy", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "operation": {"$ref": "#/$defs/id"},
+        "attempt": {"$ref": "#/$defs/id"},
+        "policy": {"$ref": "#/$defs/id"},
+        "commit": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["commit-safe", "idempotent-replay", "held", "rejected", "indeterminate", "unavailable"]}
+      }
+    }
+  }
+}
