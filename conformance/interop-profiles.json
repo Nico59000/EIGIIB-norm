@@ -1,0 +1,168 @@
+{
+  "standard": "EIGIIB-M0-A3-1.0",
+  "revision": "M0-A3-initial-1.0",
+  "as_of": "2026-07-31",
+  "freshness_basis": "declared-observation-date-only",
+  "external_specs": [
+    {
+      "id": "slsa-1.2",
+      "name": "SLSA specification",
+      "version": "1.2",
+      "status": "approved",
+      "domain": "supply-chain-security",
+      "canonical_uri": "https://slsa.dev/spec/v1.2/",
+      "reference_mode": "versioned-reference",
+      "observed_on": "2026-07-31"
+    },
+    {
+      "id": "in-toto-attestation-1.2.0",
+      "name": "in-toto Attestation Framework",
+      "version": "1.2.0",
+      "status": "released",
+      "domain": "attestation",
+      "canonical_uri": "https://github.com/in-toto/attestation/blob/v1.2.0/spec/README.md",
+      "reference_mode": "versioned-reference",
+      "observed_on": "2026-07-31"
+    },
+    {
+      "id": "spdx-3.0.1",
+      "name": "SPDX Specification",
+      "version": "3.0.1",
+      "status": "released",
+      "domain": "bom",
+      "canonical_uri": "https://spdx.github.io/spdx-spec/v3.0.1/",
+      "reference_mode": "versioned-reference",
+      "observed_on": "2026-07-31"
+    },
+    {
+      "id": "scitt-architecture-22",
+      "name": "IETF SCITT Architecture",
+      "version": "draft-ietf-scitt-architecture-22",
+      "status": "draft",
+      "domain": "transparency",
+      "canonical_uri": "https://datatracker.ietf.org/doc/html/draft-ietf-scitt-architecture-22",
+      "reference_mode": "exact-draft",
+      "observed_on": "2026-07-31"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "in-toto-aggregate-export-v1",
+      "revision": "1.0",
+      "state": "specified",
+      "external_spec": "in-toto-attestation-1.2.0",
+      "direction": "export",
+      "eigiib_authorities": ["aggregate_conformance", "e1", "e3"],
+      "mappings": [
+        {
+          "external_element": "Statement.subject",
+          "eigiib_element": "E3 artifact identity selected by the exporter",
+          "relation": "represents",
+          "strength": "bounded-semantic"
+        },
+        {
+          "external_element": "Statement.predicateType",
+          "eigiib_element": "M0-A3 EIGIIB aggregate predicate profile identifier",
+          "relation": "identifies",
+          "strength": "bounded-semantic"
+        },
+        {
+          "external_element": "Statement.predicate",
+          "eigiib_element": "M0-A2 aggregate conformance report",
+          "relation": "transports",
+          "strength": "transport-only"
+        }
+      ],
+      "does_not_imply": [
+        "attestation-format-validity-does-not-imply-eigiib-claim-truth",
+        "predicate-transport-does-not-imply-e4-authentication",
+        "attestation-presence-does-not-imply-production-conformance"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "slsa-provenance-evidence-import-v1",
+      "revision": "1.0",
+      "state": "specified",
+      "external_spec": "slsa-1.2",
+      "direction": "import",
+      "eigiib_authorities": ["e1", "e3"],
+      "mappings": [
+        {
+          "external_element": "provenance subject",
+          "eigiib_element": "E3 artifact identity candidate",
+          "relation": "represents",
+          "strength": "bounded-semantic"
+        },
+        {
+          "external_element": "provenance predicate metadata",
+          "eigiib_element": "E1 typed external evidence payload",
+          "relation": "supplies-evidence",
+          "strength": "bounded-semantic"
+        }
+      ],
+      "does_not_imply": [
+        "slsa-level-does-not-imply-eigiib-conformance",
+        "provenance-format-validity-does-not-imply-e4-authentication",
+        "external-provenance-does-not-replace-e3-authority"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "spdx-context-import-v1",
+      "revision": "1.0",
+      "state": "specified",
+      "external_spec": "spdx-3.0.1",
+      "direction": "import",
+      "eigiib_authorities": ["e1", "e3"],
+      "mappings": [
+        {
+          "external_element": "SPDX elements and identifiers",
+          "eigiib_element": "typed artifact/context metadata",
+          "relation": "represents",
+          "strength": "bounded-semantic"
+        },
+        {
+          "external_element": "SPDX relationships",
+          "eigiib_element": "external relationship evidence for E3 analysis",
+          "relation": "supplies-evidence",
+          "strength": "bounded-semantic"
+        }
+      ],
+      "does_not_imply": [
+        "spdx-document-validity-does-not-imply-artifact-authenticity",
+        "spdx-provenance-fields-do-not-replace-e3-provenance-authority",
+        "bom-completeness-does-not-follow-from-profile-import"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "scitt-transparency-research-v1",
+      "revision": "1.0",
+      "state": "research",
+      "external_spec": "scitt-architecture-22",
+      "direction": "bidirectional",
+      "eigiib_authorities": ["e4", "e5", "e6"],
+      "mappings": [
+        {
+          "external_element": "signed statement",
+          "eigiib_element": "E4 external attestation carrier",
+          "relation": "transports",
+          "strength": "transport-only"
+        },
+        {
+          "external_element": "transparency service receipt",
+          "eigiib_element": "candidate E5 transparency evidence",
+          "relation": "supplies-evidence",
+          "strength": "bounded-semantic"
+        }
+      ],
+      "does_not_imply": [
+        "scitt-receipt-does-not-imply-eigiib-claim-truth",
+        "transparency-receipt-does-not-imply-global-fork-absence",
+        "draft-profile-does-not-imply-stable-external-interoperability"
+      ],
+      "evidence": []
+    }
+  ]
+}

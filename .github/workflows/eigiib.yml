@@ -100,3 +100,8 @@ jobs:
         run: |
           set -o pipefail
           python tools/eigiib_aggregate.py . --json | tee .eigiib-results/aggregate.json
+      - name: EIGIIB M0-A3 external interoperability profiles
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_interop_profiles_check.py . --json | tee .eigiib-results/m0-a3.json
