@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e8-convergence.schema.json",
+  "title": "EIGIIB-E8 relying-party convergence registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "revision", "relying_parties", "migrations", "observations", "compatibility_windows", "policies", "exceptions", "adoption_decisions", "cutover_decisions"],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0+E8-1.0"},
+    "revision": {"type": "string", "minLength": 1},
+    "relying_parties": {"type": "array", "items": {"$ref": "#/$defs/party"}},
+    "migrations": {"type": "array", "items": {"$ref": "#/$defs/migration"}},
+    "observations": {"type": "array", "items": {"$ref": "#/$defs/observation"}},
+    "compatibility_windows": {"type": "array", "items": {"$ref": "#/$defs/window"}},
+    "policies": {"type": "array", "items": {"$ref": "#/$defs/policy"}},
+    "exceptions": {"type": "array", "items": {"$ref": "#/$defs/exception"}},
+    "adoption_decisions": {"type": "array", "items": {"$ref": "#/$defs/adoption"}},
+    "cutover_decisions": {"type": "array", "items": {"$ref": "#/$defs/cutover"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "ids": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
+    "party": {"type": "object", "additionalProperties": true, "required": ["id", "domain", "class", "required", "status"], "properties": {"id": {"$ref": "#/$defs/id"}, "domain": {"type": "string", "minLength": 1}, "class": {"type": "string", "minLength": 1}, "required": {"type": "boolean"}, "status": {"enum": ["active", "retired", "unknown"]}}},
+    "migration": {"type": "object", "additionalProperties": true, "required": ["id", "from_epoch", "to_epoch", "status"], "properties": {"id": {"$ref": "#/$defs/id"}, "from_epoch": {"type": "integer", "minimum": 0}, "to_epoch": {"type": "integer", "minimum": 0}, "status": {"enum": ["planned", "in-progress", "cutover", "closed", "aborted"]}}},
+    "observation": {"type": "object", "additionalProperties": true, "required": ["id", "migration", "party", "phase", "new_state", "old_state", "evidence"], "properties": {"id": {"$ref": "#/$defs/id"}, "migration": {"$ref": "#/$defs/id"}, "party": {"$ref": "#/$defs/id"}, "phase": {"enum": ["pre-cutover", "cutover", "post-cutover"]}, "new_state": {"enum": ["accepted", "rejected", "unknown", "unavailable", "not-applicable"]}, "old_state": {"enum": ["accepted", "rejected", "unknown", "unavailable", "not-applicable"]}, "evidence": {"type": "array"}}},
+    "window": {"type": "object", "additionalProperties": true, "required": ["id", "migration", "state", "allow_old"], "properties": {"id": {"$ref": "#/$defs/id"}, "migration": {"$ref": "#/$defs/id"}, "state": {"enum": ["planned", "open", "closed", "expired"]}, "allow_old": {"type": "boolean"}}},
+    "policy": {"type": "object", "additionalProperties": true, "required": ["id", "minimum", "distinct_by", "require_old_rejected", "require_all_required_parties", "allow_exceptions"], "properties": {"id": {"$ref": "#/$defs/id"}, "minimum": {"type": "integer", "minimum": 0}, "distinct_by": {"enum": ["party", "domain", "class"]}, "require_old_rejected": {"type": "boolean"}, "require_all_required_parties": {"type": "boolean"}, "allow_exceptions": {"type": "boolean"}, "required_domains": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}, "required_classes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}}},
+    "exception": {"type": "object", "additionalProperties": true, "required": ["id", "migration", "party", "reason", "disposition"], "properties": {"id": {"$ref": "#/$defs/id"}, "migration": {"$ref": "#/$defs/id"}, "party": {"$ref": "#/$defs/id"}, "reason": {"type": "string", "minLength": 1}, "disposition": {"enum": ["temporary", "permanent", "not-applicable"]}}},
+    "adoption": {"type": "object", "additionalProperties": true, "required": ["id", "migration", "policy", "state", "observations", "exceptions"], "properties": {"id": {"$ref": "#/$defs/id"}, "migration": {"$ref": "#/$defs/id"}, "policy": {"$ref": "#/$defs/id"}, "state": {"enum": ["converged", "converged-with-exceptions", "partial", "stalled", "unavailable"]}, "observations": {"$ref": "#/$defs/ids"}, "exceptions": {"$ref": "#/$defs/ids"}}},
+    "cutover": {"type": "object", "additionalProperties": true, "required": ["id", "migration", "state", "adoption_decision", "compatibility_window", "require_e7_continuity"], "properties": {"id": {"$ref": "#/$defs/id"}, "migration": {"$ref": "#/$defs/id"}, "state": {"const": "verified"}, "adoption_decision": {"$ref": "#/$defs/id"}, "compatibility_window": {"$ref": "#/$defs/id"}, "require_e7_continuity": {"type": "boolean"}, "e7_decision": {"$ref": "#/$defs/id"}}}
+  }
+}
