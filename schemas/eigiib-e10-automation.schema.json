@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e10-automation.schema.json",
+  "title": "EIGIIB-E10 policy-safe automation registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "revision", "principals", "delegations", "contexts", "policies", "proposals", "approvals", "decisions", "executions", "effects", "accountability_traces"],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0+E8-1.0+E9-1.0+E10-1.0"},
+    "revision": {"type": "string", "minLength": 1},
+    "principals": {"type": "array", "items": {"$ref": "#/$defs/principal"}},
+    "delegations": {"type": "array", "items": {"$ref": "#/$defs/delegation"}},
+    "contexts": {"type": "array", "items": {"$ref": "#/$defs/context"}},
+    "policies": {"type": "array", "items": {"$ref": "#/$defs/policy"}},
+    "proposals": {"type": "array", "items": {"$ref": "#/$defs/proposal"}},
+    "approvals": {"type": "array", "items": {"$ref": "#/$defs/approval"}},
+    "decisions": {"type": "array", "items": {"$ref": "#/$defs/decision"}},
+    "executions": {"type": "array", "items": {"$ref": "#/$defs/execution"}},
+    "effects": {"type": "array", "items": {"$ref": "#/$defs/effect"}},
+    "accountability_traces": {"type": "array", "items": {"$ref": "#/$defs/trace"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "ids": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
+    "evidenceItem": {
+      "oneOf": [
+        {"type": "string", "minLength": 1},
+        {"type": "object", "additionalProperties": false, "required": ["path"], "properties": {"path": {"type": "string", "minLength": 1}}}
+      ]
+    },
+    "evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidenceItem"}},
+    "principal": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "kind", "status", "direct_scopes"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["human", "service", "automation", "team", "external", "unknown"]},
+        "status": {"enum": ["active", "suspended", "retired", "unknown"]},
+        "direct_scopes": {"$ref": "#/$defs/ids"}
+      }
+    },
+    "delegation": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "delegator", "delegate", "scopes", "status"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "delegator": {"$ref": "#/$defs/id"}, "delegate": {"$ref": "#/$defs/id"},
+        "scopes": {"$ref": "#/$defs/ids"}, "status": {"enum": ["active", "suspended", "revoked", "retired", "unknown"]},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "context": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "revision"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "revision": {"type": "string", "minLength": 1}, "e9_decision": {"$ref": "#/$defs/id"}, "facts": {"type": "array"}}
+    },
+    "policy": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "revision", "action_scope", "approval_scope", "required_approvals", "allow_self_approval", "allow_automation_actor", "allow_automation_executor", "max_delegation_depth", "require_e9_context", "allowed_e9_states"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "revision": {"type": "string", "minLength": 1},
+        "action_scope": {"$ref": "#/$defs/id"}, "approval_scope": {"$ref": "#/$defs/id"},
+        "required_approvals": {"type": "integer", "minimum": 0}, "allow_self_approval": {"type": "boolean"},
+        "allow_automation_actor": {"type": "boolean"}, "allow_automation_executor": {"type": "boolean"},
+        "max_delegation_depth": {"type": "integer", "minimum": 0}, "require_e9_context": {"type": "boolean"},
+        "allowed_e9_states": {"type": "array", "items": {"enum": ["degraded-safe", "fallback-verified", "partial-trust-available", "nominal-restored", "unsafe", "unavailable"]}, "uniqueItems": true}
+      }
+    },
+    "proposal": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "revision", "actor", "requested_executor", "action", "scope", "target", "policy", "context"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "revision": {"type": "string", "minLength": 1}, "actor": {"$ref": "#/$defs/id"},
+        "requested_executor": {"$ref": "#/$defs/id"}, "action": {"type": "string", "minLength": 1}, "scope": {"$ref": "#/$defs/id"},
+        "target": {"type": "string", "minLength": 1}, "policy": {"$ref": "#/$defs/id"}, "context": {"$ref": "#/$defs/id"}
+      }
+    },
+    "approval": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "proposal", "approver", "state", "proposal_revision", "policy_revision", "context_revision", "authority_path"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "proposal": {"$ref": "#/$defs/id"}, "approver": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["approved", "rejected", "abstained", "withdrawn", "unavailable"]},
+        "proposal_revision": {"type": "string", "minLength": 1}, "policy_revision": {"type": "string", "minLength": 1},
+        "context_revision": {"type": "string", "minLength": 1}, "authority_path": {"$ref": "#/$defs/ids"}, "evidence": {"$ref": "#/$defs/evidence"}
+      },
+      "allOf": [
+        {"if": {"properties": {"state": {"const": "approved"}}, "required": ["state"]}, "then": {"required": ["evidence"]}}
+      ]
+    },
+    "decision": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "proposal", "policy", "context", "state", "proposal_revision", "policy_revision", "context_revision", "actor_authority_path", "approvals"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "proposal": {"$ref": "#/$defs/id"}, "policy": {"$ref": "#/$defs/id"}, "context": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["authorized", "denied", "held", "unavailable"]}, "proposal_revision": {"type": "string", "minLength": 1},
+        "policy_revision": {"type": "string", "minLength": 1}, "context_revision": {"type": "string", "minLength": 1},
+        "actor_authority_path": {"$ref": "#/$defs/ids"}, "approvals": {"$ref": "#/$defs/ids"}
+      }
+    },
+    "execution": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "decision", "executor", "state", "authority_path"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "decision": {"$ref": "#/$defs/id"}, "executor": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["attempted", "succeeded", "failed", "aborted", "unavailable"]}, "authority_path": {"$ref": "#/$defs/ids"},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "effect": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "execution", "state"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "execution": {"$ref": "#/$defs/id"}, "state": {"enum": ["observed", "partially-observed", "not-observed", "unavailable"]}, "evidence": {"$ref": "#/$defs/evidence"}}
+    },
+    "trace": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "decision", "execution", "effect", "participants", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "decision": {"$ref": "#/$defs/id"}, "execution": {"$ref": "#/$defs/id"}, "effect": {"$ref": "#/$defs/id"},
+        "participants": {"$ref": "#/$defs/ids"}, "state": {"enum": ["trace-complete", "trace-partial", "disputed", "unavailable"]}, "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    }
+  }
+}
