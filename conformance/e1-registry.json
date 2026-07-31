@@ -1,6 +1,6 @@
 {
   "standard": "EIGIIB-1.0+E1-1.0",
-  "revision": "EIGIIB-E4-draft-1.0",
+  "revision": "EIGIIB-E5-draft-1.0",
   "authorities": {
     "scope": "README.md",
     "standard": "EIGIIB-STANDARD.md",
@@ -8,9 +8,11 @@
     "e2": "extensions/E2-MACHINE-CHECKABLE-REPOSITORY-CONFORMANCE.md",
     "e3": "extensions/E3-REPRODUCIBLE-EVIDENCE-PROVENANCE-ARTIFACT-IDENTITY.md",
     "e4": "extensions/E4-AUTHENTICATED-ATTESTATIONS-TRUST-ROOTS-PROVENANCE-INTEGRITY.md",
+    "e5": "extensions/E5-TRANSPARENCY-WITNESSING-APPEND-ONLY-TRUST-HISTORY.md",
     "evidence": "conformance/e1-registry.json",
     "provenance": "conformance/provenance.json",
-    "trust": "conformance/trust.json"
+    "trust": "conformance/trust.json",
+    "transparency": "conformance/transparency.json"
   },
   "policies": [
     {
@@ -56,6 +58,18 @@
       "state": "established",
       "evidence": ["ev.e4-trust.unit-tests"],
       "boundary": {"excludes": ["production trust-root legitimacy", "real-world principal identity", "full delegated-path authentication", "global revocation completeness"]}
+    },
+    {
+      "id": "claim.e5-transparency-checker.unit-tests",
+      "subject": "tools/eigiib_transparency_check.py",
+      "predicate": "E5 transparency checker unit tests pass",
+      "revision": "EIGIIB-E5-draft-1.0",
+      "scope": {"runtime": ["python-3.11+"]},
+      "authority": "evidence",
+      "policy": "reference-checker-tests",
+      "state": "established",
+      "evidence": ["ev.e5-transparency.unit-tests"],
+      "boundary": {"excludes": ["production log operation", "production witness independence", "global fork absence", "semantic truth of logged entries", "complete E4 trust-history coverage"]}
     }
   ],
   "evidence": [
@@ -90,6 +104,17 @@
       "scope": {"runtime": ["python-3.11+"], "crypto-provider": ["openssl-3.x"]},
       "provenance": "local CPython 3.13 + OpenSSL 3.5.5 replay: 7/7 tests",
       "artifacts": ["tools/eigiib_trust_check.py", "tests/test_eigiib_trust.py", "tests/fixtures/e4/test-root-public.pem", "tests/fixtures/e4/statement.json", "tests/fixtures/e4/statement.sig.b64"]
+    },
+    {
+      "id": "ev.e5-transparency.unit-tests",
+      "subject": "tools/eigiib_transparency_check.py",
+      "revision": "EIGIIB-E5-draft-1.0",
+      "kind": "unit-test",
+      "procedure": "python -m unittest discover -s tests -p test_eigiib_transparency.py",
+      "result": "pass",
+      "scope": {"runtime": ["python-3.11+"]},
+      "provenance": "local CPython 3.13 replay: 7/7 tests",
+      "artifacts": ["tools/eigiib_transparency_check.py", "tests/test_eigiib_transparency.py"]
     }
   ]
 }

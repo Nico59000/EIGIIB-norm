@@ -1,0 +1,16 @@
+{
+  "standard": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0",
+  "revision": "EIGIIB-E5-draft-1.0",
+  "logs": [],
+  "entries": [],
+  "checkpoints": [],
+  "inclusion_proofs": [],
+  "consistency_proofs": [],
+  "witnesses": [],
+  "observations": [],
+  "witness_policies": [],
+  "witness_decisions": [],
+  "trust_history_events": [],
+  "trust_history_policies": [],
+  "trust_history_decisions": []
+}

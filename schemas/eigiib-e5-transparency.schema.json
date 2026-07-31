@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EIGIIB-E5 transparency registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard", "revision", "logs", "entries", "checkpoints",
+    "inclusion_proofs", "consistency_proofs", "witnesses",
+    "observations", "witness_policies", "witness_decisions",
+    "trust_history_events", "trust_history_policies", "trust_history_decisions"
+  ],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0"},
+    "revision": {"type": "string", "minLength": 1},
+    "logs": {"type": "array", "items": {"$ref": "#/$defs/log"}},
+    "entries": {"type": "array", "items": {"$ref": "#/$defs/entry"}},
+    "checkpoints": {"type": "array", "items": {"$ref": "#/$defs/checkpoint"}},
+    "inclusion_proofs": {"type": "array", "items": {"$ref": "#/$defs/inclusion"}},
+    "consistency_proofs": {"type": "array", "items": {"$ref": "#/$defs/consistency"}},
+    "witnesses": {"type": "array", "items": {"$ref": "#/$defs/witness"}},
+    "observations": {"type": "array", "items": {"$ref": "#/$defs/observation"}},
+    "witness_policies": {"type": "array", "items": {"$ref": "#/$defs/witnessPolicy"}},
+    "witness_decisions": {"type": "array", "items": {"$ref": "#/$defs/witnessDecision"}},
+    "trust_history_events": {"type": "array", "items": {"$ref": "#/$defs/historyEvent"}},
+    "trust_history_policies": {"type": "array", "items": {"$ref": "#/$defs/historyPolicy"}},
+    "trust_history_decisions": {"type": "array", "items": {"$ref": "#/$defs/historyDecision"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "log": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "purpose", "tree_profile", "status", "history_coverage"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "purpose": {"type": "string", "minLength": 1},
+        "tree_profile": {"const": "sha256-merkle-domain-v1"},
+        "operator": {"type": ["string", "null"]},
+        "status": {"enum": ["active", "frozen", "retired", "compromised", "unknown"]},
+        "history_coverage": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    },
+    "entryBytes": {
+      "oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["path"], "properties": {"path": {"type": "string", "minLength": 1}}},
+        {"type": "object", "additionalProperties": false, "required": ["utf8"], "properties": {"utf8": {"type": "string"}}}
+      ]
+    },
+    "entry": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "log", "index", "bytes", "kind"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "log": {"$ref": "#/$defs/id"},
+        "index": {"type": "integer", "minimum": 0}, "bytes": {"$ref": "#/$defs/entryBytes"},
+        "kind": {"type": "string", "minLength": 1}, "subject": {"type": ["string", "null"]},
+        "e4_object": {"type": ["string", "null"]}
+      }
+    },
+    "checkpoint": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "log", "size", "root_hash"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "log": {"$ref": "#/$defs/id"},
+        "size": {"type": "integer", "minimum": 0}, "root_hash": {"$ref": "#/$defs/sha256"},
+        "statement_artifact": {"type": ["string", "null"]}, "operator_attestation": {"type": ["string", "null"]},
+        "issued_at": {"type": ["string", "null"]}, "predecessor": {"type": ["string", "null"]}
+      }
+    },
+    "proofStep": {
+      "type": "object", "additionalProperties": false,
+      "required": ["side", "hash"],
+      "properties": {"side": {"enum": ["left", "right"]}, "hash": {"$ref": "#/$defs/sha256"}}
+    },
+    "inclusion": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "entry", "checkpoint", "path"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "entry": {"$ref": "#/$defs/id"}, "checkpoint": {"$ref": "#/$defs/id"},
+        "path": {"type": "array", "items": {"$ref": "#/$defs/proofStep"}, "maxItems": 128}
+      }
+    },
+    "consistency": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "profile", "older_checkpoint", "newer_checkpoint", "entries"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "profile": {"const": "prefix-recompute-v1"},
+        "older_checkpoint": {"$ref": "#/$defs/id"}, "newer_checkpoint": {"$ref": "#/$defs/id"},
+        "entries": {"type": "array", "items": {"$ref": "#/$defs/id"}, "maxItems": 100000}
+      }
+    },
+    "witness": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "domain", "status", "test_only"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "principal": {"type": ["string", "null"]},
+        "domain": {"type": "string", "minLength": 1}, "operator_relation": {"type": ["string", "null"]},
+        "status": {"enum": ["active", "retired", "suspended", "unknown"]}, "test_only": {"type": "boolean"}
+      }
+    },
+    "observation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "witness", "checkpoint", "result"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "witness": {"$ref": "#/$defs/id"}, "checkpoint": {"$ref": "#/$defs/id"},
+        "result": {"enum": ["observed", "rejected", "conflict", "unavailable"]},
+        "observed_at": {"type": ["string", "null"]}, "e4_decision": {"type": ["string", "null"]}
+      }
+    },
+    "witnessPolicy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "log", "minimum", "distinct_by", "require_authenticated", "required_domains"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "log": {"$ref": "#/$defs/id"},
+        "minimum": {"type": "integer", "minimum": 0}, "distinct_by": {"enum": ["witness", "principal", "domain"]},
+        "require_authenticated": {"type": "boolean"},
+        "required_domains": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    },
+    "witnessDecision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "checkpoint", "policy", "state", "observations"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "checkpoint": {"$ref": "#/$defs/id"}, "policy": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["witnessed", "partially-witnessed", "conflicted", "not-evaluated", "unavailable"]},
+        "observations": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true}
+      }
+    },
+    "historyEvent": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "entry", "event_class", "e4_object"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "entry": {"$ref": "#/$defs/id"},
+        "event_class": {"type": "string", "minLength": 1}, "e4_object": {"type": "string", "minLength": 1},
+        "e4_attestation": {"type": ["string", "null"]}, "effective_at": {"type": ["string", "null"]}
+      }
+    },
+    "historyPolicy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "log", "required_classes", "require_witnessed_checkpoint", "require_e4_authenticated"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "log": {"$ref": "#/$defs/id"},
+        "required_classes": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "require_witnessed_checkpoint": {"type": "boolean"}, "require_e4_authenticated": {"type": "boolean"}
+      }
+    },
+    "historyDecision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "policy", "state", "events"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "policy": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["bound", "partially-bound", "incomplete", "conflicted", "not-evaluated", "unavailable"]},
+        "events": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true}
+      }
+    }
+  }
+}
