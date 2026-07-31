@@ -1,0 +1,11 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://example.invalid/eigiib/e11-temporal-hardening.schema.json",
+  "title":"EIGIIB-E11 temporal hardening 0.2 supplementary shape",
+  "$defs":{
+    "boundary":{"type":"object","additionalProperties":false,"required":["proposal_revision","policy_revision","context_revision"],"properties":{"proposal_revision":{"type":"string","minLength":1},"policy_revision":{"type":"string","minLength":1},"context_revision":{"type":"string","minLength":1}}},
+    "replayBinding":{"type":"object","required":["observation","e10_boundary"],"properties":{"observation":{"type":"string","minLength":1},"e10_boundary":{"$ref":"#/$defs/boundary"}}},
+    "leaseBinding":{"type":"object","required":["e10_boundary"],"properties":{"e10_boundary":{"$ref":"#/$defs/boundary"}}},
+    "decisionBinding":{"type":"object","required":["e10_boundary"],"properties":{"e10_boundary":{"$ref":"#/$defs/boundary"}}}
+  }
+}
