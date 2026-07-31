@@ -1,0 +1,15 @@
+{
+  "standard": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0",
+  "revision": "EIGIIB-E6-draft-1.0",
+  "peers": [],
+  "transmissions": [],
+  "views": [],
+  "comparison_policies": [],
+  "comparisons": [],
+  "fork_evidence": [],
+  "cross_log_links": [],
+  "cross_log_policies": [],
+  "cross_log_decisions": [],
+  "accountability_policies": [],
+  "accountability_decisions": []
+}
