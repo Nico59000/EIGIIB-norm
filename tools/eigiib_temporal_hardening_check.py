@@ -78,7 +78,8 @@ class Checker:
             loc=f"decision:{did}"; p=policies.get(d.get("policy")); o=obs.get(d.get("observation"))
             if p is None or o is None: continue
             dom=domains.get(p.get("domain"))
-            if dom is None or dom.get("status")!="active": self.add("error","E11H.DOMAIN.ACTIVE","positive evaluation policy requires active time domain",loc)
+            if d.get("state") in {"valid","grace-valid"} and (dom is None or dom.get("status")!="active"):
+                self.add("error","E11H.DOMAIN.ACTIVE","positive temporal state requires active time domain",loc)
             if isinstance(o.get("tick"),int) and isinstance(o.get("uncertainty"),int) and o["uncertainty"]>o["tick"]:
                 self.add("error","E11H.OBS.ORIGIN","observation uncertainty crosses below domain origin",loc)
             if p.get("require_e10_authorized"):
@@ -93,11 +94,11 @@ class Checker:
             if lid:
                 l=leases.get(lid); b=self.boundary(d); lb=self.boundary(l) if l else None
                 if l and p.get("require_e10_authorized") and (lb is None or lb!=b): self.add("error","E11H.LEASE.BOUNDARY","lease boundary differs from temporal decision E10 boundary",loc)
-                cur=l; depth=0
+                cur=l
                 while cur and cur.get("predecessor"):
                     old=cur.get("predecessor"); new=cur.get("id")
                     if approved.get((old,new),0)!=1: self.add("error","E11H.RENEWAL.EVIDENCE","used successor lease lacks exactly one approved renewal edge",loc); break
-                    cur=leases.get(old); depth+=1
+                    cur=leases.get(old)
                 else:
                     if l: self.chain_ok+=1
             rid=d.get("replay_assertion")
