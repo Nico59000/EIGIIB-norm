@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e13-policy-composition.schema.json",
+  "title": "EIGIIB-E13 policy composition registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "revision",
+    "composition_profiles",
+    "requests",
+    "obligation_definitions",
+    "obligation_evaluations",
+    "exceptions",
+    "decisions"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0+E8-1.0+E9-1.0+E10-1.0+E11-1.0+E12-1.0+E13-1.0"
+    },
+    "revision": {"type": "string", "minLength": 1},
+    "composition_profiles": {"type": "array", "items": {"$ref": "#/$defs/profile"}},
+    "requests": {"type": "array", "items": {"$ref": "#/$defs/request"}},
+    "obligation_definitions": {"type": "array", "items": {"$ref": "#/$defs/obligation"}},
+    "obligation_evaluations": {"type": "array", "items": {"$ref": "#/$defs/evaluation"}},
+    "exceptions": {"type": "array", "items": {"$ref": "#/$defs/exception"}},
+    "decisions": {"type": "array", "items": {"$ref": "#/$defs/decision"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "evidenceItem": {
+      "oneOf": [
+        {"type": "string", "minLength": 1},
+        {"type": "object", "additionalProperties": false, "required": ["path"], "properties": {"path": {"type": "string", "minLength": 1}}}
+      ]
+    },
+    "evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidenceItem"}},
+    "member": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy", "required"],
+      "properties": {
+        "policy": {"$ref": "#/$defs/id"},
+        "required": {"type": "boolean"},
+        "priority": {"type": "integer"}
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "revision", "algorithm", "members", "allow_obligation_waivers"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "revision": {"type": "string", "minLength": 1},
+        "algorithm": {"enum": ["all-authorized", "deny-overrides", "permit-overrides", "priority-order"]},
+        "members": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/member"}},
+        "allow_obligation_waivers": {"type": "boolean"}
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "revision", "profile", "action", "scope", "target", "actor", "requested_executor", "context", "context_revision", "decisions"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "revision": {"type": "string", "minLength": 1},
+        "profile": {"$ref": "#/$defs/id"},
+        "action": {"type": "string", "minLength": 1},
+        "scope": {"$ref": "#/$defs/id"},
+        "target": {"type": "string", "minLength": 1},
+        "actor": {"$ref": "#/$defs/id"},
+        "requested_executor": {"$ref": "#/$defs/id"},
+        "context": {"$ref": "#/$defs/id"},
+        "context_revision": {"type": "string", "minLength": 1},
+        "decisions": {"$ref": "#/$defs/ids"}
+      }
+    },
+    "obligation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "profile", "source_policy", "phase", "trigger", "mandatory", "waivable"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "profile": {"$ref": "#/$defs/id"},
+        "source_policy": {"$ref": "#/$defs/id"},
+        "phase": {"enum": ["pre-decision", "pre-commit", "post-commit", "audit"]},
+        "trigger": {"enum": ["authorized", "denied", "always"]},
+        "mandatory": {"type": "boolean"},
+        "waivable": {"type": "boolean"}
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "request", "obligation", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "request": {"$ref": "#/$defs/id"},
+        "obligation": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["satisfied", "pending", "failed", "waived", "unavailable"]},
+        "exception": {"$ref": "#/$defs/id"},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "exception": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "request", "obligation", "kind", "e10_decision", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "request": {"$ref": "#/$defs/id"},
+        "obligation": {"$ref": "#/$defs/id"},
+        "kind": {"const": "obligation-waiver"},
+        "e10_decision": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["active", "retired", "contested", "unavailable"]},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "request", "profile", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "request": {"$ref": "#/$defs/id"},
+        "profile": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["permitted", "denied", "held", "unavailable"]}
+      }
+    }
+  }
+}
