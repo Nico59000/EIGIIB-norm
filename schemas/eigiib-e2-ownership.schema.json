@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schema/eigiib-e2-ownership.schema.json",
+  "title": "EIGIIB-E2 Durable Fact Ownership Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "facts"],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E2-1.0"},
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "authority"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+          },
+          "authority": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+          }
+        }
+      }
+    }
+  }
+}
