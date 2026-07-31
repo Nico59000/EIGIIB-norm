@@ -18,6 +18,8 @@ jobs:
           python-version: '3.13'
       - name: Unit tests
         run: python -m unittest discover -s tests -p 'test_*.py'
+      - name: EIGIIB M0-A1 extension graph conformance
+        run: python tools/eigiib_extension_graph_check.py . --json
       - name: EIGIIB E2 static conformance
         run: python tools/eigiib_check.py . --json
       - name: EIGIIB E3 provenance conformance
