@@ -1,0 +1,48 @@
+{
+  "authentication_state": "not-provided-p1-a1",
+  "external_spec": "in-toto-attestation-1.2.0",
+  "profile": "in-toto-aggregate-export-v1",
+  "standard": "EIGIIB-P1-A1-1.0",
+  "statement": {
+    "_type": "https://in-toto.io/Statement/v1",
+    "predicate": {
+      "aggregateReport": {
+        "contentEncoding": "base64",
+        "data": "ewogICJ0b29sIjogImVpZ2lpYi1hZ2dyZWdhdGUiLAogICJ0b29sX3ZlcnNpb24iOiAiMC4xLjIiLAogICJzdGFuZGFyZCI6ICJFSUdJSUItTTAtQTItMS4wIiwKICAia2luZCI6ICJkZXJpdmVkLWNvbmZvcm1hbmNlLXJlcG9ydCIsCiAgInNvdXJjZV9ncmFwaCI6ICJjb25mb3JtYW5jZS9leHRlbnNpb24tZ3JhcGguanNvbiIsCiAgInJlc3VsdHNfZGlyIjogIi5laWdpaWItcmVzdWx0cy9jb21wb25lbnRzIiwKICAib3ZlcmFsbF9yZXN1bHQiOiAiY29uZm9ybWFudCIsCiAgInN1bW1hcnkiOiB7ImV4cGVjdGVkIjogMSwgInByZXNlbnQiOiAxLCAicGFzcyI6IDEsICJxdWFsaWZpZWQiOiAwLCAiaW5jb21wbGV0ZSI6IDAsICJmYWlsIjogMCwgInVuc3VwcG9ydGVkIjogMH0sCiAgImNvbXBvbmVudHMiOiBbXSwKICAiZmluZGluZ3MiOiBbXQp9Cg==",
+        "identity": {
+          "algorithm": "sha256",
+          "bytes": 424,
+          "digest": "aef72a023346bdf1659a6d7ce8d19f10a84a081af53db0862e67d187812a157a"
+        },
+        "mediaType": "application/json"
+      },
+      "aggregateResult": {
+        "carrier": "overall_result",
+        "value": "conformant"
+      },
+      "claimBoundary": {
+        "authority": "aggregate_conformance",
+        "doesNotImply": [
+          "statement-format-validity-does-not-imply-eigiib-claim-truth",
+          "statement-presence-does-not-imply-e4-authentication",
+          "subject-digest-match-does-not-imply-source-authenticity",
+          "transported-aggregate-result-does-not-imply-production-conformance",
+          "p1-a1-capsule-does-not-imply-envelope-or-signature"
+        ],
+        "transportOnly": true
+      },
+      "eigiibProfile": "in-toto-aggregate-export-v1",
+      "sourceStandard": "EIGIIB-M0-A2-1.0"
+    },
+    "predicateType": "https://eigiib.example/attestation/aggregate-conformance/v1",
+    "subject": [
+      {
+        "digest": {
+          "sha256": "aef72a023346bdf1659a6d7ce8d19f10a84a081af53db0862e67d187812a157a"
+        },
+        "name": "tests/fixtures/p1-a1/aggregate.json"
+      }
+    ]
+  },
+  "transport_layer": "in-toto-statement-v1"
+}
