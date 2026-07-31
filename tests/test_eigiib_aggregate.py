@@ -27,7 +27,7 @@ def graph():
     }
 
 
-def report(*, structural="conformant", overall=None, findings=None):
+def report(*, structural="conformant", overall=None, result=None, hardening=None, findings=None):
     obj = {
         "tool": "x",
         "tool_version": "1",
@@ -36,6 +36,10 @@ def report(*, structural="conformant", overall=None, findings=None):
     }
     if overall is not None:
         obj["overall_result"] = overall
+    elif result is not None:
+        obj["result"] = result
+    elif hardening is not None:
+        obj["hardening_result"] = hardening
     else:
         obj["structural_result"] = structural
     return obj
@@ -85,6 +89,22 @@ class AggregateTests(unittest.TestCase):
         r = self.run_obj()
         self.assertEqual(r["overall_result"], "conformant-with-documented-deviations")
         self.assertEqual(r["summary"]["qualified"], 1)
+
+    def test_legacy_result_carrier_is_explicitly_supported(self):
+        self.fill()
+        self.write("E3", report(result="conformant"))
+        r = self.run_obj()
+        c = next(x for x in r["components"] if x["id"] == "E3")
+        self.assertEqual(c["result_field"], "result")
+        self.assertEqual(c["classification"], "pass")
+
+    def test_hardening_result_carrier_is_explicitly_supported(self):
+        self.fill()
+        self.write("E3-H0.2", report(hardening="conformant"))
+        r = self.run_obj()
+        c = next(x for x in r["components"] if x["id"] == "E3-H0.2")
+        self.assertEqual(c["result_field"], "hardening_result")
+        self.assertEqual(c["classification"], "pass")
 
     def test_missing_report_is_incomplete_not_component_failure(self):
         self.fill()
