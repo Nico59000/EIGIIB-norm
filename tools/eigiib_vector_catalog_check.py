@@ -9,9 +9,11 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-TOOL_VERSION = "0.1.1"
+TOOL_VERSION = "0.1.2"
 STANDARD = "EIGIIB-M0-A4-1.0"
 CANONICALIZATION = "m0-a4-json-sha256-v1"
+MIN_INT64 = -(2**63)
+MAX_INT64 = 2**63 - 1
 CONTRACTS = {
     "M0-A2": {
         "result_field": "overall_result",
@@ -34,16 +36,6 @@ class Finding:
 
 def canonical_bytes(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
-
-
-def contains_float(value: Any) -> bool:
-    if isinstance(value, float):
-        return True
-    if isinstance(value, list):
-        return any(contains_float(x) for x in value)
-    if isinstance(value, dict):
-        return any(contains_float(x) for x in value.values())
-    return False
 
 
 class Checker:
@@ -85,6 +77,42 @@ class Checker:
             self.add("error", "M0A4.CATALOG.TYPE", "catalog root must be an object", str(self.catalog_path))
             return None
         return obj
+
+    def canonical_profile_ok(self, value: Any, loc: str) -> bool:
+        before = len(self.findings)
+
+        def walk(item: Any, path: str) -> None:
+            if item is None or isinstance(item, bool):
+                return
+            if isinstance(item, int):
+                if item < MIN_INT64 or item > MAX_INT64:
+                    self.add("error", "M0A4.VECTOR.INTEGER_RANGE", "fixture integers must fit signed 64-bit range", path)
+                return
+            if isinstance(item, float):
+                self.add("error", "M0A4.VECTOR.FLOAT", "fixture must not contain floating-point values", path)
+                return
+            if isinstance(item, str):
+                try:
+                    item.encode("utf-8")
+                except UnicodeEncodeError:
+                    self.add("error", "M0A4.VECTOR.STRING_UTF8", "fixture strings must encode as valid UTF-8", path)
+                return
+            if isinstance(item, list):
+                for index, child in enumerate(item):
+                    walk(child, f"{path}[{index}]")
+                return
+            if isinstance(item, dict):
+                for key, child in item.items():
+                    try:
+                        key.encode("ascii")
+                    except (AttributeError, UnicodeEncodeError):
+                        self.add("error", "M0A4.VECTOR.KEY_ASCII", "fixture object keys must be ASCII strings", path)
+                    walk(child, f"{path}.{key}")
+                return
+            self.add("error", "M0A4.VECTOR.JSON_TYPE", "fixture contains non-JSON value", path)
+
+        walk(value, loc)
+        return len(self.findings) == before
 
     def check_a2_fixture(self, fixture: dict[str, Any], loc: str) -> None:
         expected = {"graph", "component_reports"}
@@ -172,11 +200,15 @@ class Checker:
             if not isinstance(fixture, dict):
                 self.add("error", "M0A4.VECTOR.FIXTURE", "fixture must be an object", loc)
                 continue
-            if contains_float(fixture):
-                self.add("error", "M0A4.VECTOR.FLOAT", "fixture must not contain floating-point values", loc)
-            actual_digest = hashlib.sha256(canonical_bytes(fixture)).hexdigest()
-            if vector.get("fixture_sha256") != actual_digest:
-                self.add("error", "M0A4.VECTOR.DIGEST", "fixture_sha256 does not match canonical fixture bytes", loc)
+            canonical_ok = self.canonical_profile_ok(fixture, loc)
+            if canonical_ok:
+                try:
+                    actual_digest = hashlib.sha256(canonical_bytes(fixture)).hexdigest()
+                except (TypeError, UnicodeEncodeError, ValueError) as exc:
+                    self.add("error", "M0A4.VECTOR.CANONICALIZE", str(exc), loc)
+                else:
+                    if vector.get("fixture_sha256") != actual_digest:
+                        self.add("error", "M0A4.VECTOR.DIGEST", "fixture_sha256 does not match canonical fixture bytes", loc)
 
             if contract == "M0-A2":
                 self.check_a2_fixture(fixture, loc)
