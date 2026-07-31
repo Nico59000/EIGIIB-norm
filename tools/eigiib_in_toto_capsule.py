@@ -16,7 +16,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-TOOL_VERSION = "0.1.0"
+TOOL_VERSION = "0.2.0"
 STANDARD = "EIGIIB-P1-A1-1.0"
 SOURCE_STANDARD = "EIGIIB-M0-A2-1.0"
 PROFILE_ID = "in-toto-aggregate-export-v1"
@@ -58,6 +58,23 @@ class Finding:
     message: str
 
 
+class DuplicateKeyError(ValueError):
+    pass
+
+
+def _object_pairs_no_duplicates(pairs):
+    out = {}
+    for key, value in pairs:
+        if key in out:
+            raise DuplicateKeyError(f"duplicate JSON member: {key}")
+        out[key] = value
+    return out
+
+
+def _strict_json_loads(raw: bytes) -> Any:
+    return json.loads(raw.decode("utf-8"), object_pairs_hook=_object_pairs_no_duplicates)
+
+
 def _identity(raw: bytes) -> dict[str, Any]:
     return {"algorithm": "sha256", "digest": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
 
@@ -65,7 +82,7 @@ def _identity(raw: bytes) -> dict[str, Any]:
 def _load_report_bytes(raw: bytes) -> tuple[dict[str, Any] | None, list[Finding]]:
     findings: list[Finding] = []
     try:
-        obj = json.loads(raw.decode("utf-8"))
+        obj = _strict_json_loads(raw)
     except Exception as exc:
         return None, [Finding("error", "P1A1.SOURCE.PARSE", "source", str(exc))]
     if not isinstance(obj, dict):
@@ -200,6 +217,8 @@ def validate_capsule(obj: Any, source_raw: bytes | None = None) -> dict[str, Any
         else:
             try:
                 decoded = base64.b64decode(data, validate=True)
+                if base64.b64encode(decoded).decode("ascii") != data:
+                    add("P1A1.REPORT.BASE64_NONCANONICAL", "statement.predicate.aggregateReport.data", "data must use canonical RFC 4648 base64")
             except (binascii.Error, ValueError):
                 add("P1A1.REPORT.BASE64", "statement.predicate.aggregateReport.data", "data is not strict base64")
         identity = ar.get("identity")
@@ -283,8 +302,8 @@ def self_check(root: Path) -> dict[str, Any]:
         return result(findings)
     try:
         config = json.loads(config_path.read_text())
-        capsule = json.loads(cap_path.read_text())
-        profiles = json.loads(profile_path.read_text())
+        capsule = _strict_json_loads(cap_path.read_bytes())
+        profiles = _strict_json_loads(profile_path.read_bytes())
     except Exception as exc:
         return result([Finding("error", "P1A1.SELF.PARSE", "", str(exc))])
 
@@ -360,7 +379,7 @@ def main() -> int:
             print(text, end="")
         return 0
     if args.command == "verify":
-        capsule = json.loads(Path(args.capsule).read_text(encoding="utf-8"))
+        capsule = _strict_json_loads(Path(args.capsule).read_bytes())
         source = Path(args.source).read_bytes() if args.source else None
         out = validate_capsule(capsule, source)
     else:
