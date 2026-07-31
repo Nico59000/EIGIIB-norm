@@ -22,3 +22,5 @@ jobs:
         run: python tools/eigiib_check.py . --json
       - name: EIGIIB E3 provenance conformance
         run: python tools/eigiib_provenance_check.py . --json
+      - name: EIGIIB E4 trust conformance
+        run: python tools/eigiib_trust_check.py . --crypto-provider openssl --json
