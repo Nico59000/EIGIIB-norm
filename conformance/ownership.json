@@ -26,6 +26,8 @@
     {"id": "repository.temporal-validity", "authority": "temporal"},
     {"id": "repository.extension-graph", "authority": "extension_graph"},
     {"id": "repository.functional-architecture", "authority": "extension_graph"},
-    {"id": "repository.hardening-attachments", "authority": "extension_graph"}
+    {"id": "repository.hardening-attachments", "authority": "extension_graph"},
+    {"id": "repository.aggregate-conformance-contract", "authority": "aggregate_conformance"},
+    {"id": "repository.aggregate-report-format", "authority": "aggregate_conformance"}
   ]
 }
