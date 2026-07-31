@@ -1,6 +1,6 @@
 # EIGIIB-E13 manual boundary review
 
-Revision reviewed: `EIGIIB-E13-draft-1.0`.
+Revisions reviewed: `EIGIIB-E13-draft-1.0` and additive `EIGIIB-E13-hardening-0.2`.
 
 - `policy-composition-boundary-review`: complete.
 - E13 owns explicit multi-policy composition, conflict derivation, obligation activation/evaluation and bounded obligation waivers.
@@ -10,7 +10,10 @@ Revision reviewed: `EIGIIB-E13-draft-1.0`.
 - A conflict resolved mechanically by an algorithm is not evidence that the contributing policies semantically agree.
 - Residual pre-commit/post-commit/audit obligations are not silently treated as satisfied.
 - The baseline defines only `obligation-waiver`; it does not introduce ambient permit/deny break-glass override.
-- The static checker does not run an external policy engine, discover live policy applicability, execute actions or infer legal responsibility.
+- Hardening 0.2 requires every `required` member to be conclusively evaluated before a positive `permitted` result; presence alone is insufficient.
+- Hardening 0.2 rejects unknown E10 states consumed by the composition layer.
+- Hardening 0.2 binds an active obligation waiver to the exact request context and context revision; an authorization from another or stale context cannot waive the current obligation.
+- The static checkers do not run an external policy engine, discover live policy applicability, execute actions or infer legal responsibility.
 
 `conformance/policy-composition.json` remains structural-only and asserts no production composition, policy conflict, waiver or obligation satisfaction.
 
