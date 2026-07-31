@@ -44,3 +44,5 @@ jobs:
         run: python tools/eigiib_automation_hardening_check.py . --json
       - name: EIGIIB E11 temporal validity conformance
         run: python tools/eigiib_temporal_check.py . --json
+      - name: EIGIIB E11 temporal hardening profile
+        run: python tools/eigiib_temporal_hardening_check.py . --json
