@@ -1,6 +1,6 @@
 {
   "standard": "EIGIIB-1.0+E1-1.0",
-  "revision": "EIGIIB-E10-draft-1.0",
+  "revision": "EIGIIB-E11-draft-1.0",
   "authorities": {
     "scope": "README.md",
     "standard": "EIGIIB-STANDARD.md",
@@ -14,6 +14,7 @@
     "e8": "extensions/E8-RELYING-PARTY-CONVERGENCE-MIGRATION-SAFETY-TRUST-STATE-ADOPTION.md",
     "e9": "extensions/E9-DEGRADED-OPERATION-SAFE-FALLBACK-PARTIAL-TRUST-AVAILABILITY.md",
     "e10": "extensions/E10-POLICY-SAFE-AUTOMATION-DELEGATED-EXECUTION-DECISION-ACCOUNTABILITY.md",
+    "e11": "extensions/E11-TEMPORAL-VALIDITY-FRESHNESS-LEASES-REPLAY-RESISTANCE.md",
     "evidence": "conformance/e1-registry.json",
     "provenance": "conformance/provenance.json",
     "trust": "conformance/trust.json",
@@ -22,7 +23,8 @@
     "recovery": "conformance/recovery.json",
     "convergence": "conformance/convergence.json",
     "degraded": "conformance/degraded.json",
-    "automation": "conformance/automation.json"
+    "automation": "conformance/automation.json",
+    "temporal": "conformance/temporal.json"
   },
   "policies": [
     {
@@ -176,6 +178,30 @@
       "state": "established",
       "evidence": ["ev.e10-automation-hardening.unit-tests"],
       "boundary": {"excludes": ["live command execution", "trusted wall-clock freshness", "real-world identity", "human consent", "semantic correctness of decisions", "culpability", "legal responsibility", "global safety"]}
+    },
+    {
+      "id": "claim.e11-temporal-checker.unit-tests",
+      "subject": "tools/eigiib_temporal_check.py",
+      "predicate": "E11 temporal validity, freshness, lease and replay checker unit tests pass",
+      "revision": "EIGIIB-E11-draft-1.0",
+      "scope": {"runtime": ["python-3.11+"]},
+      "authority": "evidence",
+      "policy": "reference-checker-tests",
+      "state": "established",
+      "evidence": ["ev.e11-temporal.unit-tests"],
+      "boundary": {"excludes": ["host-clock authenticity", "globally trusted time", "atomic replay-token consumption", "live E10 execution", "malicious intent", "legal responsibility", "global safety"]}
+    },
+    {
+      "id": "claim.e11-temporal-hardening.unit-tests",
+      "subject": "tools/eigiib_temporal_hardening_check.py",
+      "predicate": "E11 temporal hardening checker adversarial tests pass",
+      "revision": "EIGIIB-E11-hardening-0.2",
+      "scope": {"runtime": ["python-3.11+"]},
+      "authority": "evidence",
+      "policy": "reference-checker-tests",
+      "state": "established",
+      "evidence": ["ev.e11-temporal-hardening.unit-tests"],
+      "boundary": {"excludes": ["trusted wall-clock time", "atomic token consumption", "semantic correctness of E10 context", "malicious replay intent", "legal responsibility", "global safety"]}
     }
   ],
   "evidence": [
@@ -309,6 +335,28 @@
       "scope": {"runtime": ["python-3.11+"]},
       "provenance": "GitHub Actions CPython 3.13 replay run #89: 8/8 post-CI separation and hardening tests",
       "artifacts": ["tools/eigiib_automation_hardening_check.py", "tests/test_eigiib_automation_hardening.py", "tests/test_eigiib_automation_separation.py", "extensions/E10-AUTOMATION-HARDENING-PROFILE-0.2.md", "schemas/eigiib-e10-automation.schema.json"]
+    },
+    {
+      "id": "ev.e11-temporal.unit-tests",
+      "subject": "tools/eigiib_temporal_check.py",
+      "revision": "EIGIIB-E11-draft-1.0",
+      "kind": "unit-test",
+      "procedure": "python -m unittest discover -s tests -p test_eigiib_temporal.py",
+      "result": "pass",
+      "scope": {"runtime": ["python-3.11+"]},
+      "provenance": "local CPython 3.13 replay: 31/31 tests; GitHub Actions E1→E11 baseline run #100: success",
+      "artifacts": ["tools/eigiib_temporal_check.py", "tests/test_eigiib_temporal.py", "schemas/eigiib-e11-temporal.schema.json", "extensions/E11-TEMPORAL-VALIDITY-FRESHNESS-LEASES-REPLAY-RESISTANCE.md"]
+    },
+    {
+      "id": "ev.e11-temporal-hardening.unit-tests",
+      "subject": "tools/eigiib_temporal_hardening_check.py",
+      "revision": "EIGIIB-E11-hardening-0.2",
+      "kind": "unit-test",
+      "procedure": "python -m unittest discover -s tests -p test_eigiib_temporal_hardening.py",
+      "result": "pass",
+      "scope": {"runtime": ["python-3.11+"]},
+      "provenance": "local CPython 3.13 replay: 12/12 adversarial tests; GitHub Actions E1→E11 hardening run #106: success",
+      "artifacts": ["tools/eigiib_temporal_hardening_check.py", "tests/test_eigiib_temporal_hardening.py", "extensions/E11-TEMPORAL-HARDENING-PROFILE-0.2.md", "schemas/eigiib-e11-temporal-hardening.schema.json"]
     }
   ]
 }
