@@ -1,6 +1,6 @@
 {
   "standard": "EIGIIB-1.0+E1-1.0",
-  "revision": "EIGIIB-E9-draft-1.0",
+  "revision": "EIGIIB-E10-draft-1.0",
   "authorities": {
     "scope": "README.md",
     "standard": "EIGIIB-STANDARD.md",
@@ -13,6 +13,7 @@
     "e7": "extensions/E7-RECOVERY-REMEDIATION-TRUST-STATE-CONTINUITY.md",
     "e8": "extensions/E8-RELYING-PARTY-CONVERGENCE-MIGRATION-SAFETY-TRUST-STATE-ADOPTION.md",
     "e9": "extensions/E9-DEGRADED-OPERATION-SAFE-FALLBACK-PARTIAL-TRUST-AVAILABILITY.md",
+    "e10": "extensions/E10-POLICY-SAFE-AUTOMATION-DELEGATED-EXECUTION-DECISION-ACCOUNTABILITY.md",
     "evidence": "conformance/e1-registry.json",
     "provenance": "conformance/provenance.json",
     "trust": "conformance/trust.json",
@@ -20,7 +21,8 @@
     "gossip": "conformance/gossip.json",
     "recovery": "conformance/recovery.json",
     "convergence": "conformance/convergence.json",
-    "degraded": "conformance/degraded.json"
+    "degraded": "conformance/degraded.json",
+    "automation": "conformance/automation.json"
   },
   "policies": [
     {
@@ -150,6 +152,18 @@
       "state": "established",
       "evidence": ["ev.e9-degraded-hardening.unit-tests"],
       "boundary": {"excludes": ["live dependency probing", "automatic fallback activation", "routing mutation", "semantic equivalence of substitutes", "global availability", "full-trust inference"]}
+    },
+    {
+      "id": "claim.e10-automation-checker.unit-tests",
+      "subject": "tools/eigiib_automation_check.py",
+      "predicate": "E10 policy-safe automation and accountability checker unit tests pass",
+      "revision": "EIGIIB-E10-draft-1.0",
+      "scope": {"runtime": ["python-3.11+"]},
+      "authority": "evidence",
+      "policy": "reference-checker-tests",
+      "state": "established",
+      "evidence": ["ev.e10-automation.unit-tests"],
+      "boundary": {"excludes": ["live command execution", "real-world identity", "human consent", "global safety", "malicious intent", "legal responsibility", "semantic correctness of action effects"]}
     }
   ],
   "evidence": [
@@ -261,6 +275,17 @@
       "scope": {"runtime": ["python-3.11+"]},
       "provenance": "local CPython 3.13 replay: 5/5 adversarial tests",
       "artifacts": ["tools/eigiib_degraded_hardening_check.py", "tests/test_eigiib_degraded_hardening.py", "extensions/E9-DEGRADED-HARDENING-PROFILE-0.2.md", "schemas/eigiib-e9-degraded-hardening.schema.json"]
+    },
+    {
+      "id": "ev.e10-automation.unit-tests",
+      "subject": "tools/eigiib_automation_check.py",
+      "revision": "EIGIIB-E10-draft-1.0",
+      "kind": "unit-test",
+      "procedure": "python -m unittest discover -s tests -p test_eigiib_automation.py",
+      "result": "pass",
+      "scope": {"runtime": ["python-3.11+"]},
+      "provenance": "local CPython 3.13 replay: 23/23 tests",
+      "artifacts": ["tools/eigiib_automation_check.py", "tests/test_eigiib_automation.py", "schemas/eigiib-e10-automation.schema.json", "extensions/E10-POLICY-SAFE-AUTOMATION-DELEGATED-EXECUTION-DECISION-ACCOUNTABILITY.md"]
     }
   ]
 }
