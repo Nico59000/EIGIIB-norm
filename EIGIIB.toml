@@ -1,10 +1,10 @@
 standard = "EIGIIB-1.0"
-extensions = ["E1-1.0", "E2-1.0", "E3-1.0", "E4-1.0"]
+extensions = ["E1-1.0", "E2-1.0", "E3-1.0", "E4-1.0", "E5-1.0"]
 conformance_target = "EIGIIB-C2"
-revision = "EIGIIB-E4-draft-1.0"
+revision = "EIGIIB-E5-draft-1.0"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "evidence", "provenance", "trust"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "evidence", "provenance", "trust", "transparency"]
 
 [authorities]
 scope = "README.md"
@@ -13,9 +13,11 @@ e1 = "extensions/E1-TYPED-EVIDENCE-CLAIMS-CONFORMANCE.md"
 e2 = "extensions/E2-MACHINE-CHECKABLE-REPOSITORY-CONFORMANCE.md"
 e3 = "extensions/E3-REPRODUCIBLE-EVIDENCE-PROVENANCE-ARTIFACT-IDENTITY.md"
 e4 = "extensions/E4-AUTHENTICATED-ATTESTATIONS-TRUST-ROOTS-PROVENANCE-INTEGRITY.md"
+e5 = "extensions/E5-TRANSPARENCY-WITNESSING-APPEND-ONLY-TRUST-HISTORY.md"
 evidence = "conformance/e1-registry.json"
 provenance = "conformance/provenance.json"
 trust = "conformance/trust.json"
+transparency = "conformance/transparency.json"
 
 [checks]
 markdown_links = true
@@ -42,4 +44,10 @@ attestation = "conformance/MANUAL-REVIEW.md"
 id = "authentication-boundary-review"
 status = "complete"
 authority = "e4"
+attestation = "conformance/MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "transparency-boundary-review"
+status = "complete"
+authority = "e5"
 attestation = "conformance/MANUAL-REVIEW.md"
