@@ -62,6 +62,8 @@ M0-A2 MUST NOT discover result carriers heuristically. In particular, it does no
 
 When a report contains more than one supported carrier, the first one in the ordered set above is authoritative for aggregation. This preserves E4's `overall_result` rather than silently replacing it with its narrower `structural_result`.
 
+All supported carriers that are present are nevertheless protocol-checked. An unknown value in any known carrier is an error. A primary carrier that is not failing MUST NOT mask a secondary carrier that explicitly says `non-conformant`; that contradiction makes the aggregate non-conformant rather than selecting the optimistic value.
+
 The aggregate does not inspect operational sub-results to manufacture a stronger conclusion.
 
 Classification is:
@@ -76,7 +78,7 @@ non-conformant                          -> fail
 
 An unsupported result field/value is a collection-contract error.
 
-A missing or unparsable required component report makes the aggregate `incomplete`; it does not claim the missing component itself is non-conformant. An actual component failure, stale/extra report pollution, graph-contract error, or unsupported report protocol makes the aggregate `non-conformant`.
+A missing or unparsable required component report makes the aggregate `incomplete`; it does not claim the missing component itself is non-conformant. An actual component failure, stale/extra report pollution, graph-contract error, carrier contradiction, or unsupported report protocol makes the aggregate `non-conformant`.
 
 ## Exact-result binding
 
