@@ -36,3 +36,5 @@ jobs:
         run: python tools/eigiib_convergence_check.py . --json
       - name: EIGIIB E9 degraded operation conformance
         run: python tools/eigiib_degraded_check.py . --json
+      - name: EIGIIB E9 degraded operation hardening profile
+        run: python tools/eigiib_degraded_hardening_check.py . --json
