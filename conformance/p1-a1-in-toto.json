@@ -1,0 +1,11 @@
+{
+  "standard": "EIGIIB-P1-A1-1.0",
+  "status": "structural-only",
+  "profile": "in-toto-aggregate-export-v1",
+  "external_spec": "in-toto-attestation-1.2.0",
+  "statement_type": "https://in-toto.io/Statement/v1",
+  "predicate_type": "https://eigiib.example/attestation/aggregate-conformance/v1",
+  "transport_layer": "statement-only",
+  "authentication_state": "not-provided-p1-a1",
+  "production_capsules": []
+}
