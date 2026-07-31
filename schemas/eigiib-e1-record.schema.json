@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schema/eigiib-e1-record.schema.json",
+  "title": "EIGIIB-E1 Typed Claim and Evidence Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "revision", "authorities", "policies", "claims", "evidence"],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E1-1.0"},
+    "revision": {"type": "string", "minLength": 1},
+    "authorities": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/pathRef"}
+    },
+    "policies": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/policy"}
+    },
+    "claims": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/claim"}
+    },
+    "evidence": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/evidence"}
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "pathRef": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "(^/|(^|/)\\.\\.(/|$))"}
+    },
+    "stringSet": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/stringSet"}
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "required_kinds", "scope_rule"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "required_kinds": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/identifier"},
+          "uniqueItems": true
+        },
+        "scope_rule": {
+          "enum": ["exact", "evidence-superset", "manual"]
+        },
+        "manual_gates": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/identifier"},
+          "uniqueItems": true,
+          "default": []
+        }
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "excludes": {"$ref": "#/$defs/stringSet"},
+        "assumptions": {"$ref": "#/$defs/stringSet"}
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "subject", "predicate", "revision", "scope", "authority", "policy", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "subject": {"type": "string", "minLength": 1},
+        "predicate": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "minLength": 1},
+        "scope": {"$ref": "#/$defs/scope"},
+        "authority": {"$ref": "#/$defs/identifier"},
+        "policy": {"$ref": "#/$defs/identifier"},
+        "state": {
+          "enum": [
+            "established",
+            "partially-established",
+            "contested",
+            "refuted",
+            "not-evaluated",
+            "unavailable",
+            "not-applicable"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/identifier"},
+          "uniqueItems": true,
+          "default": []
+        },
+        "boundary": {"$ref": "#/$defs/boundary"}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "subject", "revision", "kind", "result", "scope", "provenance"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "subject": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "minLength": 1},
+        "kind": {"$ref": "#/$defs/identifier"},
+        "procedure": {"type": "string"},
+        "result": {
+          "enum": ["pass", "fail", "inconclusive", "not-run", "unavailable", "not-applicable"]
+        },
+        "scope": {"$ref": "#/$defs/scope"},
+        "provenance": {"type": "string", "minLength": 1},
+        "artifacts": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/pathRef"},
+          "uniqueItems": true
+        },
+        "observed_at": {"type": "string", "format": "date-time"},
+        "supersedes": {"$ref": "#/$defs/identifier"}
+      }
+    }
+  }
+}
