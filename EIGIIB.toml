@@ -1,17 +1,19 @@
 standard = "EIGIIB-1.0"
-extensions = ["E1-1.0", "E2-1.0"]
+extensions = ["E1-1.0", "E2-1.0", "E3-1.0"]
 conformance_target = "EIGIIB-C2"
-revision = "EIGIIB-E2-draft-1.0"
+revision = "EIGIIB-E3-draft-1.0"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "evidence"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "evidence", "provenance"]
 
 [authorities]
 scope = "README.md"
 standard = "EIGIIB-STANDARD.md"
 e1 = "extensions/E1-TYPED-EVIDENCE-CLAIMS-CONFORMANCE.md"
 e2 = "extensions/E2-MACHINE-CHECKABLE-REPOSITORY-CONFORMANCE.md"
+e3 = "extensions/E3-REPRODUCIBLE-EVIDENCE-PROVENANCE-ARTIFACT-IDENTITY.md"
 evidence = "conformance/e1-registry.json"
+provenance = "conformance/provenance.json"
 
 [checks]
 markdown_links = true
@@ -26,4 +28,10 @@ attestation = "conformance/MANUAL-REVIEW.md"
 id = "claim-boundary-review"
 status = "complete"
 authority = "e1"
+attestation = "conformance/MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "provenance-boundary-review"
+status = "complete"
+authority = "e3"
 attestation = "conformance/MANUAL-REVIEW.md"
