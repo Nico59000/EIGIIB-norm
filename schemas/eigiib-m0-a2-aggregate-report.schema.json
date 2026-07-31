@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schema/eigiib-m0-a2-aggregate-report.schema.json",
+  "title": "EIGIIB M0-A2 Aggregate Conformance Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tool", "tool_version", "standard", "kind", "source_graph", "results_dir", "overall_result", "summary", "components", "findings"],
+  "properties": {
+    "tool": {"const": "eigiib-aggregate"},
+    "tool_version": {"type": "string", "minLength": 1},
+    "standard": {"const": "EIGIIB-M0-A2-1.0"},
+    "kind": {"const": "derived-conformance-report"},
+    "source_graph": {"type": "string", "minLength": 1},
+    "results_dir": {"type": "string", "minLength": 1},
+    "overall_result": {"enum": ["conformant", "conformant-with-documented-deviations", "incomplete", "non-conformant"]},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected", "present", "pass", "qualified", "incomplete", "fail", "unsupported"],
+      "properties": {
+        "expected": {"type": "integer", "minimum": 0},
+        "present": {"type": "integer", "minimum": 0},
+        "pass": {"type": "integer", "minimum": 0},
+        "qualified": {"type": "integer", "minimum": 0},
+        "incomplete": {"type": "integer", "minimum": 0},
+        "fail": {"type": "integer", "minimum": 0},
+        "unsupported": {"type": "integer", "minimum": 0}
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "sha256", "bytes", "tool", "standard", "result_field", "result", "classification", "finding_counts"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "bytes": {"type": "integer", "minimum": 1},
+          "tool": {"type": "string"},
+          "standard": {"type": "string"},
+          "result_field": {"enum": ["overall_result", "structural_result", ""]},
+          "result": {"type": ["string", "null"]},
+          "classification": {"enum": ["pass", "qualified", "incomplete", "fail", "unsupported"]},
+          "finding_counts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["error", "warning", "info"],
+            "properties": {
+              "error": {"type": "integer", "minimum": 0},
+              "warning": {"type": "integer", "minimum": 0},
+              "info": {"type": "integer", "minimum": 0}
+            }
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "code", "path", "message"],
+        "properties": {
+          "severity": {"enum": ["error", "warning", "info"]},
+          "code": {"type": "string", "minLength": 1},
+          "path": {"type": "string"},
+          "message": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}
