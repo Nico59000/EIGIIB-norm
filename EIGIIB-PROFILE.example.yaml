@@ -1,0 +1,11 @@
+standard: EIGIIB-1.0
+conformance_target: EIGIIB-C2
+authorities:
+  scope: docs/PROGRAM-CHARTER.md
+  architecture: docs/ARCHITECTURE.md
+  security: docs/SECURITY-MODEL.md
+  evidence: docs/TEST-AND-EVIDENCE.md
+  capability_state: BUILD-CAPABILITIES.json
+local_rules:
+  - Public compatibility claims require environment-specific executed evidence.
+deviations: []

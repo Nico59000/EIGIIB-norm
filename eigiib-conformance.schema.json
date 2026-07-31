@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EIGIIB Conformance Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "target_level",
+    "result",
+    "revision",
+    "authorities",
+    "findings"
+  ],
+  "properties": {
+    "standard": {
+      "type": "string",
+      "const": "EIGIIB-1.0"
+    },
+    "target_level": {
+      "type": "string",
+      "enum": [
+        "EIGIIB-C1",
+        "EIGIIB-C2",
+        "EIGIIB-C3"
+      ]
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "conformant",
+        "conformant-with-documented-deviations",
+        "non-conformant",
+        "not-evaluated"
+      ]
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "authorities": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "status",
+          "summary"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "missing-authority",
+              "duplicate-authority",
+              "insufficient-contract",
+              "unjustified-explicitness",
+              "missing-rationale",
+              "claim-evidence-mismatch",
+              "unknown-state-collapse",
+              "manual-generated-duplication",
+              "other"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "accepted-deviation",
+              "resolved",
+              "not-applicable"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
