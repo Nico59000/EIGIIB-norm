@@ -17,6 +17,7 @@ The repository separates authority by concern instead of repeating the standard.
 - [`extensions/E7-RECOVERY-HARDENING-PROFILE-0.2.md`](extensions/E7-RECOVERY-HARDENING-PROFILE-0.2.md) — additive E7 incident-boundary, rollback and verified-result hardening profile.
 - [`extensions/E8-RELYING-PARTY-CONVERGENCE-MIGRATION-SAFETY-TRUST-STATE-ADOPTION.md`](extensions/E8-RELYING-PARTY-CONVERGENCE-MIGRATION-SAFETY-TRUST-STATE-ADOPTION.md) — relying-party adoption, legacy rejection, compatibility windows, explicit exceptions and bounded cutover semantics.
 - [`extensions/E9-DEGRADED-OPERATION-SAFE-FALLBACK-PARTIAL-TRUST-AVAILABILITY.md`](extensions/E9-DEGRADED-OPERATION-SAFE-FALLBACK-PARTIAL-TRUST-AVAILABILITY.md) — degraded operation, explicit fallback substitution, capability gating, partial trust and bounded nominal restoration.
+- [`extensions/E9-DEGRADED-HARDENING-PROFILE-0.2.md`](extensions/E9-DEGRADED-HARDENING-PROFILE-0.2.md) — additive E9 evidence-materiality, guarantee-partition and fallback-minimum hardening profile.
 - [`schemas/eigiib-e1-record.schema.json`](schemas/eigiib-e1-record.schema.json) — E1 typed registry schema.
 - [`schemas/eigiib-e2-ownership.schema.json`](schemas/eigiib-e2-ownership.schema.json) — E2 durable-fact ownership schema.
 - [`schemas/eigiib-e3-provenance.schema.json`](schemas/eigiib-e3-provenance.schema.json) — E3 provenance-registry schema.
@@ -27,6 +28,7 @@ The repository separates authority by concern instead of repeating the standard.
 - [`schemas/eigiib-e7-recovery-hardening.schema.json`](schemas/eigiib-e7-recovery-hardening.schema.json) — supplementary E7 hardening schema.
 - [`schemas/eigiib-e8-convergence.schema.json`](schemas/eigiib-e8-convergence.schema.json) — E8 relying-party convergence registry schema.
 - [`schemas/eigiib-e9-degraded.schema.json`](schemas/eigiib-e9-degraded.schema.json) — E9 degraded-operation and partial-trust registry schema.
+- [`schemas/eigiib-e9-degraded-hardening.schema.json`](schemas/eigiib-e9-degraded-hardening.schema.json) — supplementary E9 hardening schema.
 - [`eigiib-conformance.schema.json`](eigiib-conformance.schema.json) — E2 normalized checker-report schema.
 - [`tools/eigiib_check.py`](tools/eigiib_check.py) — dependency-free Python 3.11+ E2 reference checker.
 - [`tools/eigiib_provenance_check.py`](tools/eigiib_provenance_check.py) — static E3 artifact/provenance checker.
@@ -37,6 +39,7 @@ The repository separates authority by concern instead of repeating the standard.
 - [`tools/eigiib_recovery_hardening_check.py`](tools/eigiib_recovery_hardening_check.py) — additive E7 hardening checker.
 - [`tools/eigiib_convergence_check.py`](tools/eigiib_convergence_check.py) — E8 static relying-party convergence and cutover checker.
 - [`tools/eigiib_degraded_check.py`](tools/eigiib_degraded_check.py) — E9 static degraded-operation, fallback and partial-trust checker.
+- [`tools/eigiib_degraded_hardening_check.py`](tools/eigiib_degraded_hardening_check.py) — additive E9 hardening checker.
 - [`conformance/provenance.json`](conformance/provenance.json) — this repository's E3 provenance authority.
 - [`conformance/trust.json`](conformance/trust.json) — this repository's E4 trust authority; structural-only with no production trust root asserted.
 - [`conformance/transparency.json`](conformance/transparency.json) — this repository's E5 transparency authority; structural-only with no production log or witness asserted.
@@ -46,7 +49,7 @@ The repository separates authority by concern instead of repeating the standard.
 - [`conformance/degraded.json`](conformance/degraded.json) — this repository's E9 degraded-operation authority; structural-only with no production outage, fallback or partial-trust mode asserted.
 - [`EIGIIB.toml`](EIGIIB.toml) — this repository's adoption profile.
 
-The checkers execute no repository-provided build, test, generator, remediation, deployment, fallback, routing, or shell command. E2 validates mechanically decidable repository invariants. E3 recomputes local artifact identities and provenance/replay graph invariants. E4 may invoke only its fixed cryptographic provider adapter and keeps signature validity, trust, authorization and semantic truth separate. E5 recomputes its reference Merkle profile, inclusion/consistency relations and declarative witness quorum mechanics, while consuming E4 authentication only as an external typed decision. E6 compares exact E5 checkpoint views, validates directed cross-log references and applies a deliberately narrow attribution profile without inferring malicious intent, real-world identity, peer independence, global fork absence, or atomic cross-log state. E7 validates recovery structure, acyclic plans, evidenced completed actions, monotone trust-state transitions, rollback compensation and bounded closure without executing recovery actions or inferring root-cause resolution or global safety; its hardening profile closes additional mechanically decidable boundary gaps. E8 evaluates bounded relying-party observations, distinctness rules, explicit exceptions, legacy rejection and cutover prerequisites without contacting parties, inferring real-world independence, or claiming global convergence. E9 evaluates dependency observations, capability prerequisites, explicit fallback substitution, unknown-state policy, partial-trust modes and nominal-restoration prerequisites without probing dependencies or promoting service availability to full trust.
+The checkers execute no repository-provided build, test, generator, remediation, deployment, fallback, routing, or shell command. E2 validates mechanically decidable repository invariants. E3 recomputes local artifact identities and provenance/replay graph invariants. E4 may invoke only its fixed cryptographic provider adapter and keeps signature validity, trust, authorization and semantic truth separate. E5 recomputes its reference Merkle profile, inclusion/consistency relations and declarative witness quorum mechanics, while consuming E4 authentication only as an external typed decision. E6 compares exact E5 checkpoint views, validates directed cross-log references and applies a deliberately narrow attribution profile without inferring malicious intent, real-world identity, peer independence, global fork absence, or atomic cross-log state. E7 validates recovery structure, acyclic plans, evidenced completed actions, monotone trust-state transitions, rollback compensation and bounded closure without executing recovery actions or inferring root-cause resolution or global safety; its hardening profile closes additional mechanically decidable boundary gaps. E8 evaluates bounded relying-party observations, distinctness rules, explicit exceptions, legacy rejection and cutover prerequisites without contacting parties, inferring real-world independence, or claiming global convergence. E9 evaluates dependency observations, capability prerequisites, explicit fallback substitution, unknown-state policy, partial-trust modes and nominal-restoration prerequisites without probing dependencies or promoting service availability to full trust; its hardening profile requires material evidence items, coherent guarantee partitions and preservation of capability-specific availability minima across fallback substitution.
 
 ## Validation
 
@@ -61,6 +64,7 @@ python tools/eigiib_recovery_check.py . --json
 python tools/eigiib_recovery_hardening_check.py . --json
 python tools/eigiib_convergence_check.py . --json
 python tools/eigiib_degraded_check.py . --json
+python tools/eigiib_degraded_hardening_check.py . --json
 ```
 
 MIT License.
