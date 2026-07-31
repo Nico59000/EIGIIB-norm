@@ -28,6 +28,9 @@
     {"id": "repository.functional-architecture", "authority": "extension_graph"},
     {"id": "repository.hardening-attachments", "authority": "extension_graph"},
     {"id": "repository.aggregate-conformance-contract", "authority": "aggregate_conformance"},
-    {"id": "repository.aggregate-report-format", "authority": "aggregate_conformance"}
+    {"id": "repository.aggregate-report-format", "authority": "aggregate_conformance"},
+    {"id": "repository.external-interop-contract", "authority": "interop_profile_contract"},
+    {"id": "repository.external-spec-catalog", "authority": "interop_profiles"},
+    {"id": "repository.external-interop-profile-mappings", "authority": "interop_profiles"}
   ]
 }
