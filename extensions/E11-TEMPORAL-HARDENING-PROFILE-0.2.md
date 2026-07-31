@@ -20,9 +20,11 @@ The tuple must equal the referenced E10 decision tuple. A previously valid E10 d
 
 A replay assertion used by a temporal decision names the same observation as the decision. A nonce status observed at an older or different evaluation point cannot silently support the current evaluation.
 
-## H3. Active time domain and origin
+## H3. Positive-state time domain and origin
 
-A temporal decision requires its policy domain to be active. The reference hardening profile also rejects an uncertainty interval extending below the declared non-negative domain origin:
+A positive temporal state (`valid` or `grace-valid`) requires its policy domain to be active. Historical negative or terminal records such as `expired` may remain traceable after a domain is retired; retirement does not erase history.
+
+The reference hardening profile also rejects an uncertainty interval extending below the declared non-negative domain origin:
 
 \[
 uncertainty \le tick.
