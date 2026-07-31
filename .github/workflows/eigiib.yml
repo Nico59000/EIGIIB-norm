@@ -105,3 +105,13 @@ jobs:
         run: |
           set -o pipefail
           python tools/eigiib_interop_profiles_check.py . --json | tee .eigiib-results/m0-a3.json
+      - name: EIGIIB M0-A4 conformance vector catalog
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_vector_catalog_check.py . --json | tee .eigiib-results/m0-a4-catalog.json
+      - name: EIGIIB M0-A4 reference vector replay
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_vector_reference_replay.py . --json | tee .eigiib-results/m0-a4-reference.json

@@ -31,6 +31,9 @@
     {"id": "repository.aggregate-report-format", "authority": "aggregate_conformance"},
     {"id": "repository.external-interop-contract", "authority": "interop_profile_contract"},
     {"id": "repository.external-spec-catalog", "authority": "interop_profiles"},
-    {"id": "repository.external-interop-profile-mappings", "authority": "interop_profiles"}
+    {"id": "repository.external-interop-profile-mappings", "authority": "interop_profiles"},
+    {"id": "repository.conformance-vector-contract", "authority": "conformance_vector_contract"},
+    {"id": "repository.conformance-vector-corpus", "authority": "conformance_vectors"},
+    {"id": "repository.portable-error-code-expectations", "authority": "conformance_vectors"}
   ]
 }
