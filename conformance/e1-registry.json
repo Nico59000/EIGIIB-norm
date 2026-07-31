@@ -1,6 +1,6 @@
 {
   "standard": "EIGIIB-1.0+E1-1.0",
-  "revision": "EIGIIB-E5-draft-1.0",
+  "revision": "EIGIIB-E6-draft-1.0",
   "authorities": {
     "scope": "README.md",
     "standard": "EIGIIB-STANDARD.md",
@@ -9,10 +9,12 @@
     "e3": "extensions/E3-REPRODUCIBLE-EVIDENCE-PROVENANCE-ARTIFACT-IDENTITY.md",
     "e4": "extensions/E4-AUTHENTICATED-ATTESTATIONS-TRUST-ROOTS-PROVENANCE-INTEGRITY.md",
     "e5": "extensions/E5-TRANSPARENCY-WITNESSING-APPEND-ONLY-TRUST-HISTORY.md",
+    "e6": "extensions/E6-GOSSIP-CROSS-LOG-CONSISTENCY-FORK-ACCOUNTABILITY.md",
     "evidence": "conformance/e1-registry.json",
     "provenance": "conformance/provenance.json",
     "trust": "conformance/trust.json",
-    "transparency": "conformance/transparency.json"
+    "transparency": "conformance/transparency.json",
+    "gossip": "conformance/gossip.json"
   },
   "policies": [
     {
@@ -70,6 +72,18 @@
       "state": "established",
       "evidence": ["ev.e5-transparency.unit-tests"],
       "boundary": {"excludes": ["production log operation", "production witness independence", "global fork absence", "semantic truth of logged entries", "complete E4 trust-history coverage"]}
+    },
+    {
+      "id": "claim.e6-gossip-checker.unit-tests",
+      "subject": "tools/eigiib_gossip_check.py",
+      "predicate": "E6 gossip and accountability checker unit tests pass",
+      "revision": "EIGIIB-E6-draft-1.0",
+      "scope": {"runtime": ["python-3.11+"]},
+      "authority": "evidence",
+      "policy": "reference-checker-tests",
+      "state": "established",
+      "evidence": ["ev.e6-gossip.unit-tests"],
+      "boundary": {"excludes": ["live gossip collection", "global fork absence", "peer independence", "real-world identity", "malicious intent", "legal responsibility", "atomic cross-log state"]}
     }
   ],
   "evidence": [
@@ -115,6 +129,17 @@
       "scope": {"runtime": ["python-3.11+"]},
       "provenance": "local CPython 3.13 replay: 7/7 tests",
       "artifacts": ["tools/eigiib_transparency_check.py", "tests/test_eigiib_transparency.py"]
+    },
+    {
+      "id": "ev.e6-gossip.unit-tests",
+      "subject": "tools/eigiib_gossip_check.py",
+      "revision": "EIGIIB-E6-draft-1.0",
+      "kind": "unit-test",
+      "procedure": "python -m unittest discover -s tests -p test_eigiib_gossip.py",
+      "result": "pass",
+      "scope": {"runtime": ["python-3.11+"]},
+      "provenance": "local CPython 3.13 replay: 7/7 tests",
+      "artifacts": ["tools/eigiib_gossip_check.py", "tests/test_eigiib_gossip.py"]
     }
   ]
 }

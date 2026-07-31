@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e6-gossip.schema.json",
+  "title": "EIGIIB-E6 gossip, cross-log and accountability registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard", "revision", "peers", "transmissions", "views",
+    "comparison_policies", "comparisons", "fork_evidence",
+    "cross_log_links", "cross_log_policies", "cross_log_decisions",
+    "accountability_policies", "accountability_decisions"
+  ],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0"},
+    "revision": {"type": "string", "minLength": 1},
+    "peers": {"type": "array", "items": {"$ref": "#/$defs/peer"}},
+    "transmissions": {"type": "array", "items": {"$ref": "#/$defs/transmission"}},
+    "views": {"type": "array", "items": {"$ref": "#/$defs/view"}},
+    "comparison_policies": {"type": "array", "items": {"$ref": "#/$defs/comparison_policy"}},
+    "comparisons": {"type": "array", "items": {"$ref": "#/$defs/comparison"}},
+    "fork_evidence": {"type": "array", "items": {"$ref": "#/$defs/fork"}},
+    "cross_log_links": {"type": "array", "items": {"$ref": "#/$defs/cross_link"}},
+    "cross_log_policies": {"type": "array", "items": {"$ref": "#/$defs/cross_policy"}},
+    "cross_log_decisions": {"type": "array", "items": {"$ref": "#/$defs/cross_decision"}},
+    "accountability_policies": {"type": "array", "items": {"$ref": "#/$defs/accountability_policy"}},
+    "accountability_decisions": {"type": "array", "items": {"$ref": "#/$defs/accountability_decision"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "id_array": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "peer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "role": {"enum": ["observer", "relay", "auditor", "log-operator", "service", "test"]},
+        "principal": {"$ref": "#/$defs/id"},
+        "domain": {"type": "string", "minLength": 1}
+      }
+    },
+    "transmission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sender", "receiver", "checkpoint", "result"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "sender": {"$ref": "#/$defs/id"},
+        "receiver": {"$ref": "#/$defs/id"},
+        "checkpoint": {"$ref": "#/$defs/id"},
+        "result": {"enum": ["received", "dropped", "malformed", "unavailable", "not-applicable"]},
+        "sequence": {"type": "integer", "minimum": 0},
+        "e4_decision": {"$ref": "#/$defs/id"}
+      }
+    },
+    "view": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "observer", "checkpoint", "source"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "observer": {"$ref": "#/$defs/id"},
+        "checkpoint": {"$ref": "#/$defs/id"},
+        "source": {"enum": ["local", "gossip", "archive", "external-attestation", "test"]},
+        "transmission": {"$ref": "#/$defs/id"},
+        "e4_decision": {"$ref": "#/$defs/id"}
+      }
+    },
+    "comparison_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "require_authenticated_views", "allow_e5_consistency_reference", "preserve_unresolved"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "require_authenticated_views": {"type": "boolean"},
+        "allow_e5_consistency_reference": {"type": "boolean"},
+        "preserve_unresolved": {"type": "boolean"}
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "left_view", "right_view", "policy", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "left_view": {"$ref": "#/$defs/id"},
+        "right_view": {"$ref": "#/$defs/id"},
+        "policy": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["same-view", "compatible-by-e5-reference", "direct-conflict", "unresolved"]},
+        "e5_consistency_proof": {"$ref": "#/$defs/id"}
+      }
+    },
+    "fork": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "comparison", "views", "relation", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "comparison": {"$ref": "#/$defs/id"},
+        "views": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "relation": {"const": "direct-conflict"},
+        "state": {"enum": ["observed", "authenticated-conflict", "unattributed-conflict", "superseded", "invalid"]},
+        "evidence_sources": {"$ref": "#/$defs/id_array"}
+      }
+    },
+    "cross_link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source_checkpoint", "source_entry", "inclusion_proof", "target_checkpoint"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "source_checkpoint": {"$ref": "#/$defs/id"},
+        "source_entry": {"$ref": "#/$defs/id"},
+        "inclusion_proof": {"$ref": "#/$defs/id"},
+        "target_checkpoint": {"$ref": "#/$defs/id"}
+      }
+    },
+    "cross_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "minimum_anchors", "required_logs", "reciprocal", "require_authenticated_source_views"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "minimum_anchors": {"type": "integer", "minimum": 1},
+        "required_logs": {"$ref": "#/$defs/id_array"},
+        "reciprocal": {"type": "boolean"},
+        "require_authenticated_source_views": {"type": "boolean"}
+      }
+    },
+    "cross_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "policy", "links", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "policy": {"$ref": "#/$defs/id"},
+        "links": {"$ref": "#/$defs/id_array"},
+        "state": {"enum": ["anchored", "partially-anchored", "unresolved", "conflicted", "not-evaluated", "unavailable"]}
+      }
+    },
+    "accountability_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "require_direct_conflict", "require_authenticated_views", "attribution_mode", "minimum_evidence_sources"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "require_direct_conflict": {"type": "boolean"},
+        "require_authenticated_views": {"type": "boolean"},
+        "attribution_mode": {"enum": ["none", "single-principal-v1", "manual"]},
+        "minimum_evidence_sources": {"type": "integer", "minimum": 1}
+      }
+    },
+    "accountability_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "policy", "fork_evidence", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "policy": {"$ref": "#/$defs/id"},
+        "fork_evidence": {"$ref": "#/$defs/id"},
+        "state": {"enum": ["conflict-established", "authenticated-conflict", "single-principal-equivocation", "unattributed-conflict", "insufficient-evidence", "not-evaluated", "unavailable"]},
+        "attributed_principal": {"$ref": "#/$defs/id"}
+      }
+    }
+  }
+}
