@@ -29,6 +29,14 @@ def vector(vid, contract, fixture, result_field, result, codes=None):
     }
 
 
+def a2_fixture():
+    return {"graph": {}, "component_reports": {}}
+
+
+def a3_fixture():
+    return {"authorities": [], "registry": {}, "evidence_files": {}}
+
+
 def base_catalog():
     return {
         "standard": "EIGIIB-M0-A4-1.0",
@@ -36,10 +44,14 @@ def base_catalog():
         "canonicalization": "m0-a4-json-sha256-v1",
         "supported_contracts": ["M0-A2", "M0-A3"],
         "vectors": [
-            vector("a2-ok", "M0-A2", {"x": 1}, "overall_result", "conformant"),
-            vector("a3-ok", "M0-A3", {"evidence_files": {}}, "structural_result", "conformant"),
+            vector("a2-ok", "M0-A2", a2_fixture(), "overall_result", "conformant"),
+            vector("a3-ok", "M0-A3", a3_fixture(), "structural_result", "conformant"),
         ],
     }
+
+
+def redigest(vector_obj):
+    vector_obj["fixture_sha256"] = __import__("hashlib").sha256(mod.canonical_bytes(vector_obj["fixture"])).hexdigest()
 
 
 class VectorCatalogTests(unittest.TestCase):
@@ -70,7 +82,7 @@ class VectorCatalogTests(unittest.TestCase):
 
     def test_contract_set_is_closed(self):
         o = base_catalog(); o["supported_contracts"] = ["M0-A2"]
-        r = self.run_obj(o); self.assert_code(r, "M0A4.CONTRACTS")
+        self.assert_code(self.run_obj(o), "M0A4.CONTRACTS")
 
     def test_duplicate_vector_id_rejected(self):
         o = base_catalog(); o["vectors"].append(deepcopy(o["vectors"][0]))
@@ -81,9 +93,24 @@ class VectorCatalogTests(unittest.TestCase):
         self.assert_code(self.run_obj(o), "M0A4.VECTOR.DIGEST")
 
     def test_float_fixture_rejected(self):
-        o = base_catalog(); o["vectors"][0]["fixture"] = {"x": 1.5}
-        o["vectors"][0]["fixture_sha256"] = __import__("hashlib").sha256(mod.canonical_bytes(o["vectors"][0]["fixture"])).hexdigest()
+        o = base_catalog(); o["vectors"][0]["fixture"]["graph"] = {"ratio": 1.5}; redigest(o["vectors"][0])
         self.assert_code(self.run_obj(o), "M0A4.VECTOR.FLOAT")
+
+    def test_a2_adapter_shape_is_checked(self):
+        o = base_catalog(); o["vectors"][0]["fixture"] = {"graph": {}}; redigest(o["vectors"][0])
+        self.assert_code(self.run_obj(o), "M0A4.A2.FIELDS")
+
+    def test_a2_report_items_are_objects(self):
+        o = base_catalog(); o["vectors"][0]["fixture"]["component_reports"] = {"E2": "bad"}; redigest(o["vectors"][0])
+        self.assert_code(self.run_obj(o), "M0A4.A2.REPORT_ITEM")
+
+    def test_a3_adapter_shape_is_checked(self):
+        o = base_catalog(); o["vectors"][1]["fixture"] = {"evidence_files": {}}; redigest(o["vectors"][1])
+        self.assert_code(self.run_obj(o), "M0A4.A3.FIELDS")
+
+    def test_a3_authorities_are_unique_strings(self):
+        o = base_catalog(); o["vectors"][1]["fixture"]["authorities"] = ["e1", "e1"]; redigest(o["vectors"][1])
+        self.assert_code(self.run_obj(o), "M0A4.A3.AUTHORITY_DUPLICATE")
 
     def test_result_field_is_contract_specific(self):
         o = base_catalog(); o["vectors"][0]["expect"]["result_field"] = "structural_result"
@@ -98,9 +125,7 @@ class VectorCatalogTests(unittest.TestCase):
         self.assert_code(self.run_obj(o), "M0A4.VECTOR.ERROR_CODES_ORDER")
 
     def test_a3_materialized_evidence_path_cannot_escape(self):
-        o = base_catalog(); fixture = {"evidence_files": {"../x": "bad"}}
-        o["vectors"][1]["fixture"] = fixture
-        o["vectors"][1]["fixture_sha256"] = __import__("hashlib").sha256(mod.canonical_bytes(fixture)).hexdigest()
+        o = base_catalog(); o["vectors"][1]["fixture"]["evidence_files"] = {"../x": "bad"}; redigest(o["vectors"][1])
         self.assert_code(self.run_obj(o), "M0A4.A3.EVIDENCE_PATH")
 
     def test_each_supported_contract_requires_coverage(self):
