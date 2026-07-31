@@ -60,4 +60,28 @@ class E8Tests(unittest.TestCase):
         o=self.valid(); o["observations"][0]["evidence"]=[{"path":"../escape"}]
         x=self.run_obj(o); self.assertTrue(any(f["code"]=="E8.PATH.ESCAPE" for f in x["findings"]))
 
+    def test_cutover_rejects_declared_but_unverified_adoption(self):
+        o=self.valid()
+        o["observations"][1]["new_state"]="rejected"
+        x=self.run_obj(o)
+        self.assertTrue(any(f["code"]=="E8.CUTOVER.ADOPTION_UNVERIFIED" for f in x["findings"]))
+    def test_positive_convergence_rejects_zero_minimum(self):
+        o=self.valid()
+        o["policies"][0].update({"minimum":0,"require_all_required_parties":False,"required_domains":[],"required_classes":[]})
+        o["adoption_decisions"][0]["observations"]=[]
+        x=self.run_obj(o)
+        self.assertTrue(any(f["code"]=="E8.ADOPTION.ZERO_MINIMUM" for f in x["findings"]))
+    def test_declared_e7_transition_must_resolve(self):
+        o=self.valid()
+        o["migrations"][0]["e7_transition"]="t7"
+        x=self.run_obj(o,{"decisions":[{"id":"e7ok","state":"continuity-established"}],"transitions":[]})
+        self.assertTrue(any(f["code"]=="E8.MIGRATION.E7_TRANSITION" for f in x["findings"]))
+    def test_exception_result_stays_typed(self):
+        o=self.valid(); o["policies"][0].update({"minimum":1,"required_domains":["d1"],"allow_exceptions":True})
+        o["exceptions"]=[{"id":"x","migration":"m","party":"b","reason":"offline","disposition":"temporary"}]
+        o["adoption_decisions"][0]={"id":"ad","migration":"m","policy":"p","state":"converged-with-exceptions","observations":["oa"],"exceptions":["x"]}
+        x=self.run_obj(o)
+        self.assertEqual(x["legacy_rejection_result"],"verified-with-exceptions")
+        self.assertEqual(x["cutover_result"],"verified-with-exceptions")
+
 if __name__=="__main__": unittest.main()
