@@ -106,6 +106,24 @@ class AggregateTests(unittest.TestCase):
         self.assertEqual(c["result_field"], "hardening_result")
         self.assertEqual(c["classification"], "pass")
 
+    def test_primary_result_cannot_hide_secondary_nonconformance(self):
+        self.fill()
+        obj = report(overall="conformant")
+        obj["structural_result"] = "non-conformant"
+        self.write("E3", obj)
+        r = self.run_obj()
+        self.assertEqual(r["overall_result"], "non-conformant")
+        self.assertTrue(any(f["code"] == "M0A2.RESULT.CONFLICT" for f in r["findings"]))
+
+    def test_unknown_secondary_carrier_value_is_rejected(self):
+        self.fill()
+        obj = report(overall="conformant")
+        obj["structural_result"] = "invented"
+        self.write("E3", obj)
+        r = self.run_obj()
+        self.assertEqual(r["overall_result"], "non-conformant")
+        self.assertTrue(any(f["code"] == "M0A2.RESULT.VALUE" for f in r["findings"]))
+
     def test_missing_report_is_incomplete_not_component_failure(self):
         self.fill()
         (self.root / ".eigiib-results/components/e3.json").unlink()
