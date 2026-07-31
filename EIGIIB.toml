@@ -1,10 +1,10 @@
 standard = "EIGIIB-1.0"
-extensions = ["E1-1.0", "E2-1.0", "E3-1.0", "E4-1.0", "E5-1.0", "E6-1.0", "E7-1.0", "E8-1.0", "E9-1.0", "E10-1.0"]
+extensions = ["E1-1.0", "E2-1.0", "E3-1.0", "E4-1.0", "E5-1.0", "E6-1.0", "E7-1.0", "E8-1.0", "E9-1.0", "E10-1.0", "E11-1.0"]
 conformance_target = "EIGIIB-C2"
-revision = "EIGIIB-E10-draft-1.0"
+revision = "EIGIIB-E11-draft-1.0"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal"]
 
 [authorities]
 scope = "README.md"
@@ -19,6 +19,7 @@ e7 = "extensions/E7-RECOVERY-REMEDIATION-TRUST-STATE-CONTINUITY.md"
 e8 = "extensions/E8-RELYING-PARTY-CONVERGENCE-MIGRATION-SAFETY-TRUST-STATE-ADOPTION.md"
 e9 = "extensions/E9-DEGRADED-OPERATION-SAFE-FALLBACK-PARTIAL-TRUST-AVAILABILITY.md"
 e10 = "extensions/E10-POLICY-SAFE-AUTOMATION-DELEGATED-EXECUTION-DECISION-ACCOUNTABILITY.md"
+e11 = "extensions/E11-TEMPORAL-VALIDITY-FRESHNESS-LEASES-REPLAY-RESISTANCE.md"
 evidence = "conformance/e1-registry.json"
 provenance = "conformance/provenance.json"
 trust = "conformance/trust.json"
@@ -28,6 +29,7 @@ recovery = "conformance/recovery.json"
 convergence = "conformance/convergence.json"
 degraded = "conformance/degraded.json"
 automation = "conformance/automation.json"
+temporal = "conformance/temporal.json"
 
 [checks]
 markdown_links = true
@@ -90,4 +92,10 @@ attestation = "conformance/MANUAL-REVIEW.md"
 id = "automation-accountability-boundary-review"
 status = "complete"
 authority = "e10"
+attestation = "conformance/MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "temporal-validity-boundary-review"
+status = "complete"
+authority = "e11"
 attestation = "conformance/MANUAL-REVIEW.md"

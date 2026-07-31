@@ -1,0 +1,12 @@
+{
+  "standard": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0+E8-1.0+E9-1.0+E10-1.0+E11-1.0",
+  "revision": "EIGIIB-E11-draft-1.0",
+  "time_domains": [],
+  "time_sources": [],
+  "observations": [],
+  "policies": [],
+  "leases": [],
+  "renewals": [],
+  "replay_assertions": [],
+  "temporal_decisions": []
+}
