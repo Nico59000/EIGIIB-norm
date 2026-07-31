@@ -120,7 +120,7 @@ A migration from epoch `e0` to `e1` MUST satisfy:
 e1 > e0
 ```
 
-When an E7 transition is declared, the transition remains authoritative for the actual trust-state relation.
+When an E7 transition is declared, the transition remains authoritative for the actual trust-state relation. A mechanically evaluated E8 migration that names an E7 transition MUST resolve it to a verified E7 transition in the supplied recovery registry.
 
 ---
 
@@ -265,6 +265,8 @@ stalled
 unavailable
 ```
 
+A positive convergence decision requires `minimum >= 1`.
+
 A `converged` decision requires, for its selected observations and policy:
 
 1. the policy minimum is satisfied under the declared distinctness rule;
@@ -275,6 +277,8 @@ A `converged` decision requires, for its selected observations and policy:
 6. no exception contributes to a `converged` result.
 
 A `converged-with-exceptions` decision additionally requires the policy to allow exceptions and every uncovered required party to have an explicit exception for the migration.
+
+Capability reports MUST preserve the exception boundary. A mechanically verified result that depends on exceptions SHOULD be rendered as `verified-with-exceptions` rather than silently promoted to an exception-free `verified` result.
 
 Neither state establishes global convergence outside the declared registry and policy boundary.
 
@@ -367,7 +371,9 @@ A generic E8 checker SHOULD verify:
 - required-party coverage;
 - exception authorization and explicit `converged-with-exceptions` state;
 - E7 continuity reference resolution when required;
-- verified cutover requires a closed compatibility window and a converged adoption decision.
+- verified cutover requires a closed compatibility window and a mechanically verified converged adoption decision;
+- positive convergence requires a non-zero observation minimum;
+- declared E7 transition references resolve when supplied.
 
 A generic checker MUST NOT contact relying parties, mutate their configuration, infer real-world independence, infer compromise from stale acceptance, infer global convergence, or infer that unobserved parties have migrated.
 
