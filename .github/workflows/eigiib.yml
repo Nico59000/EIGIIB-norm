@@ -32,3 +32,5 @@ jobs:
         run: python tools/eigiib_recovery_check.py . --json
       - name: EIGIIB E7 recovery hardening profile
         run: python tools/eigiib_recovery_hardening_check.py . --json
+      - name: EIGIIB E8 relying-party convergence conformance
+        run: python tools/eigiib_convergence_check.py . --json
