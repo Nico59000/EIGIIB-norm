@@ -125,6 +125,11 @@ jobs:
         run: |
           set -o pipefail
           python tools/eigiib_interop_profiles_check.py . --json | tee .eigiib-results/m0-a3.json
+      - name: EIGIIB P1-A1 in-toto Statement capsule
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_in_toto_capsule.py check . --json | tee .eigiib-results/p1-a1.json
       - name: EIGIIB M0-A4 conformance vector catalog
         if: always()
         run: |
