@@ -23,6 +23,7 @@ external identity != EIGIIB authority
 profile specification != adapter implementation
 adapter implementation != validated interoperability
 versioned external reference != byte-immutable specification snapshot
+declared observation date != trusted freshness
 ```
 
 An external standard remains authoritative for its own syntax and semantics. EIGIIB remains authoritative for the meaning and boundary of EIGIIB claims.
@@ -38,7 +39,8 @@ Each external specification entry records:
 - domain;
 - canonical HTTPS URI;
 - reference mode;
-- observation date.
+- observation date;
+- optionally, a byte-exact external snapshot identity.
 
 M0-A3 forbids the tokens `latest`, `main`, and `master` as the declared `version`.
 
@@ -48,7 +50,27 @@ Reference modes are:
 - `exact-draft` — URI identifies an exact draft revision;
 - `moving-reference` — URI may change while the catalog still records the observed version.
 
-A `moving-reference` MAY be catalogued for research, but a profile using it MUST NOT claim `validated` interoperability. A byte-immutable external snapshot would require an additional E3-style identity/provenance binding; a versioned URL alone does not establish that property.
+A `moving-reference` MAY be catalogued for research, but a profile using it MUST NOT claim `validated` interoperability.
+
+A byte-exact external identity, when present, is:
+
+```text
+algorithm = sha256
+digest = 64 lowercase hexadecimal characters
+bytes = positive integer
+```
+
+This identity is distinct from the external URI and version. A profile cannot enter `validated` state without such an identity for its referenced external specification. The digest binds bytes only; authenticity and provenance still require their own evidence.
+
+## Freshness boundary
+
+The registry MUST declare:
+
+```text
+freshness_basis = declared-observation-date-only
+```
+
+`as_of` and `observed_on` are therefore historical registry data. The offline checker verifies date syntax and ordering only. These dates MUST NOT be interpreted as network freshness, trusted time, or proof that the reference is still the newest external revision.
 
 ## Profile lifecycle
 
@@ -63,9 +85,9 @@ These states are not automatically monotone. A later external revision can inval
 - `research`: candidate relationship only;
 - `specified`: mapping and claim boundaries are defined;
 - `implemented`: an adapter exists and evidence paths are declared;
-- `validated`: the declared adapter/profile has executable evidence for the pinned external reference.
+- `validated`: the declared adapter/profile has executable evidence for the byte-identified external reference.
 
-`implemented` and `validated` profiles require repository-confined evidence paths. An `exact-semantic` mapping is permitted only in a `validated` profile with evidence.
+`implemented` and `validated` profiles require repository-confined evidence paths. `validated` additionally requires a byte-exact external specification identity. An `exact-semantic` mapping is permitted only in a `validated` profile with evidence.
 
 ## Mapping strengths
 
@@ -140,6 +162,9 @@ It checks repository-local profile structure and boundaries, including:
 - version/reference-mode hygiene;
 - HTTPS canonical references;
 - exact-draft URI/revision coherence;
+- optional SHA-256/byte-length external identities;
+- validated-profile requirement for external byte identity;
+- declared-observation-date-only freshness semantics;
 - EIGIIB authority references against `EIGIIB.toml`;
 - profile-to-spec resolution;
 - profile state/evidence requirements;
