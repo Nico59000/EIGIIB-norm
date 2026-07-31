@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a1-in-toto-capsule.schema.json",
+  "title": "EIGIIB P1-A1 in-toto Statement capsule",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "external_spec", "transport_layer", "authentication_state", "statement"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A1-1.0"},
+    "profile": {"const": "in-toto-aggregate-export-v1"},
+    "external_spec": {"const": "in-toto-attestation-1.2.0"},
+    "transport_layer": {"const": "in-toto-statement-v1"},
+    "authentication_state": {"const": "not-provided-p1-a1"},
+    "statement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["_type", "subject", "predicateType", "predicate"],
+      "properties": {
+        "_type": {"const": "https://in-toto.io/Statement/v1"},
+        "subject": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "digest"],
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "digest": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["sha256"],
+                "properties": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+              }
+            }
+          }
+        },
+        "predicateType": {"const": "https://eigiib.example/attestation/aggregate-conformance/v1"},
+        "predicate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["eigiibProfile", "sourceStandard", "aggregateReport", "aggregateResult", "claimBoundary"],
+          "properties": {
+            "eigiibProfile": {"const": "in-toto-aggregate-export-v1"},
+            "sourceStandard": {"const": "EIGIIB-M0-A2-1.0"},
+            "aggregateReport": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["mediaType", "contentEncoding", "data", "identity"],
+              "properties": {
+                "mediaType": {"const": "application/json"},
+                "contentEncoding": {"const": "base64"},
+                "data": {"type": "string", "minLength": 1},
+                "identity": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["algorithm", "digest", "bytes"],
+                  "properties": {
+                    "algorithm": {"const": "sha256"},
+                    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                    "bytes": {"type": "integer", "minimum": 1}
+                  }
+                }
+              }
+            },
+            "aggregateResult": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["carrier", "value"],
+              "properties": {
+                "carrier": {"const": "overall_result"},
+                "value": {"enum": ["conformant", "conformant-with-documented-deviations", "incomplete", "non-conformant"]}
+              }
+            },
+            "claimBoundary": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["authority", "transportOnly", "doesNotImply"],
+              "properties": {
+                "authority": {"const": "aggregate_conformance"},
+                "transportOnly": {"const": true},
+                "doesNotImply": {
+                  "const": [
+                    "statement-format-validity-does-not-imply-eigiib-claim-truth",
+                    "statement-presence-does-not-imply-e4-authentication",
+                    "subject-digest-match-does-not-imply-source-authenticity",
+                    "transported-aggregate-result-does-not-imply-production-conformance",
+                    "p1-a1-capsule-does-not-imply-envelope-or-signature"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
