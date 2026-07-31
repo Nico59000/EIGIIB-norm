@@ -211,7 +211,7 @@
       "procedure": "python -m unittest discover -s tests -p test_eigiib_convergence.py",
       "result": "pass",
       "scope": {"runtime": ["python-3.11+"]},
-      "provenance": "local CPython 3.13 replay: 9/9 tests",
+      "provenance": "local CPython 3.13 replay: 13/13 tests",
       "artifacts": ["tools/eigiib_convergence_check.py", "tests/test_eigiib_convergence.py"]
     }
   ]
