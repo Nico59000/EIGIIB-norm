@@ -4,7 +4,9 @@
     {"id": "eigiib.core", "authority": "standard"},
     {"id": "eigiib.typed-evidence", "authority": "e1"},
     {"id": "eigiib.repository-checking", "authority": "e2"},
+    {"id": "eigiib.provenance-artifact-identity", "authority": "e3"},
     {"id": "repository.scope", "authority": "scope"},
-    {"id": "repository.conformance-evidence", "authority": "evidence"}
+    {"id": "repository.conformance-evidence", "authority": "evidence"},
+    {"id": "repository.provenance", "authority": "provenance"}
   ]
 }
