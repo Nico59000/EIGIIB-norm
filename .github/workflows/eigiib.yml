@@ -40,3 +40,5 @@ jobs:
         run: python tools/eigiib_degraded_hardening_check.py . --json
       - name: EIGIIB E10 policy-safe automation conformance
         run: python tools/eigiib_automation_check.py . --json
+      - name: EIGIIB E10 decision-boundary hardening profile
+        run: python tools/eigiib_automation_hardening_check.py . --json
