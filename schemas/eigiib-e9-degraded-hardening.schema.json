@@ -1,0 +1,12 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://example.invalid/eigiib/e9-degraded-hardening.schema.json",
+  "title":"EIGIIB-E9 degraded operation hardening profile 0.2",
+  "allOf":[{"$ref":"eigiib-e9-degraded.schema.json"}],
+  "$defs":{"evidenceItem":{"oneOf":[{"type":"string","minLength":1},{"type":"object","required":["path"],"properties":{"path":{"type":"string","minLength":1}}}]}},
+  "properties":{
+    "observations":{"type":"array","items":{"type":"object","properties":{"evidence":{"type":"array","items":{"$ref":"#/$defs/evidenceItem"}}}}},
+    "fallbacks":{"type":"array","items":{"type":"object","properties":{"evidence":{"type":"array","items":{"$ref":"#/$defs/evidenceItem"}}}}},
+    "modes":{"type":"array","items":{"type":"object","properties":{"preserved_guarantees":{"type":"array","items":{"type":"string"},"uniqueItems":true},"suspended_guarantees":{"type":"array","items":{"type":"string"},"uniqueItems":true}}}}
+  }
+}
