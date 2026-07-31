@@ -96,6 +96,14 @@ class VectorCatalogTests(unittest.TestCase):
         o = base_catalog(); o["vectors"][0]["fixture"]["graph"] = {"ratio": 1.5}; redigest(o["vectors"][0])
         self.assert_code(self.run_obj(o), "M0A4.VECTOR.FLOAT")
 
+    def test_large_integer_fixture_rejected(self):
+        o = base_catalog(); o["vectors"][0]["fixture"]["graph"] = {"n": 2**63}; redigest(o["vectors"][0])
+        self.assert_code(self.run_obj(o), "M0A4.VECTOR.INTEGER_RANGE")
+
+    def test_non_ascii_object_key_rejected(self):
+        o = base_catalog(); o["vectors"][0]["fixture"]["graph"] = {"clé": 1}; redigest(o["vectors"][0])
+        self.assert_code(self.run_obj(o), "M0A4.VECTOR.KEY_ASCII")
+
     def test_a2_adapter_shape_is_checked(self):
         o = base_catalog(); o["vectors"][0]["fixture"] = {"graph": {}}; redigest(o["vectors"][0])
         self.assert_code(self.run_obj(o), "M0A4.A2.FIELDS")
