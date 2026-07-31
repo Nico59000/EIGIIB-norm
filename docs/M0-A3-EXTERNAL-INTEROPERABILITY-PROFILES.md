@@ -22,7 +22,7 @@ transparency inclusion != semantic correctness
 external identity != EIGIIB authority
 profile specification != adapter implementation
 adapter implementation != validated interoperability
-moving external reference != immutable specification snapshot
+versioned external reference != byte-immutable specification snapshot
 ```
 
 An external standard remains authoritative for its own syntax and semantics. EIGIIB remains authoritative for the meaning and boundary of EIGIIB claims.
@@ -44,11 +44,11 @@ M0-A3 forbids the tokens `latest`, `main`, and `master` as the declared `version
 
 Reference modes are:
 
-- `immutable-version` — URI identifies a versioned release/specification;
+- `versioned-reference` — URI identifies a versioned release/specification, without claiming byte immutability;
 - `exact-draft` — URI identifies an exact draft revision;
 - `moving-reference` — URI may change while the catalog still records the observed version.
 
-A `moving-reference` MAY be catalogued for research, but a profile using it MUST NOT claim `validated` interoperability.
+A `moving-reference` MAY be catalogued for research, but a profile using it MUST NOT claim `validated` interoperability. A byte-immutable external snapshot would require an additional E3-style identity/provenance binding; a versioned URL alone does not establish that property.
 
 ## Profile lifecycle
 
@@ -65,7 +65,7 @@ These states are not automatically monotone. A later external revision can inval
 - `implemented`: an adapter exists and evidence paths are declared;
 - `validated`: the declared adapter/profile has executable evidence for the pinned external reference.
 
-`implemented` and `validated` profiles require repository-confined evidence paths. `validated` additionally requires every mapping to avoid an unvalidated `exact-semantic` assertion.
+`implemented` and `validated` profiles require repository-confined evidence paths. An `exact-semantic` mapping is permitted only in a `validated` profile with evidence.
 
 ## Mapping strengths
 
