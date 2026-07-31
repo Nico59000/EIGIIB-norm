@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://eigiib.example/schemas/eigiib-extension-graph.schema.json",
   "title": "EIGIIB M0-A1 extension graph manifest",
+  "description": "Repository-local structural authority for the functional Core/E1..E11 graph and hardening attachments. Graph relations describe specification architecture; they are not runtime dependency claims.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -25,6 +26,7 @@
       "const": "conformance/extension-graph.json"
     },
     "source_of_truth_for": {
+      "description": "Durable repository facts owned by this manifest.",
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
@@ -34,6 +36,7 @@
       }
     },
     "derived_fields": {
+      "description": "Facts intentionally generated from authoritative relations rather than stored independently. used_by is the reverse of depends_on.",
       "type": "array",
       "uniqueItems": true,
       "items": {
@@ -43,6 +46,7 @@
       }
     },
     "functional_layers": {
+      "description": "User-orientation layers for the functional architecture. Layer membership does not imply that every runtime evaluation consumes every preceding layer.",
       "type": "array",
       "minItems": 1,
       "items": {
@@ -140,6 +144,7 @@
             "minLength": 1
           },
           "depends_on": {
+            "description": "Direct functional/specification dependencies used to form the architecture DAG. This is not a claim that every runtime evaluation requires or reads every predecessor.",
             "type": "array",
             "uniqueItems": true,
             "items": {
@@ -148,6 +153,7 @@
             }
           },
           "consumes_authorities": {
+            "description": "Lower-layer authority keys whose typed facts may be consumed by this extension. Consumption does not transfer authority and does not mean the consuming extension re-proves those facts.",
             "type": "array",
             "uniqueItems": true,
             "items": {
@@ -156,6 +162,7 @@
             }
           },
           "does_not_reprove": {
+            "description": "Explicit semantic boundaries: claim categories that remain outside this node's proof responsibility.",
             "type": "array",
             "uniqueItems": true,
             "items": {
@@ -164,6 +171,7 @@
             }
           },
           "hardening_profiles": {
+            "description": "Additive profiles attached to this extension. A hardening profile is not an independent extension node.",
             "type": "array",
             "uniqueItems": true,
             "items": {
@@ -175,6 +183,7 @@
       }
     },
     "hardening_profiles": {
+      "description": "Repository-local additive checker/profile attachments. Each profile must be attached by exactly its target extension.",
       "type": "array",
       "items": {
         "type": "object",
@@ -193,6 +202,7 @@
             "minLength": 1
           },
           "applies_to": {
+            "description": "Canonical extension node receiving this additive hardening profile.",
             "type": "string",
             "pattern": "^E[1-9][0-9]*$"
           },
