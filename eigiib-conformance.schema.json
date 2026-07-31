@@ -1,104 +1,58 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "EIGIIB Conformance Record",
+  "$id": "https://eigiib.example/schema/eigiib-conformance.schema.json",
+  "title": "EIGIIB-E2 Repository Conformance Report",
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "tool",
+    "tool_version",
     "standard",
-    "target_level",
-    "result",
+    "target",
     "revision",
-    "authorities",
+    "mechanical_result",
+    "manual_result",
+    "overall_result",
     "findings"
   ],
   "properties": {
-    "standard": {
-      "type": "string",
-      "const": "EIGIIB-1.0"
+    "tool": {"const": "eigiib-check"},
+    "tool_version": {"type": "string", "minLength": 1},
+    "standard": {"const": "EIGIIB-1.0+E1-1.0+E2-1.0"},
+    "target": {
+      "enum": ["EIGIIB-C1", "EIGIIB-C2", "EIGIIB-C3", "unknown"]
     },
-    "target_level": {
-      "type": "string",
-      "enum": [
-        "EIGIIB-C1",
-        "EIGIIB-C2",
-        "EIGIIB-C3"
-      ]
+    "revision": {"type": "string", "minLength": 1},
+    "mechanical_result": {
+      "enum": ["conformant", "non-conformant", "unavailable"]
     },
-    "result": {
-      "type": "string",
+    "manual_result": {
+      "enum": ["complete", "pending", "not-applicable"]
+    },
+    "overall_result": {
       "enum": [
         "conformant",
         "conformant-with-documented-deviations",
         "non-conformant",
-        "not-evaluated"
+        "partially-evaluated",
+        "not-evaluated",
+        "unavailable"
       ]
-    },
-    "revision": {
-      "type": "string",
-      "minLength": 1
-    },
-    "environment": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      },
-      "uniqueItems": true
-    },
-    "authorities": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "string",
-        "minLength": 1
-      }
     },
     "findings": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "kind",
-          "status",
-          "summary"
-        ],
+        "required": ["severity", "code", "path", "message"],
         "properties": {
-          "kind": {
+          "severity": {"enum": ["error", "warning", "info"]},
+          "code": {
             "type": "string",
-            "enum": [
-              "missing-authority",
-              "duplicate-authority",
-              "insufficient-contract",
-              "unjustified-explicitness",
-              "missing-rationale",
-              "claim-evidence-mismatch",
-              "unknown-state-collapse",
-              "manual-generated-duplication",
-              "other"
-            ]
+            "pattern": "^[A-Z0-9][A-Z0-9._-]{1,127}$"
           },
-          "status": {
-            "type": "string",
-            "enum": [
-              "open",
-              "accepted-deviation",
-              "resolved",
-              "not-applicable"
-            ]
-          },
-          "summary": {
-            "type": "string",
-            "minLength": 1
-          },
-          "authority": {
-            "type": "string"
-          },
-          "evidence": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
+          "path": {"type": "string"},
+          "message": {"type": "string", "minLength": 1}
         }
       }
     }

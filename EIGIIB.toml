@@ -1,0 +1,29 @@
+standard = "EIGIIB-1.0"
+extensions = ["E1-1.0", "E2-1.0"]
+conformance_target = "EIGIIB-C2"
+revision = "EIGIIB-E2-draft-1.0"
+registry = "conformance/e1-registry.json"
+ownership_registry = "conformance/ownership.json"
+required_authorities = ["scope", "standard", "e1", "e2", "evidence"]
+
+[authorities]
+scope = "README.md"
+standard = "EIGIIB-STANDARD.md"
+e1 = "extensions/E1-TYPED-EVIDENCE-CLAIMS-CONFORMANCE.md"
+e2 = "extensions/E2-MACHINE-CHECKABLE-REPOSITORY-CONFORMANCE.md"
+evidence = "conformance/e1-registry.json"
+
+[checks]
+markdown_links = true
+
+[[manual_gates]]
+id = "semantic-authority-review"
+status = "complete"
+authority = "standard"
+attestation = "conformance/MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "claim-boundary-review"
+status = "complete"
+authority = "e1"
+attestation = "conformance/MANUAL-REVIEW.md"

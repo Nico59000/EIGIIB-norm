@@ -1,0 +1,10 @@
+{
+  "standard": "EIGIIB-1.0+E2-1.0",
+  "facts": [
+    {"id": "eigiib.core", "authority": "standard"},
+    {"id": "eigiib.typed-evidence", "authority": "e1"},
+    {"id": "eigiib.repository-checking", "authority": "e2"},
+    {"id": "repository.scope", "authority": "scope"},
+    {"id": "repository.conformance-evidence", "authority": "evidence"}
+  ]
+}
