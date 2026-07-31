@@ -4,7 +4,7 @@ conformance_target = "EIGIIB-C2"
 revision = "EIGIIB-E11-draft-1.0"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "extension_graph"]
 
 [authorities]
 scope = "README.md"
@@ -30,6 +30,7 @@ convergence = "conformance/convergence.json"
 degraded = "conformance/degraded.json"
 automation = "conformance/automation.json"
 temporal = "conformance/temporal.json"
+extension_graph = "conformance/extension-graph.json"
 
 [checks]
 markdown_links = true
