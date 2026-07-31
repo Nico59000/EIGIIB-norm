@@ -28,3 +28,5 @@ jobs:
         run: python tools/eigiib_transparency_check.py . --json
       - name: EIGIIB E6 gossip and accountability conformance
         run: python tools/eigiib_gossip_check.py . --json
+      - name: EIGIIB E7 recovery and continuity conformance
+        run: python tools/eigiib_recovery_check.py . --json
