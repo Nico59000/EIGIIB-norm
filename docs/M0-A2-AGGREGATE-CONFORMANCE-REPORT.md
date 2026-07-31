@@ -51,10 +51,16 @@ E11-H0.2 -> e11-h0.2.json
 
 ## Result interpretation
 
-M0-A2 recognizes only two top-level component result carriers:
+The checker family predates M0-A2 and has four historical top-level conformance carriers. M0-A2 supports this explicit, closed compatibility set in the following priority order:
 
-- `overall_result`, used by E2;
-- `structural_result`, used by current extension and hardening checkers.
+1. `overall_result` — E2 and E4;
+2. `structural_result` — current structural extension and several hardening checkers;
+3. `hardening_result` — E7-H0.2 and E9-H0.2;
+4. `result` — E3.
+
+M0-A2 MUST NOT discover result carriers heuristically. In particular, it does not accept an arbitrary field merely because its name ends in `_result`. A future carrier requires an explicit M0-A2 contract update.
+
+When a report contains more than one supported carrier, the first one in the ordered set above is authoritative for aggregation. This preserves E4's `overall_result` rather than silently replacing it with its narrower `structural_result`.
 
 The aggregate does not inspect operational sub-results to manufacture a stronger conclusion.
 
