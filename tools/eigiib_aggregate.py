@@ -9,13 +9,14 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-TOOL_VERSION = "0.1.0"
+TOOL_VERSION = "0.1.1"
 STANDARD = "EIGIIB-M0-A2-1.0"
 
 PASS_VALUES = {"conformant"}
 QUALIFIED_VALUES = {"conformant-with-documented-deviations"}
 INCOMPLETE_VALUES = {"partially-evaluated", "not-evaluated", "unavailable"}
 FAIL_VALUES = {"non-conformant"}
+RESULT_FIELDS = ("overall_result", "structural_result", "hardening_result", "result")
 
 
 @dataclass(order=True)
@@ -72,14 +73,10 @@ class Aggregator:
 
     @staticmethod
     def classify(report: dict[str, Any]) -> tuple[str | None, str | None]:
-        if isinstance(report.get("overall_result"), str):
-            value = report["overall_result"]
-            field = "overall_result"
-        elif isinstance(report.get("structural_result"), str):
-            value = report["structural_result"]
-            field = "structural_result"
-        else:
+        field = next((candidate for candidate in RESULT_FIELDS if isinstance(report.get(candidate), str)), None)
+        if field is None:
             return None, None
+        value = report[field]
         if value in PASS_VALUES:
             return field, "pass"
         if value in QUALIFIED_VALUES:
