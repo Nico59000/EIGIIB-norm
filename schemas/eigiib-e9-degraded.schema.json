@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e9-degraded.schema.json",
+  "title": "EIGIIB-E9 degraded operation and partial-trust registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard","revision","dependencies","capabilities","modes","observations","fallbacks","policies","decisions"],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0+E8-1.0+E9-1.0"},
+    "revision": {"type":"string","minLength":1},
+    "dependencies": {"type":"array","items":{"$ref":"#/$defs/dependency"}},
+    "capabilities": {"type":"array","items":{"$ref":"#/$defs/capability"}},
+    "modes": {"type":"array","items":{"$ref":"#/$defs/mode"}},
+    "observations": {"type":"array","items":{"$ref":"#/$defs/observation"}},
+    "fallbacks": {"type":"array","items":{"$ref":"#/$defs/fallback"}},
+    "policies": {"type":"array","items":{"$ref":"#/$defs/policy"}},
+    "decisions": {"type":"array","items":{"$ref":"#/$defs/decision"}}
+  },
+  "$defs": {
+    "id": {"type":"string","pattern":"^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "ids": {"type":"array","items":{"$ref":"#/$defs/id"},"uniqueItems":true},
+    "dependency": {"type":"object","additionalProperties":true,"required":["id","kind"],"properties":{"id":{"$ref":"#/$defs/id"},"kind":{"enum":["authority","verifier","witness","registry","storage","network","relying-party-set","service","other"]}}},
+    "capability": {"type":"object","additionalProperties":true,"required":["id","impact","minimum_availability","required_dependencies"],"properties":{"id":{"$ref":"#/$defs/id"},"impact":{"enum":["observe","read","write","publish","admin"]},"minimum_availability":{"enum":["available","degraded"]},"required_dependencies":{"$ref":"#/$defs/ids"}}},
+    "mode": {"type":"object","additionalProperties":true,"required":["id","kind","assurance","allowed_capabilities","denied_capabilities","preserved_guarantees","suspended_guarantees"],"properties":{"id":{"$ref":"#/$defs/id"},"kind":{"enum":["nominal","degraded","fallback","isolated","read-only"]},"assurance":{"enum":["full","partial","minimal"]},"allowed_capabilities":{"$ref":"#/$defs/ids"},"denied_capabilities":{"$ref":"#/$defs/ids"},"preserved_guarantees":{"type":"array","items":{"type":"string"}},"suspended_guarantees":{"type":"array","items":{"type":"string"}}}},
+    "observation": {"type":"object","additionalProperties":true,"required":["id","dependency","state","evidence"],"properties":{"id":{"$ref":"#/$defs/id"},"dependency":{"$ref":"#/$defs/id"},"state":{"enum":["available","degraded","unavailable","unknown","not-applicable"]},"evidence":{"type":"array"}}},
+    "fallback": {"type":"object","additionalProperties":true,"required":["id","source","substitute","state","evidence"],"properties":{"id":{"$ref":"#/$defs/id"},"source":{"$ref":"#/$defs/id"},"substitute":{"$ref":"#/$defs/id"},"state":{"enum":["planned","eligible","active","failed","retired"]},"evidence":{"type":"array"}}},
+    "policy": {"type":"object","additionalProperties":true,"required":["id","mode","required_dependencies","allowed_degraded_dependencies","unknown_disposition","allowed_capabilities","require_e8_cutover_for_nominal"],"properties":{"id":{"$ref":"#/$defs/id"},"mode":{"$ref":"#/$defs/id"},"required_dependencies":{"$ref":"#/$defs/ids"},"allowed_degraded_dependencies":{"$ref":"#/$defs/ids"},"unknown_disposition":{"enum":["deny","hold","fallback"]},"allowed_capabilities":{"$ref":"#/$defs/ids"},"require_e8_cutover_for_nominal":{"type":"boolean"}}},
+    "decision": {"type":"object","additionalProperties":true,"required":["id","state"],"properties":{"id":{"$ref":"#/$defs/id"},"state":{"enum":["degraded-safe","fallback-verified","partial-trust-available","nominal-restored","unsafe","unavailable"]},"mode":{"$ref":"#/$defs/id"},"policy":{"$ref":"#/$defs/id"},"observations":{"$ref":"#/$defs/ids"},"fallbacks":{"$ref":"#/$defs/ids"},"capabilities":{"$ref":"#/$defs/ids"},"e8_cutover":{"$ref":"#/$defs/id"}}}
+  }
+}
