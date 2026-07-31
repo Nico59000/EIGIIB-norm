@@ -29,6 +29,8 @@ The E10 reference checker executes no proposal, creates no approval, signs nothi
 
 E10 approvals are bound to proposal, policy and context revisions. A record labelled `authorized` contributes to a positive result only after actor authority, revision binding, approval quorum, self-approval rules and any required E9 context constraints pass. Authorization remains distinct from execution, and execution success remains distinct from an observed effect.
 
+E10 hardening profile 0.2 extends exact proposal/policy/context boundary and revision binding to `denied`, `held`, and `unavailable` decisions. A non-authorizing result therefore remains historically attributable to the exact evaluated boundary instead of becoming a stale or cross-policy record. The post-CI separation tests also preserve the distinction between execution traceability and execution/effect success.
+
 A complete E10 accountability trace establishes only coherent linkage of the declared actor, qualifying approvers, executor and effect record. It does not establish malicious intent, culpability, legal responsibility, real-world identity, semantic correctness of the action, or global safety.
 
 E4 remains authoritative for authentication, E5 for append-only/witness semantics, E6 for gossip/fork accountability, E7 for recovery/trust-state continuity, E8 for relying-party convergence/cutover, and E9 for degraded-operation state. E10 may consume E9 typed facts but does not re-prove them or turn degraded safety into authorization.
