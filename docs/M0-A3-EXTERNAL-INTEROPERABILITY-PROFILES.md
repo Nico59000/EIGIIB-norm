@@ -141,16 +141,23 @@ The initial M0-A3 catalog intentionally starts with external references whose cu
 
 Other candidates such as Sigstore, TUF, SPIFFE, CycloneDX, OPA and Cedar remain eligible for later catalog/profile additions. They are not implicitly covered by the first M0-A3 registry.
 
-## Initial profiles
+## Profile implementation state
 
-The first registry is declarative only. It specifies bounded relationships for:
+The initial registry began as a declarative catalog. P1-A1 advances only the
+in-toto aggregate-export relationship to `implemented` while preserving the
+other initial states.
 
-- exporting an M0-A2 aggregate report as an in-toto-attestation predicate payload;
-- consuming SLSA provenance as typed external evidence without promoting it to an EIGIIB truth claim;
-- consuming SPDX 3.0.1 data as artifact/context metadata without making SPDX the E3 provenance authority;
-- studying SCITT draft-22 as a transparency transport for signed statements without replacing E5/E6 semantics.
+Current bounded relationships include:
 
-No adapter implementation or external verification is claimed by these initial profile states.
+- `in-toto-aggregate-export-v1` — **implemented** by P1-A1: exports exact M0-A2 aggregate-report bytes as the subject and transported predicate payload of an in-toto `Statement/v1`, preserves the aggregate result and an explicit negative implication boundary, and deliberately provides no authentication envelope;
+- `slsa-provenance-evidence-import-v1` — **specified**: consumes SLSA provenance as typed external evidence without promoting it to an EIGIIB truth claim;
+- `spdx-context-import-v1` — **specified**: consumes SPDX 3.0.1 data as artifact/context metadata without making SPDX the E3 provenance authority;
+- `scitt-transparency-research-v1` — **research**: studies SCITT draft-22 as a transparency transport for signed statements without replacing E5/E6 semantics.
+
+P1-A1 does not move the in-toto profile to `validated`. Its executable evidence
+establishes repository-local implementation and replay only; the M0-A3
+byte-exact external-specification identity requirement for `validated` remains
+unsatisfied by design.
 
 ## Checker boundary
 
@@ -173,6 +180,10 @@ It checks repository-local profile structure and boundaries, including:
 - repository confinement for evidence paths.
 
 It does not fetch external specifications, verify external signatures, evaluate SLSA levels, validate SPDX documents, submit SCITT statements, execute adapters, or infer external conformance.
+
+P1-A1 has its own adapter/self-check. M0-A3 validates the profile declaration and
+evidence paths; P1-A1 validates the executable Statement capsule. Neither
+checker promotes `implemented` to `validated`.
 
 ## External-reference freshness
 
