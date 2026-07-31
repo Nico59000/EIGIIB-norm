@@ -12,6 +12,7 @@
     {"id": "eigiib.relying-party-convergence", "authority": "e8"},
     {"id": "eigiib.degraded-operation-partial-trust", "authority": "e9"},
     {"id": "eigiib.policy-safe-automation-delegated-execution", "authority": "e10"},
+    {"id": "eigiib.temporal-validity-freshness-replay", "authority": "e11"},
     {"id": "repository.scope", "authority": "scope"},
     {"id": "repository.conformance-evidence", "authority": "evidence"},
     {"id": "repository.provenance", "authority": "provenance"},
@@ -21,6 +22,7 @@
     {"id": "repository.recovery", "authority": "recovery"},
     {"id": "repository.convergence", "authority": "convergence"},
     {"id": "repository.degraded-operation", "authority": "degraded"},
-    {"id": "repository.automation", "authority": "automation"}
+    {"id": "repository.automation", "authority": "automation"},
+    {"id": "repository.temporal-validity", "authority": "temporal"}
   ]
 }
