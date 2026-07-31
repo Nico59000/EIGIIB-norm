@@ -4,7 +4,7 @@ conformance_target = "EIGIIB-C2"
 revision = "EIGIIB-E13-draft-1.0"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state"]
 
 [authorities]
 scope = "README.md"
@@ -40,6 +40,8 @@ interop_profile_contract = "docs/M0-A3-EXTERNAL-INTEROPERABILITY-PROFILES.md"
 interop_profiles = "conformance/interop-profiles.json"
 conformance_vector_contract = "docs/M0-A4-PORTABLE-CONFORMANCE-VECTORS.md"
 conformance_vectors = "conformance/conformance-vectors.json"
+p1_in_toto_contract = "docs/P1-A1-IN-TOTO-ATTESTATION-CAPSULE.md"
+p1_in_toto_state = "conformance/p1-a1-in-toto.json"
 
 [checks]
 markdown_links = true
@@ -121,3 +123,9 @@ id = "policy-composition-boundary-review"
 status = "complete"
 authority = "e13"
 attestation = "conformance/E13-MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "in-toto-capsule-boundary-review"
+status = "complete"
+authority = "p1_in_toto_contract"
+attestation = "conformance/P1-A1-MANUAL-REVIEW.md"

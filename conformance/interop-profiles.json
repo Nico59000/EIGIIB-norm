@@ -1,7 +1,7 @@
 {
   "standard": "EIGIIB-M0-A3-1.0",
-  "revision": "M0-A3-initial-1.0",
-  "as_of": "2026-07-31",
+  "revision": "M0-A3-p1-a1-1.1",
+  "as_of": "2026-08-01",
   "freshness_basis": "declared-observation-date-only",
   "external_specs": [
     {
@@ -22,7 +22,7 @@
       "domain": "attestation",
       "canonical_uri": "https://github.com/in-toto/attestation/blob/v1.2.0/spec/README.md",
       "reference_mode": "versioned-reference",
-      "observed_on": "2026-07-31"
+      "observed_on": "2026-08-01"
     },
     {
       "id": "spdx-3.0.1",
@@ -48,37 +48,60 @@
   "profiles": [
     {
       "id": "in-toto-aggregate-export-v1",
-      "revision": "1.0",
-      "state": "specified",
+      "revision": "1.2",
+      "state": "implemented",
       "external_spec": "in-toto-attestation-1.2.0",
       "direction": "export",
       "eigiib_authorities": ["aggregate_conformance", "e1", "e3"],
       "mappings": [
         {
           "external_element": "Statement.subject",
-          "eigiib_element": "E3 artifact identity selected by the exporter",
+          "eigiib_element": "exact M0-A2 aggregate report byte identity",
           "relation": "represents",
           "strength": "bounded-semantic"
         },
         {
           "external_element": "Statement.predicateType",
-          "eigiib_element": "M0-A3 EIGIIB aggregate predicate profile identifier",
+          "eigiib_element": "P1-A1 EIGIIB aggregate predicate profile identifier",
           "relation": "identifies",
           "strength": "bounded-semantic"
         },
         {
-          "external_element": "Statement.predicate",
-          "eigiib_element": "M0-A2 aggregate conformance report",
+          "external_element": "Statement.predicate.aggregateReport",
+          "eigiib_element": "exact M0-A2 aggregate conformance report bytes",
           "relation": "transports",
           "strength": "transport-only"
+        },
+        {
+          "external_element": "Statement.predicate.aggregateResult",
+          "eigiib_element": "M0-A2 aggregate overall_result carrier and value",
+          "relation": "represents",
+          "strength": "bounded-semantic"
+        },
+        {
+          "external_element": "Statement.predicate.claimBoundary",
+          "eigiib_element": "P1-A1 negative implication boundary",
+          "relation": "represents",
+          "strength": "bounded-semantic"
         }
       ],
       "does_not_imply": [
-        "attestation-format-validity-does-not-imply-eigiib-claim-truth",
+        "statement-format-validity-does-not-imply-eigiib-claim-truth",
         "predicate-transport-does-not-imply-e4-authentication",
-        "attestation-presence-does-not-imply-production-conformance"
+        "subject-digest-match-does-not-imply-source-authenticity",
+        "transported-aggregate-result-does-not-imply-production-conformance",
+        "p1-a1-capsule-does-not-imply-envelope-or-signature"
       ],
-      "evidence": []
+      "evidence": [
+        "docs/P1-A1-IN-TOTO-ATTESTATION-CAPSULE.md",
+        "schemas/eigiib-p1-a1-in-toto-capsule.schema.json",
+        "tools/eigiib_in_toto_capsule.py",
+        "tests/test_eigiib_in_toto_capsule.py",
+        "tests/test_eigiib_in_toto_capsule_hardening.py",
+        "tests/fixtures/p1-a1/aggregate.json",
+        "tests/fixtures/p1-a1/capsule.json",
+        "conformance/p1-a1-in-toto.json"
+      ]
     },
     {
       "id": "slsa-provenance-evidence-import-v1",
