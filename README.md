@@ -8,4 +8,4 @@ This directory is a repository-ready seed for a future standalone EIGIIB project
 
 The package intentionally keeps the normative content in one document. The schema and profile example exist only because machine-readable conformance and downstream adoption have different authority roles.
 
-No license is asserted here. Choose the target repository license before public release.
+Under MIT Licence . 
