@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e12-commit-hardening-0.2.schema.json",
+  "title": "EIGIIB-E12 commit hardening profile 0.2",
+  "description": "Additive profile field declaration. Baseline E12 remains authoritative for the full registry shape; the hardening checker enforces positive-state semantics.",
+  "type": "object",
+  "properties": {
+    "commits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "atomic_store": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+          }
+        }
+      }
+    }
+  }
+}

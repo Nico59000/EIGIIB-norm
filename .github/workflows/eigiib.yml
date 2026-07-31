@@ -95,6 +95,16 @@ jobs:
         run: |
           set -o pipefail
           python tools/eigiib_temporal_hardening_check.py . --json | tee .eigiib-results/components/e11-h0.2.json
+      - name: EIGIIB E12 atomic commit revalidation conformance
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_commit_check.py . --json | tee .eigiib-results/components/e12.json
+      - name: EIGIIB E12 commit hardening profile
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_commit_hardening_check.py . --json | tee .eigiib-results/components/e12-h0.2.json
       - name: EIGIIB M0-A2 aggregate conformance
         if: always()
         run: |
