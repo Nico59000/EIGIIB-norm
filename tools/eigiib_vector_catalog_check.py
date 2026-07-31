@@ -9,7 +9,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-TOOL_VERSION = "0.1.0"
+TOOL_VERSION = "0.1.1"
 STANDARD = "EIGIIB-M0-A4-1.0"
 CANONICALIZATION = "m0-a4-json-sha256-v1"
 CONTRACTS = {
@@ -86,10 +86,33 @@ class Checker:
             return None
         return obj
 
-    def check_a3_fixture(self, fixture: dict[str, Any], loc: str) -> None:
-        evidence = fixture.get("evidence_files")
-        if evidence is None:
+    def check_a2_fixture(self, fixture: dict[str, Any], loc: str) -> None:
+        expected = {"graph", "component_reports"}
+        if set(fixture) != expected:
+            self.add("error", "M0A4.A2.FIELDS", "M0-A2 fixture must contain exactly graph and component_reports", loc)
+        graph = fixture.get("graph")
+        if not isinstance(graph, dict):
+            self.add("error", "M0A4.A2.GRAPH", "graph must be an object", loc)
+        reports = fixture.get("component_reports")
+        if not isinstance(reports, dict):
+            self.add("error", "M0A4.A2.REPORTS", "component_reports must be an object", loc)
             return
+        for component_id, report in reports.items():
+            if not isinstance(component_id, str) or not component_id or not isinstance(report, dict):
+                self.add("error", "M0A4.A2.REPORT_ITEM", "component_reports must map non-empty ids to report objects", loc)
+
+    def check_a3_fixture(self, fixture: dict[str, Any], loc: str) -> None:
+        expected = {"authorities", "registry", "evidence_files"}
+        if set(fixture) != expected:
+            self.add("error", "M0A4.A3.FIELDS", "M0-A3 fixture must contain exactly authorities, registry and evidence_files", loc)
+        authorities = fixture.get("authorities")
+        if not isinstance(authorities, list) or any(not isinstance(x, str) or not x for x in authorities):
+            self.add("error", "M0A4.A3.AUTHORITIES", "authorities must be an array of non-empty strings", loc)
+        elif len(authorities) != len(set(authorities)):
+            self.add("error", "M0A4.A3.AUTHORITY_DUPLICATE", "authorities must be unique", loc)
+        if not isinstance(fixture.get("registry"), dict):
+            self.add("error", "M0A4.A3.REGISTRY", "registry must be an object", loc)
+        evidence = fixture.get("evidence_files")
         if not isinstance(evidence, dict):
             self.add("error", "M0A4.A3.EVIDENCE_FILES", "evidence_files must be an object", loc)
             return
@@ -155,7 +178,9 @@ class Checker:
             if vector.get("fixture_sha256") != actual_digest:
                 self.add("error", "M0A4.VECTOR.DIGEST", "fixture_sha256 does not match canonical fixture bytes", loc)
 
-            if contract == "M0-A3":
+            if contract == "M0-A2":
+                self.check_a2_fixture(fixture, loc)
+            elif contract == "M0-A3":
                 self.check_a3_fixture(fixture, loc)
 
             expect = vector.get("expect")
