@@ -29,19 +29,20 @@ vector runner != normative checker implementation
 
 ## Canonical fixture digest
 
-Each fixture is a JSON object. M0-A4 computes its digest from UTF-8 bytes produced by this serialization profile:
+Each fixture is a JSON object. M0-A4 computes its digest from UTF-8 bytes produced by this deliberately narrow serialization profile:
 
 ```text
-object keys: lexicographically sorted
+object keys: ASCII strings only, sorted by ASCII byte value
 separators: ',' and ':' with no surrounding whitespace
-strings: UTF-8, not ASCII-escaped except as required by JSON syntax
-numbers: vectors MUST use integers only; floating-point values are forbidden
+string values: valid UTF-8, not ASCII-escaped except as required by JSON syntax
+integers: signed 64-bit only
+floating-point values: forbidden
 algorithm: SHA-256
 ```
 
-Equivalent JSON objects therefore have one M0-A4 digest regardless of source-file indentation or object-member order.
+Equivalent fixtures inside this restricted profile therefore have one M0-A4 digest regardless of source-file indentation or object-member order. Restricting keys and integer range avoids language-dependent Unicode collation and arbitrary-precision number behavior.
 
-This is an EIGIIB vector identity profile, not a general-purpose JSON canonicalization standard.
+This is an EIGIIB vector identity profile, not a general-purpose JSON canonicalization standard such as RFC 8785.
 
 ## Expected result contract
 
@@ -59,29 +60,29 @@ Human-readable finding messages are never compared.
 
 ## Contract adapters
 
-M0-A4 does not require all checker contracts to accept the same fixture structure. Each supported contract defines a portable fixture adapter.
+M0-A4 does not require all checker contracts to accept the same fixture structure. Each supported contract defines a portable fixture adapter, and the vector catalog checker validates that adapter shape before replay.
 
 The initial corpus covers:
 
 ### M0-A2
 
-Fixture fields:
+Fixture fields, exactly:
 
 ```text
 graph             extension-graph object consumed by the aggregator
-component_reports map from component id to checker report object
+component_reports map from non-empty component id to checker report object
 ```
 
 A replay implementation materializes these data into its own isolated workspace and evaluates the M0-A2 aggregate contract.
 
 ### M0-A3
 
-Fixture fields:
+Fixture fields, exactly:
 
 ```text
-authorities       list of EIGIIB authority keys made available to the profile
+authorities       unique array of EIGIIB authority keys made available to the profile
 registry          M0-A3 interoperability registry object
-evidence_files    map from relative evidence path to textual fixture contents
+evidence_files    map from confined relative evidence path to textual fixture contents
 ```
 
 A replay implementation evaluates the M0-A3 structural profile contract against those declared authorities and files.
@@ -117,8 +118,8 @@ It verifies:
 - vector ids are unique;
 - contract ids are from the closed supported set;
 - every supported contract has vector coverage;
-- fixture shape is object-valued;
-- fixture contains no floating-point value;
+- fixture shape matches the selected contract adapter;
+- fixture values stay within the portable canonical JSON subset;
 - canonical fixture SHA-256 matches the declared digest;
 - expected result field matches the selected contract adapter;
 - expected result is from the contract result vocabulary;
