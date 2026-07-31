@@ -40,7 +40,7 @@
           "bytes": {"type": "integer", "minimum": 1},
           "tool": {"type": "string"},
           "standard": {"type": "string"},
-          "result_field": {"enum": ["overall_result", "structural_result", ""]},
+          "result_field": {"enum": ["overall_result", "structural_result", "hardening_result", "result", ""]},
           "result": {"type": ["string", "null"]},
           "classification": {"enum": ["pass", "qualified", "incomplete", "fail", "unsupported"]},
           "finding_counts": {
