@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e7-recovery.schema.json",
+  "title": "EIGIIB-E7 recovery and trust-state continuity registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "revision", "incidents", "trust_states", "evidence", "actions", "plans", "transitions", "rollback_records", "decisions"],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0"},
+    "revision": {"type": "string", "minLength": 1},
+    "incidents": {"type":"array", "items":{"$ref":"#/$defs/incident"}},
+    "trust_states": {"type":"array", "items":{"$ref":"#/$defs/state"}},
+    "evidence": {"type":"array", "items":{"$ref":"#/$defs/evidence"}},
+    "actions": {"type":"array", "items":{"$ref":"#/$defs/action"}},
+    "plans": {"type":"array", "items":{"$ref":"#/$defs/plan"}},
+    "transitions": {"type":"array", "items":{"$ref":"#/$defs/transition"}},
+    "rollback_records": {"type":"array", "items":{"$ref":"#/$defs/rollback"}},
+    "decisions": {"type":"array", "items":{"$ref":"#/$defs/decision"}}
+  },
+  "$defs": {
+    "id": {"type":"string", "pattern":"^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "ids": {"type":"array", "items":{"$ref":"#/$defs/id"}, "uniqueItems":true},
+    "incident": {
+      "type":"object", "additionalProperties":true,
+      "required":["id","state","sources"],
+      "properties":{"id":{"$ref":"#/$defs/id"},"state":{"enum":["detected","contained","recovering","continuity-established","closed","reopened"]},"sources":{"type":"array"}}
+    },
+    "state": {
+      "type":"object", "additionalProperties":true,
+      "required":["id","epoch","status"],
+      "properties":{"id":{"$ref":"#/$defs/id"},"epoch":{"type":"integer","minimum":0},"status":{"enum":["candidate","active","retired","superseded","quarantined"]}}
+    },
+    "evidence": {
+      "type":"object", "additionalProperties":true,
+      "required":["id","kind"],
+      "properties":{"id":{"$ref":"#/$defs/id"},"kind":{"enum":["observation","test","replay","attestation","checkpoint","manual-review","local"]},"path":{"type":"string","minLength":1}}
+    },
+    "action": {
+      "type":"object", "additionalProperties":true,
+      "required":["id","incident","kind","status","evidence"],
+      "properties":{
+        "id":{"$ref":"#/$defs/id"},"incident":{"$ref":"#/$defs/id"},
+        "kind":{"enum":["freeze","quarantine","revoke","rotate","replace-root","replace-policy","rebuild","replay","restore","publish","re-witness","fork-resolution","resume","rollback","verify"]},
+        "status":{"enum":["planned","in-progress","completed","failed","reverted","skipped"]},
+        "evidence":{"$ref":"#/$defs/ids"}
+      }
+    },
+    "dependency": {"type":"object","additionalProperties":false,"required":["before","after"],"properties":{"before":{"$ref":"#/$defs/id"},"after":{"$ref":"#/$defs/id"}}},
+    "plan": {
+      "type":"object", "additionalProperties":true,
+      "required":["id","incident","actions","dependencies"],
+      "properties":{"id":{"$ref":"#/$defs/id"},"incident":{"$ref":"#/$defs/id"},"actions":{"$ref":"#/$defs/ids"},"dependencies":{"type":"array","items":{"$ref":"#/$defs/dependency"}}}
+    },
+    "transition": {
+      "type":"object", "additionalProperties":true,
+      "required":["id","from_state","to_state","actions","status"],
+      "properties":{"id":{"$ref":"#/$defs/id"},"from_state":{"$ref":"#/$defs/id"},"to_state":{"$ref":"#/$defs/id"},"actions":{"$ref":"#/$defs/ids"},"status":{"enum":["proposed","verified","rejected","superseded"]}}
+    },
+    "rollback": {
+      "type":"object", "additionalProperties":true,
+      "required":["id","incident","superseded_transition","compensating_actions"],
+      "properties":{"id":{"$ref":"#/$defs/id"},"incident":{"$ref":"#/$defs/id"},"superseded_transition":{"$ref":"#/$defs/id"},"compensating_actions":{"$ref":"#/$defs/ids"}}
+    },
+    "decision": {
+      "type":"object", "additionalProperties":true,
+      "required":["id","incident","state"],
+      "properties":{
+        "id":{"$ref":"#/$defs/id"},"incident":{"$ref":"#/$defs/id"},
+        "state":{"enum":["contained","transition-verified","continuity-established","closed","reopened","unavailable"]},
+        "actions":{"$ref":"#/$defs/ids"},"transition":{"$ref":"#/$defs/id"},
+        "open_blockers":{"type":"array"},"require_e4_authenticated":{"type":"boolean"},"e4_decision":{"$ref":"#/$defs/id"},
+        "require_e5_history_bound":{"type":"boolean"},"e5_decision":{"$ref":"#/$defs/id"}
+      }
+    }
+  }
+}
