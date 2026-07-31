@@ -1,0 +1,66 @@
+{
+  "standard": "EIGIIB-1.0+E1-1.0",
+  "revision": "example-revision-1",
+  "authorities": {
+    "architecture": "docs/ARCHITECTURE.md",
+    "evidence": "docs/TEST-AND-EVIDENCE.md"
+  },
+  "policies": [
+    {
+      "id": "native-build",
+      "required_kinds": ["compile", "unit-test"],
+      "scope_rule": "evidence-superset",
+      "manual_gates": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim.native-build.linux-x86_64",
+      "subject": "example-library",
+      "predicate": "native build passes strict compilation and unit tests",
+      "revision": "example-revision-1",
+      "scope": {
+        "os": ["linux"],
+        "arch": ["x86_64"],
+        "compiler": ["gcc-14"]
+      },
+      "authority": "evidence",
+      "policy": "native-build",
+      "state": "established",
+      "evidence": ["ev.compile.gcc14", "ev.unit.gcc14"],
+      "boundary": {
+        "excludes": ["native-macos-validation", "native-bsd-validation"]
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev.compile.gcc14",
+      "subject": "example-library",
+      "revision": "example-revision-1",
+      "kind": "compile",
+      "procedure": "cmake build with warnings as errors",
+      "result": "pass",
+      "scope": {
+        "os": ["linux"],
+        "arch": ["x86_64"],
+        "compiler": ["gcc-14"]
+      },
+      "provenance": "ci/build-gcc14"
+    },
+    {
+      "id": "ev.unit.gcc14",
+      "subject": "example-library",
+      "revision": "example-revision-1",
+      "kind": "unit-test",
+      "procedure": "ctest --output-on-failure",
+      "result": "pass",
+      "scope": {
+        "os": ["linux"],
+        "arch": ["x86_64"],
+        "compiler": ["gcc-14"]
+      },
+      "provenance": "ci/test-gcc14"
+    }
+  ]
+}
