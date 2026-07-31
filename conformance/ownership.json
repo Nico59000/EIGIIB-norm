@@ -23,6 +23,9 @@
     {"id": "repository.convergence", "authority": "convergence"},
     {"id": "repository.degraded-operation", "authority": "degraded"},
     {"id": "repository.automation", "authority": "automation"},
-    {"id": "repository.temporal-validity", "authority": "temporal"}
+    {"id": "repository.temporal-validity", "authority": "temporal"},
+    {"id": "repository.extension-graph", "authority": "extension_graph"},
+    {"id": "repository.functional-architecture", "authority": "extension_graph"},
+    {"id": "repository.hardening-attachments", "authority": "extension_graph"}
   ]
 }
