@@ -1,0 +1,134 @@
+{
+  "standard": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0",
+  "revision": "EIGIIB-E3-draft-1.0",
+  "artifacts": [
+    {
+      "id": "e3.normative-document",
+      "role": "normative-extension",
+      "kind": "document",
+      "path": "extensions/E3-REPRODUCIBLE-EVIDENCE-PROVENANCE-ARTIFACT-IDENTITY.md",
+      "size": 25281,
+      "digests": {
+        "sha256": "4e93cdd6dfe220460c0674c70db7e3f4a24d1f4b3db8b2aba8cbe270bc02dd4e"
+      },
+      "revision": "EIGIIB-E3-draft-1.0",
+      "availability": "local",
+      "identity_state": "verified"
+    },
+    {
+      "id": "e3.registry-schema",
+      "role": "schema",
+      "kind": "manifest",
+      "path": "schemas/eigiib-e3-provenance.schema.json",
+      "size": 11372,
+      "digests": {
+        "sha256": "93705567e9fbca1852708e9b0a7d0e0ea932316123a7e076580768c4cad289c8"
+      },
+      "revision": "EIGIIB-E3-draft-1.0",
+      "availability": "local",
+      "identity_state": "verified"
+    },
+    {
+      "id": "e3.reference-checker",
+      "role": "reference-checker",
+      "kind": "file",
+      "path": "tools/eigiib_provenance_check.py",
+      "size": 26672,
+      "digests": {
+        "sha256": "1da7ed20e81a8bc7bf3bdcf6ab0f949deaaf226e402a55440a7006ed593bbe51"
+      },
+      "revision": "EIGIIB-E3-draft-1.0",
+      "availability": "local",
+      "identity_state": "verified"
+    },
+    {
+      "id": "e3.reference-tests",
+      "role": "unit-test-suite",
+      "kind": "file",
+      "path": "tests/test_eigiib_provenance.py",
+      "size": 8375,
+      "digests": {
+        "sha256": "88e64a6137142991fcec1d9e4d17ff54b9aff7b278cbc65c0ee981ec73e2d6d9"
+      },
+      "revision": "EIGIIB-E3-draft-1.0",
+      "availability": "local",
+      "identity_state": "verified"
+    },
+    {
+      "id": "e3.e1-evidence-registry",
+      "role": "typed-evidence-registry",
+      "kind": "manifest",
+      "path": "conformance/e1-registry.json",
+      "size": 2956,
+      "digests": {
+        "sha256": "e41645099bcf42f211fd65b27fa06e20061e6e0b48d9e257a1f997de99dafd5c"
+      },
+      "revision": "EIGIIB-E3-draft-1.0",
+      "availability": "local",
+      "identity_state": "verified"
+    }
+  ],
+  "environments": [
+    {
+      "id": "local-cpython-3.13",
+      "properties": {
+        "runtime": "CPython 3.13",
+        "evidence": "local validation before publication"
+      }
+    }
+  ],
+  "equivalence_policies": [],
+  "procedures": [
+    {
+      "id": "e3-reference-unit-test-replay",
+      "authority": "e3",
+      "implementation_artifacts": [
+        "e3.reference-checker",
+        "e3.reference-tests"
+      ],
+      "determinism": "conditionally-deterministic",
+      "interface": "python -m unittest discover -s tests -p test_eigiib_provenance.py",
+      "material_environment": [
+        "runtime"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "e3-local-unit-tests-001",
+      "subject": "tools/eigiib_provenance_check.py",
+      "source_revision": "EIGIIB-E3-draft-1.0",
+      "procedure": "e3-reference-unit-test-replay",
+      "environment": "local-cpython-3.13",
+      "inputs": [
+        {
+          "role": "checker",
+          "artifact": "e3.reference-checker"
+        },
+        {
+          "role": "tests",
+          "artifact": "e3.reference-tests"
+        }
+      ],
+      "outputs": [],
+      "result": "success",
+      "executor": "local-validation",
+      "notes": "Targeted E3 suite replayed 7/7 PASS before publication."
+    }
+  ],
+  "replays": [],
+  "evidence_bindings": [
+    {
+      "evidence_id": "ev.e3-provenance.unit-tests",
+      "artifacts": [
+        "e3.reference-checker",
+        "e3.reference-tests",
+        "e3.e1-evidence-registry"
+      ],
+      "production_events": [
+        "e3-local-unit-tests-001"
+      ],
+      "replays": []
+    }
+  ]
+}
