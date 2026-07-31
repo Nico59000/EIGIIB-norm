@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-extension-graph.schema.json",
+  "title": "EIGIIB M0-A1 extension graph manifest",
+  "description": "Repository-local structural authority for the functional Core/E1..E11 graph and hardening attachments. Graph relations describe specification architecture; they are not runtime dependency claims.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "authority",
+    "source_of_truth_for",
+    "derived_fields",
+    "functional_layers",
+    "nodes",
+    "hardening_profiles"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A1-1.0"
+    },
+    "status": {
+      "const": "structural"
+    },
+    "authority": {
+      "const": "conformance/extension-graph.json"
+    },
+    "source_of_truth_for": {
+      "description": "Durable repository facts owned by this manifest.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "derived_fields": {
+      "description": "Facts intentionally generated from authoritative relations rather than stored independently. used_by is the reverse of depends_on.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "used_by"
+        ]
+      }
+    },
+    "functional_layers": {
+      "description": "User-orientation layers for the functional architecture. Layer membership does not imply that every runtime evaluation consumes every preceding layer.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "description",
+          "nodes"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "nodes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "theme",
+          "authority_key",
+          "authority",
+          "depends_on",
+          "consumes_authorities",
+          "does_not_reprove"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^(Core|E[1-9][0-9]*)$"
+          },
+          "kind": {
+            "enum": [
+              "core",
+              "extension"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "theme": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority": {
+            "type": "string",
+            "minLength": 1
+          },
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          },
+          "checker": {
+            "type": "string",
+            "minLength": 1
+          },
+          "registry_authority_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "registry": {
+            "type": "string",
+            "minLength": 1
+          },
+          "depends_on": {
+            "description": "Direct functional/specification dependencies used to form the architecture DAG. This is not a claim that every runtime evaluation requires or reads every predecessor.",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "consumes_authorities": {
+            "description": "Lower-layer authority keys whose typed facts may be consumed by this extension. Consumption does not transfer authority and does not mean the consuming extension re-proves those facts.",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "does_not_reprove": {
+            "description": "Explicit semantic boundaries: claim categories that remain outside this node's proof responsibility.",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "hardening_profiles": {
+            "description": "Additive profiles attached to this extension. A hardening profile is not an independent extension node.",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "hardening_profiles": {
+      "description": "Repository-local additive checker/profile attachments. Each profile must be attached by exactly its target extension.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "applies_to",
+          "authority",
+          "schema",
+          "checker",
+          "tests"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "applies_to": {
+            "description": "Canonical extension node receiving this additive hardening profile.",
+            "type": "string",
+            "pattern": "^E[1-9][0-9]*$"
+          },
+          "authority": {
+            "type": "string",
+            "minLength": 1
+          },
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          },
+          "checker": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tests": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}
