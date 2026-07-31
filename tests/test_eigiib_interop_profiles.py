@@ -185,7 +185,7 @@ class InteropProfileTests(unittest.TestCase):
         p["state"] = "validated"; p["evidence"] = ["evidence/ok.json"]; p["mappings"][0]["strength"] = "exact-semantic"
         r = self.run_obj(o)
         self.assertEqual(r["structural_result"], "conformant")
-        self.assertEqual(r["validated_profile_count"], 1)
+        self.assertEqual(r["declared_validated_profile_count"], 1)
 
 
 if __name__ == "__main__":
