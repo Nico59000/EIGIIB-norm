@@ -1,0 +1,12 @@
+{
+  "tool": "eigiib-aggregate",
+  "tool_version": "0.1.2",
+  "standard": "EIGIIB-M0-A2-1.0",
+  "kind": "derived-conformance-report",
+  "source_graph": "conformance/extension-graph.json",
+  "results_dir": ".eigiib-results/components",
+  "overall_result": "conformant",
+  "summary": {"expected": 1, "present": 1, "pass": 1, "qualified": 0, "incomplete": 0, "fail": 0, "unsupported": 0},
+  "components": [],
+  "findings": []
+}
