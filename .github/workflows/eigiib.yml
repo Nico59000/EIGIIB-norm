@@ -16,35 +16,87 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+      - name: Prepare conformance result collection
+        run: mkdir -p .eigiib-results/components
       - name: Unit tests
         run: python -m unittest discover -s tests -p 'test_*.py'
       - name: EIGIIB M0-A1 extension graph conformance
-        run: python tools/eigiib_extension_graph_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_extension_graph_check.py . --json | tee .eigiib-results/components/m0-a1.json
       - name: EIGIIB E2 static conformance
-        run: python tools/eigiib_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_check.py . --json | tee .eigiib-results/components/e2.json
       - name: EIGIIB E3 provenance conformance
-        run: python tools/eigiib_provenance_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_provenance_check.py . --json | tee .eigiib-results/components/e3.json
       - name: EIGIIB E4 trust conformance
-        run: python tools/eigiib_trust_check.py . --crypto-provider openssl --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_trust_check.py . --crypto-provider openssl --json | tee .eigiib-results/components/e4.json
       - name: EIGIIB E5 transparency conformance
-        run: python tools/eigiib_transparency_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_transparency_check.py . --json | tee .eigiib-results/components/e5.json
       - name: EIGIIB E6 gossip and accountability conformance
-        run: python tools/eigiib_gossip_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_gossip_check.py . --json | tee .eigiib-results/components/e6.json
       - name: EIGIIB E7 recovery and continuity conformance
-        run: python tools/eigiib_recovery_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_recovery_check.py . --json | tee .eigiib-results/components/e7.json
       - name: EIGIIB E7 recovery hardening profile
-        run: python tools/eigiib_recovery_hardening_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_recovery_hardening_check.py . --json | tee .eigiib-results/components/e7-h0.2.json
       - name: EIGIIB E8 relying-party convergence conformance
-        run: python tools/eigiib_convergence_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_convergence_check.py . --json | tee .eigiib-results/components/e8.json
       - name: EIGIIB E9 degraded operation conformance
-        run: python tools/eigiib_degraded_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_degraded_check.py . --json | tee .eigiib-results/components/e9.json
       - name: EIGIIB E9 degraded operation hardening profile
-        run: python tools/eigiib_degraded_hardening_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_degraded_hardening_check.py . --json | tee .eigiib-results/components/e9-h0.2.json
       - name: EIGIIB E10 policy-safe automation conformance
-        run: python tools/eigiib_automation_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_automation_check.py . --json | tee .eigiib-results/components/e10.json
       - name: EIGIIB E10 decision-boundary hardening profile
-        run: python tools/eigiib_automation_hardening_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_automation_hardening_check.py . --json | tee .eigiib-results/components/e10-h0.2.json
       - name: EIGIIB E11 temporal validity conformance
-        run: python tools/eigiib_temporal_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_temporal_check.py . --json | tee .eigiib-results/components/e11.json
       - name: EIGIIB E11 temporal hardening profile
-        run: python tools/eigiib_temporal_hardening_check.py . --json
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_temporal_hardening_check.py . --json | tee .eigiib-results/components/e11-h0.2.json
+      - name: EIGIIB M0-A2 aggregate conformance
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_aggregate.py . --json | tee .eigiib-results/aggregate.json
