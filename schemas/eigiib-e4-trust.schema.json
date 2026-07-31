@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/e4-trust.schema.json",
+  "title": "EIGIIB-E4 trust and attestation registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "revision", "principals", "keys", "roots", "policies", "delegations", "revocations", "attestations", "signatures", "decisions"],
+  "properties": {
+    "standard": {"const": "EIGIIB-1.0+E4-1.0"},
+    "revision": {"type": "string", "minLength": 1},
+    "principals": {"type": "array", "items": {"$ref": "#/$defs/principal"}},
+    "keys": {"type": "array", "items": {"$ref": "#/$defs/key"}},
+    "roots": {"type": "array", "items": {"$ref": "#/$defs/root"}},
+    "policies": {"type": "array", "items": {"$ref": "#/$defs/policy"}},
+    "delegations": {"type": "array", "items": {"$ref": "#/$defs/delegation"}},
+    "revocations": {"type": "array", "items": {"$ref": "#/$defs/revocation"}},
+    "attestations": {"type": "array", "items": {"$ref": "#/$defs/attestation"}},
+    "signatures": {"type": "array", "items": {"$ref": "#/$defs/signature"}},
+    "decisions": {"type": "array", "items": {"$ref": "#/$defs/decision"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "scope": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {"type": "string", "minLength": 1}
+      }
+    },
+    "principal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "display_name"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["person", "team", "service", "role", "organization", "test"]},
+        "display_name": {"type": "string", "minLength": 1}
+      }
+    },
+    "fingerprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "digest"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "principal", "suite", "public_key", "fingerprint", "usages", "status", "test_only"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "principal": {"$ref": "#/$defs/id"},
+        "suite": {"$ref": "#/$defs/id"},
+        "public_key": {"type": "string", "minLength": 1},
+        "fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "usages": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "status": {"enum": ["active", "retired", "revoked", "compromised", "unknown"]},
+        "test_only": {"type": "boolean"}
+      }
+    },
+    "root": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "key", "principal", "purposes", "scope", "environment"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "key": {"$ref": "#/$defs/id"},
+        "principal": {"$ref": "#/$defs/id"},
+        "purposes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "scope": {"$ref": "#/$defs/scope"},
+        "environment": {"enum": ["test", "development", "production"]}
+      }
+    },
+    "threshold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count", "distinct_by"],
+      "properties": {
+        "count": {"type": "integer", "minimum": 1},
+        "distinct_by": {"enum": ["key", "principal", "root-domain"]}
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "purpose", "roots", "allowed_suites", "max_path_length", "threshold", "environment", "require_crypto", "require_revocation_evaluation"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "purpose": {"$ref": "#/$defs/id"},
+        "roots": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "allowed_suites": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "max_path_length": {"type": "integer", "minimum": 0},
+        "threshold": {"$ref": "#/$defs/threshold"},
+        "environment": {"enum": ["test", "development", "production"]},
+        "require_crypto": {"type": "boolean"},
+        "require_revocation_evaluation": {"type": "boolean"}
+      }
+    },
+    "delegation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "from_key", "to_key", "purposes", "scope", "max_remaining_depth", "attestation"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "from_key": {"$ref": "#/$defs/id"},
+        "to_key": {"$ref": "#/$defs/id"},
+        "purposes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "scope": {"$ref": "#/$defs/scope"},
+        "max_remaining_depth": {"type": "integer", "minimum": 0},
+        "attestation": {"$ref": "#/$defs/id"}
+      }
+    },
+    "revocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "target_type", "target_id", "effective_at", "attestation"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "target_type": {"enum": ["key", "delegation", "attestation"]},
+        "target_id": {"$ref": "#/$defs/id"},
+        "effective_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+        "attestation": {"$ref": "#/$defs/id"}
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id"],
+      "properties": {
+        "type": {"enum": ["e1-claim", "e1-evidence", "e3-artifact", "e3-event", "e3-replay", "delegation", "revocation", "local"]},
+        "id": {"type": "string", "minLength": 1}
+      }
+    },
+    "attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "purpose", "statement", "bindings", "signatures"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "purpose": {"$ref": "#/$defs/id"},
+        "statement": {"type": "string", "minLength": 1},
+        "bindings": {"type": "array", "items": {"$ref": "#/$defs/binding"}},
+        "signatures": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "attestation", "key", "suite", "signature"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "attestation": {"$ref": "#/$defs/id"},
+        "key": {"$ref": "#/$defs/id"},
+        "suite": {"$ref": "#/$defs/id"},
+        "signature": {"type": "string", "minLength": 1},
+        "signature_encoding": {"enum": ["raw", "base64"]}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "attestation", "policy", "state"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "attestation": {"$ref": "#/$defs/id"},
+        "policy": {"$ref": "#/$defs/id"},
+        "evaluation_time": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+        "state": {"enum": ["authenticated", "cryptographically-valid-untrusted", "policy-unsatisfied", "revoked", "expired", "not-yet-valid", "invalid-signature", "partially-evaluated", "unavailable", "not-applicable"]}
+      }
+    }
+  }
+}
