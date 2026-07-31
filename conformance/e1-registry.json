@@ -164,6 +164,18 @@
       "state": "established",
       "evidence": ["ev.e10-automation.unit-tests"],
       "boundary": {"excludes": ["live command execution", "real-world identity", "human consent", "global safety", "malicious intent", "legal responsibility", "semantic correctness of action effects"]}
+    },
+    {
+      "id": "claim.e10-automation-hardening.unit-tests",
+      "subject": "tools/eigiib_automation_hardening_check.py",
+      "predicate": "E10 post-CI semantic-separation and decision-boundary hardening tests pass",
+      "revision": "EIGIIB-E10-hardening-0.2",
+      "scope": {"runtime": ["python-3.11+"]},
+      "authority": "evidence",
+      "policy": "reference-checker-tests",
+      "state": "established",
+      "evidence": ["ev.e10-automation-hardening.unit-tests"],
+      "boundary": {"excludes": ["live command execution", "trusted wall-clock freshness", "real-world identity", "human consent", "semantic correctness of decisions", "culpability", "legal responsibility", "global safety"]}
     }
   ],
   "evidence": [
@@ -286,6 +298,17 @@
       "scope": {"runtime": ["python-3.11+"]},
       "provenance": "local CPython 3.13 replay: 23/23 tests",
       "artifacts": ["tools/eigiib_automation_check.py", "tests/test_eigiib_automation.py", "schemas/eigiib-e10-automation.schema.json", "extensions/E10-POLICY-SAFE-AUTOMATION-DELEGATED-EXECUTION-DECISION-ACCOUNTABILITY.md"]
+    },
+    {
+      "id": "ev.e10-automation-hardening.unit-tests",
+      "subject": "tools/eigiib_automation_hardening_check.py",
+      "revision": "EIGIIB-E10-hardening-0.2",
+      "kind": "unit-test",
+      "procedure": "python -m unittest discover -s tests -p 'test_eigiib_automation_*.py'",
+      "result": "pass",
+      "scope": {"runtime": ["python-3.11+"]},
+      "provenance": "GitHub Actions CPython 3.13 replay run #89: 8/8 post-CI separation and hardening tests",
+      "artifacts": ["tools/eigiib_automation_hardening_check.py", "tests/test_eigiib_automation_hardening.py", "tests/test_eigiib_automation_separation.py", "extensions/E10-AUTOMATION-HARDENING-PROFILE-0.2.md", "schemas/eigiib-e10-automation.schema.json"]
     }
   ]
 }
