@@ -4,11 +4,12 @@
   "title": "EIGIIB M0-A3 External Interoperability Profiles",
   "type": "object",
   "additionalProperties": false,
-  "required": ["standard", "revision", "as_of", "external_specs", "profiles"],
+  "required": ["standard", "revision", "as_of", "freshness_basis", "external_specs", "profiles"],
   "properties": {
     "standard": {"const": "EIGIIB-M0-A3-1.0"},
     "revision": {"type": "string", "minLength": 1},
     "as_of": {"type": "string", "format": "date"},
+    "freshness_basis": {"const": "declared-observation-date-only"},
     "external_specs": {
       "type": "array",
       "items": {
@@ -23,7 +24,17 @@
           "domain": {"enum": ["attestation", "supply-chain-security", "bom", "transparency", "signature", "update-security", "workload-identity", "policy-engine", "time"]},
           "canonical_uri": {"type": "string", "pattern": "^https://"},
           "reference_mode": {"enum": ["versioned-reference", "exact-draft", "moving-reference"]},
-          "observed_on": {"type": "string", "format": "date"}
+          "observed_on": {"type": "string", "format": "date"},
+          "identity": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["algorithm", "digest", "bytes"],
+            "properties": {
+              "algorithm": {"const": "sha256"},
+              "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "bytes": {"type": "integer", "minimum": 1}
+            }
+          }
         }
       }
     },
