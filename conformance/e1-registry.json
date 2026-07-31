@@ -138,6 +138,18 @@
       "state": "established",
       "evidence": ["ev.e9-degraded.unit-tests"],
       "boundary": {"excludes": ["live dependency probing", "automatic fallback activation", "routing mutation", "global availability", "full-trust inference from degraded operation", "cause or culpability attribution"]}
+    },
+    {
+      "id": "claim.e9-degraded-hardening.unit-tests",
+      "subject": "tools/eigiib_degraded_hardening_check.py",
+      "predicate": "E9 degraded operation hardening checker adversarial tests pass",
+      "revision": "EIGIIB-E9-hardening-0.2",
+      "scope": {"runtime": ["python-3.11+"]},
+      "authority": "evidence",
+      "policy": "reference-checker-tests",
+      "state": "established",
+      "evidence": ["ev.e9-degraded-hardening.unit-tests"],
+      "boundary": {"excludes": ["live dependency probing", "automatic fallback activation", "routing mutation", "semantic equivalence of substitutes", "global availability", "full-trust inference"]}
     }
   ],
   "evidence": [
@@ -238,6 +250,17 @@
       "scope": {"runtime": ["python-3.11+"]},
       "provenance": "local CPython 3.13 replay: 17/17 tests",
       "artifacts": ["tools/eigiib_degraded_check.py", "tests/test_eigiib_degraded.py", "schemas/eigiib-e9-degraded.schema.json", "extensions/E9-DEGRADED-OPERATION-SAFE-FALLBACK-PARTIAL-TRUST-AVAILABILITY.md"]
+    },
+    {
+      "id": "ev.e9-degraded-hardening.unit-tests",
+      "subject": "tools/eigiib_degraded_hardening_check.py",
+      "revision": "EIGIIB-E9-hardening-0.2",
+      "kind": "unit-test",
+      "procedure": "python -m unittest discover -s tests -p test_eigiib_degraded_hardening.py",
+      "result": "pass",
+      "scope": {"runtime": ["python-3.11+"]},
+      "provenance": "local CPython 3.13 replay: 5/5 adversarial tests",
+      "artifacts": ["tools/eigiib_degraded_hardening_check.py", "tests/test_eigiib_degraded_hardening.py", "extensions/E9-DEGRADED-HARDENING-PROFILE-0.2.md", "schemas/eigiib-e9-degraded-hardening.schema.json"]
     }
   ]
 }
