@@ -1,0 +1,12 @@
+{
+  "standard": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0+E8-1.0",
+  "revision": "EIGIIB-E8-draft-1.0",
+  "relying_parties": [],
+  "migrations": [],
+  "observations": [],
+  "compatibility_windows": [],
+  "policies": [],
+  "exceptions": [],
+  "adoption_decisions": [],
+  "cutover_decisions": []
+}
