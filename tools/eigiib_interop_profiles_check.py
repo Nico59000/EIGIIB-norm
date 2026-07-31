@@ -11,8 +11,9 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-TOOL_VERSION = "0.1.0"
+TOOL_VERSION = "0.1.1"
 STANDARD = "EIGIIB-M0-A3-1.0"
+FRESHNESS_BASIS = "declared-observation-date-only"
 
 REFERENCE_MODES = {"versioned-reference", "exact-draft", "moving-reference"}
 PROFILE_STATES = {"research", "specified", "implemented", "validated"}
@@ -95,6 +96,23 @@ class Checker:
         except ValueError:
             return None
 
+    @staticmethod
+    def identity_valid(identity: Any) -> bool:
+        if not isinstance(identity, dict):
+            return False
+        if identity.get("algorithm") != "sha256":
+            return False
+        digest = identity.get("digest")
+        size = identity.get("bytes")
+        return (
+            isinstance(digest, str)
+            and len(digest) == 64
+            and all(ch in "0123456789abcdef" for ch in digest)
+            and isinstance(size, int)
+            and not isinstance(size, bool)
+            and size > 0
+        )
+
     def check_specs(self, obj: dict[str, Any], as_of: date | None) -> dict[str, dict[str, Any]]:
         items = obj.get("external_specs")
         if not isinstance(items, list):
@@ -121,7 +139,7 @@ class Checker:
                 self.add("error", "M0A3.SPEC.VERSION", "version must be non-empty string", loc)
                 continue
             lower_version = version.lower()
-            if lower_version in FORBIDDEN_VERSION_TOKENS or any(token == lower_version.strip("v") for token in FORBIDDEN_VERSION_TOKENS):
+            if lower_version in FORBIDDEN_VERSION_TOKENS or lower_version.strip("v") in FORBIDDEN_VERSION_TOKENS:
                 self.add("error", "M0A3.SPEC.FLOATING_VERSION", "version must not be latest/main/master", loc)
 
             uri = spec.get("canonical_uri")
@@ -147,6 +165,9 @@ class Checker:
                 self.add("error", "M0A3.SPEC.DATE", "observed_on must be ISO date", loc)
             elif as_of is not None and observed > as_of:
                 self.add("error", "M0A3.SPEC.DATE_ORDER", "observed_on cannot be after registry as_of", loc)
+
+            if "identity" in spec and not self.identity_valid(spec.get("identity")):
+                self.add("error", "M0A3.SPEC.IDENTITY", "identity must be sha256 digest plus positive byte length", loc)
         return out
 
     def check_profiles(self, obj: dict[str, Any], specs: dict[str, dict[str, Any]], authorities: set[str]) -> None:
@@ -181,8 +202,11 @@ class Checker:
             spec = specs.get(sid) if isinstance(sid, str) else None
             if spec is None:
                 self.add("error", "M0A3.PROFILE.SPEC", "external_spec does not resolve", loc)
-            elif state == "validated" and (spec.get("reference_mode") == "moving-reference" or spec.get("status") == "draft"):
-                self.add("error", "M0A3.PROFILE.UNSTABLE_VALIDATION", "validated profile cannot rely on moving reference or draft spec", loc)
+            elif state == "validated":
+                if spec.get("reference_mode") == "moving-reference" or spec.get("status") == "draft":
+                    self.add("error", "M0A3.PROFILE.UNSTABLE_VALIDATION", "validated profile cannot rely on moving reference or draft spec", loc)
+                if not self.identity_valid(spec.get("identity")):
+                    self.add("error", "M0A3.PROFILE.SPEC_IDENTITY", "validated profile requires byte-exact external spec identity", loc)
 
             auths = profile.get("eigiib_authorities")
             if not isinstance(auths, list) or not auths:
@@ -245,6 +269,8 @@ class Checker:
         if obj is not None:
             if obj.get("standard") != STANDARD:
                 self.add("error", "M0A3.STANDARD", f"standard must be {STANDARD}", str(self.registry_path))
+            if obj.get("freshness_basis") != FRESHNESS_BASIS:
+                self.add("error", "M0A3.FRESHNESS_BASIS", f"freshness_basis must be {FRESHNESS_BASIS}", str(self.registry_path))
             as_of = self.parse_date(obj.get("as_of"))
             if as_of is None:
                 self.add("error", "M0A3.AS_OF", "as_of must be ISO date", str(self.registry_path))
