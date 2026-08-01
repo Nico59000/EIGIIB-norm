@@ -9,6 +9,7 @@ permissions:
 
 env:
   GOTOOLCHAIN: local
+  PYTHONDONTWRITEBYTECODE: '1'
 
 jobs:
   publish:
@@ -61,6 +62,8 @@ jobs:
           mapfile -t publish_files < <(printf '%s\n' "${files[@]}" | grep -v "^${workflow_path}$")
           test "${#publish_files[@]}" = '29'
           rm -f "$workflow_path"
+          find . -type d -name __pycache__ -prune -exec rm -rf {} +
+          find . -type f -name '*.pyc' -delete
           git add -- "${publish_files[@]}"
           test "$(git diff --cached --name-only | wc -l | tr -d ' ')" = '29'
           test -z "$(git diff --name-only)"
