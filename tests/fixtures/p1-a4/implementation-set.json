@@ -12,8 +12,8 @@
       "path": "tools/eigiib_in_toto_capsule.py",
       "identity": {
         "algorithm": "sha256",
-        "digest": "8cc3a4b3d08d802593bb506dccf2a183ba3dd0ed3da036e30797e5629ef19003",
-        "bytes": 11908
+        "digest": "68f40ca62b3d992d94a9db21ee430b5d72119d977958254ebf71cddb4aff76c1",
+        "bytes": 16887
       }
     },
     {
@@ -21,8 +21,8 @@
       "path": "tools/eigiib_sigstore_bundle.py",
       "identity": {
         "algorithm": "sha256",
-        "digest": "fc3cc578f31e14590bb5a3fa783bf89f87a55e88c72eac3538eda689cc4b1152",
-        "bytes": 17846
+        "digest": "efa122e4f7063e7be1390f1405967f0d5b0c31d86e83cdfd771ed090798df323",
+        "bytes": 21429
       }
     },
     {
@@ -30,8 +30,8 @@
       "path": "tools/eigiib_scitt_receipt.py",
       "identity": {
         "algorithm": "sha256",
-        "digest": "2da75a1b590d1dab9135caa2f4c3d9fba242856ef13af61203b5debb7ad8a47a",
-        "bytes": 29278
+        "digest": "cc4e4d924b9bb5d979827a793c24065b666f2b5584d712d9c2483f6fd8588c95",
+        "bytes": 31469
       }
     },
     {
@@ -39,8 +39,8 @@
       "path": "tools/eigiib_scitt_receipt_hardening_check.py",
       "identity": {
         "algorithm": "sha256",
-        "digest": "e7b264d331c99030a3efc2c9ab3b00892218f3114fc12228b8495e321ed1a372",
-        "bytes": 8073
+        "digest": "65d13dcb1a747353f5fc57af04d0a00531004387eb6b793d3b63d02d2ea742df",
+        "bytes": 6146
       }
     },
     {
@@ -48,8 +48,8 @@
       "path": "tools/eigiib_interop_chain.py",
       "identity": {
         "algorithm": "sha256",
-        "digest": "daf4d10ebf1aa46abb2bb0bae97aed551616d32baf8085f26ae7e3a96d2e4ac7",
-        "bytes": 9623
+        "digest": "3898905bc7493fe4f974498c29481be8e207e7054bfc0b3a95633a6d2effa603",
+        "bytes": 7182
       }
     },
     {
@@ -57,8 +57,8 @@
       "path": "tools/eigiib_interop_chain_contract.py",
       "identity": {
         "algorithm": "sha256",
-        "digest": "6fd347c0dea3e7d008dfad9df15161df64a0c3f032b3afdd8c9bbf584cf9fac7",
-        "bytes": 7547
+        "digest": "f009fca66995befd488b821ca9dce54d7c62e4ec43c8d80688014013be0c9875",
+        "bytes": 6923
       }
     },
     {
@@ -66,8 +66,8 @@
       "path": "tools/eigiib_interop_chain_validation.py",
       "identity": {
         "algorithm": "sha256",
-        "digest": "73a88577b6216c8d81a73fde1f08fe591c923826dbe152208d538ec52adb9cea",
-        "bytes": 10025
+        "digest": "decadc50f872c5e0f424e5b8cba140be0a9718b79c1e4627d47ba7003022bab8",
+        "bytes": 8987
       }
     },
     {
@@ -75,8 +75,8 @@
       "path": "tools/eigiib_interop_chain_hardening_check.py",
       "identity": {
         "algorithm": "sha256",
-        "digest": "50be49fe28197d9c851a915278e7265548c7638e5123981eb9445993988a1877",
-        "bytes": 8736
+        "digest": "d6aa08749b9f6cd67a3db1e5a024106ff18803c544c64355966eeb11d0bd57c6",
+        "bytes": 9000
       }
     }
   ],
