@@ -102,7 +102,7 @@
       },
       {
         "id": "p1-a3-h0.2",
-        "path": "tools/eigiib_scitt_receipt_hardening_check.py",
+        "path": "tools/eigib_scitt_receipt_hardening_check.py",
         "toolVersion": "0.2.0"
       }
     ],
@@ -116,7 +116,7 @@
     "authority": "p1_chain_contract",
     "compositionOnly": true,
     "doesNotImply": [
-      "end-to-end-replay-does-not-imply-eigib-claim-truth",
+      "end-to-end-replay-does-not-imply-eigiib-claim-truth",
       "all-capsules-valid-does-not-imply-production-conformance",
       "signature-validity-does-not-imply-trusted-or-authorized-signers",
       "receipt-bound-registration-does-not-imply-global-append-only-consistency",
