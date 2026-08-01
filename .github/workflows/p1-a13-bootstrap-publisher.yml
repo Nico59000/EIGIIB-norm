@@ -3,8 +3,6 @@ name: P1-A13 bootstrap publisher
 on:
   pull_request:
     branches: [agent/p1-a13-content-revocation-withdrawal-anti-rollback]
-  push:
-    branches: [agent/p1-a13-bootstrap-publisher]
 
 permissions:
   contents: write
@@ -35,9 +33,9 @@ jobs:
           cat bootstrap/p1-a13-payload.tar.xz.b64.part-* | base64 -d > "$RUNNER_TEMP/p1-a13-payload.tar.xz"
           echo 'aec83ce80f20181bfaf8e6d49a11ce189669419c23cd4fa2640e2878104440bd  '$RUNNER_TEMP'/p1-a13-payload.tar.xz' | sha256sum -c -
           python - <<'PY'
+          import os
           import tarfile
           from pathlib import Path
-          import os
           archive = Path(os.environ["RUNNER_TEMP"]) / "p1-a13-payload.tar.xz"
           root = Path.cwd().resolve()
           with tarfile.open(archive, "r:xz") as tf:
@@ -64,6 +62,7 @@ jobs:
         shell: bash
         run: |
           ! grep -R -n 'BEGIN PRIVATE KEY' \
+            .github/workflows/p1-a13-revocation.yml \
             conformance/P1-A13-MANUAL-REVIEW.md \
             conformance/p1-a13-revocation.json \
             docs/P1-A13-CONTENT-REVOCATION-DISTRIBUTION-WITHDRAWAL-AND-ANTI-ROLLBACK-REPLAY.md \
@@ -73,12 +72,14 @@ jobs:
             tools/eigiib_p1_a13_*.py \
             independent/p1revocation independent/cmd/eigiib-p1-revocation-adapter \
             external/p1revocation external/cmd/eigiib-p1-revocation-adapter
-      - name: Publish validated payload
+      - name: Publish validated payload and remove transport
         shell: bash
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git rm -r bootstrap .github/workflows/p1-a13-bootstrap-publisher.yml
           git add \
+            .github/workflows/p1-a13-revocation.yml \
             conformance/P1-A13-MANUAL-REVIEW.md \
             conformance/p1-a13-revocation.json \
             docs/P1-A13-CONTENT-REVOCATION-DISTRIBUTION-WITHDRAWAL-AND-ANTI-ROLLBACK-REPLAY.md \
