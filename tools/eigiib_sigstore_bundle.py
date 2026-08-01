@@ -18,7 +18,9 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-TOOL_VERSION = "0.1.0"
+import eigiib_in_toto_capsule as p1a1_tool
+
+TOOL_VERSION = "0.1.1"
 STANDARD = "EIGIIB-P1-A2-1.0"
 PROFILE_ID = "sigstore-p1-a1-dsse-bundle-v1"
 EXTERNAL_SPEC_ID = "sigstore-bundle-0.3.2"
@@ -118,6 +120,10 @@ def load_p1a1_statement(raw: bytes) -> tuple[dict[str, Any], bytes]:
     obj = strict_json_loads(raw, "P1A2.P1A1.PARSE")
     if not isinstance(obj, dict):
         raise ValueError("P1A2.P1A1.TYPE: P1-A1 capsule root must be object")
+    upstream = p1a1_tool.validate_capsule(obj)
+    if upstream.get("structural_result") != "conformant":
+        codes = ",".join(sorted(str(item.get("code", "")) for item in upstream.get("findings", [])))
+        raise ValueError(f"P1A2.P1A1.UPSTREAM: P1-A1 capsule is non-conformant ({codes})")
     required = {
         "standard": P1A1_STANDARD,
         "profile": P1A1_PROFILE,
@@ -319,6 +325,9 @@ def validate_capsule(obj: Any, public_key: Path, p1a1_raw: bytes | None = None, 
         if valid_identity(key_ident) and key_ident != actual_key:
             add("P1A2.BINDING.KEY_MISMATCH", "binding.publicKeySpki", "public key binding does not match supplied key")
 
+    if p1a1_raw is None:
+        add("P1A2.P1A1.REQUIRED", "source", "exact P1-A1 capsule is required for P1-A2 conformance")
+
     if payload is not None:
         actual_stmt = identity(payload)
         if valid_identity(stmt_ident) and stmt_ident != actual_stmt:
@@ -327,6 +336,8 @@ def validate_capsule(obj: Any, public_key: Path, p1a1_raw: bytes | None = None, 
             statement = strict_json_loads(payload, "P1A2.STATEMENT.PARSE")
             if not isinstance(statement, dict) or statement.get("_type") != STATEMENT_TYPE:
                 add("P1A2.STATEMENT.TYPE", "bundle.dsseEnvelope.payload", "payload is not in-toto Statement/v1")
+            elif payload != canonical_json_bytes(statement):
+                add("P1A2.STATEMENT.NONCANONICAL", "bundle.dsseEnvelope.payload", "payload bytes are not the deterministic P1-A2 Statement serialization")
         except ValueError as exc:
             add("P1A2.STATEMENT.PARSE", "bundle.dsseEnvelope.payload", str(exc))
         if p1a1_raw is not None:
@@ -425,7 +436,7 @@ def main() -> int:
     v = sub.add_parser("verify")
     v.add_argument("capsule")
     v.add_argument("--public-key", required=True)
-    v.add_argument("--p1-a1")
+    v.add_argument("--p1-a1", required=True)
     v.add_argument("--openssl", default="openssl")
     v.add_argument("--json", action="store_true")
     c = sub.add_parser("check")
@@ -443,7 +454,7 @@ def main() -> int:
         return 0
     if args.command == "verify":
         obj = load_capsule_file(Path(args.capsule))
-        raw = Path(args.p1_a1).read_bytes() if args.p1_a1 else None
+        raw = Path(args.p1_a1).read_bytes()
         out = validate_capsule(obj, Path(args.public_key), raw, args.openssl)
     else:
         out = self_check(Path(args.root).resolve(), args.openssl)
