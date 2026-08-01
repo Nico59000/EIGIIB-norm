@@ -1,0 +1,85 @@
+name: P1-A9 bootstrap publisher
+
+on:
+  push:
+    branches: [agent/p1-a9-bootstrap-publisher]
+
+permissions:
+  contents: write
+
+env:
+  GOTOOLCHAIN: local
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/p1-a9-bootstrap-publisher
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.26.5'
+          cache: false
+      - name: Reconstruct and verify payload
+        shell: bash
+        run: |
+          cat .bootstrap/p1a9-part-* > "$RUNNER_TEMP/p1a9.b64"
+          base64 -d "$RUNNER_TEMP/p1a9.b64" > "$RUNNER_TEMP/p1a9.tar.gz"
+          printf '%s  %s\n' \
+            '521b58ff8f6312fe3560b53fde4c00d1cc8a9d0e792d2537ef2c7308eeece0c7' \
+            "$RUNNER_TEMP/p1a9.tar.gz" | sha256sum -c -
+      - name: Build and publish exact A9 commit
+        shell: bash
+        run: |
+          git checkout --detach 7a7a4ece20a5f03029e24c5ab7e7685cab15d7c3
+          tar -xzf "$RUNNER_TEMP/p1a9.tar.gz" -C .
+
+          python -m py_compile \
+            tools/eigiib_p1_a9_common.py \
+            tools/eigiib_p1_a9_crypto.py \
+            tools/eigiib_p1_a9_release_check.py \
+            tools/eigiib_p1_a9_route_replay.py \
+            tests/test_eigiib_p1_a9_release.py
+          python -m unittest tests/test_eigiib_p1_a9_release.py -v
+          (cd independent && go test ./p1release ./cmd/eigiib-p1-release-adapter)
+          (cd external && go test ./p1release ./cmd/eigiib-p1-release-adapter)
+          python tools/eigiib_p1_a9_route_replay.py . \
+            --capsule tests/fixtures/p1-a9/capsule.json \
+            --release tests/fixtures/p1-a8/expected-release.json \
+            --release-key tests/fixtures/p1-a9/release-public-key.pem \
+            --ts-key tests/fixtures/p1-a9/ts-public-key.pem \
+            --expected tests/fixtures/p1-a9/expected-replay.json \
+            --go go --openssl openssl --json
+          ! grep -R -n 'BEGIN PRIVATE KEY' \
+            .github conformance docs schemas tests tools independent external
+
+          git add \
+            .github/workflows/p1-a9-authenticated-release.yml \
+            conformance/P1-A9-MANUAL-REVIEW.md \
+            conformance/p1-a9-release.json \
+            docs/P1-A9-AUTHENTICATED-RELEASE-ENVELOPE-TRANSPARENCY-REGISTRATION-AND-SUPERSESSION-REPLAY.md \
+            schemas/eigiib-p1-a9-capsule.schema.json \
+            schemas/eigiib-p1-a9-replay-report.schema.json \
+            schemas/eigiib-p1-a9-route-result.schema.json \
+            tests/fixtures/p1-a9 \
+            tests/test_eigiib_p1_a9_release.py \
+            tools/eigiib_p1_a9_common.py \
+            tools/eigiib_p1_a9_crypto.py \
+            tools/eigiib_p1_a9_release_check.py \
+            tools/eigiib_p1_a9_route_replay.py \
+            independent/p1release \
+            independent/cmd/eigiib-p1-release-adapter \
+            external/p1release \
+            external/cmd/eigiib-p1-release-adapter
+
+          test "$(git diff --cached --name-only | wc -l | tr -d ' ')" = '26'
+          git config user.name 'eigiib-p1-a9-publisher'
+          git config user.email 'actions@users.noreply.github.com'
+          git commit -m 'Implement P1-A9 authenticated release supersession replay'
+          test "$(git rev-parse HEAD^)" = '7a7a4ece20a5f03029e24c5ab7e7685cab15d7c3'
+          git push origin HEAD:refs/heads/agent/p1-a9-authenticated-release-supersession
