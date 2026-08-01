@@ -40,7 +40,7 @@ jobs:
           printf '%s  %s\n' \
             '8da81c55b1ba86e22f805553a2c57f9008f93ec65f5438a98b5be9c4678cbb69' \
             "$RUNNER_TEMP/p1a11-payload.tar.gz" | sha256sum -c -
-      - name: Validate and publish exact P1-A11 tree
+      - name: Validate and publish exact P1-A11 non-workflow tree
         shell: bash
         run: |
           git checkout --detach d2fcb409c93f88e41c1ce084aa29baffc1809581
@@ -48,6 +48,7 @@ jobs:
           test "${#files[@]}" = '30'
           test "$(printf '%s\n' "${files[@]}" | sort -u | wc -l | tr -d ' ')" = '30'
           tar -xzf "$RUNNER_TEMP/p1a11-payload.tar.gz" -C .
+
           python -m py_compile tools/eigiib_p1_a11_common.py tools/eigiib_p1_a11_crypto.py tools/eigiib_p1_a11_time_check.py tools/eigiib_p1_a11_route_replay.py tests/test_eigiib_p1_a11_time.py
           python -m unittest tests/test_eigiib_p1_a11_time.py -v
           python tools/eigiib_p1_a11_time_check.py . --capsule tests/fixtures/p1-a11/capsule.json --expected tests/fixtures/p1-a11/expected-report.json --openssl openssl --json
@@ -55,11 +56,17 @@ jobs:
           (cd external && go test ./p1time ./cmd/eigiib-p1-time-adapter)
           python tools/eigiib_p1_a11_route_replay.py . --capsule tests/fixtures/p1-a11/capsule.json --expected tests/fixtures/p1-a11/expected-replay.json --go go --openssl openssl --json
           ! grep -R -n 'BEGIN PRIVATE KEY' conformance docs schemas tests tools independent external
-          git add -- "${files[@]}"
-          test "$(git diff --cached --name-only | wc -l | tr -d ' ')" = '30'
+
+          workflow_path='.github/workflows/p1-a11-time.yml'
+          mapfile -t publish_files < <(printf '%s\n' "${files[@]}" | grep -v "^${workflow_path}$")
+          test "${#publish_files[@]}" = '29'
+          rm -f "$workflow_path"
+          git add -- "${publish_files[@]}"
+          test "$(git diff --cached --name-only | wc -l | tr -d ' ')" = '29'
           test -z "$(git diff --name-only)"
+          test -z "$(git ls-files --others --exclude-standard)"
           git config user.name 'eigiib-p1-a11-publisher'
           git config user.email 'actions@users.noreply.github.com'
-          git commit -m 'Implement P1-A11 trusted timestamp validity replay'
+          git commit -m 'Stage P1-A11 validated non-workflow tree'
           test "$(git rev-parse HEAD^)" = 'd2fcb409c93f88e41c1ce084aa29baffc1809581'
           git push --force origin HEAD:refs/heads/agent/p1-a11-trusted-timestamp-validity-replay
