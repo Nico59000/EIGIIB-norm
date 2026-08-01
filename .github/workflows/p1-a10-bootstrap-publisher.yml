@@ -53,6 +53,18 @@ jobs:
         run: |
           git checkout --detach d854ab836a9cdf23f88f23d620e1d61fd6bfcdf6
           tar -xzf "$RUNNER_TEMP/p1a10.tar.gz" -C .
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('external/p1authorization/adapter.go')
+          raw = path.read_text(encoding='utf-8')
+          old = 'Route              = "independent-go-stdlib"'
+          new = 'Route              = "external-go-cose"'
+          if raw.count(old) != 1 or new in raw:
+              raise SystemExit('unexpected external route constant')
+          path.write_text(raw.replace(old, new), encoding='utf-8')
+          PY
+          gofmt -w external/p1authorization/adapter.go
+          grep -q 'Route              = "external-go-cose"' external/p1authorization/adapter.go
 
           python -m py_compile \
             tools/eigiib_p1_a10_common.py \
