@@ -29,10 +29,26 @@ jobs:
       - name: Reconstruct exact P1-A12 payload
         shell: bash
         run: |
+          paths=(
+            .bootstrap/p1a12-part-00.b64
+            .bootstrap/p1a12-part-01.b64
+            .bootstrap/p1a12-part-02-0.b64
+            .bootstrap/p1a12-part-02-1.b64
+            .bootstrap/p1a12-part-02-2.b64
+            .bootstrap/p1a12-part-03.b64
+            .bootstrap/p1a12-part-04.b64
+            .bootstrap/p1a12-part-05.b64
+            .bootstrap/p1a12-part-06.b64
+            .bootstrap/p1a12-part-07.b64
+            .bootstrap/p1a12-part-08.b64
+            .bootstrap/p1a12-part-09.b64
+          )
           expected=(
             f531c79250463b948dd17cafeb7e42d78465e5a2
             fd3f53a60966083fadca5249cafaefc2b4d30589
-            c61de06c3dcbcdc6250b2f529b7febd8771f29de
+            5fde8097c20209e23da86b6aeb3df639df948740
+            d87dbb4c7d12ae2429bd9b76f63db277fe878a04
+            2310d13c0a58d15c31a79b2fe31370245209092a
             c355bc23be28c32968b2a86fbe0044b21ac9b3c6
             94ddea8cd0f5503035da79ca409cc2edd3a1a7a5
             6236b999a226c3e8a49d43ccb2ea5e3908082d35
@@ -41,14 +57,13 @@ jobs:
             2927c6ea44521c4936ced5179743baa36b76ea9a
             3880a3a03ed4bef3fc5b297f396bcc246203724a
           )
-          for i in {00..09}; do
-            path=".bootstrap/p1a12-part-${i}.b64"
-            index=$((10#$i))
-            actual="$(git hash-object "$path")"
-            printf '%s %s %s\n' "$path" "${expected[$index]}" "$actual"
+          test "${#paths[@]}" = "${#expected[@]}"
+          for index in "${!paths[@]}"; do
+            actual="$(git hash-object "${paths[$index]}")"
+            printf '%s %s %s\n' "${paths[$index]}" "${expected[$index]}" "$actual"
             test "$actual" = "${expected[$index]}"
           done
-          cat .bootstrap/p1a12-part-{00..09}.b64 > "$RUNNER_TEMP/p1a12-payload.b64"
+          cat "${paths[@]}" > "$RUNNER_TEMP/p1a12-payload.b64"
           base64 --decode "$RUNNER_TEMP/p1a12-payload.b64" > "$RUNNER_TEMP/p1a12-payload.tar.gz"
           printf '%s  %s\n' \
             '139f299a836608d3664edcd1c4472c25f217d0d12c5274a9686fdf550d3c332a' \
