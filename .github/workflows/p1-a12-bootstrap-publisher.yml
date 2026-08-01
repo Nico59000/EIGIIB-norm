@@ -41,7 +41,9 @@ jobs:
             .bootstrap/p1a12-part-06.b64
             .bootstrap/p1a12-part-07.b64
             .bootstrap/p1a12-part-08.b64
-            .bootstrap/p1a12-part-09.b64
+            .bootstrap/p1a12-part-09-0.b64
+            .bootstrap/p1a12-part-09-1.b64
+            .bootstrap/p1a12-part-09-2.b64
           )
           expected=(
             f531c79250463b948dd17cafeb7e42d78465e5a2
@@ -55,7 +57,9 @@ jobs:
             9d269af6ed9a35d56d2b80b5056c97af1b17eec1
             c9846d6ac218968299a106fc7bd76db59c15da0b
             2927c6ea44521c4936ced5179743baa36b76ea9a
-            3880a3a03ed4bef3fc5b297f396bcc246203724a
+            b75d4bac89c7e05392c7763ed19f88d0f36f4a83
+            5574700a6cf899c910d619097bb53c0ecf09aef5
+            cc86d6426350702975b5ef5b6500378e671a24ab
           )
           test "${#paths[@]}" = "${#expected[@]}"
           for index in "${!paths[@]}"; do
