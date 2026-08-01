@@ -42,7 +42,9 @@ P1-A2 does not vendor either external specification.
 
 P1-A1 remains authoritative for constructing the Statement from the exact M0-A2 aggregate report.
 
-P1-A2 extracts the `statement` object from a conformant P1-A1 capsule and serializes it using the repository-local deterministic profile:
+A P1-A2 positive conformance result requires the exact upstream P1-A1 capsule. The adapter delegates upstream validation to the P1-A1 checker before constructing or accepting the authenticated carrier. A JSON object that merely imitates P1-A1 constants is insufficient.
+
+P1-A2 extracts the `statement` object from that conformant P1-A1 capsule and serializes it using the repository-local deterministic profile:
 
 ```text
 UTF-8 JSON
@@ -53,19 +55,21 @@ no NaN/Infinity
 
 This serialization profile is an adapter rule, not a claim that in-toto requires canonical JSON. DSSE authenticates the resulting exact payload bytes and therefore does not depend on a verifier independently reserializing the Statement.
 
+The verifier additionally requires the signed DSSE payload bytes to equal this deterministic serialization. A valid signature over a semantically similar but differently serialized Statement is therefore not sufficient for P1-A2 conformance.
+
 ## P1-A2 capsule
 
 The EIGIIB wrapper contains:
 
 ```text
-standard      = EIGIIB-P1-A2-1.0
-profile       = sigstore-p1-a1-dsse-bundle-v1
-external_spec = sigstore-bundle-0.3.2
+standard       = EIGIIB-P1-A2-1.0
+profile        = sigstore-p1-a1-dsse-bundle-v1
+external_spec  = sigstore-bundle-0.3.2
 crypto_profile = ed25519-spki-openssl-v1
-trust_scope   = supplied-public-key-only
-bundle        = <Sigstore Bundle v0.3 subset>
-binding       = <exact Statement and public-key identities>
-claimBoundary = <fixed negative implication boundary>
+trust_scope    = supplied-public-key-only
+bundle         = <Sigstore Bundle v0.3 subset>
+binding        = <exact Statement and public-key identities>
+claimBoundary  = <fixed negative implication boundary>
 ```
 
 The embedded Sigstore bundle is deliberately restricted to:
@@ -101,7 +105,7 @@ M = PAE(UTF8(T), B)
 
 The checker verifies the Ed25519 signature over `M` with the supplied public key using a fixed OpenSSL adapter.
 
-The same payload bytes that are verified are then parsed and delivered to the P1-A1 binding check. P1-A2 never verifies one representation and later substitutes a reparsed/re-serialized representation.
+The same payload bytes that are verified are then parsed and compared byte-for-byte with the deterministic Statement derived from the exact conformant P1-A1 capsule. P1-A2 never verifies one representation and later substitutes a reparsed or reserialized representation.
 
 ## Core separations
 
@@ -150,8 +154,8 @@ The fixture proves only that the reference verifier can validate a fixed signatu
 `tools/eigiib_sigstore_bundle.py` provides:
 
 ```text
-assemble  P1-A1 capsule + externally supplied signature + public key -> P1-A2 capsule
-verify    P1-A2 capsule + supplied public key [+ exact P1-A1 capsule]
+assemble  conformant P1-A1 capsule + externally supplied signature + public key -> P1-A2 capsule
+verify    P1-A2 capsule + supplied public key + exact P1-A1 capsule
 check     repository self-check of fixture/profile/boundary state
 ```
 
@@ -171,6 +175,24 @@ P1-A2 rejects duplicate JSON object members and non-finite JSON numbers.
 The profile uses canonical standard RFC 4648 base64 for the bundle fields it owns. A decodable but non-canonical spelling is rejected.
 
 These restrictions are repository-local transport hardening; they do not redefine the wider DSSE specification.
+
+## Post-green binding hardening 0.2
+
+The first complete P1-A2 replay was green. A deliberate false-positive audit then identified two bounded substitution risks:
+
+1. a signed `Statement/v1` could be structurally plausible while no exact conformant P1-A1 capsule was supplied to establish the intended upstream carrier;
+2. a semantically equivalent Statement could be signed under a different JSON serialization than the deterministic P1-A2 payload profile.
+
+P1-A2 hardening 0.2 therefore requires:
+
+```text
+exact P1-A1 capsule supplied
+P1-A1 upstream checker conformant
+signed payload == deterministic P1-A2 serialization(upstream Statement)
+signature valid over those exact payload bytes
+```
+
+The hardening is additive. It does not strengthen signature validity into trust or authorization.
 
 ## M0-A3 lifecycle
 
