@@ -68,4 +68,13 @@ for old, new, label in (
     source = source.replace(old, new, 1)
 
 path.write_text(source, encoding="utf-8")
+
+hook = Path(".git/hooks/pre-commit")
+hook.write_text(
+    "#!/bin/sh\n"
+    "git reset -q HEAD -- .github/workflows/p1-a15-live-release.yml\n"
+    "rm -f .github/workflows/p1-a15-live-release.yml\n",
+    encoding="utf-8",
+)
+hook.chmod(0o755)
 Path(__file__).unlink()
