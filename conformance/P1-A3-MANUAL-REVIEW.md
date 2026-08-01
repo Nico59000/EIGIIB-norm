@@ -1,11 +1,12 @@
 # P1-A3 SCITT receipt boundary review
 
-Revision reviewed: `EIGIIB-P1-A3-1.0`.
+Revision reviewed: `EIGIIB-P1-A3-1.0` plus additive `P1-A3-H0.2`.
 
 - `scitt-receipt-boundary-review`: complete.
 - P1-A3 owns only exact P1-A2 identity binding into one SCITT Signed Statement, verification of that Signed Statement against one supplied Issuer Ed25519 public key, verification of one RFC9162_SHA256 inclusion proof, and verification of one COSE Receipt against one supplied Transparency Service Ed25519 public key.
+- P1-A3-H0.2 requires the exact P1-A2 source to be revalidated by the existing P1-A2 checker with the exact P1-A1 capsule and P1-A2 public key before a hardened positive P1-A3 conclusion is admitted. It does not duplicate DSSE verification logic.
 - P1-A2 remains authoritative for the authenticated DSSE/Sigstore carrier. P1-A3 does not reinterpret the in-toto predicate or M0-A2 aggregate result.
-- E4 remains authoritative for trust, identity, authorization, delegation and revocation. P1-A3 treats both fixture public keys as supplied cryptographic inputs only.
+- E4 remains authoritative for trust, identity, authorization, delegation and revocation. P1-A3 treats all fixture public keys as supplied cryptographic inputs only.
 - E5 remains authoritative for transparency semantics. One valid inclusion Receipt proves only the bounded inclusion relation represented by the Receipt; it does not prove global append-only consistency.
 - E6 remains authoritative for cross-view comparison, gossip and fork accountability. One Receipt does not establish observer convergence or global fork absence.
 - E11 remains authoritative for trusted temporal semantics. P1-A3 does not convert HTTP response timing, registration order, Receipt presence or any local clock into trusted time.
