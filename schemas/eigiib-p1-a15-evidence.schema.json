@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a15-evidence.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "api_version", "repository", "source_p1_a14_commit", "source_p1_a14_report_sha256", "source_p1_a14_capsule_sha256", "release", "assets", "decisions", "boundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A15-LIVE-READBACK-EVIDENCE-1.0"},
+    "profile": {"const": "canonical-live-github-release-authenticated-public-readback-v1"},
+    "api_version": {"const": "2026-03-10"},
+    "repository": {"const": "Nico59000/EIGIIB-norm"},
+    "source_p1_a14_commit": {"type": "string"},
+    "source_p1_a14_report_sha256": {"type": "string"},
+    "source_p1_a14_capsule_sha256": {"type": "string"},
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "node_id", "tag_name", "name", "draft", "prerelease", "immutable", "target_commitish", "tag_object_type", "tag_object_sha", "peeled_commit_sha", "created_at", "published_at", "html_url"],
+      "properties": {
+        "id": {"type": "integer"},
+        "node_id": {"type": "string"},
+        "tag_name": {"type": "string"},
+        "name": {"type": "string"},
+        "draft": {"type": "boolean"},
+        "prerelease": {"type": "boolean"},
+        "immutable": {"type": ["boolean", "null"]},
+        "target_commitish": {"type": "string"},
+        "tag_object_type": {"type": "string"},
+        "tag_object_sha": {"type": "string"},
+        "peeled_commit_sha": {"type": "string"},
+        "created_at": {"type": "string"},
+        "published_at": {"type": "string"},
+        "html_url": {"type": "string"}
+      }
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "state", "content_type", "size", "api_digest", "authenticated_download_sha256", "public_download_sha256", "browser_download_url"],
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "state": {"type": "string"},
+          "content_type": {"type": "string"},
+          "size": {"type": "integer"},
+          "api_digest": {"type": "string"},
+          "authenticated_download_sha256": {"type": "string"},
+          "public_download_sha256": {"type": "string"},
+          "browser_download_url": {"type": "string"}
+        }
+      }
+    },
+    "decisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exact_p1_a14_binding", "live_github_release", "closed_asset_set", "asset_identity", "api_readback", "platform_immutability_enforcement", "production_release_authorization", "external_registry_publication", "durable_retention", "overall_result"],
+      "properties": {
+        "exact_p1_a14_binding": {"type": "string"},
+        "live_github_release": {"type": "string"},
+        "closed_asset_set": {"type": "string"},
+        "asset_identity": {"type": "string"},
+        "api_readback": {"type": "string"},
+        "platform_immutability_enforcement": {"type": "string"},
+        "production_release_authorization": {"type": "string"},
+        "external_registry_publication": {"type": "string"},
+        "durable_retention": {"type": "string"},
+        "overall_result": {"type": "string"}
+      }
+    },
+    "boundary": {"const": "canonical-live-github-release-asset-identity-api-readback-closure"}
+  }
+}

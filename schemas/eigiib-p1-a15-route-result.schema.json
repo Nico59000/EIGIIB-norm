@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a15-route-result.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "routes", "portable", "overallResult"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A15-THREE-ROUTE-REPLAY-1.0"},
+    "routes": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "string"}},
+    "portable": {"type": "object"},
+    "overallResult": {"const": "conformant"}
+  }
+}
