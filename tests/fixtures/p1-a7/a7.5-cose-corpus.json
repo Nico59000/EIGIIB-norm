@@ -1,0 +1,350 @@
+{
+  "claimBoundary": {
+    "authority": "p1_negative_corpus_contract",
+    "doesNotImply": [
+      "p1-a3-source-binding-does-not-imply-source-authenticity",
+      "positive-cose-signature-does-not-imply-trusted-or-authorized-issuer",
+      "closed-cbor-cose-negative-fixtures-do-not-imply-production-input-coverage",
+      "p1-a7.5-does-not-close-receipt-negative-replay"
+    ]
+  },
+  "generator": {
+    "encoding": "deterministic-cbor-rfc8949-profile-v1",
+    "sequenceMode": "ordered-application-v1",
+    "tool": "tools/eigiib_cose_route_replay.py",
+    "version": "0.1.0"
+  },
+  "profile": "deterministic-cbor-cose-header-negative-replay-v1",
+  "requiredPlatforms": [
+    "ubuntu-24.04",
+    "macos-15",
+    "windows-2025"
+  ],
+  "requiredRoutes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "sourceCapsule": {
+    "path": "tests/fixtures/p1-a3/capsule.json",
+    "profile": "scitt-p1-a2-receipt-v1",
+    "signedStatementIdentity": {
+      "algorithm": "sha256",
+      "bytes": 396,
+      "digest": "27c960d31e9afbf454c8bb6dbdd396309b3dec629f58d8f5c87553864e579d81"
+    },
+    "standard": "EIGIIB-P1-A3-1.0"
+  },
+  "sourceIssuerKey": {
+    "derIdentity": {
+      "algorithm": "sha256",
+      "bytes": 44,
+      "digest": "66ce2b50279d0f955a2e73434560439e4e47bfa6d6f365f8a83493510e97f447"
+    },
+    "path": "tests/fixtures/p1-a3/issuer-public-key.pem",
+    "rawIdentity": {
+      "algorithm": "sha256",
+      "bytes": 113,
+      "digest": "474ae01dc0b11e3474a421be28af415fec195c314a22cc40fabe38ad3a8cb413"
+    }
+  },
+  "standard": "EIGIIB-P1-A7.5-1.0",
+  "taxonomy": {
+    "identity": {
+      "algorithm": "sha256",
+      "bytes": 3513,
+      "digest": "b7c896ec9c26a2582fa0ac828fb8f9cf6d3f463e3352edbe630fbc9c06b826b6"
+    },
+    "path": "tests/fixtures/p1-a7/error-taxonomy.json"
+  },
+  "vectors": [
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-cbor-cose-sign1-profile",
+        "observed-rejection-does-not-imply-universal-cbor-or-cose-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "cbor-sign1",
+        "errorClass": "cbor.nondeterministic",
+        "precedence": [
+          "cbor.nondeterministic"
+        ]
+      },
+      "id": "a7-cbor-sign1-nonminimal-tag",
+      "layer": "cbor",
+      "mutations": [
+        {
+          "operator": "cbor.nonminimal-tag"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-cbor-cose-sign1-profile",
+        "observed-rejection-does-not-imply-universal-cbor-or-cose-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "cbor-protected-header",
+        "errorClass": "cbor.nondeterministic",
+        "precedence": [
+          "cbor.nondeterministic"
+        ]
+      },
+      "id": "a7-cbor-protected-map-order",
+      "layer": "cbor",
+      "mutations": [
+        {
+          "operator": "cbor.reverse-protected-map"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-cbor-cose-sign1-profile",
+        "observed-rejection-does-not-imply-universal-cbor-or-cose-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "cbor-payload",
+        "errorClass": "cbor.nondeterministic",
+        "precedence": [
+          "cbor.nondeterministic"
+        ]
+      },
+      "id": "a7-cbor-payload-map-order",
+      "layer": "cbor",
+      "mutations": [
+        {
+          "operator": "cbor.reverse-payload-map"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-cbor-cose-sign1-profile",
+        "observed-rejection-does-not-imply-universal-cbor-or-cose-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "cose-structure",
+        "errorClass": "cose.invalid-structure",
+        "precedence": [
+          "cose.invalid-structure"
+        ]
+      },
+      "id": "a7-cose-wrong-tag",
+      "layer": "cose-structure",
+      "mutations": [
+        {
+          "operator": "cose.set-tag",
+          "value": 17
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-cbor-cose-sign1-profile",
+        "observed-rejection-does-not-imply-universal-cbor-or-cose-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "cose-structure",
+        "errorClass": "cose.invalid-structure",
+        "precedence": [
+          "cose.invalid-structure"
+        ]
+      },
+      "id": "a7-cose-protected-not-bstr",
+      "layer": "cose-structure",
+      "mutations": [
+        {
+          "operator": "cose.protected-as-map"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-cbor-cose-sign1-profile",
+        "observed-rejection-does-not-imply-universal-cbor-or-cose-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "cose-protected-header",
+        "errorClass": "cose.unsupported-header",
+        "precedence": [
+          "cose.unsupported-header"
+        ]
+      },
+      "id": "a7-cose-unsupported-algorithm",
+      "layer": "cose-header",
+      "mutations": [
+        {
+          "operator": "cose.set-algorithm",
+          "value": -7
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-cbor-cose-sign1-profile",
+        "observed-rejection-does-not-imply-universal-cbor-or-cose-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "cose-protected-header",
+        "errorClass": "cose.unsupported-header",
+        "precedence": [
+          "cose.unsupported-header"
+        ]
+      },
+      "id": "a7-cose-unknown-critical-header",
+      "layer": "cose-header",
+      "mutations": [
+        {
+          "label": 999,
+          "operator": "cose.add-unknown-critical"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-cbor-cose-sign1-profile",
+        "observed-rejection-does-not-imply-universal-cbor-or-cose-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "cose-protected-header",
+        "errorClass": "cose.invalid-structure",
+        "precedence": [
+          "cose.invalid-structure"
+        ]
+      },
+      "id": "a7-cose-malformed-critical-header",
+      "layer": "cose-header",
+      "mutations": [
+        {
+          "operator": "cose.set-malformed-critical",
+          "value": "alg"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-cbor-cose-sign1-profile",
+        "observed-rejection-does-not-imply-universal-cbor-or-cose-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "cbor-protected-header",
+        "errorClass": "cbor.nondeterministic",
+        "precedence": [
+          "cbor.nondeterministic",
+          "cose.unsupported-header"
+        ]
+      },
+      "id": "a7-multi-cbor-order-and-unknown-critical",
+      "layer": "multi",
+      "mutations": [
+        {
+          "label": 999,
+          "operator": "cose.add-unknown-critical"
+        },
+        {
+          "operator": "cbor.reverse-protected-map"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    }
+  ]
+}

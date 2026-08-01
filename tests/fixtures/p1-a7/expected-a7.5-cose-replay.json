@@ -1,0 +1,248 @@
+{
+  "claim_boundary": [
+    "deterministic-cbor-acceptance-does-not-imply-source-authenticity",
+    "valid-cose-signature-does-not-imply-trusted-or-authorized-issuer",
+    "closed-header-profile-does-not-imply-universal-cose-interoperability",
+    "external-route-invokes-go-cose-only-after-portable-cbor-and-header-gates",
+    "a7-5-closure-does-not-imply-receipt-negative-replay-closure"
+  ],
+  "error_class_equivalence_result": "conformant",
+  "findings": [],
+  "multi_defect_precedence_result": "conformant",
+  "negative_replay_result": "conformant",
+  "observation_count": 30,
+  "observations": [
+    {
+      "accepted": true,
+      "boundary": "cose-signature",
+      "error_class": null,
+      "route": "reference-python-openssl",
+      "vector_id": "a7-positive-p1-a3-signed-statement"
+    },
+    {
+      "accepted": true,
+      "boundary": "cose-signature",
+      "error_class": null,
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-positive-p1-a3-signed-statement"
+    },
+    {
+      "accepted": true,
+      "boundary": "cose-signature",
+      "error_class": null,
+      "route": "external-go-cose",
+      "vector_id": "a7-positive-p1-a3-signed-statement"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-sign1",
+      "error_class": "cbor.nondeterministic",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-cbor-sign1-nonminimal-tag"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-sign1",
+      "error_class": "cbor.nondeterministic",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-cbor-sign1-nonminimal-tag"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-sign1",
+      "error_class": "cbor.nondeterministic",
+      "route": "external-go-cose",
+      "vector_id": "a7-cbor-sign1-nonminimal-tag"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-protected-header",
+      "error_class": "cbor.nondeterministic",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-cbor-protected-map-order"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-protected-header",
+      "error_class": "cbor.nondeterministic",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-cbor-protected-map-order"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-protected-header",
+      "error_class": "cbor.nondeterministic",
+      "route": "external-go-cose",
+      "vector_id": "a7-cbor-protected-map-order"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-payload",
+      "error_class": "cbor.nondeterministic",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-cbor-payload-map-order"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-payload",
+      "error_class": "cbor.nondeterministic",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-cbor-payload-map-order"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-payload",
+      "error_class": "cbor.nondeterministic",
+      "route": "external-go-cose",
+      "vector_id": "a7-cbor-payload-map-order"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-structure",
+      "error_class": "cose.invalid-structure",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-cose-wrong-tag"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-structure",
+      "error_class": "cose.invalid-structure",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-cose-wrong-tag"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-structure",
+      "error_class": "cose.invalid-structure",
+      "route": "external-go-cose",
+      "vector_id": "a7-cose-wrong-tag"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-structure",
+      "error_class": "cose.invalid-structure",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-cose-protected-not-bstr"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-structure",
+      "error_class": "cose.invalid-structure",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-cose-protected-not-bstr"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-structure",
+      "error_class": "cose.invalid-structure",
+      "route": "external-go-cose",
+      "vector_id": "a7-cose-protected-not-bstr"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-protected-header",
+      "error_class": "cose.unsupported-header",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-cose-unsupported-algorithm"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-protected-header",
+      "error_class": "cose.unsupported-header",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-cose-unsupported-algorithm"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-protected-header",
+      "error_class": "cose.unsupported-header",
+        "route": "external-go-cose",
+      "vector_id": "a7-cose-unsupported-algorithm"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-protected-header",
+      "error_class": "cose.unsupported-header",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-cose-unknown-critical-header"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-protected-header",
+      "error_class": "cose.unsupported-header",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-cose-unknown-critical-header"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-protected-header",
+      "error_class": "cose.unsupported-header",
+      "route": "external-go-cose",
+      "vector_id": "a7-cose-unknown-critical-header"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-protected-header",
+      "error_class": "cose.invalid-structure",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-cose-malformed-critical-header"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-protected-header",
+      "error_class": "cose.invalid-structure",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-cose-malformed-critical-header"
+    },
+    {
+      "accepted": false,
+      "boundary": "cose-protected-header",
+      "error_class": "cose.invalid-structure",
+      "route": "external-go-cose",
+      "vector_id": "a7-cose-malformed-critical-header"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-protected-header",
+      "error_class": "cbor.nondeterministic",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-multi-cbor-order-and-unknown-critical"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-protected-header",
+      "error_class": "cbor.nondeterministic",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-multi-cbor-order-and-unknown-critical"
+    },
+    {
+      "accepted": false,
+      "boundary": "cbor-protected-header",
+      "error_class": "cbor.nondeterministic",
+      "route": "external-go-cose",
+      "vector_id": "a7-multi-cbor-order-and-unknown-critical"
+    }
+  ],
+  "overall_result": "conformant",
+  "positive_replay_result": "conformant",
+  "profile": "deterministic-cbor-cose-header-negative-replay-v1",
+  "routes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "standard": "EIGIIB-P1-A7.5-1.0",
+  "tool": "eigiib-cose-route-replay",
+  "tool_version": "0.1.0",
+  "vector_ids": [
+    "a7-cbor-sign1-nonminimal-tag",
+    "a7-cbor-protected-map-order",
+    "a7-cbor-payload-map-order",
+    "a7-cose-wrong-tag",
+    "a7-cose-protected-not-bstr",
+    "a7-cose-unsupported-algorithm",
+    "a7-cose-unknown-critical-header",
+    "a7-cose-malformed-critical-header",
+    "a7-multi-cbor-order-and-unknown-critical"
+  ]
+}

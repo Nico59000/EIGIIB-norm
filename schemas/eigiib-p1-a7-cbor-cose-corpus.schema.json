@@ -1,0 +1,405 @@
+{
+  "$defs": {
+    "claimBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "const": "p1_negative_corpus_contract"
+        },
+        "doesNotImply": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "authority",
+        "doesNotImply"
+      ],
+      "type": "object"
+    },
+    "expect": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "const": false
+        },
+        "boundary": {
+          "enum": [
+            "cbor-sign1",
+            "cbor-protected-header",
+            "cbor-payload",
+            "cose-structure",
+            "cose-protected-header"
+          ]
+        },
+        "errorClass": {
+          "enum": [
+            "cbor.nondeterministic",
+            "cose.unsupported-header",
+            "cose.invalid-structure"
+          ]
+        },
+        "precedence": {
+          "items": {
+            "enum": [
+              "cbor.nondeterministic",
+              "cose.unsupported-header",
+              "cose.invalid-structure"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "accepted",
+        "errorClass",
+        "boundary",
+        "precedence"
+      ],
+      "type": "object"
+    },
+    "fileIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "identity"
+      ],
+      "type": "object"
+    },
+    "identity": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "algorithm",
+        "digest",
+        "bytes"
+      ],
+      "type": "object"
+    },
+    "mutation": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "cbor.nonminimal-tag"
+            }
+          },
+          "required": [
+            "operator"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "cbor.reverse-protected-map"
+            }
+          },
+          "required": [
+            "operator"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "cbor.reverse-payload-map"
+            }
+          },
+          "required": [
+            "operator"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "cose.set-tag"
+            },
+            "value": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "cose.protected-as-map"
+            }
+          },
+          "required": [
+            "operator"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "cose.set-algorithm"
+            },
+            "value": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "label": {
+              "minimum": 17,
+              "type": "integer"
+            },
+            "operator": {
+              "const": "cose.add-unknown-critical"
+            }
+          },
+          "required": [
+            "operator",
+            "label"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "cose.set-malformed-critical"
+            },
+            "value": {}
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "vector": {
+      "additionalProperties": false,
+      "properties": {
+        "claimBoundary": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "expect": {
+          "$ref": "#/$defs/expect"
+        },
+        "id": {
+          "pattern": "^a7-[a-z0-9-]+$",
+          "type": "string"
+        },
+        "layer": {
+          "enum": [
+            "cbor",
+            "cose-structure",
+            "cose-header",
+            "multi"
+          ]
+        },
+        "mutations": {
+          "items": {
+            "$ref": "#/$defs/mutation"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "requiredPlatforms": {
+          "const": [
+            "ubuntu-24.04",
+            "macos-15",
+            "windows-2025"
+          ]
+        },
+        "requiredRoutes": {
+          "const": [
+            "reference-python-openssl",
+            "independent-go-stdlib",
+            "external-go-cose"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "layer",
+        "mutations",
+        "expect",
+        "requiredRoutes",
+        "requiredPlatforms",
+        "claimBoundary"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a7-cbor-cose-corpus.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "claimBoundary": {
+      "$ref": "#/$defs/claimBoundary"
+    },
+    "generator": {
+      "additionalProperties": false,
+      "properties": {
+        "encoding": {
+          "const": "deterministic-cbor-rfc8949-profile-v1"
+        },
+        "sequenceMode": {
+          "const": "ordered-application-v1"
+        },
+        "tool": {
+          "const": "tools/eigiib_cose_route_replay.py"
+        },
+        "version": {
+          "const": "0.1.0"
+        }
+      },
+      "required": [
+        "tool",
+        "version",
+        "encoding",
+        "sequenceMode"
+      ],
+      "type": "object"
+    },
+    "profile": {
+      "const": "deterministic-cbor-cose-header-negative-replay-v1"
+    },
+    "requiredPlatforms": {
+      "const": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ]
+    },
+    "requiredRoutes": {
+      "const": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    "sourceCapsule": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "const": "tests/fixtures/p1-a3/capsule.json"
+        },
+        "profile": {
+          "const": "scitt-p1-a2-receipt-v1"
+        },
+        "signedStatementIdentity": {
+          "$ref": "#/$defs/identity"
+        },
+        "standard": {
+          "const": "EIGIIB-P1-A3-1.0"
+        }
+      },
+      "required": [
+        "path",
+        "standard",
+        "profile",
+        "signedStatementIdentity"
+      ],
+      "type": "object"
+    },
+    "sourceIssuerKey": {
+      "additionalProperties": false,
+      "properties": {
+        "derIdentity": {
+          "$ref": "#/$defs/identity"
+        },
+        "path": {
+          "const": "tests/fixtures/p1-a3/issuer-public-key.pem"
+        },
+        "rawIdentity": {
+          "$ref": "#/$defs/identity"
+        }
+      },
+      "required": [
+        "path",
+        "rawIdentity",
+        "derIdentity"
+      ],
+      "type": "object"
+    },
+    "standard": {
+      "const": "EIGIIB-P1-A7.5-1.0"
+    },
+    "taxonomy": {
+      "$ref": "#/$defs/fileIdentity"
+    },
+    "vectors": {
+      "items": {
+        "$ref": "#/$defs/vector"
+      },
+      "maxItems": 9,
+      "minItems": 9,
+      "type": "array"
+    }
+  },
+  "required": [
+    "standard",
+    "profile",
+    "generator",
+    "taxonomy",
+    "sourceCapsule",
+    "sourceIssuerKey",
+    "requiredRoutes",
+    "requiredPlatforms",
+    "vectors",
+    "claimBoundary"
+  ],
+  "title": "EIGIIB P1-A7.5 deterministic CBOR and COSE header negative corpus",
+  "type": "object"
+}

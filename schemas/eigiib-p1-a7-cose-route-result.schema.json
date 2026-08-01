@@ -1,0 +1,102 @@
+{
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a7-cose-route-result.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "accepted": {
+            "const": true
+          }
+        },
+        "required": [
+          "accepted"
+        ]
+      },
+      "then": {
+        "properties": {
+          "boundary": {
+            "const": "cose-signature"
+          },
+          "error_class": {
+            "const": null
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "accepted": {
+            "const": false
+          }
+        },
+        "required": [
+          "accepted"
+        ]
+      },
+      "then": {
+        "properties": {
+          "error_class": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "accepted": {
+      "type": "boolean"
+    },
+    "boundary": {
+      "enum": [
+        "cbor-sign1",
+        "cbor-protected-header",
+        "cbor-payload",
+        "cose-structure",
+        "cose-protected-header",
+        "cose-payload",
+        "cose-signature"
+      ]
+    },
+    "error_class": {
+      "enum": [
+        null,
+        "cbor.nondeterministic",
+        "cose.unsupported-header",
+        "cose.invalid-structure",
+        "signature.invalid"
+      ],
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "route": {
+      "enum": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    "standard": {
+      "const": "EIGIIB-P1-A7.5-1.0"
+    },
+    "vector_id": {
+      "minLength": 1,
+      "pattern": "^a7-[a-z0-9-]+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "standard",
+    "route",
+    "vector_id",
+    "accepted",
+    "error_class",
+    "boundary"
+  ],
+  "title": "EIGIIB P1-A7.5 portable CBOR and COSE route result",
+  "type": "object"
+}
