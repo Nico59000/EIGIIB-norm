@@ -1,0 +1,15 @@
+{
+  "standard": "EIGIIB-P1-A3-1.0",
+  "profile": "scitt-p1-a2-receipt-v1",
+  "state": "structural-only",
+  "productionIssuer": false,
+  "productionTransparencyService": false,
+  "productionRegistration": false,
+  "trustedIssuerKey": false,
+  "trustedTransparencyServiceKey": false,
+  "trustedRegistrationTime": false,
+  "globalAppendOnlyConsistency": false,
+  "crossViewConvergence": false,
+  "registrationPolicyCorrectness": false,
+  "networkSubmissionPerformed": false
+}
