@@ -1,0 +1,31 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://eigiib.example/schema/p1-a13-capsule-1.0",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["standard","profile","sourceAuthority","contentControlRoot","revocationAuthority","channels","policy","revocation","withdrawals","replays","claimBoundary"],
+  "properties":{
+    "standard":{"const":"EIGIIB-P1-A13-1.0"},
+    "profile":{"const":"registered-content-revocation-withdrawal-anti-rollback-v1"},
+    "sourceAuthority":{"$ref":"#/$defs/source"},
+    "contentControlRoot":{"$ref":"#/$defs/key"},
+    "revocationAuthority":{"$ref":"#/$defs/revoker"},
+    "channels":{"type":"array","minItems":2,"maxItems":2,"items":{"$ref":"#/$defs/channel"}},
+    "policy":{"$ref":"#/$defs/signed"},
+    "revocation":{"$ref":"#/$defs/signed"},
+    "withdrawals":{"type":"array","minItems":2,"maxItems":2,"items":{"$ref":"#/$defs/signed"}},
+    "replays":{"type":"array","minItems":3,"maxItems":3,"items":{"type":"object","additionalProperties":false,"required":["id","observation","expectedDecision"],"properties":{"id":{"type":"string","minLength":1},"observation":{"$ref":"#/$defs/signed"},"expectedDecision":{"enum":["rejected-below-revocation-floor","rejected-revoked-content"]}}}},
+    "claimBoundary":{"type":"array","minItems":7,"maxItems":7,"uniqueItems":true,"items":{"type":"string","minLength":1}}
+  },
+  "$defs":{
+    "digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "identity":{"type":"object","additionalProperties":false,"required":["algorithm","bytes","digest"],"properties":{"algorithm":{"const":"sha256"},"bytes":{"type":"integer","minimum":1},"digest":{"$ref":"#/$defs/digest"}}},
+    "carrier":{"type":"object","additionalProperties":false,"required":["data","identity"],"properties":{"data":{"type":"string","minLength":1,"pattern":"^[A-Za-z0-9+/]+={0,2}$"},"identity":{"$ref":"#/$defs/identity"}}},
+    "signed":{"type":"object","additionalProperties":false,"required":["payload","envelope"],"properties":{"payload":{"$ref":"#/$defs/carrier"},"envelope":{"$ref":"#/$defs/carrier"}}},
+    "spki":{"$ref":"#/$defs/identity"},
+    "key":{"type":"object","additionalProperties":false,"required":["path","spki"],"properties":{"id":{"type":"string","minLength":1},"path":{"type":"string","pattern":"^[A-Za-z0-9._/-]+$"},"spki":{"$ref":"#/$defs/spki"}}},
+    "revoker":{"type":"object","additionalProperties":false,"required":["id","path","spki"],"properties":{"id":{"const":"eigiib-p1-a13-revoker-1"},"path":{"type":"string","pattern":"^[A-Za-z0-9._/-]+$"},"spki":{"$ref":"#/$defs/spki"}}},
+    "channel":{"type":"object","additionalProperties":false,"required":["channelId","operatorId","path","spki"],"properties":{"channelId":{"enum":["fixture-primary","fixture-mirror"]},"operatorId":{"type":"string","minLength":1},"path":{"type":"string","pattern":"^[A-Za-z0-9._/-]+$"},"spki":{"$ref":"#/$defs/spki"}}},
+    "source":{"type":"object","additionalProperties":false,"required":["acceptedTransparencyCheckpointRoot","releaseDescriptorSha256","releaseId","recoveredAuthorizationSha256","sourceCommit","transparencyCapsuleSha256","transparencyReportSha256","trustedEffectiveTimeUnix"],"properties":{"acceptedTransparencyCheckpointRoot":{"$ref":"#/$defs/digest"},"releaseDescriptorSha256":{"$ref":"#/$defs/digest"},"releaseId":{"const":"eigiib-p1-a7-authority-1.0"},"recoveredAuthorizationSha256":{"$ref":"#/$defs/digest"},"sourceCommit":{"pattern":"^[0-9a-f]{40}$"},"transparencyCapsuleSha256":{"$ref":"#/$defs/digest"},"transparencyReportSha256":{"$ref":"#/$defs/digest"},"trustedEffectiveTimeUnix":{"const":1785603600}}}
+  }
+}

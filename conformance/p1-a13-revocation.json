@@ -1,0 +1,29 @@
+{
+  "standard":"EIGIIB-P1-A13-CONFORMANCE-1.0",
+  "profile":"registered-content-revocation-withdrawal-anti-rollback-v1",
+  "source_commit":"286c17db08911ae22202aa30c90cac10dc3c61b8",
+  "source_transparency_report_sha256":"7613429f8d3b771812433f5b57d64accb8148550ed9f8b71a38a97b23a45343c",
+  "source_transparency_capsule_sha256":"12b3ca6c0ca260b3357993d65a8b4595f6cc23d4b8b26ca67dcee94e06148046",
+  "capsule_sha256":"fb596478e6cad8fe4c8db9e95d54f138cb37f9452a32d938e3d2796ab49240f5",
+  "release_id":"eigiib-p1-a7-authority-1.0",
+  "release_descriptor_sha256":"1551056d0b903f3f74b0c4834c7dd60720ea651f3608c2ee3ea9b302a2b9f5ec",
+  "archive_sha256":"0e3ce06e9ef4f9299ad5ade9182d3924704248230d924bec656562d58287960e",
+  "revocation_sequence":31,
+  "registered_channel_ids":["fixture-primary","fixture-mirror"],
+  "withdrawn_channel_ids":["fixture-primary","fixture-mirror"],
+  "replay_decisions":[
+    "rejected-below-revocation-floor",
+    "rejected-revoked-content",
+    "rejected-revoked-content"
+  ],
+  "decisions":{
+    "content_revocation":"conformant-for-exact-release-content-scope",
+    "distribution_withdrawal":"conformant-for-two-registered-fixture-channels-scope",
+    "anti_rollback":"conformant-for-revocation-floor-and-registered-channel-history-scope",
+    "global_content_unavailability":"not-claimed",
+    "vulnerability_remediation":"not-claimed",
+    "overall_result":"conformant"
+  },
+  "boundary":"registered-content-revocation-distribution-withdrawal-anti-rollback-closure",
+  "next_natural_slice":"P1-A14 — Advisory Binding, Remediation Lineage and Fixed-Release Replay"
+}
