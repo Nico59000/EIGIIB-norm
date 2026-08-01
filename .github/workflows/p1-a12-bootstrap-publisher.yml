@@ -59,7 +59,7 @@ jobs:
             2927c6ea44521c4936ced5179743baa36b76ea9a
             b75d4bac89c7e05392c7763ed19f88d0f36f4a83
             5574700a6cf899c910d619097bb53c0ecf09aef5
-            cc86d6426350702975b5ef5b6500378e671a24ab
+            df0144d2bcefd1fd771c53d6816d0a6bf95512b5
           )
           test "${#paths[@]}" = "${#expected[@]}"
           for index in "${!paths[@]}"; do
