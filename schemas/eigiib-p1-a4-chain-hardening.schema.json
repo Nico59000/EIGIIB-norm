@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schema/eigiib-p1-a4-chain-hardening.schema.json",
+  "title": "EIGIIB P1-A4 Executable-Closure Hardening Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "baselineChainIdentity", "implementations", "claimBoundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A4-hardening-0.2"},
+    "profile": {"const": "p1-a4-executable-closure-v1"},
+    "baselineChainIdentity": {
+      "const": {
+        "algorithm": "sha256",
+        "digest": "8082fbe1c235ec3c5b5809eeb70d5593d20887f75a310abb8b4a9762be28a97d",
+        "bytes": 2182
+      }
+    },
+    "implementations": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "prefixItems": [
+        {"$ref": "#/$defs/p1a1"},
+        {"$ref": "#/$defs/p1a2"},
+        {"$ref": "#/$defs/p1a3Baseline"},
+        {"$ref": "#/$defs/p1a3Hardening"},
+        {"$ref": "#/$defs/p1a4Orchestrator"},
+        {"$ref": "#/$defs/p1a4Contract"},
+        {"$ref": "#/$defs/p1a4Validation"},
+        {"$ref": "#/$defs/p1a4Hardening"}
+      ],
+      "items": false
+    },
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "doesNotImply"],
+      "properties": {
+        "authority": {"const": "p1_chain_contract"},
+        "doesNotImply": {
+          "const": [
+            "byte-exact-replay-closure-does-not-imply-trusted-python-interpreter",
+            "byte-exact-replay-closure-does-not-imply-trusted-openssl-provider",
+            "implementation-identity-does-not-imply-source-authenticity",
+            "exact-checker-bytes-do-not-imply-production-environment-equivalence",
+            "p1-a4-h0.2-does-not-replace-upstream-authorities"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "digest", "bytes"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "bytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "identity"],
+      "properties": {
+        "role": {"type": "string"},
+        "path": {"type": "string"},
+        "identity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "p1a1": {"allOf": [{"$ref": "#/$defs/implementation"}, {"properties": {"role": {"const": "p1-a1-checker"}, "path": {"const": "tools/eigiib_in_toto_capsule.py"}}}]},
+    "p1a2": {"allOf": [{"$ref": "#/$defs/implementation"}, {"properties": {"role": {"const": "p1-a2-checker"}, "path": {"const": "tools/eigiib_sigstore_bundle.py"}}}]},
+    "p1a3Baseline": {"allOf": [{"$ref": "#/$defs/implementation"}, {"properties": {"role": {"const": "p1-a3-baseline-checker"}, "path": {"const": "tools/eigiib_scitt_receipt.py"}}}]},
+    "p1a3Hardening": {"allOf": [{"$ref": "#/$defs/implementation"}, {"properties": {"role": {"const": "p1-a3-hardening-checker"}, "path": {"const": "tools/eigiib_scitt_receipt_hardening_check.py"}}}]},
+    "p1a4Orchestrator": {"allOf": [{"$ref": "#/$defs/implementation"}, {"properties": {"role": {"const": "p1-a4-orchestrator"}, "path": {"const": "tools/eigiib_interop_chain.py"}}}]},
+    "p1a4Contract": {"allOf": [{"$ref": "#/$defs/implementation"}, {"properties": {"role": {"const": "p1-a4-contract"}, "path": {"const": "tools/eigiib_interop_chain_contract.py"}}}]},
+    "p1a4Validation": {"allOf": [{"$ref": "#/$defs/implementation"}, {"properties": {"role": {"const": "p1-a4-validation"}, "path": {"const": "tools/eigiib_interop_chain_validation.py"}}}]},
+    "p1a4Hardening": {"allOf": [{"$ref": "#/$defs/implementation"}, {"properties": {"role": {"const": "p1-a4-hardening-checker"}, "path": {"const": "tools/eigiib_interop_chain_hardening_check.py"}}}]}
+  }
+}

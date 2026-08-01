@@ -150,6 +150,11 @@ jobs:
         run: |
           set -o pipefail
           python tools/eigiib_interop_chain.py check . --openssl openssl --json | tee .eigiib-results/p1-a4.json
+      - name: EIGIIB P1-A4 executable-closure hardening profile
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_interop_chain_hardening_check.py . --openssl openssl --json | tee .eigiib-results/p1-a4-h0.2.json
       - name: EIGIIB M0-A4 conformance vector catalog
         if: always()
         run: |
