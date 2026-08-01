@@ -1,0 +1,42 @@
+{
+  "standard": "EIGIIB-P1-A12-CONFORMANCE-1.0",
+  "profile": "registered-transparency-witness-consistency-equivocation-recovery-v1",
+  "source_commit": "356949456e8d4084ce317f45f5912522150ecd97",
+  "source_time_report_sha256": "2a1931b186def40a370fe3ea3d6a6b40eddd5576123c09ef0a94fa33b2d2e277",
+  "capsule_sha256": "12b3ca6c0ca260b3357993d65a8b4595f6cc23d4b8b26ca67dcee94e06148046",
+  "registered_service": {
+    "id": "eigiib-p1-a12-log-1",
+    "epoch": 1,
+    "result": "quarantined-as-required"
+  },
+  "recovered_service": {
+    "id": "eigiib-p1-a12-log-2",
+    "epoch": 2,
+    "result": "conformant"
+  },
+  "witness_policy": {
+    "initial_count": 3,
+    "threshold": 2,
+    "equivocating_witness_ids": ["witness-b"],
+    "recovered_quorum_ids": ["witness-a", "witness-d"]
+  },
+  "accepted_history": [
+    "epoch1-size2",
+    "epoch1-size4-main",
+    "epoch2-size8-recovery"
+  ],
+  "rejected_history": ["epoch1-size4-fork"],
+  "decisions": {
+    "transparency_service_registration": "conformant",
+    "witness_quorum": "conformant",
+    "registered_history_consistency": "conformant",
+    "equivocation": "detected-and-quarantined",
+    "successor_registration": "conformant",
+    "trusted_transparency_service": "conformant-for-root-registered-successor-and-quarantined-predecessor-scope",
+    "append_only_consistency": "conformant-for-accepted-2-to-4-to-8-history-scope",
+    "global_append_only_consistency": "not-claimed",
+    "overall_result": "conformant"
+  },
+  "boundary": "registered-transparency-quorum-consistency-equivocation-recovery-closure",
+  "next_natural_slice": "P1-A13 — Content Revocation, Distribution Withdrawal and Anti-Rollback Replay"
+}

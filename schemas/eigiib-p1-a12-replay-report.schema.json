@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a12-replay-report.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "route_count", "observations", "equivocation_result", "trusted_transparency_service_result", "append_only_consistency_result", "global_append_only_consistency_result", "boundary", "overall_result"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A12-REPLAY-1.0"},
+    "profile": {"const": "registered-transparency-witness-consistency-equivocation-recovery-v1"},
+    "route_count": {"const": 3},
+    "observations": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "eigiib-p1-a12-route-result.schema.json"}},
+    "equivocation_result": {"const": "detected-and-quarantined"},
+    "trusted_transparency_service_result": {"const": "conformant-for-root-registered-successor-and-quarantined-predecessor-scope"},
+    "append_only_consistency_result": {"const": "conformant-for-accepted-2-to-4-to-8-history-scope"},
+    "global_append_only_consistency_result": {"const": "not-claimed"},
+    "boundary": {"const": "registered-transparency-quorum-consistency-equivocation-recovery-closure"},
+    "overall_result": {"const": "conformant"}
+  }
+}

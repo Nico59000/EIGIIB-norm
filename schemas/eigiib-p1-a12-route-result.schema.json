@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a12-route-result.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "route", "release_id", "source_time_report_sha256", "transparency_trust_root_spki_sha256", "registered_service_id", "registered_service_epoch", "registered_service_spki_sha256", "recovered_service_id", "recovered_service_epoch", "recovered_service_spki_sha256", "witness_threshold", "baseline_checkpoint_root", "canonical_checkpoint_root", "conflicting_checkpoint_root", "recovered_checkpoint_root", "baseline_quorum_ids", "canonical_quorum_ids", "conflicting_quorum_ids", "recovered_quorum_ids", "equivocating_witness_ids", "equivocation_result", "predecessor_service_result", "trusted_transparency_service_result", "append_only_consistency_result", "global_append_only_consistency_result", "accepted_checkpoint_ids", "rejected_checkpoint_ids", "accepted", "boundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A12-ROUTE-1.0"},
+    "route": {"enum": ["reference-python-openssl", "independent-go-stdlib", "external-go-cose"]},
+    "release_id": {"const": "eigiib-p1-a7-authority-1.0"},
+    "source_time_report_sha256": {"$ref": "#/$defs/sha256"},
+    "transparency_trust_root_spki_sha256": {"$ref": "#/$defs/sha256"},
+    "registered_service_id": {"const": "eigiib-p1-a12-log-1"},
+    "registered_service_epoch": {"const": 1},
+    "registered_service_spki_sha256": {"$ref": "#/$defs/sha256"},
+    "recovered_service_id": {"const": "eigiib-p1-a12-log-2"},
+    "recovered_service_epoch": {"const": 2},
+    "recovered_service_spki_sha256": {"$ref": "#/$defs/sha256"},
+    "witness_threshold": {"const": 2},
+    "baseline_checkpoint_root": {"$ref": "#/$defs/sha256"},
+    "canonical_checkpoint_root": {"$ref": "#/$defs/sha256"},
+    "conflicting_checkpoint_root": {"$ref": "#/$defs/sha256"},
+    "recovered_checkpoint_root": {"$ref": "#/$defs/sha256"},
+    "baseline_quorum_ids": {"$ref": "#/$defs/twoWitnesses"},
+    "canonical_quorum_ids": {"$ref": "#/$defs/twoWitnesses"},
+    "conflicting_quorum_ids": {"$ref": "#/$defs/twoWitnesses"},
+    "recovered_quorum_ids": {"$ref": "#/$defs/twoWitnesses"},
+    "equivocating_witness_ids": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"const": "witness-b"}},
+    "equivocation_result": {"const": "detected-and-quarantined"},
+    "predecessor_service_result": {"const": "quarantined-as-required"},
+    "trusted_transparency_service_result": {"const": "conformant-for-root-registered-successor-and-quarantined-predecessor-scope"},
+    "append_only_consistency_result": {"const": "conformant-for-accepted-2-to-4-to-8-history-scope"},
+    "global_append_only_consistency_result": {"const": "not-claimed"},
+    "accepted_checkpoint_ids": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "string", "minLength": 1}},
+    "rejected_checkpoint_ids": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"const": "epoch1-size4-fork"}},
+    "accepted": {"const": true},
+    "boundary": {"const": "registered-transparency-quorum-consistency-equivocation-recovery-closure"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "twoWitnesses": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string", "pattern": "witness-[abcd]"}}
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a12-capsule.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "sourceTime", "transparencyTrustRoot", "services", "witnesses", "registration", "leaves", "checkpoints", "succession", "claimBoundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A12-1.0"},
+    "profile": {"const": "registered-transparency-witness-consistency-equivocation-recovery-v1"},
+    "sourceTime": {"type": "object", "minProperties": 7},
+    "transparencyTrustRoot": {"$ref": "#/$defs/key"},
+    "services": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/serviceKey"}},
+    "witnesses": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/witnessKey"}},
+    "registration": {"$ref": "#/$defs/signed"},
+    "leaves": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical", "fork", "recovery"],
+      "properties": {
+        "canonical": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/data"}},
+        "fork": {"$ref": "#/$defs/data"},
+        "recovery": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/data"}}
+      }
+    },
+    "checkpoints": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/checkpoint"}},
+    "succession": {"$ref": "#/$defs/signed"},
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["doesNotImply"],
+      "properties": {"doesNotImply": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "identity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["algorithm", "bytes", "digest"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "bytes": {"type": "integer", "minimum": 1},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "data": {
+      "type": "object", "additionalProperties": false,
+      "required": ["data", "identity"],
+      "properties": {
+        "data": {"type": "string", "minLength": 4},
+        "identity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "key": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "spki"],
+      "properties": {
+        "path": {"type": "string", "pattern": "tests/fixtures/p1-a12/[a-z0-9-]+-public-key\\.pem"},
+        "spki": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "serviceKey": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "epoch", "path", "spki"],
+      "properties": {
+        "id": {"type": "string", "pattern": "eigiib-p1-a12-log-[12]"},
+        "epoch": {"type": "integer", "minimum": 1, "maximum": 2},
+        "path": {"type": "string", "pattern": "tests/fixtures/p1-a12/log-epoch[12]-public-key\\.pem"},
+        "spki": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "witnessKey": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "path", "spki"],
+      "properties": {
+        "id": {"type": "string", "pattern": "witness-[abcd]"},
+        "path": {"type": "string", "pattern": "tests/fixtures/p1-a12/witness-[abcd]-public-key\\.pem"},
+        "spki": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "signed": {
+      "type": "object", "additionalProperties": false,
+      "required": ["payload", "envelope"],
+      "properties": {"payload": {"$ref": "#/$defs/data"}, "envelope": {"$ref": "#/$defs/data"}}
+    },
+    "witnessStatement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "payload", "envelope"],
+      "properties": {
+        "id": {"type": "string", "pattern": "witness-[abcd]"},
+        "payload": {"$ref": "#/$defs/data"},
+        "envelope": {"$ref": "#/$defs/data"}
+      }
+    },
+    "checkpoint": {
+      "type": "object", "additionalProperties": false,
+      "required": ["payload", "envelope", "witnessStatements", "expectedDecision"],
+      "properties": {
+        "payload": {"$ref": "#/$defs/data"},
+        "envelope": {"$ref": "#/$defs/data"},
+        "witnessStatements": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/witnessStatement"}},
+        "expectedDecision": {"enum": ["conformant", "rejected-equivocation-and-quarantined"]}
+      }
+    }
+  }
+}
