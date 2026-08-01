@@ -1,6 +1,6 @@
 {
   "standard": "EIGIIB-M0-A3-1.0",
-  "revision": "M0-A3-p1-a1-1.1",
+  "revision": "M0-A3-p1-a2-1.0",
   "as_of": "2026-08-01",
   "freshness_basis": "declared-observation-date-only",
   "external_specs": [
@@ -22,6 +22,16 @@
       "domain": "attestation",
       "canonical_uri": "https://github.com/in-toto/attestation/blob/v1.2.0/spec/README.md",
       "reference_mode": "versioned-reference",
+      "observed_on": "2026-08-01"
+    },
+    {
+      "id": "sigstore-bundle-0.3.2",
+      "name": "Sigstore Bundle Format",
+      "version": "0.3.2",
+      "status": "documented",
+      "domain": "signature-bundle",
+      "canonical_uri": "https://docs.sigstore.dev/about/bundle/",
+      "reference_mode": "moving-reference",
       "observed_on": "2026-08-01"
     },
     {
@@ -101,6 +111,58 @@
         "tests/fixtures/p1-a1/aggregate.json",
         "tests/fixtures/p1-a1/capsule.json",
         "conformance/p1-a1-in-toto.json"
+      ]
+    },
+    {
+      "id": "sigstore-p1-a1-dsse-bundle-v1",
+      "revision": "1.0",
+      "state": "implemented",
+      "external_spec": "sigstore-bundle-0.3.2",
+      "direction": "export",
+      "eigiib_authorities": ["p1_in_toto_contract", "e4"],
+      "mappings": [
+        {
+          "external_element": "Bundle.dsseEnvelope.payload",
+          "eigiib_element": "exact deterministic P1-A1 Statement bytes",
+          "relation": "transports",
+          "strength": "transport-only"
+        },
+        {
+          "external_element": "Bundle.dsseEnvelope.signatures[0]",
+          "eigiib_element": "cryptographic signature over DSSE PAE for the exact P1-A1 Statement bytes",
+          "relation": "authenticates",
+          "strength": "bounded-semantic"
+        },
+        {
+          "external_element": "Bundle.verificationMaterial.publicKeyIdentifier",
+          "eigiib_element": "out-of-band Ed25519 public-key binding hint",
+          "relation": "identifies",
+          "strength": "bounded-semantic"
+        },
+        {
+          "external_element": "P1-A2 binding.publicKeySpki",
+          "eigiib_element": "exact supplied Ed25519 SubjectPublicKeyInfo identity",
+          "relation": "represents",
+          "strength": "bounded-semantic"
+        }
+      ],
+      "does_not_imply": [
+        "signature-valid-does-not-imply-trusted-signer",
+        "public-key-match-does-not-imply-real-world-identity",
+        "trusted-key-does-not-imply-authorized-signer",
+        "authenticated-carrier-does-not-imply-eigiib-claim-truth",
+        "sigstore-bundle-does-not-imply-transparency-inclusion",
+        "absence-of-timestamp-does-not-imply-trusted-time",
+        "p1-a2-bundle-does-not-imply-scitt-registration"
+      ],
+      "evidence": [
+        "docs/P1-A2-SIGSTORE-SIGNED-BUNDLE-CAPSULE.md",
+        "schemas/eigiib-p1-a2-sigstore-bundle.schema.json",
+        "tools/eigiib_sigstore_bundle.py",
+        "tests/test_eigiib_sigstore_bundle.py",
+        "tests/fixtures/p1-a2/bundle.json",
+        "tests/fixtures/p1-a2/public-key.pem",
+        "conformance/p1-a2-sigstore.json"
       ]
     },
     {
