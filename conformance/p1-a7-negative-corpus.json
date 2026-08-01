@@ -1,8 +1,16 @@
 {
-  "standard": "EIGIIB-P1-A7-draft-0.1",
-  "status": "design-open",
-  "profile": "differential-negative-corpus-v1",
   "contract": "docs/P1-A7-DIFFERENTIAL-NEGATIVE-CORPUS-AND-PARSER-AMBIGUITY-CLOSURE.md",
+  "corpus_manifest": "tests/fixtures/p1-a7/corpus.json",
+  "error_class_equivalence": "not-evaluated",
+  "generator": "tools/eigiib_negative_vector_generator.py",
+  "generator_replay": "required-by-p1-a7.1-ci",
+  "generator_vector_count": 8,
+  "generator_version": "0.1.0",
+  "negative_replay": "not-evaluated",
+  "portable_error_taxonomy": "tests/fixtures/p1-a7/error-taxonomy.json",
+  "positive_replay": "not-evaluated",
+  "production_replays": [],
+  "profile": "differential-negative-corpus-v1",
   "required_routes": [
     "reference-python-openssl",
     "independent-go-stdlib",
@@ -13,10 +21,8 @@
     "macos-15",
     "windows-2025"
   ],
-  "corpus_manifest": "not-yet-created",
-  "portable_error_taxonomy": "draft",
-  "positive_replay": "not-evaluated",
-  "negative_replay": "not-evaluated",
-  "error_class_equivalence": "not-evaluated",
-  "production_replays": []
+  "schema": "schemas/eigiib-p1-a7-negative-vector.schema.json",
+  "standard": "EIGIIB-P1-A7-draft-0.2",
+  "status": "a7.1-structural-closure",
+  "taxonomy_schema": "schemas/eigiib-p1-a7-error-taxonomy.schema.json"
 }
