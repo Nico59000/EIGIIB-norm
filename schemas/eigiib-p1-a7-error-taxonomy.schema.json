@@ -1,0 +1,92 @@
+{
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a7-error-taxonomy.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "claimBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "const": "p1_negative_corpus_taxonomy"
+        },
+        "doesNotImply": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "authority",
+        "doesNotImply"
+      ],
+      "type": "object"
+    },
+    "classes": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$",
+            "type": "string"
+          },
+          "layer": {
+            "enum": [
+              "json",
+              "base64",
+              "path",
+              "manifest",
+              "identity",
+              "signature",
+              "cbor",
+              "cose",
+              "receipt",
+              "projection",
+              "route",
+              "internal"
+            ]
+          },
+          "precedence": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "layer",
+          "precedence",
+          "description"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "precedence_rule": {
+      "const": "lowest-rank-first-authoritative-boundary"
+    },
+    "profile": {
+      "const": "portable-error-taxonomy-v1"
+    },
+    "standard": {
+      "const": "EIGIIB-P1-A7.1-TAXONOMY-1.0"
+    }
+  },
+  "required": [
+    "standard",
+    "profile",
+    "precedence_rule",
+    "classes",
+    "claimBoundary"
+  ],
+  "title": "EIGIIB P1-A7.1 portable error taxonomy",
+  "type": "object"
+}
