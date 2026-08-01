@@ -3,6 +3,8 @@ name: P1-A9 bootstrap publisher
 on:
   push:
     branches: [agent/p1-a9-bootstrap-publisher]
+  pull_request:
+    branches: [agent/p1-a8-exact-distribution-bundle]
 
 permissions:
   contents: write
