@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/p1-a8-bundle-manifest-1.0.json",
+  "title": "EIGIIB P1-A8 exact USTAR bundle manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "releaseId", "sourceCommit", "authorityRoot", "archiveRoot", "embeddedManifestPath", "sourcePathPrefix", "sourceTreeRoot", "ustarProfile", "entries"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A8-BUNDLE-1.0"},
+    "profile": {"const": "exact-ustar-source-distribution-v1"},
+    "releaseId": {"type": "string", "minLength": 1},
+    "sourceCommit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "authorityRoot": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "archiveRoot": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "embeddedManifestPath": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
+    "sourcePathPrefix": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+/$"},
+    "sourceTreeRoot": {"$ref": "#/$defs/treeRoot"},
+    "ustarProfile": {"$ref": "#/$defs/ustar"},
+    "entries": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/entry"}}
+  },
+  "$defs": {
+    "treeRoot": {
+      "type": "object", "additionalProperties": false, "required": ["algorithm", "digest"],
+      "properties": {"algorithm": {"const": "sha256-over-path-mode-size-sha256-gitblob-v1"}, "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    },
+    "ustar": {
+      "type": "object", "additionalProperties": false,
+      "required": ["format", "pathEncoding", "pathOrder", "uid", "gid", "mtime", "regularMode", "executableMode", "directoryEntries", "paxHeaders", "trailerBlocks"],
+      "properties": {
+        "format": {"const": "ustar"}, "pathEncoding": {"const": "ascii"}, "pathOrder": {"const": "bytewise-ascending"},
+        "uid": {"const": 0}, "gid": {"const": 0}, "mtime": {"const": 0}, "regularMode": {"const": "0644"},
+        "executableMode": {"const": "0755"}, "directoryEntries": {"const": false}, "paxHeaders": {"const": false}, "trailerBlocks": {"const": 2}
+      }
+    },
+    "entry": {
+      "type": "object", "additionalProperties": false, "required": ["path", "mode", "bytes", "sha256", "gitBlobSha1"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"}, "mode": {"enum": ["0644", "0755"]},
+        "bytes": {"type": "integer", "minimum": 0}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "gitBlobSha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    }
+  }
+}

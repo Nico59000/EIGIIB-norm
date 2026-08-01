@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/p1-a8-release-policy-1.0.json",
+  "title": "EIGIIB P1-A8 exact distribution policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "releaseId", "sourceCommit", "authorityRoot", "archiveRoot", "bundleName", "manifestName", "releaseName", "checksumName", "requiredPublishers", "requiredPlatforms", "claimBoundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A8-POLICY-1.0"},
+    "profile": {"const": "exact-ustar-source-distribution-v1"},
+    "releaseId": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "sourceCommit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "authorityRoot": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "archiveRoot": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "bundleName": {"type": "string", "pattern": "^[A-Za-z0-9._-]+\\.tar$"},
+    "manifestName": {"type": "string", "pattern": "^[A-Za-z0-9._-]+\\.json$"},
+    "releaseName": {"type": "string", "pattern": "^[A-Za-z0-9._-]+\\.json$"},
+    "checksumName": {"const": "SHA256SUMS"},
+    "requiredPublishers": {"const": ["reference-python-stdlib", "independent-go-stdlib"]},
+    "requiredPlatforms": {"const": ["ubuntu-24.04", "macos-15", "windows-2025"]},
+    "claimBoundary": {"$ref": "#/$defs/claimBoundary"}
+  },
+  "$defs": {
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["doesNotImply"],
+      "properties": {"doesNotImply": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}
+    }
+  }
+}
