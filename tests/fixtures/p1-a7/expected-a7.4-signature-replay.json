@@ -1,0 +1,248 @@
+{
+  "claim_boundary": [
+    "valid-signature-does-not-imply-trusted-or-authorized-signer",
+    "manifest-and-dsse-replay-does-not-imply-eigiib-claim-truth",
+    "fixture-signature-replay-does-not-imply-production-key-custody",
+    "external-route-pre-cose-dsse-check-does-not-imply-go-cose-invocation",
+    "a7-4-closure-does-not-imply-cbor-cose-or-receipt-negative-closure"
+  ],
+  "error_class_equivalence_result": "conformant",
+  "findings": [],
+  "multi_defect_precedence_result": "conformant",
+  "negative_replay_result": "conformant",
+  "observation_count": 30,
+  "observations": [
+    {
+      "accepted": true,
+      "boundary": "signature",
+      "error_class": null,
+      "route": "reference-python-openssl",
+      "vector_id": "a7-positive-p1-a2-carrier"
+    },
+    {
+      "accepted": true,
+      "boundary": "signature",
+      "error_class": null,
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-positive-p1-a2-carrier"
+    },
+    {
+      "accepted": true,
+      "boundary": "signature",
+      "error_class": null,
+      "route": "external-go-cose",
+      "vector_id": "a7-positive-p1-a2-carrier"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-manifest-missing-signature-member"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-manifest-missing-signature-member"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "external-go-cose",
+      "vector_id": "a7-manifest-missing-signature-member"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-manifest-member-order-swap"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-manifest-member-order-swap"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "external-go-cose",
+      "vector_id": "a7-manifest-member-order-swap"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-manifest-payload-digest-mismatch"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-manifest-payload-digest-mismatch"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "external-go-cose",
+      "vector_id": "a7-manifest-payload-digest-mismatch"
+    },
+    {
+      "accepted": false,
+      "boundary": "dsse",
+      "error_class": "signature.malformed",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-dsse-wrong-payload-type"
+    },
+    {
+      "accepted": false,
+      "boundary": "dsse",
+      "error_class": "signature.malformed",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-dsse-wrong-payload-type"
+    },
+    {
+      "accepted": false,
+      "boundary": "dsse",
+      "error_class": "signature.malformed",
+      "route": "external-go-cose",
+      "vector_id": "a7-dsse-wrong-payload-type"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature",
+      "error_class": "signature.invalid",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-dsse-pae-payload-byte-change"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature",
+      "error_class": "signature.invalid",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-dsse-pae-payload-byte-change"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature",
+      "error_class": "signature.invalid",
+      "route": "external-go-cose",
+      "vector_id": "a7-dsse-pae-payload-byte-change"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature-carrier",
+      "error_class": "signature.malformed",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-signature-truncated"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature-carrier",
+      "error_class": "signature.malformed",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-signature-truncated"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature-carrier",
+      "error_class": "signature.malformed",
+      "route": "external-go-cose",
+      "vector_id": "a7-signature-truncated"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature",
+      "error_class": "signature.invalid",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-signature-bitflip"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature",
+      "error_class": "signature.invalid",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-signature-bitflip"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature",
+      "error_class": "signature.invalid",
+      "route": "external-go-cose",
+      "vector_id": "a7-signature-bitflip"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature-carrier",
+      "error_class": "signature.malformed",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-dsse-keyid-mismatch"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature-carrier",
+      "error_class": "signature.malformed",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-dsse-keyid-mismatch"
+    },
+    {
+      "accepted": false,
+      "boundary": "signature-carrier",
+      "error_class": "signature.malformed",
+      "route": "external-go-cose",
+      "vector_id": "a7-dsse-keyid-mismatch"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "reference-python-openssl",
+      "vector_id": "a7-multi-manifest-order-and-signature-bitflip"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "independent-go-stdlib",
+      "vector_id": "a7-multi-manifest-order-and-signature-bitflip"
+    },
+    {
+      "accepted": false,
+      "boundary": "manifest",
+      "error_class": "manifest.invalid",
+      "route": "external-go-cose",
+      "vector_id": "a7-multi-manifest-order-and-signature-bitflip"
+    }
+  ],
+  "overall_result": "conformant",
+  "positive_replay_result": "conformant",
+  "profile": "manifest-dsse-signature-negative-replay-v1",
+  "routes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "standard": "EIGIIB-P1-A7.4-1.0",
+  "tool": "eigiib-signature-route-replay",
+  "tool_version": "0.1.0",
+  "vector_ids": [
+    "a7-manifest-missing-signature-member",
+    "a7-manifest-member-order-swap",
+    "a7-manifest-payload-digest-mismatch",
+    "a7-dsse-wrong-payload-type",
+    "a7-dsse-pae-payload-byte-change",
+    "a7-signature-truncated",
+    "a7-signature-bitflip",
+    "a7-dsse-keyid-mismatch",
+    "a7-multi-manifest-order-and-signature-bitflip"
+  ]
+}

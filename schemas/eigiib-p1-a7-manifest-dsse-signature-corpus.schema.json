@@ -1,0 +1,284 @@
+{
+  "$defs": {
+    "expect": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "const": false
+        },
+        "boundary": {
+          "enum": [
+            "manifest",
+            "dsse",
+            "signature-carrier",
+            "signature"
+          ]
+        },
+        "errorClass": {
+          "enum": [
+            "manifest.invalid",
+            "signature.malformed",
+            "signature.invalid"
+          ]
+        },
+        "precedence": {
+          "items": {
+            "enum": [
+              "manifest.invalid",
+              "signature.malformed",
+              "signature.invalid"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "accepted",
+        "errorClass",
+        "boundary",
+        "precedence"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "identity"
+      ],
+      "type": "object"
+    },
+    "identity": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "algorithm",
+        "digest",
+        "bytes"
+      ],
+      "type": "object"
+    },
+    "mutation": {
+      "properties": {
+        "operator": {
+          "enum": [
+            "manifest.delete-member",
+            "manifest.swap-members",
+            "manifest.set-digest",
+            "manifest.refresh-member",
+            "dsse.set-payload-type",
+            "dsse.append-payload-hex",
+            "dsse.truncate-signature",
+            "dsse.flip-signature-byte",
+            "dsse.set-keyid"
+          ]
+        }
+      },
+      "required": [
+        "operator"
+      ],
+      "type": "object"
+    },
+    "platforms": {
+      "items": false,
+      "maxItems": 3,
+      "minItems": 3,
+      "prefixItems": [
+        {
+          "const": "ubuntu-24.04"
+        },
+        {
+          "const": "macos-15"
+        },
+        {
+          "const": "windows-2025"
+        }
+      ],
+      "type": "array"
+    },
+    "routes": {
+      "items": false,
+      "maxItems": 3,
+      "minItems": 3,
+      "prefixItems": [
+        {
+          "const": "reference-python-openssl"
+        },
+        {
+          "const": "independent-go-stdlib"
+        },
+        {
+          "const": "external-go-cose"
+        }
+      ],
+      "type": "array"
+    },
+    "vector": {
+      "additionalProperties": false,
+      "properties": {
+        "claimBoundary": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 2,
+          "type": "array"
+        },
+        "expect": {
+          "$ref": "#/$defs/expect"
+        },
+        "id": {
+          "pattern": "^a7-[a-z0-9-]+$",
+          "type": "string"
+        },
+        "layer": {
+          "enum": [
+            "manifest",
+            "dsse",
+            "signature",
+            "multi"
+          ]
+        },
+        "mutations": {
+          "items": {
+            "$ref": "#/$defs/mutation"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "requiredPlatforms": {
+          "$ref": "#/$defs/platforms"
+        },
+        "requiredRoutes": {
+          "$ref": "#/$defs/routes"
+        }
+      },
+      "required": [
+        "id",
+        "layer",
+        "mutations",
+        "expect",
+        "requiredRoutes",
+        "requiredPlatforms",
+        "claimBoundary"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a7-manifest-dsse-signature-corpus.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "claimBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "const": "p1_negative_corpus_contract"
+        },
+        "doesNotImply": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 4,
+          "type": "array"
+        }
+      },
+      "required": [
+        "authority",
+        "doesNotImply"
+      ],
+      "type": "object"
+    },
+    "generator": {
+      "additionalProperties": false,
+      "properties": {
+        "canonicalJson": {
+          "const": "utf8-sort-keys-indent-2-lf-v1"
+        },
+        "sequenceMode": {
+          "const": "ordered-application-v1"
+        },
+        "tool": {
+          "const": "tools/eigiib_signature_route_replay.py"
+        },
+        "version": {
+          "const": "0.1.0"
+        }
+      },
+      "required": [
+        "tool",
+        "version",
+        "canonicalJson",
+        "sequenceMode"
+      ],
+      "type": "object"
+    },
+    "profile": {
+      "const": "manifest-dsse-signature-negative-replay-v1"
+    },
+    "requiredPlatforms": {
+      "$ref": "#/$defs/platforms"
+    },
+    "requiredRoutes": {
+      "$ref": "#/$defs/routes"
+    },
+    "sourceBundle": {
+      "$ref": "#/$defs/fileRef"
+    },
+    "sourcePublicKey": {
+      "$ref": "#/$defs/fileRef"
+    },
+    "standard": {
+      "const": "EIGIIB-P1-A7.4-1.0"
+    },
+    "taxonomy": {
+      "$ref": "#/$defs/fileRef"
+    },
+    "vectors": {
+      "items": {
+        "$ref": "#/$defs/vector"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "standard",
+    "profile",
+    "generator",
+    "taxonomy",
+    "sourceBundle",
+    "sourcePublicKey",
+    "requiredRoutes",
+    "requiredPlatforms",
+    "vectors",
+    "claimBoundary"
+  ],
+  "title": "EIGIIB P1-A7.4 manifest, DSSE and signature negative corpus",
+  "type": "object"
+}

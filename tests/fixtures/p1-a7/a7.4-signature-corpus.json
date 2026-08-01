@@ -1,0 +1,369 @@
+{
+  "claimBoundary": {
+    "authority": "p1_negative_corpus_contract",
+    "doesNotImply": [
+      "p1-a2-source-identity-does-not-imply-source-authenticity",
+      "signature-validity-does-not-imply-trusted-or-authorized-signer",
+      "closed-negative-fixtures-do-not-imply-production-input-coverage",
+      "p1-a7.4-does-not-replace-p1-a2-or-p1-a5-authorities"
+    ]
+  },
+  "generator": {
+    "canonicalJson": "utf8-sort-keys-indent-2-lf-v1",
+    "sequenceMode": "ordered-application-v1",
+    "tool": "tools/eigiib_signature_route_replay.py",
+    "version": "0.1.0"
+  },
+  "profile": "manifest-dsse-signature-negative-replay-v1",
+  "requiredPlatforms": [
+    "ubuntu-24.04",
+    "macos-15",
+    "windows-2025"
+  ],
+  "requiredRoutes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "sourceBundle": {
+    "identity": {
+      "algorithm": "sha256",
+      "bytes": 3907,
+      "digest": "dd14c7556ea261cee03c40615368511bf9360e5d7eae764804d7b426f4ed6da4"
+    },
+    "path": "tests/fixtures/p1-a2/bundle.json"
+  },
+  "sourcePublicKey": {
+    "identity": {
+      "algorithm": "sha256",
+      "bytes": 113,
+      "digest": "c19da3ce34da869c1eff2438a961fbecbbd1dfd54e8f9b5a80e4efeac4758f81"
+    },
+    "path": "tests/fixtures/p1-a2/public-key.pem"
+  },
+  "standard": "EIGIIB-P1-A7.4-1.0",
+  "taxonomy": {
+    "identity": {
+      "algorithm": "sha256",
+      "bytes": 3513,
+      "digest": "b7c896ec9c26a2582fa0ac828fb8f9cf6d3f463e3352edbe630fbc9c06b826b6"
+    },
+    "path": "tests/fixtures/p1-a7/error-taxonomy.json"
+  },
+  "vectors": [
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-manifest-dsse-signature-profile",
+        "observed-rejection-does-not-imply-universal-parser-or-crypto-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "manifest",
+        "errorClass": "manifest.invalid",
+        "precedence": [
+          "manifest.invalid"
+        ]
+      },
+      "id": "a7-manifest-missing-signature-member",
+      "layer": "manifest",
+      "mutations": [
+        {
+          "name": "signature",
+          "operator": "manifest.delete-member"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-manifest-dsse-signature-profile",
+        "observed-rejection-does-not-imply-universal-parser-or-crypto-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "manifest",
+        "errorClass": "manifest.invalid",
+        "precedence": [
+          "manifest.invalid"
+        ]
+      },
+      "id": "a7-manifest-member-order-swap",
+      "layer": "manifest",
+      "mutations": [
+        {
+          "first": "payload",
+          "operator": "manifest.swap-members",
+          "second": "signature"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-manifest-dsse-signature-profile",
+        "observed-rejection-does-not-imply-universal-parser-or-crypto-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "manifest",
+        "errorClass": "manifest.invalid",
+        "precedence": [
+          "manifest.invalid"
+        ]
+      },
+      "id": "a7-manifest-payload-digest-mismatch",
+      "layer": "manifest",
+      "mutations": [
+        {
+          "name": "payload",
+          "operator": "manifest.set-digest",
+          "value": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-manifest-dsse-signature-profile",
+        "observed-rejection-does-not-imply-universal-parser-or-crypto-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "dsse",
+        "errorClass": "signature.malformed",
+        "precedence": [
+          "signature.malformed"
+        ]
+      },
+      "id": "a7-dsse-wrong-payload-type",
+      "layer": "dsse",
+      "mutations": [
+        {
+          "operator": "dsse.set-payload-type",
+          "value": "application/octet-stream"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-manifest-dsse-signature-profile",
+        "observed-rejection-does-not-imply-universal-parser-or-crypto-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "signature",
+        "errorClass": "signature.invalid",
+        "precedence": [
+          "signature.invalid"
+        ]
+      },
+      "id": "a7-dsse-pae-payload-byte-change",
+      "layer": "signature",
+      "mutations": [
+        {
+          "hex": "20",
+          "operator": "dsse.append-payload-hex"
+        },
+        {
+          "name": "payload",
+          "operator": "manifest.refresh-member"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-manifest-dsse-signature-profile",
+        "observed-rejection-does-not-imply-universal-parser-or-crypto-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "signature-carrier",
+        "errorClass": "signature.malformed",
+        "precedence": [
+          "signature.malformed"
+        ]
+      },
+      "id": "a7-signature-truncated",
+      "layer": "signature",
+      "mutations": [
+        {
+          "bytes": 1,
+          "operator": "dsse.truncate-signature"
+        },
+        {
+          "name": "signature",
+          "operator": "manifest.refresh-member"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-manifest-dsse-signature-profile",
+        "observed-rejection-does-not-imply-universal-parser-or-crypto-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "signature",
+        "errorClass": "signature.invalid",
+        "precedence": [
+          "signature.invalid"
+        ]
+      },
+      "id": "a7-signature-bitflip",
+      "layer": "signature",
+      "mutations": [
+        {
+          "index": 0,
+          "mask": 1,
+          "operator": "dsse.flip-signature-byte"
+        },
+        {
+          "name": "signature",
+          "operator": "manifest.refresh-member"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-manifest-dsse-signature-profile",
+        "observed-rejection-does-not-imply-universal-parser-or-crypto-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "signature-carrier",
+        "errorClass": "signature.malformed",
+        "precedence": [
+          "signature.malformed"
+        ]
+      },
+      "id": "a7-dsse-keyid-mismatch",
+      "layer": "dsse",
+      "mutations": [
+        {
+          "operator": "dsse.set-keyid",
+          "value": "p1-a2-ed25519-spki-sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    {
+      "claimBoundary": [
+        "portable-class-is-bounded-to-closed-manifest-dsse-signature-profile",
+        "observed-rejection-does-not-imply-universal-parser-or-crypto-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "boundary": "manifest",
+        "errorClass": "manifest.invalid",
+        "precedence": [
+          "manifest.invalid",
+          "signature.invalid"
+        ]
+      },
+      "id": "a7-multi-manifest-order-and-signature-bitflip",
+      "layer": "multi",
+      "mutations": [
+        {
+          "first": "payload",
+          "operator": "manifest.swap-members",
+          "second": "signature"
+        },
+        {
+          "index": 0,
+          "mask": 1,
+          "operator": "dsse.flip-signature-byte"
+        },
+        {
+          "name": "signature",
+          "operator": "manifest.refresh-member"
+        }
+      ],
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    }
+  ]
+}
