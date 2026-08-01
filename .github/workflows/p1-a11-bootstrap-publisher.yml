@@ -1,0 +1,65 @@
+name: P1-A11 bootstrap publisher
+
+on:
+  pull_request:
+    branches: [agent/p1-a10-delegated-authorization-revocation]
+
+permissions:
+  contents: write
+
+env:
+  GOTOOLCHAIN: local
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/p1-a11-bootstrap-publisher
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.26.5'
+          cache: false
+      - name: Reconstruct exact P1-A11 payload
+        shell: bash
+        run: |
+          cat \
+            .bootstrap/p1a11-00.bin \
+            .bootstrap/p1a11-01.bin \
+            .bootstrap/p1a11-02-03.bin \
+            .bootstrap/p1a11-04-05.bin \
+            .bootstrap/p1a11-06-07.bin \
+            .bootstrap/p1a11-08-09.bin \
+            .bootstrap/p1a11-10-11.bin \
+            > "$RUNNER_TEMP/p1a11-payload.tar.gz"
+          printf '%s  %s\n' \
+            '8da81c55b1ba86e22f805553a2c57f9008f93ec65f5438a98b5be9c4678cbb69' \
+            "$RUNNER_TEMP/p1a11-payload.tar.gz" | sha256sum -c -
+      - name: Validate and publish exact P1-A11 tree
+        shell: bash
+        run: |
+          git checkout --detach d2fcb409c93f88e41c1ce084aa29baffc1809581
+          mapfile -t files < <(tar -tzf "$RUNNER_TEMP/p1a11-payload.tar.gz")
+          test "${#files[@]}" = '30'
+          test "$(printf '%s\n' "${files[@]}" | sort -u | wc -l | tr -d ' ')" = '30'
+          tar -xzf "$RUNNER_TEMP/p1a11-payload.tar.gz" -C .
+          python -m py_compile tools/eigiib_p1_a11_common.py tools/eigiib_p1_a11_crypto.py tools/eigiib_p1_a11_time_check.py tools/eigiib_p1_a11_route_replay.py tests/test_eigiib_p1_a11_time.py
+          python -m unittest tests/test_eigiib_p1_a11_time.py -v
+          python tools/eigiib_p1_a11_time_check.py . --capsule tests/fixtures/p1-a11/capsule.json --expected tests/fixtures/p1-a11/expected-report.json --openssl openssl --json
+          (cd independent && go test ./p1time ./cmd/eigiib-p1-time-adapter)
+          (cd external && go test ./p1time ./cmd/eigiib-p1-time-adapter)
+          python tools/eigiib_p1_a11_route_replay.py . --capsule tests/fixtures/p1-a11/capsule.json --expected tests/fixtures/p1-a11/expected-replay.json --go go --openssl openssl --json
+          ! grep -R -n 'BEGIN PRIVATE KEY' conformance docs schemas tests tools independent external
+          git add -- "${files[@]}"
+          test "$(git diff --cached --name-only | wc -l | tr -d ' ')" = '30'
+          test -z "$(git diff --name-only)"
+          git config user.name 'eigiib-p1-a11-publisher'
+          git config user.email 'actions@users.noreply.github.com'
+          git commit -m 'Implement P1-A11 trusted timestamp validity replay'
+          test "$(git rev-parse HEAD^)" = 'd2fcb409c93f88e41c1ce084aa29baffc1809581'
+          git push --force origin HEAD:refs/heads/agent/p1-a11-trusted-timestamp-validity-replay
