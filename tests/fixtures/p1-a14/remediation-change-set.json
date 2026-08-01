@@ -1,0 +1,1 @@
+{"changes":["reject-revoked-fixture-content","bind-parser-state-to-fixed-release","preserve-predecessor-revocation-floor"],"fixtureOnly":true,"standard":"EIGIIB-P1-A14-CHANGESET-1.0","vulnerabilityIds":["EIGIIB-FIXTURE-VULN-2026-0001"]}
