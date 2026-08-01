@@ -1,0 +1,113 @@
+name: P1-A15 live GitHub release and API readback replay
+
+on:
+  pull_request:
+    branches: [agent/p1-a14-advisory-remediation-fixed-release-replay]
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  live-release-replay:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.26.5'
+          cache: false
+      - name: Expose macOS OpenSSL 3
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          candidate="$(brew --prefix openssl@3)/bin"
+          test -x "$candidate/openssl"
+          echo "$candidate" >> "$GITHUB_PATH"
+      - name: Expose Windows OpenSSL
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $candidate = 'C:\Program Files\Git\usr\bin'
+          if (!(Test-Path "$candidate\openssl.exe")) { throw 'Git for Windows OpenSSL is unavailable' }
+          $candidate | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: Distribution capabilities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python --version
+          go version
+          openssl version
+          gh --version
+      - name: Python contract and mutation tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_p1_a15_live_release.py
+      - name: Exact reference report
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/eigiib_p1_a15_live_release_check.py --output actual-report.json >/dev/null
+          cmp tests/fixtures/p1-a15/expected-report.json actual-report.json
+      - name: Independent Go contract tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd independent
+          go test ./p1liverelease ./cmd/eigiib-p1-live-release-adapter
+      - name: Reference Python live route
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/eigiib_p1_a15_live_readback.py > route-python.json
+      - name: Independent Go live route
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd independent
+          go run ./cmd/eigiib-p1-live-release-adapter --root .. --live > ../route-go.json
+      - name: External gh CLI live route
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/eigiib_p1_a15_gh_route.py > route-gh.json
+      - name: Exact three-route replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/eigiib_p1_a15_route_replay.py route-python.json route-go.json route-gh.json --output actual-replay.json >/dev/null
+          cmp tests/fixtures/p1-a15/expected-replay.json actual-replay.json
+      - name: Closed schema validation
+        shell: bash
+        run: python tools/eigiib_p1_a15_schema_check.py
+      - name: No private key in P1-A15 artifact scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          pattern='BEGIN PRIVATE'' KEY'
+          ! grep -R -n --binary-files=without-match "$pattern" \
+            docs/P1-A15-* conformance/P1-A15-* conformance/p1-a15-* \
+            schemas/eigiib-p1-a15-* tests/fixtures/p1-a15 tests/test_eigiib_p1_a15_* \
+            tools/eigiib_p1_a15_* independent/p1liverelease independent/cmd/eigiib-p1-live-release-adapter
+      - name: No methodology-specific source terminology in normative artifact scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          pattern_one="$(printf '\110\124\053\116\124')"
+          pattern_two="$(printf '\110\145\171\164\151\156\147.\102\145\163\164\145\157\144')"
+          pattern_three="$(printf '\116\106/\116\124')"
+          ! grep -R -n -E "${pattern_one}|${pattern_two}|${pattern_three}" \
+            docs/P1-A15-* conformance/P1-A15-* conformance/p1-a15-* \
+            schemas/eigiib-p1-a15-* tests/fixtures/p1-a15 tests/test_eigiib_p1_a15_* \
+            tools/eigiib_p1_a15_* independent/p1liverelease independent/cmd/eigiib-p1-live-release-adapter
