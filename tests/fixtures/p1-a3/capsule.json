@@ -1,0 +1,77 @@
+{
+  "binding": {
+    "leafIndex": 0,
+    "p1A2Bundle": {
+      "algorithm": "sha256",
+      "bytes": 3908,
+      "digest": "4a8afd9f3d67947fc397199d6e9c9ff024e240b58517954d508a03f517ab13ef"
+    },
+    "proofType": "inclusion",
+    "treeSize": 1,
+    "vds": "RFC9162_SHA256",
+    "vdsId": 1
+  },
+  "claimBoundary": {
+    "authority": "e5",
+    "doesNotImply": [
+      "receipt-signature-valid-does-not-imply-trusted-transparency-service",
+      "inclusion-proof-valid-does-not-imply-global-append-only-consistency",
+      "receipt-bound-registration-does-not-imply-eigiib-claim-truth",
+      "location-header-does-not-imply-receipt-authenticity",
+      "registration-http-status-does-not-imply-persistence-without-receipt",
+      "receipt-registration-does-not-imply-e11-trusted-time",
+      "single-receipt-does-not-imply-e6-cross-view-convergence",
+      "scitt-registration-does-not-imply-registration-policy-correctness",
+      "p1-a3-fixture-does-not-imply-production-transparency-service"
+    ],
+    "inclusionProofValidity": "verified-rfc9162-sha256",
+    "receiptSignatureValidity": "cryptographic-signature-valid-for-supplied-transparency-service-key",
+    "registrationEvidence": "receipt-proves-inclusion-relative-to-supplied-key"
+  },
+  "external_specs": [
+    "scitt-rfc9943",
+    "cose-receipts-rfc9942",
+    "scitt-scrapi-11"
+  ],
+  "profile": "scitt-p1-a2-receipt-v1",
+  "receipt": {
+    "data": "0oRY1aUBJwRYILnEAWDUsslQU7fYnfD9LV6wMc+c5PBMlW+yh5yO2H2pD6IBeDFodHRwczovL2VpZ2lpYi5leGFtcGxlL3AxLWEzL3RyYW5zcGFyZW5jeS1zZXJ2aWNlAnhRdXJuOmVpZ2lpYjpwMS1hMjo0YThhZmQ5ZjNkNjc5NDdmYzM5NzE5OWQ2ZTljOWZmMDI0ZTI0MGI1ODUxNzk1NGQ1MDhhMDNmNTE3YWIxM2VmEHgeYXBwbGljYXRpb24vc2NpdHQtcmVjZWlwdCtjb3NlGQGLAaEZAYyhIIFEgwEAgPZYQMzTXZyP8aKpdBHtYvGqsahfhHgHbrnAl504F5ah8olfBrNsBRYXZ4PlvvCi1paZm0KJSmK9PPuLbEtnbdGEiQk=",
+    "encoding": "base64-cbor",
+    "identity": {
+      "algorithm": "sha256",
+      "bytes": 296,
+      "digest": "d369c3cedc67bfa6d931f563edc92dcce4aac26f19ffe9750c08e9f1418f4e87"
+    },
+    "transparencyServiceKeySpki": {
+      "algorithm": "sha256",
+      "bytes": 44,
+      "digest": "b9c40160d4b2c95053b7d89df0fd2d5eb031cf9ce4f04c956fb2879c8ed87da9"
+    }
+  },
+  "registration": {
+    "apiProfile": "draft-ietf-scitt-scrapi-11",
+    "location": "https://transparency.example/entries/eaa1c03ef2383819130dd3b4e2f64f6c0ba7e84cbe684688a70626356c2f5fe6",
+    "method": "POST",
+    "receiptMediaType": "application/scitt-receipt+cose",
+    "requestMediaType": "application/scitt-statement+cose",
+    "resource": "/entries",
+    "status": 201,
+    "transcriptMode": "fixture-no-network"
+  },
+  "signedStatement": {
+    "data": "0oRY16UBJwNwYXBwbGljYXRpb24vY2JvcgRYIE6Qi5fYu8F+wnQ5XRj1iPl/Kw8AU8MLJlMJ3rQieopED6IBeCNodHRwczovL2VpZ2lpYi5leGFtcGxlL3AxLWEzL2lzc3VlcgJ4UXVybjplaWdpaWI6cDEtYTI6NGE4YWZkOWYzZDY3OTQ3ZmMzOTcxOTlkNmU5YzlmZjAyNGUyNDBiNTg1MTc5NTRkNTA4YTAzZjUxN2FiMTNlZhB4IGFwcGxpY2F0aW9uL3NjaXR0LXN0YXRlbWVudCtjb3NloFhso2VieXRlcxkPRGZzaGEyNTZYIEqK/Z89Z5R/w5cZnW6cn/Ak4kC1hReVTVCKA/UXqxPvaW1lZGlhVHlwZXgtYXBwbGljYXRpb24vdm5kLmRldi5zaWdzdG9yZS5idW5kbGUudjAuMytqc29uWECCLdn0wkYjcu52WWz406x+lkqZ0F8pli0Rfq7UZ7XU52IDWRDrBru/kGswjxuW3tMP5zRj2XWM8OOfTMz6RYgN",
+    "encoding": "base64-cbor",
+    "identity": {
+      "algorithm": "sha256",
+      "bytes": 396,
+      "digest": "eaa1c03ef2383819130dd3b4e2f64f6c0ba7e84cbe684688a70626356c2f5fe6"
+    },
+    "issuerKeySpki": {
+      "algorithm": "sha256",
+      "bytes": 44,
+      "digest": "4e908b97d8bbc17ec274395d18f588f97f2b0f0053c30b265309deb4227a8a44"
+    }
+  },
+  "standard": "EIGIIB-P1-A3-1.0",
+  "trust_scope": "supplied-public-keys-only"
+}
