@@ -1,0 +1,91 @@
+name: P1-A13 bootstrap publisher
+
+on:
+  push:
+    branches: [agent/p1-a13-bootstrap-publisher]
+
+permissions:
+  contents: write
+
+env:
+  GOTOOLCHAIN: local
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  publish:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/p1-a13-bootstrap-publisher
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.26.5'
+          cache: false
+      - name: Reconstruct exact payload
+        shell: bash
+        run: |
+          cat bootstrap/p1-a13-payload.tar.xz.b64.part-* | base64 -d > "$RUNNER_TEMP/p1-a13-payload.tar.xz"
+          echo 'aec83ce80f20181bfaf8e6d49a11ce189669419c23cd4fa2640e2878104440bd  '$RUNNER_TEMP'/p1-a13-payload.tar.xz' | sha256sum -c -
+          python - <<'PY'
+          import tarfile
+          from pathlib import Path
+          import os
+          archive = Path(os.environ["RUNNER_TEMP"]) / "p1-a13-payload.tar.xz"
+          root = Path.cwd().resolve()
+          with tarfile.open(archive, "r:xz") as tf:
+              for member in tf.getmembers():
+                  name = member.name
+                  if member.issym() or member.islnk() or name.startswith("/") or ".." in Path(name).parts:
+                      raise SystemExit(f"unsafe archive member: {name}")
+                  target = (root / name).resolve()
+                  if root not in target.parents and target != root:
+                      raise SystemExit(f"archive escape: {name}")
+              tf.extractall(root)
+          PY
+      - name: Validate Python route and schemas
+        run: |
+          python -m unittest tests/test_eigiib_p1_a13_revocation.py -v
+          python tools/eigiib_p1_a13_revocation_check.py . --capsule tests/fixtures/p1-a13/capsule.json --expected tests/fixtures/p1-a13/expected-report.json --openssl openssl --json
+          python tools/eigiib_p1_a13_schema_check.py .
+      - name: Validate Go routes
+        run: |
+          (cd independent && go test ./p1revocation ./cmd/eigiib-p1-revocation-adapter)
+          (cd external && go test ./p1revocation ./cmd/eigiib-p1-revocation-adapter)
+          python tools/eigiib_p1_a13_route_replay.py . --capsule tests/fixtures/p1-a13/capsule.json --expected tests/fixtures/p1-a13/expected-replay.json --go go --openssl openssl --json
+      - name: Verify published scope
+        shell: bash
+        run: |
+          ! grep -R -n 'BEGIN PRIVATE KEY' \
+            conformance/P1-A13-MANUAL-REVIEW.md \
+            conformance/p1-a13-revocation.json \
+            docs/P1-A13-CONTENT-REVOCATION-DISTRIBUTION-WITHDRAWAL-AND-ANTI-ROLLBACK-REPLAY.md \
+            schemas/eigiib-p1-a13-*.json \
+            tests/fixtures/p1-a13 \
+            tests/test_eigiib_p1_a13_revocation.py \
+            tools/eigiib_p1_a13_*.py \
+            independent/p1revocation independent/cmd/eigiib-p1-revocation-adapter \
+            external/p1revocation external/cmd/eigiib-p1-revocation-adapter
+      - name: Publish validated payload
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add \
+            conformance/P1-A13-MANUAL-REVIEW.md \
+            conformance/p1-a13-revocation.json \
+            docs/P1-A13-CONTENT-REVOCATION-DISTRIBUTION-WITHDRAWAL-AND-ANTI-ROLLBACK-REPLAY.md \
+            schemas/eigiib-p1-a13-*.json \
+            tests/fixtures/p1-a13 \
+            tests/test_eigiib_p1_a13_revocation.py \
+            tools/eigiib_p1_a13_*.py \
+            independent/p1revocation independent/cmd/eigiib-p1-revocation-adapter \
+            external/p1revocation external/cmd/eigiib-p1-revocation-adapter
+          git diff --cached --check
+          git commit -m 'Publish validated P1-A13 payload'
+          git push origin HEAD:agent/p1-a13-bootstrap-publisher
