@@ -1,0 +1,51 @@
+{
+  "claim_boundary": [
+    "a7-2-first-slice-does-not-imply-full-negative-corpus-closure",
+    "pre-cose-rejection-does-not-imply-external-cose-library-invocation",
+    "portable-error-equivalence-does-not-imply-identical-parser-internals",
+    "fixture-replay-does-not-imply-production-input-coverage"
+  ],
+  "error_class_equivalence_result": "conformant",
+  "findings": [],
+  "multi_defect_precedence_result": "not-evaluated-by-p1-a7.2",
+  "negative_replay_result": "conformant",
+  "observation_count": 18,
+  "observations": [
+    {"accepted": true, "boundary": "path", "error_class": null, "route": "reference-python-openssl", "vector_id": "a7-positive-seed"},
+    {"accepted": true, "boundary": "path", "error_class": null, "route": "independent-go-stdlib", "vector_id": "a7-positive-seed"},
+    {"accepted": true, "boundary": "path", "error_class": null, "route": "external-go-cose", "vector_id": "a7-positive-seed"},
+    {"accepted": false, "boundary": "json", "error_class": "syntax.invalid-json", "route": "reference-python-openssl", "vector_id": "a7-json-duplicate-standard"},
+    {"accepted": false, "boundary": "json", "error_class": "syntax.invalid-json", "route": "independent-go-stdlib", "vector_id": "a7-json-duplicate-standard"},
+    {"accepted": false, "boundary": "json", "error_class": "syntax.invalid-json", "route": "external-go-cose", "vector_id": "a7-json-duplicate-standard"},
+    {"accepted": false, "boundary": "json", "error_class": "syntax.invalid-json", "route": "reference-python-openssl", "vector_id": "a7-json-trailing-data"},
+    {"accepted": false, "boundary": "json", "error_class": "syntax.invalid-json", "route": "independent-go-stdlib", "vector_id": "a7-json-trailing-data"},
+    {"accepted": false, "boundary": "json", "error_class": "syntax.invalid-json", "route": "external-go-cose", "vector_id": "a7-json-trailing-data"},
+    {"accepted": false, "boundary": "utf8", "error_class": "syntax.invalid-utf8", "route": "reference-python-openssl", "vector_id": "a7-utf8-invalid-prefix"},
+    {"accepted": false, "boundary": "utf8", "error_class": "syntax.invalid-utf8", "route": "independent-go-stdlib", "vector_id": "a7-utf8-invalid-prefix"},
+    {"accepted": false, "boundary": "utf8", "error_class": "syntax.invalid-utf8", "route": "external-go-cose", "vector_id": "a7-utf8-invalid-prefix"},
+    {"accepted": false, "boundary": "base64", "error_class": "encoding.noncanonical-base64", "route": "reference-python-openssl", "vector_id": "a7-base64-extra-padding"},
+    {"accepted": false, "boundary": "base64", "error_class": "encoding.noncanonical-base64", "route": "independent-go-stdlib", "vector_id": "a7-base64-extra-padding"},
+    {"accepted": false, "boundary": "base64", "error_class": "encoding.noncanonical-base64", "route": "external-go-cose", "vector_id": "a7-base64-extra-padding"},
+    {"accepted": false, "boundary": "path", "error_class": "path.unsafe", "route": "reference-python-openssl", "vector_id": "a7-path-parent-traversal"},
+    {"accepted": false, "boundary": "path", "error_class": "path.unsafe", "route": "independent-go-stdlib", "vector_id": "a7-path-parent-traversal"},
+    {"accepted": false, "boundary": "path", "error_class": "path.unsafe", "route": "external-go-cose", "vector_id": "a7-path-parent-traversal"}
+  ],
+  "overall_result": "conformant",
+  "positive_replay_result": "conformant",
+  "profile": "first-route-bound-json-utf8-base64-path-v1",
+  "routes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "standard": "EIGIIB-P1-A7.2-1.0",
+  "tool": "eigiib-negative-route-replay",
+  "tool_version": "0.1.0",
+  "vector_ids": [
+    "a7-json-duplicate-standard",
+    "a7-json-trailing-data",
+    "a7-utf8-invalid-prefix",
+    "a7-base64-extra-padding",
+    "a7-path-parent-traversal"
+  ]
+}
