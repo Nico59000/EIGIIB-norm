@@ -138,25 +138,55 @@ The catalog currently includes:
 - in-toto Attestation Framework v1.2.0;
 - Sigstore Bundle Format observed as v0.3.2 through a moving documentation reference;
 - SPDX v3.0.1;
-- SCITT architecture draft-ietf-scitt-architecture-22.
+- the historical SCITT architecture `draft-ietf-scitt-architecture-22` research reference;
+- RFC 9943, the published SCITT Architecture used by P1-A3;
+- RFC 9942, the published COSE Receipts specification used by P1-A3;
+- `draft-ietf-scitt-scrapi-11`, used only for the bounded P1-A3 registration transcript profile.
+
+The draft-22 entry is retained as historical registry state and is not silently rewritten into RFC 9943. This preserves the distinction between an earlier research reference and the later published standard.
 
 Other candidates such as TUF, SPIFFE, CycloneDX, OPA and Cedar remain eligible for later catalog/profile additions. They are not implicitly covered by the current registry.
 
 ## Profile implementation state
 
-The initial registry began as a declarative catalog. P1 now contains two implemented export capsules while preserving the other initial states.
+P1 now contains three implemented capsule stages while preserving historical and unrelated profile states.
 
 Current bounded relationships include:
 
-- `in-toto-aggregate-export-v1` — **implemented** by P1-A1: exports exact M0-A2 aggregate-report bytes as the subject and transported predicate payload of an in-toto `Statement/v1`, preserves the aggregate result and an explicit negative implication boundary, and deliberately provides no authentication envelope;
-- `sigstore-p1-a1-dsse-bundle-v1` — **implemented** by P1-A2: authenticates the exact deterministic P1-A1 Statement bytes in a Sigstore Bundle v0.3 DSSE carrier against one supplied out-of-band Ed25519 public key while keeping trust, authorization, transparency and trusted time unevaluated or absent;
-- `slsa-provenance-evidence-import-v1` — **specified**: consumes SLSA provenance as typed external evidence without promoting it to an EIGIIB truth claim;
-- `spdx-context-import-v1` — **specified**: consumes SPDX 3.0.1 data as artifact/context metadata without making SPDX the E3 provenance authority;
-- `scitt-transparency-research-v1` — **research**: studies SCITT draft-22 as a transparency transport for signed statements without replacing E5/E6 semantics.
+- `in-toto-aggregate-export-v1` — **implemented** by P1-A1: exports exact M0-A2 aggregate-report bytes in an in-toto `Statement/v1` while preserving the aggregate result and negative implication boundary, with no authentication envelope;
+- `sigstore-p1-a1-dsse-bundle-v1` — **implemented** by P1-A2: authenticates the exact deterministic P1-A1 Statement bytes in a Sigstore Bundle v0.3 DSSE carrier against one supplied Ed25519 public key while keeping trust, authorization, transparency and trusted time separate;
+- `scitt-p1-a2-registration-v1` — **implemented** by P1-A3 against RFC 9943: binds the exact P1-A2 carrier identity into a SCITT Signed Statement and consumes a Receipt as bounded registration evidence;
+- `cose-receipt-rfc9162-inclusion-v1` — **implemented** by P1-A3 against RFC 9942: recomputes the RFC9162_SHA256 inclusion relation and verifies the Receipt signature relative to one supplied Transparency Service public key;
+- `scrapi-registration-transcript-v1` — **implemented** by P1-A3 against exact draft SCRAPI-11: represents only the offline `POST /entries` / status / `Location` transcript and does not make the HTTP exchange the source of registration truth;
+- `slsa-provenance-evidence-import-v1` — **specified**;
+- `spdx-context-import-v1` — **specified**;
+- `scitt-transparency-research-v1` — **research**, retained against historical draft-22.
 
-Neither P1-A1 nor P1-A2 moves its profile to `validated`.
+No P1 profile is declared `validated`.
 
-P1-A1 has executable repository-local Statement evidence but no byte-exact external in-toto specification snapshot in M0-A3. P1-A2 additionally consumes a Sigstore documentation URI classified as `moving-reference`. Therefore both profiles remain `implemented` by design.
+P1-A1 lacks a byte-exact in-toto external-specification snapshot in M0-A3. P1-A2 uses a Sigstore moving reference. P1-A3 uses versioned RFC references and an exact API draft reference but does not vendor byte-identical external specification snapshots into the registry. The implementation evidence therefore remains `implemented`, not `validated`.
+
+## P1-A3 result boundary
+
+P1-A3 intentionally keeps these conclusions separate:
+
+```text
+Signed Statement signature valid
+!= trusted Issuer
+
+Receipt signature valid
+!= trusted Transparency Service
+
+RFC9162 inclusion verified
+!= global append-only consistency
+
+receipt-bound registration evidence
+!= E6 cross-view convergence
+!= E11 trusted time
+!= EIGIIB claim truth
+```
+
+P1-A3-H0.2 additionally requires full upstream P1-A2 authentication revalidation before the P1-A3 baseline can be accepted as a hardened positive result. This reuses the P1-A2 checker rather than reimplementing DSSE verification.
 
 ## Checker boundary
 
@@ -180,7 +210,7 @@ It checks repository-local profile structure and boundaries, including:
 
 It does not fetch external specifications, verify external signatures, evaluate SLSA levels, validate SPDX documents, submit SCITT statements, execute adapters, or infer external conformance.
 
-P1-A1 and P1-A2 have their own executable adapter/self-checks. M0-A3 validates profile declarations and evidence paths; P1-A1 validates the Statement capsule; P1-A2 validates the bounded DSSE signature carrier against the supplied key. None of those checks independently promotes an `implemented` profile to `validated`.
+P1-A1, P1-A2 and P1-A3 have their own executable adapter/self-checks. P1-A3 verifies its local COSE Signed Statement, RFC9162 inclusion proof and Receipt signature without contacting a Transparency Service; H0.2 composes the existing P1-A2 and P1-A3 checkers for authenticated-carrier handoff. None of these checks independently promotes an `implemented` profile to `validated`.
 
 ## External-reference freshness
 
