@@ -20,12 +20,6 @@ jobs:
         with:
           go-version: '1.26.5'
           cache: false
-      - name: Resolve external module checksums
-        working-directory: external
-        run: go mod tidy
-      - name: Emit external module checksums
-        working-directory: external
-        run: cat go.sum
       - name: P1-A6 Python contract tests
         run: python -m unittest tests/test_eigiib_external_verifier_bridge.py -v
       - name: P1-A5 exact baseline closure
@@ -48,9 +42,6 @@ jobs:
         with:
           go-version: '1.26.5'
           cache: false
-      - name: Resolve external module checksums
-        working-directory: external
-        run: go mod tidy
       - name: External bridge tests
         working-directory: external
         run: go test ./...
