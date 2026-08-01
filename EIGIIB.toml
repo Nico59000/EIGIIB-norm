@@ -4,7 +4,7 @@ conformance_target = "EIGIIB-C2"
 revision = "EIGIIB-E13-draft-1.0"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state", "p1_sigstore_contract", "p1_sigstore_state"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state", "p1_sigstore_contract", "p1_sigstore_state", "p1_scitt_contract", "p1_scitt_state"]
 
 [authorities]
 scope = "README.md"
@@ -44,6 +44,8 @@ p1_in_toto_contract = "docs/P1-A1-IN-TOTO-ATTESTATION-CAPSULE.md"
 p1_in_toto_state = "conformance/p1-a1-in-toto.json"
 p1_sigstore_contract = "docs/P1-A2-SIGSTORE-SIGNED-BUNDLE-CAPSULE.md"
 p1_sigstore_state = "conformance/p1-a2-sigstore.json"
+p1_scitt_contract = "docs/P1-A3-SCITT-TRANSPARENCY-REGISTRATION-CAPSULE.md"
+p1_scitt_state = "conformance/p1-a3-scitt.json"
 
 [checks]
 markdown_links = true
@@ -137,3 +139,9 @@ id = "sigstore-bundle-boundary-review"
 status = "complete"
 authority = "p1_sigstore_contract"
 attestation = "conformance/P1-A2-MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "scitt-receipt-boundary-review"
+status = "complete"
+authority = "p1_scitt_contract"
+attestation = "conformance/P1-A3-MANUAL-REVIEW.md"
