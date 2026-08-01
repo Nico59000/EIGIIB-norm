@@ -1,0 +1,112 @@
+{
+  "claimBoundary": {
+    "authority": "p1_negative_corpus_taxonomy",
+    "doesNotImply": [
+      "portable-class-equivalence-does-not-imply-identical-internal-errors",
+      "closed-precedence-does-not-imply-universal-parser-order",
+      "taxonomy-membership-does-not-imply-route-implementation",
+      "generator-taxonomy-does-not-imply-negative-replay-closure"
+    ]
+  },
+  "classes": [
+    {
+      "description": "The byte stream is not valid UTF-8.",
+      "id": "syntax.invalid-utf8",
+      "layer": "json",
+      "precedence": 1
+    },
+    {
+      "description": "The UTF-8 text is not one complete strict JSON value.",
+      "id": "syntax.invalid-json",
+      "layer": "json",
+      "precedence": 2
+    },
+    {
+      "description": "A base64 carrier is malformed or not in its required canonical spelling.",
+      "id": "encoding.noncanonical-base64",
+      "layer": "base64",
+      "precedence": 3
+    },
+    {
+      "description": "A path is absolute, escapes its root, traverses a symlink or is not a regular file.",
+      "id": "path.unsafe",
+      "layer": "path",
+      "precedence": 4
+    },
+    {
+      "description": "Manifest structure, membership or canonical ordering is invalid.",
+      "id": "manifest.invalid",
+      "layer": "manifest",
+      "precedence": 5
+    },
+    {
+      "description": "Declared byte length differs from the observed byte length.",
+      "id": "identity.length-mismatch",
+      "layer": "identity",
+      "precedence": 6
+    },
+    {
+      "description": "Declared digest differs from the observed digest.",
+      "id": "identity.digest-mismatch",
+      "layer": "identity",
+      "precedence": 7
+    },
+    {
+      "description": "A signature carrier cannot be parsed as the required structure.",
+      "id": "signature.malformed",
+      "layer": "signature",
+      "precedence": 8
+    },
+    {
+      "description": "A parsed signature does not verify for the supplied key and signed bytes.",
+      "id": "signature.invalid",
+      "layer": "signature",
+      "precedence": 9
+    },
+    {
+      "description": "CBOR uses a forbidden non-deterministic encoding.",
+      "id": "cbor.nondeterministic",
+      "layer": "cbor",
+      "precedence": 10
+    },
+    {
+      "description": "A COSE protected or critical header is outside the closed profile.",
+      "id": "cose.unsupported-header",
+      "layer": "cose",
+      "precedence": 11
+    },
+    {
+      "description": "The COSE object does not match the required tagged or untagged structure.",
+      "id": "cose.invalid-structure",
+      "layer": "cose",
+      "precedence": 12
+    },
+    {
+      "description": "The receipt proof, coordinates, root or detached binding is invalid.",
+      "id": "receipt.invalid-proof",
+      "layer": "receipt",
+      "precedence": 13
+    },
+    {
+      "description": "The portable differential projection is missing, extended or carries a wrong value.",
+      "id": "projection.invalid",
+      "layer": "projection",
+      "precedence": 14
+    },
+    {
+      "description": "A required route cannot execute in the declared environment.",
+      "id": "route.unavailable",
+      "layer": "route",
+      "precedence": 15
+    },
+    {
+      "description": "An implementation failure was not mapped to a closed portable class.",
+      "id": "internal.unmapped",
+      "layer": "internal",
+      "precedence": 16
+    }
+  ],
+  "precedence_rule": "lowest-rank-first-authoritative-boundary",
+  "profile": "portable-error-taxonomy-v1",
+  "standard": "EIGIIB-P1-A7.1-TAXONOMY-1.0"
+}
