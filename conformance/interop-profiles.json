@@ -1,6 +1,6 @@
 {
   "standard": "EIGIIB-M0-A3-1.0",
-  "revision": "M0-A3-p1-a2-1.1",
+  "revision": "M0-A3-p1-a3-1.0",
   "as_of": "2026-08-01",
   "freshness_basis": "declared-observation-date-only",
   "external_specs": [
@@ -53,6 +53,36 @@
       "canonical_uri": "https://datatracker.ietf.org/doc/html/draft-ietf-scitt-architecture-22",
       "reference_mode": "exact-draft",
       "observed_on": "2026-07-31"
+    },
+    {
+      "id": "scitt-rfc9943",
+      "name": "SCITT Architecture",
+      "version": "9943",
+      "status": "released",
+      "domain": "transparency",
+      "canonical_uri": "https://www.rfc-editor.org/rfc/rfc9943.html",
+      "reference_mode": "versioned-reference",
+      "observed_on": "2026-08-01"
+    },
+    {
+      "id": "cose-receipts-rfc9942",
+      "name": "COSE Receipts",
+      "version": "9942",
+      "status": "released",
+      "domain": "transparency",
+      "canonical_uri": "https://www.rfc-editor.org/rfc/rfc9942.html",
+      "reference_mode": "versioned-reference",
+      "observed_on": "2026-08-01"
+    },
+    {
+      "id": "scitt-scrapi-11",
+      "name": "SCITT Reference APIs",
+      "version": "draft-ietf-scitt-scrapi-11",
+      "status": "draft",
+      "domain": "transparency",
+      "canonical_uri": "https://datatracker.ietf.org/doc/html/draft-ietf-scitt-scrapi-11",
+      "reference_mode": "exact-draft",
+      "observed_on": "2026-08-01"
     }
   ],
   "profiles": [
@@ -164,6 +194,122 @@
         "tests/fixtures/p1-a2/bundle.json",
         "tests/fixtures/p1-a2/public-key.pem",
         "conformance/p1-a2-sigstore.json"
+      ]
+    },
+    {
+      "id": "scitt-p1-a2-registration-v1",
+      "revision": "1.0",
+      "state": "implemented",
+      "external_spec": "scitt-rfc9943",
+      "direction": "export",
+      "eigiib_authorities": ["p1_sigstore_contract", "p1_scitt_contract", "e4", "e5"],
+      "mappings": [
+        {
+          "external_element": "SCITT Signed Statement payload",
+          "eigiib_element": "exact P1-A2 Sigstore carrier byte identity",
+          "relation": "represents",
+          "strength": "bounded-semantic"
+        },
+        {
+          "external_element": "SCITT Signed Statement COSE_Sign1 signature",
+          "eigiib_element": "cryptographic signature relative to supplied P1-A3 Issuer public key",
+          "relation": "authenticates",
+          "strength": "bounded-semantic"
+        },
+        {
+          "external_element": "SCITT Receipt",
+          "eigiib_element": "receipt-bound registration evidence",
+          "relation": "supplies-evidence",
+          "strength": "bounded-semantic"
+        }
+      ],
+      "does_not_imply": [
+        "signed-statement-signature-valid-does-not-imply-trusted-issuer",
+        "scitt-receipt-does-not-imply-eigiib-claim-truth",
+        "receipt-presence-does-not-imply-global-append-only-consistency",
+        "scitt-registration-does-not-imply-registration-policy-correctness"
+      ],
+      "evidence": [
+        "docs/P1-A3-SCITT-TRANSPARENCY-REGISTRATION-CAPSULE.md",
+        "docs/P1-A3-SCITT-HARDENING-PROFILE-0.2.md",
+        "schemas/eigiib-p1-a3-scitt-receipt.schema.json",
+        "tools/eigiib_scitt_receipt.py",
+        "tools/eigiib_scitt_receipt_hardening_check.py",
+        "tests/test_eigiib_scitt_receipt.py",
+        "tests/test_eigiib_scitt_receipt_hardening.py",
+        "tests/fixtures/p1-a3/capsule.json",
+        "tests/fixtures/p1-a3/issuer-public-key.pem",
+        "tests/fixtures/p1-a3/ts-public-key.pem",
+        "conformance/p1-a3-scitt.json"
+      ]
+    },
+    {
+      "id": "cose-receipt-rfc9162-inclusion-v1",
+      "revision": "1.0",
+      "state": "implemented",
+      "external_spec": "cose-receipts-rfc9942",
+      "direction": "import",
+      "eigiib_authorities": ["p1_scitt_contract", "e5", "e6"],
+      "mappings": [
+        {
+          "external_element": "Receipt VDS=RFC9162_SHA256 inclusion proof",
+          "eigiib_element": "bounded inclusion evidence for exact SCITT Signed Statement bytes",
+          "relation": "supplies-evidence",
+          "strength": "bounded-semantic"
+        },
+        {
+          "external_element": "Receipt COSE_Sign1 signature",
+          "eigiib_element": "cryptographic signature relative to supplied Transparency Service public key",
+          "relation": "authenticates",
+          "strength": "bounded-semantic"
+        }
+      ],
+      "does_not_imply": [
+        "inclusion-proof-valid-does-not-imply-global-append-only-consistency",
+        "receipt-signature-valid-does-not-imply-trusted-transparency-service",
+        "single-receipt-does-not-imply-e6-cross-view-convergence"
+      ],
+      "evidence": [
+        "docs/P1-A3-SCITT-TRANSPARENCY-REGISTRATION-CAPSULE.md",
+        "tools/eigiib_scitt_receipt.py",
+        "tests/test_eigiib_scitt_receipt.py",
+        "tests/fixtures/p1-a3/capsule.json",
+        "tests/fixtures/p1-a3/ts-public-key.pem",
+        "conformance/p1-a3-scitt.json"
+      ]
+    },
+    {
+      "id": "scrapi-registration-transcript-v1",
+      "revision": "1.0",
+      "state": "implemented",
+      "external_spec": "scitt-scrapi-11",
+      "direction": "export",
+      "eigiib_authorities": ["p1_scitt_contract", "e5"],
+      "mappings": [
+        {
+          "external_element": "POST /entries and HTTP status",
+          "eigiib_element": "offline registration transcript metadata",
+          "relation": "transports",
+          "strength": "transport-only"
+        },
+        {
+          "external_element": "Location header",
+          "eigiib_element": "fixture locator bound to exact Signed Statement identity",
+          "relation": "identifies",
+          "strength": "bounded-semantic"
+        }
+      ],
+      "does_not_imply": [
+        "registration-http-status-does-not-imply-persistence-without-receipt",
+        "location-header-does-not-imply-receipt-authenticity",
+        "draft-api-transcript-does-not-imply-stable-api-interoperability"
+      ],
+      "evidence": [
+        "docs/P1-A3-SCITT-TRANSPARENCY-REGISTRATION-CAPSULE.md",
+        "tools/eigiib_scitt_receipt.py",
+        "tests/test_eigiib_scitt_receipt.py",
+        "tests/fixtures/p1-a3/capsule.json",
+        "conformance/p1-a3-scitt.json"
       ]
     },
     {
