@@ -1,0 +1,13 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://eigiib.example/schema/p1-a14-route-result-1.0",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["overall_result","portable_projection","routes","standard"],
+  "properties":{
+    "overall_result":{"const":"conformant"},
+    "portable_projection":{"type":"object","minProperties":28},
+    "routes":{"type":"array","minItems":3,"maxItems":3,"items":{"type":"object","additionalProperties":false,"required":["route","result"],"properties":{"route":{"enum":["reference-python-openssl","independent-go-stdlib","external-go-cose"]},"result":{"$ref":"eigiib-p1-a14-replay-report.schema.json"}}}},
+    "standard":{"const":"EIGIIB-P1-A14-REPLAY-1.0"}
+  }
+}

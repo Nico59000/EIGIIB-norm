@@ -1,0 +1,5 @@
+EIGIIB P1-A14 fixture fixed release
+release=eigiib-p1-a14-fixed-1.1
+version=1.1.0
+vulnerability=EIGIIB-FIXTURE-VULN-2026-0001
+behavior=reject-revoked-predecessor-and-bind-fixed-parser-state

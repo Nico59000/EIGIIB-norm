@@ -1,0 +1,33 @@
+{
+  "standard":"EIGIIB-P1-A14-CONFORMANCE-1.0",
+  "profile":"registered-advisory-remediation-fixed-release-v1",
+  "source_commit":"077634971f2c16f3f74eb4c6c5b75aa7099bee55",
+  "source_revocation_report_sha256":"7cbae1b7b686149b91bcea58d365e0700155185e78ac213913a0f3f07943e70b",
+  "source_revocation_capsule_sha256":"fb596478e6cad8fe4c8db9e95d54f138cb37f9452a32d938e3d2796ab49240f5",
+  "capsule_sha256":"7e157a0da1d5de8c35f15bd1bb72221343aab97395ffcd35a4f08de18312b798",
+  "advisory_id":"EIGIIB-SA-FIXTURE-2026-0001",
+  "remediation_id":"eigiib-p1-a14-remediation-1",
+  "fixed_release_id":"eigiib-p1-a14-fixed-1.1",
+  "fixed_release_descriptor_sha256":"762e8a347512baf53f50fec7e200d30b0ec4e9b77dd4a96a54ae89e57db686e1",
+  "fixed_release_archive_sha256":"14290ddd91cfcd07ba073424548568d0fc97cf8f0b6993cbc7ff5a3388268682",
+  "fixed_release_floor_sequence":43,
+  "replay_decisions":[
+    "accepted-idempotent-fixed-release-replay",
+    "rejected-revoked-predecessor",
+    "rejected-fixed-release-content-substitution",
+    "rejected-advisory-lineage-mismatch",
+    "rejected-below-fixed-release-floor"
+  ],
+  "decisions":{
+    "advisory_binding":"conformant-for-exact-revoked-content-and-registered-fixture-advisory-scope",
+    "remediation_lineage":"conformant-for-exact-revoked-predecessor-to-fixed-successor-fixture-scope",
+    "fixed_release_replay":"conformant-for-exact-fixed-release-and-no-history-advance-on-idempotent-replay-scope",
+    "vulnerability_remediation":"conformant-for-registered-fixture-advisory-lineage-and-fixed-artifact-identity-scope",
+    "real_world_vulnerability_resolution":"not-claimed",
+    "production_release_authorization":"not-claimed",
+    "live_release_publication":"not-claimed",
+    "overall_result":"conformant"
+  },
+  "boundary":"registered-advisory-remediation-lineage-fixed-release-replay-closure",
+  "next_natural_slice":"P1-A15 — Live GitHub Release, Immutable Asset Identity and API Readback Replay"
+}
