@@ -102,12 +102,12 @@ class P1A2SigstoreTests(unittest.TestCase):
         out = self.verify(obj)
         self.assertIn('P1A2.BINDING.STATEMENT_MISMATCH', self.codes(out))
 
-    def test_p1a1_source_mismatch_rejected(self):
+    def test_nonconformant_p1a1_source_rejected_upstream(self):
         p1 = json.loads(self.p1)
         p1['statement']['predicate']['aggregateResult']['value'] = 'non-conformant'
         raw = json.dumps(p1, indent=2, sort_keys=True).encode() + b'\n'
         out = self.verify(p1=raw)
-        self.assertIn('P1A2.P1A1.MISMATCH', self.codes(out))
+        self.assertIn('P1A2.P1A1.INVALID', self.codes(out))
 
     def test_boundary_weakening_rejected(self):
         obj = copy.deepcopy(self.bundle)
