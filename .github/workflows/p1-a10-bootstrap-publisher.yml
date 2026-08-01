@@ -1,102 +1,27 @@
-name: P1-A10 bootstrap publisher
+name: P1-A10 bootstrap payload diagnostic
 
 on:
   pull_request:
     branches: [agent/p1-a9-authenticated-release-supersession]
 
 permissions:
-  contents: write
-
-env:
-  GOTOOLCHAIN: local
+  contents: read
 
 jobs:
-  publish:
+  diagnostic:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           ref: agent/p1-a10-bootstrap-publisher
-          fetch-depth: 0
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
-        with:
-          python-version: '3.13.14'
-      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
-        with:
-          go-version: '1.26.5'
-          cache: false
-      - name: Reconstruct and verify payload
+      - name: Fragment identities
         shell: bash
         run: |
-          cat .bootstrap/p1a10-part-* > "$RUNNER_TEMP/p1a10.b64"
-          base64 -d "$RUNNER_TEMP/p1a10.b64" > "$RUNNER_TEMP/p1a10.tar.gz"
-          printf '%s  %s\n' \
-            'eac0e563ac0ab917065ff62974b388c0682ada347a91e3303ad56fd9663837e3' \
-            "$RUNNER_TEMP/p1a10.tar.gz" | sha256sum -c -
-      - name: Validate and publish non-workflow A10 tree
-        shell: bash
-        run: |
-          git checkout --detach d854ab836a9cdf23f88f23d620e1d61fd6bfcdf6
-          tar -xzf "$RUNNER_TEMP/p1a10.tar.gz" -C .
-
-          python -m py_compile \
-            tools/eigiib_p1_a10_common.py \
-            tools/eigiib_p1_a10_crypto.py \
-            tools/eigiib_p1_a10_authorization_check.py \
-            tools/eigiib_p1_a10_route_replay.py \
-            tests/test_eigiib_p1_a10_authorization.py
-          python -m unittest tests/test_eigiib_p1_a10_authorization.py -v
-          python tools/eigiib_p1_a10_authorization_check.py . \
-            --capsule tests/fixtures/p1-a10/capsule.json \
-            --expected tests/fixtures/p1-a10/expected-report.json \
-            --openssl openssl --json
-          (cd independent && go test ./p1authorization ./cmd/eigiib-p1-authorization-adapter)
-          (cd external && go test ./p1authorization ./cmd/eigiib-p1-authorization-adapter)
-          python tools/eigiib_p1_a10_route_replay.py . \
-            --capsule tests/fixtures/p1-a10/capsule.json \
-            --expected tests/fixtures/p1-a10/expected-replay.json \
-            --go go --openssl openssl --json
-          ! grep -R -n 'BEGIN PRIVATE KEY' \
-            conformance docs schemas tests tools independent external .github
-
-          git add \
-            conformance/P1-A10-MANUAL-REVIEW.md \
-            conformance/p1-a10-authorization.json \
-            conformance/p1-post-a9-closure-roadmap.json \
-            docs/P1-A10-DELEGATED-RELEASE-AUTHORIZATION-THRESHOLD-APPROVAL-AND-REVOCATION-REPLAY.md \
-            docs/P1-POST-A9-CLOSURE-ROADMAP.md \
-            external/cmd/eigiib-p1-authorization-adapter/main.go \
-            external/p1authorization/adapter.go \
-            external/p1authorization/adapter_test.go \
-            external/p1authorization/cose.go \
-            external/p1authorization/json_helpers.go \
-            external/p1authorization/types.go \
-            independent/cmd/eigiib-p1-authorization-adapter/main.go \
-            independent/p1authorization/adapter.go \
-            independent/p1authorization/adapter_test.go \
-            independent/p1authorization/cbor.go \
-            independent/p1authorization/cose.go \
-            independent/p1authorization/json_helpers.go \
-            independent/p1authorization/types.go \
-            schemas/eigiib-p1-a10-capsule.schema.json \
-            schemas/eigiib-p1-a10-replay-report.schema.json \
-            schemas/eigiib-p1-a10-route-result.schema.json \
-            tests/fixtures/p1-a10/capsule.json \
-            tests/fixtures/p1-a10/delegate-a-public-key.pem \
-            tests/fixtures/p1-a10/delegate-b-public-key.pem \
-            tests/fixtures/p1-a10/delegate-c-public-key.pem \
-            tests/fixtures/p1-a10/expected-replay.json \
-            tests/fixtures/p1-a10/expected-report.json \
-            tests/fixtures/p1-a10/root-public-key.pem \
-            tests/test_eigiib_p1_a10_authorization.py \
-            tools/eigiib_p1_a10_authorization_check.py \
-            tools/eigiib_p1_a10_common.py \
-            tools/eigiib_p1_a10_crypto.py \
-            tools/eigiib_p1_a10_route_replay.py
-
-          test "$(git diff --cached --name-only | wc -l | tr -d ' ')" = '33'
-          git config user.name 'eigiib-p1-a10-publisher'
-          git config user.email 'actions@users.noreply.github.com'
-          git commit -m 'Stage P1-A10 validated non-workflow tree'
-          test "$(git rev-parse HEAD^)" = 'd854ab836a9cdf23f88f23d620e1d61fd6bfcdf6'
-          git push --force origin HEAD:refs/heads/agent/p1-a10-delegated-authorization-revocation
+          wc -c .bootstrap/p1a10-part-*
+          git hash-object .bootstrap/p1a10-part-*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p1a10-bootstrap-fragments
+          path: .bootstrap/p1a10-part-*
+          if-no-files-found: error
+          compression-level: 0
