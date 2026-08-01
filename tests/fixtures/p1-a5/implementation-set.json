@@ -1,0 +1,47 @@
+{
+  "standard": "EIGIIB-P1-A5-hardening-0.2",
+  "profile": "p1-a5-independent-source-closure-v1",
+  "baselineChainIdentity": {
+    "algorithm": "sha256",
+    "digest": "8082fbe1c235ec3c5b5809eeb70d5593d20887f75a310abb8b4a9762be28a97d",
+    "bytes": 2182
+  },
+  "toolchainDeclaration": {
+    "goVersion": "1.26.5",
+    "pythonVersion": "3.13",
+    "opensslMode": "system-provider-reference-route-only",
+    "actions": [
+      {"name": "actions/checkout", "sha": "d23441a48e516b6c34aea4fa41551a30e30af803"},
+      {"name": "actions/setup-python", "sha": "ece7cb06caefa5fff74198d8649806c4678c61a1"},
+      {"name": "actions/setup-go", "sha": "924ae3a1cded613372ab5595356fb5720e22ba16"}
+    ],
+    "runners": ["ubuntu-24.04", "macos-15", "windows-2025"]
+  },
+  "implementations": [
+    {"role": "go-module", "path": "independent/go.mod", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "go-cli", "path": "independent/cmd/eigiib-p1-independent/main.go", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "go-cbor", "path": "independent/p1verify/cbor.go", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "go-core", "path": "independent/p1verify/core.go", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "go-json-manifest", "path": "independent/p1verify/json_manifest.go", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "go-p1a1-p1a2", "path": "independent/p1verify/p1a1_a2.go", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "go-p1a3", "path": "independent/p1verify/p1a3.go", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "python-differential-checker", "path": "tools/eigiib_verifier_matrix.py", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "matrix-manifest", "path": "tests/fixtures/p1-a5/matrix.json", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "canonical-independent-result", "path": "tests/fixtures/p1-a5/expected-independent-result.json", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "structural-state", "path": "conformance/p1-a5-verifier-matrix.json", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "line-ending-policy", "path": ".gitattributes", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "cross-platform-workflow", "path": ".github/workflows/p1-a5-matrix.yml", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}},
+    {"role": "hardening-checker", "path": "tools/eigiib_verifier_matrix_hardening_check.py", "identity": {"algorithm": "sha256", "digest": "0000000000000000000000000000000000000000000000000000000000000000", "bytes": 1}}
+  ],
+  "claimBoundary": {
+    "authority": "p1_verifier_matrix_contract",
+    "doesNotImply": [
+      "exact-source-closure-does-not-imply-trusted-go-toolchain-binaries",
+      "exact-workflow-bytes-do-not-imply-trusted-github-runner-image",
+      "pinned-action-commit-does-not-imply-action-or-platform-source-authenticity",
+      "source-identity-does-not-imply-independent-trust-roots",
+      "cross-platform-agreement-does-not-imply-production-equivalence",
+      "p1-a5-h0.2-does-not-replace-upstream-p1-or-e-authorities"
+    ]
+  }
+}
