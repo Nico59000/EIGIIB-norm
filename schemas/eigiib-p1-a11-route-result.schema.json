@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a11-route-result.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "route", "release_id", "authorization_report_sha256", "recovered_authorization_sha256", "time_trust_root_spki_sha256", "timestamp_authority_id", "timestamp_authority_spki_sha256", "time_policy_envelope_sha256", "not_before_unix", "not_after_unix", "accepted_observation_ids", "last_accepted_timestamp_unix", "not_yet_valid_result", "valid_window_result", "clock_rollback_result", "expiry_result", "trusted_timestamp_authority_result", "trusted_effective_time_result", "accepted", "boundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A11-ROUTE-1.0"},
+    "route": {"enum": ["reference-python-openssl", "independent-go-stdlib", "external-go-cose"]},
+    "release_id": {"type": "string"},
+    "authorization_report_sha256": {"$ref": "#/$defs/digest"},
+    "recovered_authorization_sha256": {"$ref": "#/$defs/digest"},
+    "time_trust_root_spki_sha256": {"$ref": "#/$defs/digest"},
+    "timestamp_authority_id": {"const": "eigiib-p1-a11-tsa-1"},
+    "timestamp_authority_spki_sha256": {"$ref": "#/$defs/digest"},
+    "time_policy_envelope_sha256": {"$ref": "#/$defs/digest"},
+    "not_before_unix": {"const": 1785600000},
+    "not_after_unix": {"const": 1785686400},
+    "accepted_observation_ids": {"const": ["valid-window"]},
+    "last_accepted_timestamp_unix": {"const": 1785603600},
+    "not_yet_valid_result": {"const": "rejected-as-required"},
+    "valid_window_result": {"const": "conformant"},
+    "clock_rollback_result": {"const": "rejected-as-required"},
+    "expiry_result": {"const": "rejected-as-required"},
+    "trusted_timestamp_authority_result": {"const": "conformant-for-supplied-time-root-delegation-scope"},
+    "trusted_effective_time_result": {"const": "conformant-for-signed-observation-and-closed-window-scope"},
+    "accepted": {"const": true},
+    "boundary": {"const": "trusted-time-window-rollback-expiry-closure"}
+  },
+  "$defs": {"digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

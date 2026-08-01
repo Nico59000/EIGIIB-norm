@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a11-capsule.schema.json",
+  "title": "EIGIIB P1-A11 trusted-time capsule",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["claimBoundary", "observations", "policy", "profile", "sourceAuthorization", "standard", "timestampAuthority", "timeTrustRoot"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A11-1.0"},
+    "profile": {"const": "trusted-timestamp-window-rollback-expiry-v1"},
+    "claimBoundary": {"$ref": "#/$defs/claimBoundary"},
+    "policy": {"$ref": "#/$defs/pair"},
+    "sourceAuthorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorizationCapsule", "authorizationReport", "recoveredAuthorizationPayload", "releaseDescriptor", "releaseId"],
+      "properties": {
+        "authorizationCapsule": {"$ref": "#/$defs/file"},
+        "authorizationReport": {"$ref": "#/$defs/file"},
+        "recoveredAuthorizationPayload": {"$ref": "#/$defs/identity"},
+        "releaseDescriptor": {"$ref": "#/$defs/identity"},
+        "releaseId": {"type": "string", "minLength": 1}
+      }
+    },
+    "timestampAuthority": {"allOf": [{"$ref": "#/$defs/key"}], "required": ["id", "path", "spki"]},
+    "timeTrustRoot": {"$ref": "#/$defs/key"},
+    "observations": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["envelope", "expectedDecision", "id", "payload"],
+        "properties": {
+          "envelope": {"$ref": "#/$defs/carrier"},
+          "payload": {"$ref": "#/$defs/carrier"},
+          "id": {"enum": ["before-window", "valid-window", "clock-rollback", "expired-window"]},
+          "expectedDecision": {"enum": ["rejected-not-yet-valid", "conformant", "rejected-clock-rollback", "rejected-expired"]}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "bytes", "digest"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "bytes": {"type": "integer", "minimum": 1},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "carrier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["data", "identity"],
+      "properties": {"data": {"type": "string", "minLength": 1}, "identity": {"$ref": "#/$defs/identity"}}
+    },
+    "pair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["envelope", "payload"],
+      "properties": {"envelope": {"$ref": "#/$defs/carrier"}, "payload": {"$ref": "#/$defs/carrier"}}
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "path"],
+      "properties": {"identity": {"$ref": "#/$defs/identity"}, "path": {"type": "string", "minLength": 1}}
+    },
+    "key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "spki"],
+      "properties": {"id": {"type": "string", "minLength": 1}, "path": {"type": "string", "minLength": 1}, "spki": {"$ref": "#/$defs/identity"}}
+    },
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["doesNotImply"],
+      "properties": {"doesNotImply": {"type": "array", "minItems": 7, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a11-replay-report.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "route_count", "observations", "trusted_timestamp_authority_result", "trusted_effective_time_result", "not_yet_valid_result", "valid_window_result", "clock_rollback_result", "expiry_result", "boundary", "overall_result"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A11-REPLAY-1.0"},
+    "profile": {"const": "trusted-timestamp-window-rollback-expiry-v1"},
+    "route_count": {"const": 3},
+    "observations": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "eigiib-p1-a11-route-result.schema.json"}},
+    "trusted_timestamp_authority_result": {"const": "conformant-for-supplied-time-root-delegation-scope"},
+    "trusted_effective_time_result": {"const": "conformant-for-signed-observation-and-closed-window-scope"},
+    "not_yet_valid_result": {"const": "rejected-as-required"},
+    "valid_window_result": {"const": "conformant"},
+    "clock_rollback_result": {"const": "rejected-as-required"},
+    "expiry_result": {"const": "rejected-as-required"},
+    "boundary": {"const": "trusted-time-window-rollback-expiry-closure"},
+    "overall_result": {"const": "conformant"}
+  }
+}
