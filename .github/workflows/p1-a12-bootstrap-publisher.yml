@@ -29,6 +29,25 @@ jobs:
       - name: Reconstruct exact P1-A12 payload
         shell: bash
         run: |
+          expected=(
+            f531c79250463b948dd17cafeb7e42d78465e5a2
+            fd3f53a60966083fadca5249cafaefc2b4d30589
+            c61de06c3dcbcdc6250b2f529b7febd8771f29de
+            c355bc23be28c32968b2a86fbe0044b21ac9b3c6
+            94ddea8cd0f5503035da79ca409cc2edd3a1a7a5
+            6236b999a226c3e8a49d43ccb2ea5e3908082d35
+            9d269af6ed9a35d56d2b80b5056c97af1b17eec1
+            c9846d6ac218968299a106fc7bd76db59c15da0b
+            2927c6ea44521c4936ced5179743baa36b76ea9a
+            3880a3a03ed4bef3fc5b297f396bcc246203724a
+          )
+          for i in {00..09}; do
+            path=".bootstrap/p1a12-part-${i}.b64"
+            index=$((10#$i))
+            actual="$(git hash-object "$path")"
+            printf '%s %s %s\n' "$path" "${expected[$index]}" "$actual"
+            test "$actual" = "${expected[$index]}"
+          done
           cat .bootstrap/p1a12-part-{00..09}.b64 > "$RUNNER_TEMP/p1a12-payload.b64"
           base64 --decode "$RUNNER_TEMP/p1a12-payload.b64" > "$RUNNER_TEMP/p1a12-payload.tar.gz"
           printf '%s  %s\n' \
