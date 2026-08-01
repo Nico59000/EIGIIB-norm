@@ -1,6 +1,8 @@
 name: P1-A13 bootstrap publisher
 
 on:
+  pull_request:
+    branches: [agent/p1-a13-content-revocation-withdrawal-anti-rollback]
   push:
     branches: [agent/p1-a13-bootstrap-publisher]
 
