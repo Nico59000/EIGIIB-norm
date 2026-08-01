@@ -3,8 +3,8 @@
     "leafIndex": 0,
     "p1A2Bundle": {
       "algorithm": "sha256",
-      "bytes": 3908,
-      "digest": "4a8afd9f3d67947fc397199d6e9c9ff024e240b58517954d508a03f517ab13ef"
+      "bytes": 3907,
+      "digest": "dd14c7556ea261cee03c40615368511bf9360e5d7eae764804d7b426f4ed6da4"
     },
     "proofType": "inclusion",
     "treeSize": 1,
@@ -35,22 +35,22 @@
   ],
   "profile": "scitt-p1-a2-receipt-v1",
   "receipt": {
-    "data": "0oRY1aUBJwRYILnEAWDUsslQU7fYnfD9LV6wMc+c5PBMlW+yh5yO2H2pD6IBeDFodHRwczovL2VpZ2lpYi5leGFtcGxlL3AxLWEzL3RyYW5zcGFyZW5jeS1zZXJ2aWNlAnhRdXJuOmVpZ2lpYjpwMS1hMjo0YThhZmQ5ZjNkNjc5NDdmYzM5NzE5OWQ2ZTljOWZmMDI0ZTI0MGI1ODUxNzk1NGQ1MDhhMDNmNTE3YWIxM2VmEHgeYXBwbGljYXRpb24vc2NpdHQtcmVjZWlwdCtjb3NlGQGLAaEZAYyhIIFEgwEAgPZYQMzTXZyP8aKpdBHtYvGqsahfhHgHbrnAl504F5ah8olfBrNsBRYXZ4PlvvCi1paZm0KJSmK9PPuLbEtnbdGEiQk=",
+    "data": "0oRY1aUBJwRYIG8SZaeUOk6bwYu8zSmedDjp1lempNFGFDRXEKnMiLfDD6IBeDFodHRwczovL2VpZ2lpYi5leGFtcGxlL3AxLWEzL3RyYW5zcGFyZW5jeS1zZXJ2aWNlAnhRdXJuOmVpZ2lpYjpwMS1hMjpkZDE0Yzc1NTZlYTI2MWNlZTAzYzQwNjE1MzY4NTExYmY5MzYwZTVkN2VhZTc2NDgwNGQ3YjQyNmY0ZWQ2ZGE0EHgeYXBwbGljYXRpb24vc2NpdHQtcmVjZWlwdCtjb3NlGQGLAaEZAYyhIIFEgwEAgPZYQNpwplcqQP2UJP16YAoPzybhSJesgmhJvinhGfgXaX7286LRcPFas4n4Ojaz4DUBkdwwP1QSK7RjJoY0Sp437QE=",
     "encoding": "base64-cbor",
     "identity": {
       "algorithm": "sha256",
       "bytes": 296,
-      "digest": "d369c3cedc67bfa6d931f563edc92dcce4aac26f19ffe9750c08e9f1418f4e87"
+      "digest": "207f3fe152fca1014a302b1d21c6725bd3b13b7ef8c3cd9bb42ccfafa2d8c88f"
     },
     "transparencyServiceKeySpki": {
       "algorithm": "sha256",
       "bytes": 44,
-      "digest": "b9c40160d4b2c95053b7d89df0fd2d5eb031cf9ce4f04c956fb2879c8ed87da9"
+      "digest": "6f1265a7943a4e9bc18bbccd299e7438e9d657a6a4d14614345710a9cc88b7c3"
     }
   },
   "registration": {
     "apiProfile": "draft-ietf-scitt-scrapi-11",
-    "location": "https://transparency.example/entries/eaa1c03ef2383819130dd3b4e2f64f6c0ba7e84cbe684688a70626356c2f5fe6",
+    "location": "https://transparency.example/entries/27c960d31e9afbf454c8bb6dbdd396309b3dec629f58d8f5c87553864e579d81",
     "method": "POST",
     "receiptMediaType": "application/scitt-receipt+cose",
     "requestMediaType": "application/scitt-statement+cose",
@@ -59,17 +59,17 @@
     "transcriptMode": "fixture-no-network"
   },
   "signedStatement": {
-    "data": "0oRY16UBJwNwYXBwbGljYXRpb24vY2JvcgRYIE6Qi5fYu8F+wnQ5XRj1iPl/Kw8AU8MLJlMJ3rQieopED6IBeCNodHRwczovL2VpZ2lpYi5leGFtcGxlL3AxLWEzL2lzc3VlcgJ4UXVybjplaWdpaWI6cDEtYTI6NGE4YWZkOWYzZDY3OTQ3ZmMzOTcxOTlkNmU5YzlmZjAyNGUyNDBiNTg1MTc5NTRkNTA4YTAzZjUxN2FiMTNlZhB4IGFwcGxpY2F0aW9uL3NjaXR0LXN0YXRlbWVudCtjb3NloFhso2VieXRlcxkPRGZzaGEyNTZYIEqK/Z89Z5R/w5cZnW6cn/Ak4kC1hReVTVCKA/UXqxPvaW1lZGlhVHlwZXgtYXBwbGljYXRpb24vdm5kLmRldi5zaWdzdG9yZS5idW5kbGUudjAuMytqc29uWECCLdn0wkYjcu52WWz406x+lkqZ0F8pli0Rfq7UZ7XU52IDWRDrBru/kGswjxuW3tMP5zRj2XWM8OOfTMz6RYgN",
+    "data": "0oRY16UBJwNwYXBwbGljYXRpb24vY2JvcgRYIGbOK1AnnQ+VWi5zQ0VgQ55OR7+m1vNl+Kg0k1EOl/RHD6IBeCNodHRwczovL2VpZ2lpYi5leGFtcGxlL3AxLWEzL2lzc3VlcgJ4UXVybjplaWdpaWI6cDEtYTI6ZGQxNGM3NTU2ZWEyNjFjZWUwM2M0MDYxNTM2ODUxMWJmOTM2MGU1ZDdlYWU3NjQ4MDRkN2I0MjZmNGVkNmRhNBB4IGFwcGxpY2F0aW9uL3NjaXR0LXN0YXRlbWVudCtjb3NloFhso2VieXRlcxkPQ2ZzaGEyNTZYIN0Ux1VuomHO4DxAYVNoURv5Ng5dfq52SATXtCb07W2kaW1lZGlhVHlwZXgtYXBwbGljYXRpb24vdm5kLmRldi5zaWdzdG9yZS5idW5kbGUudjAuMytqc29uWED1eJtfGiAh17joQhjXgBKiiJTwm+ol7/7KNtb/CmRIQ5ClEOybsmBqR4x0KxMuAva57w+Qux/HzbK7/sZ1FM8F",
     "encoding": "base64-cbor",
     "identity": {
       "algorithm": "sha256",
       "bytes": 396,
-      "digest": "eaa1c03ef2383819130dd3b4e2f64f6c0ba7e84cbe684688a70626356c2f5fe6"
+      "digest": "27c960d31e9afbf454c8bb6dbdd396309b3dec629f58d8f5c87553864e579d81"
     },
     "issuerKeySpki": {
       "algorithm": "sha256",
       "bytes": 44,
-      "digest": "4e908b97d8bbc17ec274395d18f588f97f2b0f0053c30b265309deb4227a8a44"
+      "digest": "66ce2b50279d0f955a2e73434560439e4e47bfa6d6f365f8a83493510e97f447"
     }
   },
   "standard": "EIGIIB-P1-A3-1.0",
