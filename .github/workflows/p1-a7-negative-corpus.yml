@@ -1,4 +1,4 @@
-name: P1-A7.5 deterministic CBOR COSE replay
+name: P1-A7.6 Receipt negative replay
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  cose-replay:
+  receipt-replay:
     strategy:
       fail-fast: false
       matrix:
@@ -43,7 +43,7 @@ jobs:
       - name: OpenSSL capability
         run: openssl version
       - name: P1-A7 Python adapter tests
-        run: python -m unittest tests/test_eigiib_negative_vector_generator.py tests/test_eigiib_p1_a7_reference_adapter.py tests/test_eigiib_p1_a7_structural_adapter.py tests/test_eigiib_p1_a7_signature_adapter.py tests/test_eigiib_p1_a7_cose_adapter.py -v
+        run: python -m unittest tests/test_eigiib_negative_vector_generator.py tests/test_eigiib_p1_a7_reference_adapter.py tests/test_eigiib_p1_a7_structural_adapter.py tests/test_eigiib_p1_a7_signature_adapter.py tests/test_eigiib_p1_a7_cose_adapter.py tests/test_eigiib_p1_a7_receipt_adapter.py -v
       - name: Independent Go adapter tests
         working-directory: independent
         run: go test ./...
@@ -60,3 +60,5 @@ jobs:
         run: python tools/eigiib_signature_route_replay.py . --go go --openssl openssl --expected tests/fixtures/p1-a7/expected-a7.4-signature-replay.json --json
       - name: Exact P1-A7.5 deterministic CBOR and COSE header replay
         run: python tools/eigiib_cose_route_replay.py . --go go --openssl openssl --expected tests/fixtures/p1-a7/expected-a7.5-cose-replay.json --json
+      - name: Exact P1-A7.6 Receipt detached binding proof and root replay
+        run: python tools/eigiib_receipt_route_replay.py . --go go --openssl openssl --expected tests/fixtures/p1-a7/expected-a7.6-receipt-replay.json --json
