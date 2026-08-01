@@ -1,4 +1,4 @@
-name: P1-A7.2 portable negative replay
+name: P1-A7.3 structural negative replay
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  route-bound-replay:
+  structural-replay:
     strategy:
       fail-fast: false
       matrix:
@@ -24,15 +24,17 @@ jobs:
         with:
           go-version: '1.26.5'
           cache: false
-      - name: P1-A7 generator and reference adapter tests
-        run: python -m unittest tests/test_eigiib_negative_vector_generator.py tests/test_eigiib_p1_a7_reference_adapter.py -v
-      - name: Independent Go adapter compilation
+      - name: P1-A7 generator and Python adapter tests
+        run: python -m unittest tests/test_eigiib_negative_vector_generator.py tests/test_eigiib_p1_a7_reference_adapter.py tests/test_eigiib_p1_a7_structural_adapter.py -v
+      - name: Independent Go adapter tests
         working-directory: independent
         run: go test ./...
-      - name: External Go adapter compilation
+      - name: External Go adapter tests
         working-directory: external
         run: go test ./...
-      - name: Exact deterministic corpus replay
+      - name: Exact P1-A7.1 deterministic corpus replay
         run: python tools/eigiib_negative_vector_generator.py . --json
-      - name: First three-route portable error replay
+      - name: Exact P1-A7.2 first route-bound replay
         run: python tools/eigiib_negative_route_replay.py . --go go --expected tests/fixtures/p1-a7/expected-a7.2-route-replay.json --json
+      - name: Exact P1-A7.3 structural and precedence replay
+        run: python tools/eigiib_structural_route_replay.py . --go go --expected tests/fixtures/p1-a7/expected-a7.3-structural-replay.json --json
