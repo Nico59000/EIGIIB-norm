@@ -1,0 +1,298 @@
+{
+  "$defs": {
+    "identity": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "algorithm",
+        "digest",
+        "bytes"
+      ],
+      "type": "object"
+    },
+    "mutation": {
+      "additionalProperties": true,
+      "properties": {
+        "hex": {
+          "pattern": "^(?:[0-9a-fA-F]{2})+$",
+          "type": "string"
+        },
+        "member": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "offset": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "operator": {
+          "enum": [
+            "raw.insert-hex",
+            "raw.append-utf8",
+            "json.duplicate-root-member",
+            "json.set",
+            "json.delete",
+            "json.append-string"
+          ]
+        },
+        "pointer": {
+          "type": "string"
+        },
+        "suffix": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [
+        "operator"
+      ],
+      "type": "object"
+    },
+    "vector": {
+      "additionalProperties": false,
+      "properties": {
+        "claimBoundary": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "expect": {
+          "additionalProperties": false,
+          "properties": {
+            "accepted": {
+              "const": false
+            },
+            "errorClass": {
+              "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$",
+              "type": "string"
+            },
+            "precedence": {
+              "items": {
+                "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$",
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "accepted",
+            "errorClass",
+            "precedence"
+          ],
+          "type": "object"
+        },
+        "generatedIdentity": {
+          "$ref": "#/$defs/identity"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9.-]+$",
+          "type": "string"
+        },
+        "layer": {
+          "enum": [
+            "json",
+            "base64",
+            "path",
+            "manifest",
+            "identity",
+            "signature",
+            "cbor",
+            "cose",
+            "receipt",
+            "projection"
+          ]
+        },
+        "mutation": {
+          "$ref": "#/$defs/mutation"
+        },
+        "requiredPlatforms": {
+          "items": {
+            "enum": [
+              "ubuntu-24.04",
+              "macos-15",
+              "windows-2025"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "requiredRoutes": {
+          "items": {
+            "enum": [
+              "reference-python-openssl",
+              "independent-go-stdlib",
+              "external-go-cose"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "additionalProperties": false,
+          "properties": {
+            "identity": {
+              "$ref": "#/$defs/identity"
+            },
+            "path": {
+              "pattern": "^tests/fixtures/",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "identity"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "layer",
+        "source",
+        "mutation",
+        "expect",
+        "requiredRoutes",
+        "requiredPlatforms",
+        "claimBoundary",
+        "generatedIdentity"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a7-negative-vector.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "claimBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "const": "p1_negative_corpus_contract"
+        },
+        "doesNotImply": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "authority",
+        "doesNotImply"
+      ],
+      "type": "object"
+    },
+    "generator": {
+      "additionalProperties": false,
+      "properties": {
+        "canonicalJson": {
+          "const": "utf8-sort-keys-indent-2-lf-v1"
+        },
+        "pointerSyntax": {
+          "const": "RFC6901"
+        },
+        "tool": {
+          "const": "tools/eigiib_negative_vector_generator.py"
+        },
+        "version": {
+          "const": "0.1.0"
+        }
+      },
+      "required": [
+        "tool",
+        "version",
+        "canonicalJson",
+        "pointerSyntax"
+      ],
+      "type": "object"
+    },
+    "profile": {
+      "const": "portable-negative-vector-v1"
+    },
+    "requiredPlatforms": {
+      "items": {
+        "enum": [
+          "ubuntu-24.04",
+          "macos-15",
+          "windows-2025"
+        ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "requiredRoutes": {
+      "items": {
+        "enum": [
+          "reference-python-openssl",
+          "independent-go-stdlib",
+          "external-go-cose"
+        ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "standard": {
+      "const": "EIGIIB-P1-A7.1-1.0"
+    },
+    "taxonomy": {
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "path": {
+          "const": "tests/fixtures/p1-a7/error-taxonomy.json"
+        }
+      },
+      "required": [
+        "path",
+        "identity"
+      ],
+      "type": "object"
+    },
+    "vectors": {
+      "items": {
+        "$ref": "#/$defs/vector"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "standard",
+    "profile",
+    "generator",
+    "taxonomy",
+    "requiredRoutes",
+    "requiredPlatforms",
+    "vectors",
+    "claimBoundary"
+  ],
+  "title": "EIGIIB P1-A7.1 portable negative-vector corpus",
+  "type": "object"
+}
