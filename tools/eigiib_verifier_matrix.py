@@ -72,7 +72,7 @@ def check_repository(root,go="go",openssl="openssl"):
  if rc or not baseline or baseline.get("end_to_end_result")!="conformant":findings.append(Finding("error","P1A5.REFERENCE.BASELINE","tools/eigiib_interop_chain.py",err or "reference baseline failed"));states["reference"]="invalid"
  else:states["reference"]="conformant"
  rc,hardened,err=run_json([sys.executable,"tools/eigiib_interop_chain_hardening_check.py",".","--openssl",openssl,"--json"],root)
- if rc or not hardened or hardened.get("hardening_result")!="conformant" or hardened.get("baseline_replay_result")!="conformant":findings.append(Finding("error","P1A5.REFERENCE.CLOSURE","tools/eigiib_interop_chain_hardening_check.py",err or "reference executable closure failed"));states["reference_closure"]="invalid"
+ if rc or not hardened or hardened.get("hardening_result")!="conformant" or hardened.get("baseline_replay_result")!="valid" or hardened.get("implementation_binding_result")!="valid":findings.append(Finding("error","P1A5.REFERENCE.CLOSURE","tools/eigiib_interop_chain_hardening_check.py",err or "reference executable closure failed"));states["reference_closure"]="invalid"
  else:states["reference_closure"]="conformant"
  rc,independent,err=run_json([go,"run","./cmd/eigiib-p1-independent","-root",".."],root/"independent")
  if rc or not independent or independent.get("end_to_end_result")!="conformant":findings.append(Finding("error","P1A5.INDEPENDENT.ROUTE","independent/cmd/eigiib-p1-independent",err or "independent route failed"));states["independent"]="invalid"
