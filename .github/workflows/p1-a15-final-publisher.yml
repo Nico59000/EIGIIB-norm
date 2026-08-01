@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base64 --decode bootstrap/p1-a15-final.tar.gz.b64 > /tmp/p1-a15-final.tar.gz
+          cat bootstrap/p1-a15-final.tar.gz.b64.part0* | base64 --decode > /tmp/p1-a15-final.tar.gz
           echo '58676ea0aed459bb9b34af54b20a7fa87514aa0cab6a383c7b0dcaeea6261f33  /tmp/p1-a15-final.tar.gz' | sha256sum -c -
           cat > /tmp/expected-paths <<'EOF'
           .github/workflows/p1-a15-live-release.yml
@@ -63,7 +63,10 @@ jobs:
           diff -u /tmp/expected-paths /tmp/actual-paths
           while IFS= read -r path; do test ! -e "$path"; done < /tmp/expected-paths
           tar -xzf /tmp/p1-a15-final.tar.gz
-          rm bootstrap/p1-a15-final.tar.gz.b64 .github/workflows/p1-a15-final-publisher.yml
+          rm -f \
+            bootstrap/p1-a15-final.tar.gz.b64 \
+            bootstrap/p1-a15-final.tar.gz.b64.part0* \
+            .github/workflows/p1-a15-final-publisher.yml
       - name: Distribution capabilities
         shell: bash
         run: |
