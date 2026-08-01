@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a7-authority-report.schema.json",
+  "title": "EIGIIB P1-A7.7 canonical authority report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "tool", "tool_version", "source_commit", "authority_root", "authority_file_count", "generator_vector_count", "negative_vector_count", "positive_carrier_count", "route_bound_observation_count", "routes", "platforms", "authority_inventory_result", "canonical_replay_identity_result", "cross_platform_reproducibility_result", "toolchain_policy_result", "authority_registration_result", "full_p1_a7_freeze_result", "overall_result", "findings", "claim_boundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A7.7-1.0"},
+    "profile": {"const": "full-corpus-authority-freeze-v1"},
+    "tool": {"const": "eigiib-p1-a7-authority-freeze"},
+    "tool_version": {"const": "0.1.0"},
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "authority_root": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "authority_file_count": {"const": 13},
+    "generator_vector_count": {"const": 8},
+    "negative_vector_count": {"const": 37},
+    "positive_carrier_count": {"const": 5},
+    "route_bound_observation_count": {"const": 141},
+    "routes": {"const": ["reference-python-openssl", "independent-go-stdlib", "external-go-cose"]},
+    "platforms": {"const": ["ubuntu-24.04", "macos-15", "windows-2025"]},
+    "authority_inventory_result": {"const": "conformant"},
+    "canonical_replay_identity_result": {"const": "conformant"},
+    "cross_platform_reproducibility_result": {"const": "conformant"},
+    "toolchain_policy_result": {"const": "conformant"},
+    "authority_registration_result": {"const": "conformant"},
+    "full_p1_a7_freeze_result": {"const": "conformant"},
+    "overall_result": {"const": "conformant"},
+    "findings": {"const": []},
+    "claim_boundary": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"type": "string"}}
+  }
+}

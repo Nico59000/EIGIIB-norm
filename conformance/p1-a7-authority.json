@@ -1,0 +1,33 @@
+{
+  "authority_manifest": "tests/fixtures/p1-a7/a7.7-authority-freeze.json",
+  "authority_root": {
+    "algorithm": "sha256-over-sorted-git-blob-identities-v1",
+    "digest": "e338247156165c48b7b1ce88a69f24123defc0162b1f3f6a58c4ecd510e105be"
+  },
+  "canonical_report": "tests/fixtures/p1-a7/expected-a7.7-authority-report.json",
+  "counts": {
+    "authorityFiles": 13,
+    "generatorVectors": 8,
+    "negativeVectors": 37,
+    "positiveCarriers": 5,
+    "routeBoundObservations": 141
+  },
+  "production_input_coverage": "not-evaluated",
+  "registration_result": "conformant",
+  "required_platforms": [
+    "ubuntu-24.04",
+    "macos-15",
+    "windows-2025"
+  ],
+  "required_routes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "source_commit": "5e652647ab40d55c1041a2b4a4432931a62e95e8",
+  "standard": "EIGIIB-P1-A7.7-1.0",
+  "status": "full-corpus-authority-frozen",
+  "toolchain_policy": "tests/fixtures/p1-a7/a7.7-toolchain-policy.json",
+  "trust_and_global_consistency": "not-claimed",
+  "universal_interoperability": "not-claimed"
+}

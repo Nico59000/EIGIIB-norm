@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a7-authority-freeze.schema.json",
+  "title": "EIGIIB P1-A7.7 authority freeze",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "sourceCommit", "authorityRoot", "entries", "requiredRoutes", "requiredPlatforms", "counts", "claimBoundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A7.7-1.0"},
+    "profile": {"const": "full-corpus-authority-freeze-v1"},
+    "sourceCommit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "authorityRoot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["algorithm", "digest"],
+      "properties": {
+        "algorithm": {"const": "sha256-over-sorted-git-blob-identities-v1"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "entries": {
+      "type": "array", "minItems": 13, "maxItems": 13,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["path", "gitBlobSha1"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
+          "gitBlobSha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+        }
+      }
+    },
+    "requiredRoutes": {"const": ["reference-python-openssl", "independent-go-stdlib", "external-go-cose"]},
+    "requiredPlatforms": {"const": ["ubuntu-24.04", "macos-15", "windows-2025"]},
+    "counts": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authorityFiles", "generatorVectors", "negativeVectors", "positiveCarriers", "routeBoundObservations"],
+      "properties": {
+        "authorityFiles": {"const": 13}, "generatorVectors": {"const": 8},
+        "negativeVectors": {"const": 37}, "positiveCarriers": {"const": 5},
+        "routeBoundObservations": {"const": 141}
+      }
+    },
+    "claimBoundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authority", "doesNotImply"],
+      "properties": {
+        "authority": {"const": "p1_a7_full_corpus_freeze"},
+        "doesNotImply": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    }
+  }
+}

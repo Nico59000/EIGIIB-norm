@@ -1,0 +1,40 @@
+{
+  "actions": {
+    "checkout": "d23441a48e516b6c34aea4fa41551a30e30af803",
+    "setupGo": "924ae3a1cded613372ab5595356fb5720e22ba16",
+    "setupPython": "ece7cb06caefa5fff74198d8649806c4678c61a1"
+  },
+  "binaryIdentityPolicy": "platform-specific-sha256-attestation",
+  "common": {
+    "go": "go1.26.5",
+    "python": "3.13.14"
+  },
+  "platforms": {
+    "macos-15": {
+      "git": "git version 2.55.0",
+      "image": "macos-15-arm64",
+      "imageVersion": "20260727.0256.1",
+      "openssl": "OpenSSL 3.6.3 9 Jun 2026",
+      "runnerArch": "ARM64",
+      "runnerOS": "macOS"
+    },
+    "ubuntu-24.04": {
+      "git": "git version 2.54.0",
+      "image": "ubuntu-24.04",
+      "imageVersion": "20260720.247.2",
+      "openssl": "OpenSSL 3.0.13 30 Jan 2024",
+      "runnerArch": "X64",
+      "runnerOS": "Linux"
+    },
+    "windows-2025": {
+      "git": "git version 2.55.0.windows.2",
+      "image": "windows-2025-vs2026",
+      "imageVersion": "20260714.173.1",
+      "openssl": "OpenSSL 3.5.7 9 Jun 2026",
+      "runnerArch": "X64",
+      "runnerOS": "Windows"
+    }
+  },
+  "semanticEqualityPolicy": "byte-identical-canonical-authority-report",
+  "standard": "EIGIIB-P1-A7.7-TOOLCHAIN-1.0"
+}

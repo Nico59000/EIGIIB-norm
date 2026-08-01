@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a7-toolchain-policy.schema.json",
+  "title": "EIGIIB P1-A7.7 toolchain policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "actions", "common", "platforms", "binaryIdentityPolicy", "semanticEqualityPolicy"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A7.7-TOOLCHAIN-1.0"},
+    "actions": {
+      "type": "object", "additionalProperties": false,
+      "required": ["checkout", "setupPython", "setupGo"],
+      "properties": {
+        "checkout": {"const": "d23441a48e516b6c34aea4fa41551a30e30af803"},
+        "setupPython": {"const": "ece7cb06caefa5fff74198d8649806c4678c61a1"},
+        "setupGo": {"const": "924ae3a1cded613372ab5595356fb5720e22ba16"}
+      }
+    },
+    "common": {
+      "type": "object", "additionalProperties": false,
+      "required": ["python", "go"],
+      "properties": {"python": {"const": "3.13.14"}, "go": {"const": "go1.26.5"}}
+    },
+    "platforms": {
+      "type": "object", "additionalProperties": false,
+      "required": ["ubuntu-24.04", "macos-15", "windows-2025"],
+      "properties": {
+        "ubuntu-24.04": {"$ref": "#/$defs/platform"},
+        "macos-15": {"$ref": "#/$defs/platform"},
+        "windows-2025": {"$ref": "#/$defs/platform"}
+      }
+    },
+    "binaryIdentityPolicy": {"const": "platform-specific-sha256-attestation"},
+    "semanticEqualityPolicy": {"const": "byte-identical-canonical-authority-report"}
+  },
+  "$defs": {
+    "platform": {
+      "type": "object", "additionalProperties": false,
+      "required": ["runnerOS", "runnerArch", "image", "imageVersion", "openssl", "git"],
+      "properties": {
+        "runnerOS": {"type": "string"}, "runnerArch": {"type": "string"},
+        "image": {"type": "string"}, "imageVersion": {"type": "string"},
+        "openssl": {"type": "string"}, "git": {"type": "string"}
+      }
+    }
+  }
+}

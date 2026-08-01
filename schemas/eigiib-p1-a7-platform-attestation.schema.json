@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a7-platform-attestation.schema.json",
+  "title": "EIGIIB P1-A7.7 platform attestation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "platform", "authority_root", "content_sha256_root", "runner", "toolchain", "executables", "result"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A7.7-PLATFORM-1.0"},
+    "platform": {"enum": ["ubuntu-24.04", "macos-15", "windows-2025"]},
+    "authority_root": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "content_sha256_root": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "runner": {
+      "type": "object", "additionalProperties": false,
+      "required": ["os", "arch", "image_os", "image_version"],
+      "properties": {"os": {"type": "string"}, "arch": {"type": "string"}, "image_os": {"type": "string"}, "image_version": {"type": "string"}}
+    },
+    "toolchain": {
+      "type": "object", "additionalProperties": false,
+      "required": ["python", "go", "openssl", "git"],
+      "properties": {"python": {"type": "string"}, "go": {"type": "string"}, "openssl": {"type": "string"}, "git": {"type": "string"}}
+    },
+    "executables": {
+      "type": "object", "additionalProperties": false,
+      "required": ["python", "go", "openssl", "git"],
+      "properties": {
+        "python": {"$ref": "#/$defs/executable"}, "go": {"$ref": "#/$defs/executable"},
+        "openssl": {"$ref": "#/$defs/executable"}, "git": {"$ref": "#/$defs/executable"}
+      }
+    },
+    "result": {"const": "conformant"}
+  },
+  "$defs": {
+    "executable": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "bytes": {"type": "integer", "minimum": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    }
+  }
+}

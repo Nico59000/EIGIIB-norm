@@ -1,0 +1,91 @@
+{
+  "authorityRoot": {
+    "algorithm": "sha256-over-sorted-git-blob-identities-v1",
+    "digest": "e338247156165c48b7b1ce88a69f24123defc0162b1f3f6a58c4ecd510e105be"
+  },
+  "claimBoundary": {
+    "authority": "p1_a7_full_corpus_freeze",
+    "doesNotImply": [
+      "production-input-coverage",
+      "universal-parser-equivalence",
+      "universal-receipt-interoperability",
+      "trusted-or-authorized-signers-or-transparency-service",
+      "global-append-only-consistency",
+      "future-toolchain-compatibility-without-new-authority-revision"
+    ]
+  },
+  "counts": {
+    "authorityFiles": 13,
+    "generatorVectors": 8,
+    "negativeVectors": 37,
+    "positiveCarriers": 5,
+    "routeBoundObservations": 141
+  },
+  "entries": [
+    {
+      "gitBlobSha1": "50f382910abcf40a88cda2ab4bd5244a2b59b4f4",
+      "path": "tests/fixtures/p1-a7/a7.3-structural-corpus.json"
+    },
+    {
+      "gitBlobSha1": "c0d4e2ce96af4607077f9d232601a45d6824e359",
+      "path": "tests/fixtures/p1-a7/a7.4-signature-corpus.json"
+    },
+    {
+      "gitBlobSha1": "6514d03015633d2ce6dddfc76305b045c8de5c0b",
+      "path": "tests/fixtures/p1-a7/a7.5-cose-corpus.json"
+    },
+    {
+      "gitBlobSha1": "cfd19ea9d88203d5214336a08eaf63b668d6b4be",
+      "path": "tests/fixtures/p1-a7/a7.6-receipt-corpus.json"
+    },
+    {
+      "gitBlobSha1": "dff1ee3bf354d3895407a94eb57faac7facc5dec",
+      "path": "tests/fixtures/p1-a7/corpus.json"
+    },
+    {
+      "gitBlobSha1": "1d3184b8abbafeda182edbb0eef9c499d4047b81",
+      "path": "tests/fixtures/p1-a7/error-taxonomy.json"
+    },
+    {
+      "gitBlobSha1": "d889e84b8afd2675e4b2d19d29caad44fbbd1acc",
+      "path": "tests/fixtures/p1-a7/expected-a7.2-route-replay.json"
+    },
+    {
+      "gitBlobSha1": "cb19955ce1d0402606c879bc44d81650fa9bacfc",
+      "path": "tests/fixtures/p1-a7/expected-a7.3-structural-replay.json"
+    },
+    {
+      "gitBlobSha1": "d76d4ea6a22fad77eb09ed20b4a87ae50e21f3e4",
+      "path": "tests/fixtures/p1-a7/expected-a7.4-signature-replay.json"
+    },
+    {
+      "gitBlobSha1": "a5d3bd763874c1e877f5ba74f78ae77f2e807645",
+      "path": "tests/fixtures/p1-a7/expected-a7.5-cose-replay.json"
+    },
+    {
+      "gitBlobSha1": "cb5208acf9bfce22bcea85896f141cf84b2cf6de",
+      "path": "tests/fixtures/p1-a7/expected-a7.6-receipt-replay.json"
+    },
+    {
+      "gitBlobSha1": "1bdd17ef30a5c43b7a4b4a2e2a782d4615363bf0",
+      "path": "tests/fixtures/p1-a7/source/a7.3-seed.json"
+    },
+    {
+      "gitBlobSha1": "bf39370a4a0a264dd0dab20315448c38fe8d51ae",
+      "path": "tests/fixtures/p1-a7/source/generator-seed.json"
+    }
+  ],
+  "profile": "full-corpus-authority-freeze-v1",
+  "requiredPlatforms": [
+    "ubuntu-24.04",
+    "macos-15",
+    "windows-2025"
+  ],
+  "requiredRoutes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "sourceCommit": "5e652647ab40d55c1041a2b4a4432931a62e95e8",
+  "standard": "EIGIIB-P1-A7.7-1.0"
+}

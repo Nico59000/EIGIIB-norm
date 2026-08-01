@@ -1,0 +1,39 @@
+{
+  "authority_file_count": 13,
+  "authority_inventory_result": "conformant",
+  "authority_registration_result": "conformant",
+  "authority_root": "e338247156165c48b7b1ce88a69f24123defc0162b1f3f6a58c4ecd510e105be",
+  "canonical_replay_identity_result": "conformant",
+  "claim_boundary": [
+    "production-input-coverage",
+    "universal-parser-equivalence",
+    "universal-receipt-interoperability",
+    "trusted-or-authorized-signers-or-transparency-service",
+    "global-append-only-consistency",
+    "future-toolchain-compatibility-without-new-authority-revision"
+  ],
+  "cross_platform_reproducibility_result": "conformant",
+  "findings": [],
+  "full_p1_a7_freeze_result": "conformant",
+  "generator_vector_count": 8,
+  "negative_vector_count": 37,
+  "overall_result": "conformant",
+  "platforms": [
+    "ubuntu-24.04",
+    "macos-15",
+    "windows-2025"
+  ],
+  "positive_carrier_count": 5,
+  "profile": "full-corpus-authority-freeze-v1",
+  "route_bound_observation_count": 141,
+  "routes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "source_commit": "5e652647ab40d55c1041a2b4a4432931a62e95e8",
+  "standard": "EIGIIB-P1-A7.7-1.0",
+  "tool": "eigiib-p1-a7-authority-freeze",
+  "tool_version": "0.1.0",
+  "toolchain_policy_result": "conformant"
+}

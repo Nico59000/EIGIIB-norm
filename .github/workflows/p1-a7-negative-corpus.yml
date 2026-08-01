@@ -1,4 +1,4 @@
-name: P1-A7.6 Receipt negative replay
+name: P1-A7.7 full corpus authority freeze
 
 on:
   pull_request:
@@ -8,18 +8,30 @@ on:
 permissions:
   contents: read
 
+env:
+  GOTOOLCHAIN: local
+
 jobs:
-  receipt-replay:
+  authority-freeze:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, macos-15, windows-2025]
+        include:
+          - os: ubuntu-24.04
+            platform: ubuntu-24.04
+          - os: macos-15
+            platform: macos-15
+          - os: windows-2025
+            platform: windows-2025
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: '3.13'
+          python-version: '3.13.14'
       - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
         with:
           go-version: '1.26.5'
@@ -40,10 +52,16 @@ jobs:
             throw 'Git for Windows OpenSSL is unavailable'
           }
           $candidate | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      - name: OpenSSL capability
-        run: openssl version
-      - name: P1-A7 Python adapter tests
-        run: python -m unittest tests/test_eigiib_negative_vector_generator.py tests/test_eigiib_p1_a7_reference_adapter.py tests/test_eigiib_p1_a7_structural_adapter.py tests/test_eigiib_p1_a7_signature_adapter.py tests/test_eigiib_p1_a7_cose_adapter.py tests/test_eigiib_p1_a7_receipt_adapter.py -v
+      - name: Distribution capabilities
+        shell: bash
+        run: |
+          python --version
+          go version
+          openssl version
+          git --version
+          printf 'ImageOS=%s\nImageVersion=%s\nRUNNER_OS=%s\nRUNNER_ARCH=%s\n' "$ImageOS" "$ImageVersion" "$RUNNER_OS" "$RUNNER_ARCH"
+      - name: P1-A7 Python adapter and authority tests
+        run: python -m unittest tests/test_eigiib_negative_vector_generator.py tests/test_eigiib_p1_a7_reference_adapter.py tests/test_eigiib_p1_a7_structural_adapter.py tests/test_eigiib_p1_a7_signature_adapter.py tests/test_eigiib_p1_a7_cose_adapter.py tests/test_eigiib_p1_a7_receipt_adapter.py tests/test_eigiib_p1_a7_authority_freeze.py -v
       - name: Independent Go adapter tests
         working-directory: independent
         run: go test ./...
@@ -62,3 +80,16 @@ jobs:
         run: python tools/eigiib_cose_route_replay.py . --go go --openssl openssl --expected tests/fixtures/p1-a7/expected-a7.5-cose-replay.json --json
       - name: Exact P1-A7.6 Receipt detached binding proof and root replay
         run: python tools/eigiib_receipt_route_replay.py . --go go --openssl openssl --expected tests/fixtures/p1-a7/expected-a7.6-receipt-replay.json --json
+      - name: P1-A7.7 authority registration
+        shell: bash
+        run: >-
+          python tools/eigiib_p1_a7_authority_freeze.py .
+          --manifest tests/fixtures/p1-a7/a7.7-authority-freeze.json
+          --policy tests/fixtures/p1-a7/a7.7-toolchain-policy.json
+          --expected tests/fixtures/p1-a7/expected-a7.7-authority-report.json
+          --platform ${{ matrix.platform }}
+          --attestation-out a7.7-${{ matrix.platform }}-attestation.json
+          --require-git-source --json
+      - name: Display platform attestation
+        shell: bash
+        run: cat a7.7-${{ matrix.platform }}-attestation.json
