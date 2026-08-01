@@ -1,16 +1,22 @@
 {
   "contract": "docs/P1-A7-DIFFERENTIAL-NEGATIVE-CORPUS-AND-PARSER-AMBIGUITY-CLOSURE.md",
   "corpus_manifest": "tests/fixtures/p1-a7/corpus.json",
-  "error_class_equivalence": "not-evaluated",
+  "error_class_equivalence": "conformant-for-a7.2-scope",
   "generator": "tools/eigiib_negative_vector_generator.py",
   "generator_replay": "conformant-on-required-runners",
   "generator_vector_count": 8,
   "generator_version": "0.1.0",
-  "negative_replay": "not-evaluated",
+  "multi_defect_precedence": "not-evaluated",
+  "negative_replay": "conformant-for-a7.2-scope",
   "portable_error_taxonomy": "tests/fixtures/p1-a7/error-taxonomy.json",
-  "positive_replay": "not-evaluated",
+  "positive_replay": "conformant-for-a7.2-scope",
   "production_replays": [],
   "profile": "differential-negative-corpus-v1",
+  "remaining_generator_only_vectors": [
+    "a7-identity-length-mismatch",
+    "a7-identity-digest-mismatch",
+    "a7-projection-missing-field"
+  ],
   "required_routes": [
     "reference-python-openssl",
     "independent-go-stdlib",
@@ -21,8 +27,21 @@
     "macos-15",
     "windows-2025"
   ],
+  "route_bound_layers": [
+    "json",
+    "utf8",
+    "base64",
+    "path"
+  ],
+  "route_bound_observation_count": 18,
+  "route_bound_vector_count": 5,
+  "route_replay_contract": "docs/P1-A7.2-PORTABLE-ERROR-ADAPTERS-AND-FIRST-ROUTE-REPLAY.md",
+  "route_replay_fixture": "tests/fixtures/p1-a7/expected-a7.2-route-replay.json",
+  "route_replay_tool": "tools/eigiib_negative_route_replay.py",
+  "route_replay_version": "0.1.0",
+  "route_result_schema": "schemas/eigiib-p1-a7-portable-route-result.schema.json",
   "schema": "schemas/eigiib-p1-a7-negative-vector.schema.json",
-  "standard": "EIGIIB-P1-A7-draft-0.2",
-  "status": "a7.1-generator-validated-route-adapters-open",
+  "standard": "EIGIIB-P1-A7-draft-0.3",
+  "status": "a7.2-first-route-bound-closure",
   "taxonomy_schema": "schemas/eigiib-p1-a7-error-taxonomy.schema.json"
 }
