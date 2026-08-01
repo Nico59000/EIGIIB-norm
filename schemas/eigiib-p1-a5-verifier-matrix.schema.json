@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schema/p1-a5-verifier-matrix-v1",
+  "title": "EIGIIB P1-A5 independent verifier matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "status", "sourceChain", "routes", "platforms", "expectedResult", "claimBoundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A5-1.0"},
+    "profile": {"const": "independent-verifier-matrix-v1"},
+    "status": {"const": "fixture-replay"},
+    "sourceChain": {"type": "object", "additionalProperties": false, "required": ["manifest", "identity"], "properties": {"manifest": {"const": "tests/fixtures/p1-a4/chain.json"}, "identity": {"$ref": "#/$defs/identity"}}},
+    "routes": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "object", "additionalProperties": false, "required": ["id", "language", "crypto", "entrypoint", "independenceClass"], "properties": {"id": {"type": "string"}, "language": {"type": "string"}, "crypto": {"type": "string"}, "entrypoint": {"type": "string"}, "independenceClass": {"type": "string"}}}},
+    "platforms": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "object", "additionalProperties": false, "required": ["id", "runner", "required"], "properties": {"id": {"type": "string"}, "runner": {"enum": ["ubuntu-24.04", "macos-15", "windows-2025"]}, "required": {"const": true}}}},
+    "expectedResult": {"type": "object", "additionalProperties": false, "required": ["path", "identity"], "properties": {"path": {"const": "tests/fixtures/p1-a5/expected-independent-result.json"}, "identity": {"$ref": "#/$defs/identity"}}},
+    "claimBoundary": {"type": "object", "additionalProperties": false, "required": ["authority", "doesNotImply"], "properties": {"authority": {"const": "p1_verifier_matrix_contract"}, "doesNotImply": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"type": "string"}}}}
+  },
+  "$defs": {"identity": {"type": "object", "additionalProperties": false, "required": ["algorithm", "digest", "bytes"], "properties": {"algorithm": {"const": "sha256"}, "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "bytes": {"type": "integer", "minimum": 1}}}}
+}

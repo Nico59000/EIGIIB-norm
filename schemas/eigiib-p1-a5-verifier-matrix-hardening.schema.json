@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schema/p1-a5-verifier-matrix-hardening-0.2",
+  "title": "EIGIIB P1-A5 exact independent source closure",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "baselineChainIdentity", "toolchainDeclaration", "implementations", "claimBoundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A5-hardening-0.2"},
+    "profile": {"const": "p1-a5-independent-source-closure-v1"},
+    "baselineChainIdentity": {"$ref": "#/$defs/identity"},
+    "toolchainDeclaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["goVersion", "pythonVersion", "opensslMode", "actions", "runners"],
+      "properties": {
+        "goVersion": {"const": "1.26.5"},
+        "pythonVersion": {"const": "3.13"},
+        "opensslMode": {"const": "system-provider-reference-route-only"},
+        "actions": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "object", "additionalProperties": false, "required": ["name", "sha"], "properties": {"name": {"type": "string"}, "sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"}}}},
+        "runners": {"const": ["ubuntu-24.04", "macos-15", "windows-2025"]}
+      }
+    },
+    "implementations": {"type": "array", "minItems": 14, "maxItems": 14, "items": {"type": "object", "additionalProperties": false, "required": ["role", "path", "identity"], "properties": {"role": {"type": "string"}, "path": {"type": "string"}, "identity": {"$ref": "#/$defs/identity"}}}},
+    "claimBoundary": {"type": "object", "additionalProperties": false, "required": ["authority", "doesNotImply"], "properties": {"authority": {"const": "p1_verifier_matrix_contract"}, "doesNotImply": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "string"}}}}
+  },
+  "$defs": {"identity": {"type": "object", "additionalProperties": false, "required": ["algorithm", "digest", "bytes"], "properties": {"algorithm": {"const": "sha256"}, "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "bytes": {"type": "integer", "minimum": 1}}}}
+}

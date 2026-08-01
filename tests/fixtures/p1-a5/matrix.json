@@ -1,0 +1,54 @@
+{
+  "standard": "EIGIIB-P1-A5-1.0",
+  "profile": "independent-verifier-matrix-v1",
+  "status": "fixture-replay",
+  "sourceChain": {
+    "manifest": "tests/fixtures/p1-a4/chain.json",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "8082fbe1c235ec3c5b5809eeb70d5593d20887f75a310abb8b4a9762be28a97d",
+      "bytes": 2182
+    }
+  },
+  "routes": [
+    {
+      "id": "reference-python-openssl",
+      "language": "python-3.13",
+      "crypto": "openssl-ed25519",
+      "entrypoint": "tools/eigiib_interop_chain_hardening_check.py",
+      "independenceClass": "reference-executable-closure"
+    },
+    {
+      "id": "independent-go-stdlib",
+      "language": "go-1.26.5",
+      "crypto": "go-stdlib-crypto-ed25519",
+      "entrypoint": "independent/cmd/eigiib-p1-independent",
+      "independenceClass": "independent-json-cbor-crypto-route"
+    }
+  ],
+  "platforms": [
+    {"id": "linux-x64", "runner": "ubuntu-24.04", "required": true},
+    {"id": "macos-arm64", "runner": "macos-15", "required": true},
+    {"id": "windows-x64", "runner": "windows-2025", "required": true}
+  ],
+  "expectedResult": {
+    "path": "tests/fixtures/p1-a5/expected-independent-result.json",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "97d4860f26ace2b259119d3fd293fa5a0156573d946ebd0ebc1878f5f4f083d9",
+      "bytes": 715
+    }
+  },
+  "claimBoundary": {
+    "authority": "p1_verifier_matrix_contract",
+    "doesNotImply": [
+      "verifier-agreement-does-not-imply-eigiib-claim-truth",
+      "cross-platform-replay-does-not-imply-production-environment-equivalence",
+      "independent-code-path-does-not-imply-independent-trust-roots",
+      "matrix-success-does-not-imply-absence-of-shared-specification-error",
+      "go-stdlib-verification-does-not-imply-trusted-go-toolchain",
+      "github-runner-diversity-does-not-imply-operator-or-hardware-independence",
+      "p1-a5-does-not-replace-p1-a1-p1-a2-p1-a3-p1-a4-authorities"
+    ]
+  }
+}

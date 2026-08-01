@@ -1,0 +1,47 @@
+{
+  "standard": "EIGIIB-P1-A5-hardening-0.2",
+  "profile": "p1-a5-independent-source-closure-v1",
+  "baselineChainIdentity": {
+    "algorithm": "sha256",
+    "digest": "8082fbe1c235ec3c5b5809eeb70d5593d20887f75a310abb8b4a9762be28a97d",
+    "bytes": 2182
+  },
+  "toolchainDeclaration": {
+    "goVersion": "1.26.5",
+    "pythonVersion": "3.13",
+    "opensslMode": "system-provider-reference-route-only",
+    "actions": [
+      {"name": "actions/checkout", "sha": "d23441a48e516b6c34aea4fa41551a30e30af803"},
+      {"name": "actions/setup-python", "sha": "ece7cb06caefa5fff74198d8649806c4678c61a1"},
+      {"name": "actions/setup-go", "sha": "924ae3a1cded613372ab5595356fb5720e22ba16"}
+    ],
+    "runners": ["ubuntu-24.04", "macos-15", "windows-2025"]
+  },
+  "implementations": [
+    {"role": "go-module", "path": "independent/go.mod", "identity": {"algorithm": "sha256", "digest": "be1b3a1f592af31ebddfe3fc131502962b932cffbf8e42073e497807e583d6ed", "bytes": 43}},
+    {"role": "go-cli", "path": "independent/cmd/eigiib-p1-independent/main.go", "identity": {"algorithm": "sha256", "digest": "edfc7087376f8c6728e5515ff80582ef6f95cb3d68b9e865058782213babc350", "bytes": 1068}},
+    {"role": "go-cbor", "path": "independent/p1verify/cbor.go", "identity": {"algorithm": "sha256", "digest": "2db6fe33082cd1b9b695601e3d057d7de57295b11688049e6ebf1ca6b619e2d6", "bytes": 5109}},
+    {"role": "go-core", "path": "independent/p1verify/core.go", "identity": {"algorithm": "sha256", "digest": "8d27c88032170adbf8ae8e66bd7fb5cb327df3b6642e5b9425ca2591301d3314", "bytes": 6373}},
+    {"role": "go-json-manifest", "path": "independent/p1verify/json_manifest.go", "identity": {"algorithm": "sha256", "digest": "91c70bf23ab9bca2b8f93314fbbac2b729c979f7eb0cb5482bc4fb4f1b6edf9b", "bytes": 3589}},
+    {"role": "go-p1a1-p1a2", "path": "independent/p1verify/p1a1_a2.go", "identity": {"algorithm": "sha256", "digest": "d71873c65d6e770989c536b985160e4e2a899e2fdabb01f0351926e285231eb8", "bytes": 4215}},
+    {"role": "go-p1a3", "path": "independent/p1verify/p1a3.go", "identity": {"algorithm": "sha256", "digest": "a1c8f18ec48f0a0f95c189aa3397c972c451ceefbbcd82fa3b6dcfea1bf32149", "bytes": 4845}},
+    {"role": "python-differential-checker", "path": "tools/eigiib_verifier_matrix.py", "identity": {"algorithm": "sha256", "digest": "ec34e6eef18d4e18e58bf076240c6485ed26f07756bd998d96b62e73ee98e3d3", "bytes": 9063}},
+    {"role": "matrix-manifest", "path": "tests/fixtures/p1-a5/matrix.json", "identity": {"algorithm": "sha256", "digest": "740d5e6d6e448ab8bdd6afe601c64cc8fd51751ea74163f757b3313d4fa85b4a", "bytes": 1951}},
+    {"role": "canonical-independent-result", "path": "tests/fixtures/p1-a5/expected-independent-result.json", "identity": {"algorithm": "sha256", "digest": "97d4860f26ace2b259119d3fd293fa5a0156573d946ebd0ebc1878f5f4f083d9", "bytes": 715}},
+    {"role": "structural-state", "path": "conformance/p1-a5-verifier-matrix.json", "identity": {"algorithm": "sha256", "digest": "f235245bd134ee45d702d90f74c37469638760158c959a86e7723a2ed44aed81", "bytes": 405}},
+    {"role": "line-ending-policy", "path": ".gitattributes", "identity": {"algorithm": "sha256", "digest": "50725fd6b6e85f619c27547f005a4242137118b28f0dc0f22489ff852633833e", "bytes": 164}},
+    {"role": "cross-platform-workflow", "path": ".github/workflows/p1-a5-matrix.yml", "identity": {"algorithm": "sha256", "digest": "538e41044b91ff1ef1f5de9b58537a848c92d21eec81d8624101c199d47790fb", "bytes": 1748}},
+    {"role": "hardening-checker", "path": "tools/eigiib_verifier_matrix_hardening_check.py", "identity": {"algorithm": "sha256", "digest": "f932a204c92dde315cdb343c3bbbbdb0c8703ee35e6e6528361bd0b4bcb0b377", "bytes": 10187}}
+  ],
+  "claimBoundary": {
+    "authority": "p1_verifier_matrix_contract",
+    "doesNotImply": [
+      "exact-source-closure-does-not-imply-trusted-go-toolchain-binaries",
+      "exact-workflow-bytes-do-not-imply-trusted-github-runner-image",
+      "pinned-action-commit-does-not-imply-action-or-platform-source-authenticity",
+      "source-identity-does-not-imply-independent-trust-roots",
+      "cross-platform-agreement-does-not-imply-production-equivalence",
+      "p1-a5-h0.2-does-not-replace-upstream-p1-or-e-authorities"
+    ]
+  }
+}
