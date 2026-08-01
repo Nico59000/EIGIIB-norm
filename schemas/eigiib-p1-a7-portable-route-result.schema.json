@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a7-portable-route-result.schema.json",
+  "title": "EIGIIB P1-A7.2 portable route adapter result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "route",
+    "vector_id",
+    "accepted",
+    "error_class",
+    "boundary"
+  ],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A7.2-1.0"},
+    "route": {
+      "enum": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    "vector_id": {"type": "string", "minLength": 1},
+    "accepted": {"type": "boolean"},
+    "error_class": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "enum": [
+            "syntax.invalid-utf8",
+            "syntax.invalid-json",
+            "encoding.noncanonical-base64",
+            "path.unsafe",
+            "internal.unmapped"
+          ]
+        }
+      ]
+    },
+    "boundary": {
+      "enum": ["utf8", "json", "base64", "path", "shape", "internal"]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"accepted": {"const": true}}},
+      "then": {"properties": {"error_class": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"accepted": {"const": false}}},
+      "then": {"properties": {"error_class": {"type": "string"}}}
+    }
+  ]
+}
