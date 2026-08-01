@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a15-capsule.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "algorithm", "keyId", "payload", "signature"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A15-CAPSULE-1.0"},
+    "algorithm": {"const": "Ed25519"},
+    "keyId": {"type": "string"},
+    "payload": {"type": "string"},
+    "signature": {"type": "string"}
+  }
+}
