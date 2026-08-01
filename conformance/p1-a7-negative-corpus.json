@@ -1,0 +1,22 @@
+{
+  "standard": "EIGIIB-P1-A7-draft-0.1",
+  "status": "design-open",
+  "profile": "differential-negative-corpus-v1",
+  "contract": "docs/P1-A7-DIFFERENTIAL-NEGATIVE-CORPUS-AND-PARSER-AMBIGUITY-CLOSURE.md",
+  "required_routes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "required_runners": [
+    "ubuntu-24.04",
+    "macos-15",
+    "windows-2025"
+  ],
+  "corpus_manifest": "not-yet-created",
+  "portable_error_taxonomy": "draft",
+  "positive_replay": "not-evaluated",
+  "negative_replay": "not-evaluated",
+  "error_class_equivalence": "not-evaluated",
+  "production_replays": []
+}
