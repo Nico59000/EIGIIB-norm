@@ -1,0 +1,130 @@
+{
+  "standard": "EIGIIB-P1-A4-1.0",
+  "profile": "p1-end-to-end-cross-capsule-replay-v1",
+  "status": "fixture-replay",
+  "components": [
+    {
+      "id": "m0-a2-report",
+      "path": "tests/fixtures/p1-a1/aggregate.json",
+      "standard": "EIGIIB-M0-A2-1.0",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "aef72a023346bdf1659a6d7ce8d19f10a84a081af53db0862e67d187812a157a",
+        "bytes": 424
+      }
+    },
+    {
+      "id": "p1-a1-statement",
+      "path": "tests/fixtures/p1-a1/capsule.json",
+      "standard": "EIGIIB-P1-A1-1.0",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "d307eb420577bdac5817ca679348cc4f36540dc7fec6c827a02cb626f62c9d4b",
+        "bytes": 1597
+      }
+    },
+    {
+      "id": "p1-a2-bundle",
+      "path": "tests/fixtures/p1-a2/bundle.json",
+      "standard": "EIGIIB-P1-A2-1.0",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "dd14c7556ea261cee03c40615368511bf9360e5d7eae764804d7b426f4ed6da4",
+        "bytes": 3907
+      }
+    },
+    {
+      "id": "p1-a3-signed-statement",
+      "path": "tests/fixtures/p1-a3/capsule.json",
+      "standard": "EIGIIB-P1-A3-1.0",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "27c960d31e9afbf454c8bb6dbdd396309b3dec629f58d8f5c87553864e579d81",
+        "bytes": 396
+      }
+    },
+    {
+      "id": "p1-a3-receipt",
+      "path": "tests/fixtures/p1-a3/capsule.json",
+      "standard": "EIGIIB-P1-A3-1.0",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "207f3fe152fca1014a302b1d21c6725bd3b13b7ef8c3cd9bb42ccfafa2d8c88f",
+        "bytes": 296
+      }
+    }
+  ],
+  "keys": [
+    {
+      "id": "p1-a2-public-key",
+      "path": "tests/fixtures/p1-a2/public-key.pem",
+      "role": "p1-a2-signer",
+      "spkiIdentity": {
+        "algorithm": "sha256",
+        "digest": "0ec3ac70b8d3d469d8d033afc1dfab208a42b563fe240a88afd9378ffb7134dc",
+        "bytes": 44
+      }
+    },
+    {
+      "id": "p1-a3-issuer-key",
+      "path": "tests/fixtures/p1-a3/issuer-public-key.pem",
+      "role": "scitt-issuer",
+      "spkiIdentity": {
+        "algorithm": "sha256",
+        "digest": "66ce2b50279d0f955a2e73434560439e4e47bfa6d6f365f8a83493510e97f447",
+        "bytes": 44
+      }
+    },
+    {
+      "id": "p1-a3-transparency-service-key",
+      "path": "tests/fixtures/p1-a3/ts-public-key.pem",
+      "role": "scitt-transparency-service",
+      "spkiIdentity": {
+        "algorithm": "sha256",
+        "digest": "6f1265a7943a4e9bc18bbccd299e7438e9d657a6a4d14614345710a9cc88b7c3",
+        "bytes": 44
+      }
+    }
+  ],
+  "replay": {
+    "order": ["p1-a1", "p1-a2", "p1-a3-h0.2"],
+    "subjectName": "tests/fixtures/p1-a1/aggregate.json",
+    "checkers": [
+      {
+        "id": "p1-a1",
+        "path": "tools/eigiib_in_toto_capsule.py",
+        "toolVersion": "0.2.0"
+      },
+      {
+        "id": "p1-a2",
+        "path": "tools/eigiib_sigstore_bundle.py",
+        "toolVersion": "0.1.1"
+      },
+      {
+        "id": "p1-a3-h0.2",
+        "path": "tools/eigiib_scitt_receipt_hardening_check.py",
+        "toolVersion": "0.2.0"
+      }
+    ],
+    "chainIdentity": {
+      "algorithm": "sha256",
+      "digest": "8082fbe1c235ec3c5b5809eeb70d5593d20887f75a310abb8b4a9762be28a97d",
+      "bytes": 2182
+    }
+  },
+  "claimBoundary": {
+    "authority": "p1_chain_contract",
+    "compositionOnly": true,
+    "doesNotImply": [
+      "end-to-end-replay-does-not-imply-eigib-claim-truth",
+      "all-capsules-valid-does-not-imply-production-conformance",
+      "signature-validity-does-not-imply-trusted-or-authorized-signers",
+      "receipt-bound-registration-does-not-imply-global-append-only-consistency",
+      "single-chain-replay-does-not-imply-e6-cross-view-convergence",
+      "registration-order-does-not-imply-e11-trusted-time",
+      "chain-identity-does-not-imply-source-authenticity",
+      "fixture-portability-does-not-imply-live-service-interoperability",
+      "p1-a4-composition-does-not-replace-p1-a1-p1-a2-p1-a3-authorities"
+    ]
+  }
+}

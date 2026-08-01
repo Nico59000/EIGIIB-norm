@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schema/eigiib-p1-a4-chain.schema.json",
+  "title": "EIGIIB P1-A4 End-to-End Interoperability Chain",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "status", "components", "keys", "replay", "claimBoundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A4-1.0"},
+    "profile": {"const": "p1-end-to-end-cross-capsule-replay-v1"},
+    "status": {"const": "fixture-replay"},
+    "components": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/component"}
+    },
+    "keys": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/key"}
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["order", "subjectName", "checkers", "chainIdentity"],
+      "properties": {
+        "order": {"const": ["p1-a1", "p1-a2", "p1-a3-h0.2"]},
+        "subjectName": {"const": "tests/fixtures/p1-a1/aggregate.json"},
+        "checkers": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/checker"}
+        },
+        "chainIdentity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "compositionOnly", "doesNotImply"],
+      "properties": {
+        "authority": {"const": "p1_chain_contract"},
+        "compositionOnly": {"const": true},
+        "doesNotImply": {
+          "const": [
+            "end-to-end-replay-does-not-imply-eigiib-claim-truth",
+            "all-capsules-valid-does-not-imply-production-conformance",
+            "signature-validity-does-not-imply-trusted-or-authorized-signers",
+            "receipt-bound-registration-does-not-imply-global-append-only-consistency",
+            "single-chain-replay-does-not-imply-e6-cross-view-convergence",
+            "registration-order-does-not-imply-e11-trusted-time",
+            "chain-identity-does-not-imply-source-authenticity",
+            "fixture-portability-does-not-imply-live-service-interoperability",
+            "p1-a4-composition-does-not-replace-p1-a1-p1-a2-p1-a3-authorities"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "digest", "bytes"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "bytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "standard", "identity"],
+      "properties": {
+        "id": {"enum": ["m0-a2-report", "p1-a1-statement", "p1-a2-bundle", "p1-a3-signed-statement", "p1-a3-receipt"]},
+        "path": {"type": "string", "minLength": 1},
+        "standard": {"enum": ["EIGIIB-M0-A2-1.0", "EIGIIB-P1-A1-1.0", "EIGIIB-P1-A2-1.0", "EIGIIB-P1-A3-1.0"]},
+        "identity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "role", "spkiIdentity"],
+      "properties": {
+        "id": {"enum": ["p1-a2-public-key", "p1-a3-issuer-key", "p1-a3-transparency-service-key"]},
+        "path": {"type": "string", "minLength": 1},
+        "role": {"enum": ["p1-a2-signer", "scitt-issuer", "scitt-transparency-service"]},
+        "spkiIdentity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "checker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "toolVersion"],
+      "properties": {
+        "id": {"enum": ["p1-a1", "p1-a2", "p1-a3-h0.2"]},
+        "path": {"type": "string", "minLength": 1},
+        "toolVersion": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}
