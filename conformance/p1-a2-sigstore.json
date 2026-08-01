@@ -1,0 +1,13 @@
+{
+  "standard": "EIGIIB-P1-A2-1.0",
+  "status": "structural-only",
+  "profile": "sigstore-p1-a1-dsse-bundle-v1",
+  "external_spec": "sigstore-bundle-0.3.2",
+  "bundle_media_type": "application/vnd.dev.sigstore.bundle.v0.3+json",
+  "payload_type": "application/vnd.in-toto+json",
+  "crypto_profile": "ed25519-spki-openssl-v1",
+  "public_key_mode": "out-of-band",
+  "transparency_state": "not-provided-p1-a2",
+  "timestamp_state": "not-provided-p1-a2",
+  "production_bundles": []
+}

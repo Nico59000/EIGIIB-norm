@@ -50,7 +50,7 @@ Reference modes are:
 - `exact-draft` — URI identifies an exact draft revision;
 - `moving-reference` — URI may change while the catalog still records the observed version.
 
-A `moving-reference` MAY be catalogued for research, but a profile using it MUST NOT claim `validated` interoperability.
+A `moving-reference` MAY be catalogued for research or implementation, but a profile using it MUST NOT claim `validated` interoperability.
 
 A byte-exact external identity, when present, is:
 
@@ -130,34 +130,33 @@ external-identity-does-not-imply-eigiib-authority
 
 A profile without an explicit negative boundary is non-conformant.
 
-## Initial catalog scope
+## Catalog scope
 
-The initial M0-A3 catalog intentionally starts with external references whose current revision can be represented explicitly:
+The catalog currently includes:
 
 - SLSA v1.2;
-- in-toto Attestation Framework v1.2;
+- in-toto Attestation Framework v1.2.0;
+- Sigstore Bundle Format observed as v0.3.2 through a moving documentation reference;
 - SPDX v3.0.1;
 - SCITT architecture draft-ietf-scitt-architecture-22.
 
-Other candidates such as Sigstore, TUF, SPIFFE, CycloneDX, OPA and Cedar remain eligible for later catalog/profile additions. They are not implicitly covered by the first M0-A3 registry.
+Other candidates such as TUF, SPIFFE, CycloneDX, OPA and Cedar remain eligible for later catalog/profile additions. They are not implicitly covered by the current registry.
 
 ## Profile implementation state
 
-The initial registry began as a declarative catalog. P1-A1 advances only the
-in-toto aggregate-export relationship to `implemented` while preserving the
-other initial states.
+The initial registry began as a declarative catalog. P1 now contains two implemented export capsules while preserving the other initial states.
 
 Current bounded relationships include:
 
 - `in-toto-aggregate-export-v1` — **implemented** by P1-A1: exports exact M0-A2 aggregate-report bytes as the subject and transported predicate payload of an in-toto `Statement/v1`, preserves the aggregate result and an explicit negative implication boundary, and deliberately provides no authentication envelope;
+- `sigstore-p1-a1-dsse-bundle-v1` — **implemented** by P1-A2: authenticates the exact deterministic P1-A1 Statement bytes in a Sigstore Bundle v0.3 DSSE carrier against one supplied out-of-band Ed25519 public key while keeping trust, authorization, transparency and trusted time unevaluated or absent;
 - `slsa-provenance-evidence-import-v1` — **specified**: consumes SLSA provenance as typed external evidence without promoting it to an EIGIIB truth claim;
 - `spdx-context-import-v1` — **specified**: consumes SPDX 3.0.1 data as artifact/context metadata without making SPDX the E3 provenance authority;
 - `scitt-transparency-research-v1` — **research**: studies SCITT draft-22 as a transparency transport for signed statements without replacing E5/E6 semantics.
 
-P1-A1 does not move the in-toto profile to `validated`. Its executable evidence
-establishes repository-local implementation and replay only; the M0-A3
-byte-exact external-specification identity requirement for `validated` remains
-unsatisfied by design.
+Neither P1-A1 nor P1-A2 moves its profile to `validated`.
+
+P1-A1 has executable repository-local Statement evidence but no byte-exact external in-toto specification snapshot in M0-A3. P1-A2 additionally consumes a Sigstore documentation URI classified as `moving-reference`. Therefore both profiles remain `implemented` by design.
 
 ## Checker boundary
 
@@ -181,9 +180,7 @@ It checks repository-local profile structure and boundaries, including:
 
 It does not fetch external specifications, verify external signatures, evaluate SLSA levels, validate SPDX documents, submit SCITT statements, execute adapters, or infer external conformance.
 
-P1-A1 has its own adapter/self-check. M0-A3 validates the profile declaration and
-evidence paths; P1-A1 validates the executable Statement capsule. Neither
-checker promotes `implemented` to `validated`.
+P1-A1 and P1-A2 have their own executable adapter/self-checks. M0-A3 validates profile declarations and evidence paths; P1-A1 validates the Statement capsule; P1-A2 validates the bounded DSSE signature carrier against the supplied key. None of those checks independently promotes an `implemented` profile to `validated`.
 
 ## External-reference freshness
 
