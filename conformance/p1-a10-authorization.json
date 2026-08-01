@@ -1,0 +1,32 @@
+{
+  "standard": "EIGIIB-P1-A10-1.0",
+  "status": "delegated-threshold-authorization-and-revocation-closure",
+  "source_release_id": "eigiib-p1-a7-authority-1.0",
+  "release_descriptor_sha256": "1551056d0b903f3f74b0c4834c7dd60720ea651f3608c2ee3ea9b302a2b9f5ec",
+  "release_signer_spki_sha256": "c5310a741895b555fb1185b85502aa58ad4e8399809a244143e158216a6c5cbd",
+  "trust_root_spki_sha256": "0fa7ed8d31fbd2c24a50a8434117a2a3526c2f297c92d1da00f1fb2146462ebd",
+  "policy_envelope_sha256": "011fbf057b49b997e1458769aa7208066b518a7041cd3e336e367fd4f71dd84c",
+  "delegate_count": 3,
+  "threshold": 2,
+  "initial_approval_ids": ["delegate-a", "delegate-b"],
+  "revoked_delegate_id": "delegate-b",
+  "revocation_sequence": 11,
+  "recovered_approval_ids": ["delegate-a", "delegate-c"],
+  "required_routes": ["reference-python-openssl", "independent-go-stdlib", "external-go-cose"],
+  "required_platforms": ["ubuntu-24.04", "macos-15", "windows-2025"],
+  "trusted_release_signer": "conformant-for-supplied-root-policy-scope",
+  "authorized_release_signer": "conformant-for-exact-release-descriptor-scope",
+  "stale_approval_replay": "rejected-as-required",
+  "recovered_threshold": "conformant",
+  "overall_result": "conformant-for-p1-a10-fixture-scope",
+  "does_not_imply": [
+    "real-world-signer-identity",
+    "organizational-control-of-root-key",
+    "trusted-effective-time",
+    "content-revocation",
+    "distribution-withdrawal",
+    "vulnerability-remediation",
+    "live-publication",
+    "production-release-governance"
+  ]
+}

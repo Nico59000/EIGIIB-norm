@@ -1,0 +1,28 @@
+{
+  "standard": "EIGIIB-P1-CLOSURE-ROADMAP-1.0",
+  "estimate": {
+    "first_slice": "P1-A10",
+    "last_slice": "P1-A20",
+    "slice_count_including_p1_a10": 11,
+    "possible_expansion": 2
+  },
+  "direct_contextual_T_targets": 12,
+  "bounded_replacement_T_targets": 2,
+  "absolute_claims_remaining_non_T": [
+    "universal-interoperability",
+    "future-unregistered-runner-compatibility"
+  ],
+  "slices": [
+    {"id":"P1-A10","targets":["trusted-release-signer","authorized-release-signer"]},
+    {"id":"P1-A11","targets":["trusted-effective-time"]},
+    {"id":"P1-A12","targets":["trusted-transparency-service","registered-log-append-only-consistency"]},
+    {"id":"P1-A13","targets":["content-revocation","distribution-withdrawal"]},
+    {"id":"P1-A14","targets":["vulnerability-remediation"]},
+    {"id":"P1-A15","targets":["live-github-release"]},
+    {"id":"P1-A16","targets":["external-registry-publication"]},
+    {"id":"P1-A17","targets":["external-persistence-or-durability"]},
+    {"id":"P1-A18","targets":["production-release-governance"]},
+    {"id":"P1-A19","targets":["registered-profile-interoperability"],"absolute_original_status":"NF"},
+    {"id":"P1-A20","targets":["future-registered-runner-admission"],"absolute_original_status":"F/NF"}
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a10-route-result.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "route",
+    "release_id",
+    "release_descriptor_sha256",
+    "release_signer_spki_sha256",
+    "trust_root_spki_sha256",
+    "policy_envelope_sha256",
+    "threshold",
+    "delegate_count",
+    "initial_approval_ids",
+    "revoked_delegate_id",
+    "revocation_sequence",
+    "recovered_approval_ids",
+    "trusted_release_signer_result",
+    "authorized_release_signer_result",
+    "accepted",
+    "boundary"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-P1-A10-ROUTE-1.0"
+    },
+    "route": {
+      "enum": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ]
+    },
+    "release_id": {
+      "type": "string"
+    },
+    "release_descriptor_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "release_signer_spki_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "trust_root_spki_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "policy_envelope_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "threshold": {
+      "const": 2
+    },
+    "delegate_count": {
+      "const": 3
+    },
+    "initial_approval_ids": {
+      "const": [
+        "delegate-a",
+        "delegate-b"
+      ]
+    },
+    "revoked_delegate_id": {
+      "const": "delegate-b"
+    },
+    "revocation_sequence": {
+      "const": 11
+    },
+    "recovered_approval_ids": {
+      "const": [
+        "delegate-a",
+        "delegate-c"
+      ]
+    },
+    "trusted_release_signer_result": {
+      "const": "conformant-for-supplied-root-policy-scope"
+    },
+    "authorized_release_signer_result": {
+      "const": "conformant-for-exact-release-descriptor-scope"
+    },
+    "accepted": {
+      "const": true
+    },
+    "boundary": {
+      "const": "recovered-threshold-authorization"
+    }
+  }
+}

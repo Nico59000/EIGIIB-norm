@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a10-capsule.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "claimBoundary",
+    "delegates",
+    "initialAuthorization",
+    "policy",
+    "profile",
+    "recoveredAuthorization",
+    "revocation",
+    "sourceRelease",
+    "sourceReleaseSigner",
+    "staleReplay",
+    "standard",
+    "trustRoot"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-P1-A10-1.0"
+    },
+    "profile": {
+      "const": "delegated-threshold-authorization-revocation-v1"
+    },
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "doesNotImply"
+      ],
+      "properties": {
+        "doesNotImply": {
+          "type": "array",
+          "minItems": 8,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "delegates": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/key"
+      }
+    },
+    "initialAuthorization": {
+      "$ref": "#/$defs/authorization"
+    },
+    "recoveredAuthorization": {
+      "$ref": "#/$defs/authorization"
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "envelope",
+        "payload"
+      ],
+      "properties": {
+        "envelope": {
+          "$ref": "#/$defs/data"
+        },
+        "payload": {
+          "$ref": "#/$defs/data"
+        }
+      }
+    },
+    "revocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "envelope",
+        "payload"
+      ],
+      "properties": {
+        "envelope": {
+          "$ref": "#/$defs/data"
+        },
+        "payload": {
+          "$ref": "#/$defs/data"
+        }
+      }
+    },
+    "sourceRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "path",
+        "releaseId"
+      ],
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "path": {
+          "type": "string"
+        },
+        "releaseId": {
+          "type": "string"
+        }
+      }
+    },
+    "sourceReleaseSigner": {
+      "$ref": "#/$defs/key"
+    },
+    "trustRoot": {
+      "$ref": "#/$defs/key"
+    },
+    "staleReplay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evaluationSequence",
+        "expected",
+        "usesAuthorizationSequence"
+      ],
+      "properties": {
+        "evaluationSequence": {
+          "const": 12
+        },
+        "expected": {
+          "const": "rejected-revoked-threshold"
+        },
+        "usesAuthorizationSequence": {
+          "const": 10
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "bytes",
+        "digest"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "identity"
+      ],
+      "properties": {
+        "data": {
+          "type": "string",
+          "minLength": 4
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        }
+      }
+    },
+    "key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "spki"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "spki": {
+          "$ref": "#/$defs/identity"
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "delegateId",
+        "envelope"
+      ],
+      "properties": {
+        "delegateId": {
+          "enum": [
+            "delegate-a",
+            "delegate-b",
+            "delegate-c"
+          ]
+        },
+        "envelope": {
+          "$ref": "#/$defs/data"
+        }
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approvals",
+        "evaluationSequence",
+        "payload"
+      ],
+      "properties": {
+        "approvals": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/approval"
+          }
+        },
+        "evaluationSequence": {
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/data"
+        }
+      }
+    }
+  }
+}

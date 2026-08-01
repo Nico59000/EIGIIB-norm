@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a10-replay-report.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "profile",
+    "route_count",
+    "observations",
+    "trusted_release_signer_result",
+    "authorized_release_signer_result",
+    "threshold_approval_result",
+    "revocation_replay_result",
+    "stale_approval_result",
+    "recovered_approval_result",
+    "boundary",
+    "overall_result"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-P1-A10-REPLAY-1.0"
+    },
+    "profile": {
+      "const": "delegated-threshold-authorization-revocation-v1"
+    },
+    "route_count": {
+      "const": 3
+    },
+    "observations": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "$ref": "eigiib-p1-a10-route-result.schema.json"
+      }
+    },
+    "trusted_release_signer_result": {
+      "const": "conformant-for-supplied-root-policy-scope"
+    },
+    "authorized_release_signer_result": {
+      "const": "conformant-for-exact-release-descriptor-scope"
+    },
+    "threshold_approval_result": {
+      "const": "conformant"
+    },
+    "revocation_replay_result": {
+      "const": "conformant"
+    },
+    "stale_approval_result": {
+      "const": "rejected-as-required"
+    },
+    "recovered_approval_result": {
+      "const": "conformant"
+    },
+    "boundary": {
+      "const": "recovered-threshold-authorization"
+    },
+    "overall_result": {
+      "const": "conformant"
+    }
+  }
+}
