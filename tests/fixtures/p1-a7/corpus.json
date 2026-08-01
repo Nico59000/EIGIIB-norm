@@ -1,0 +1,381 @@
+{
+  "claimBoundary": {
+    "authority": "p1_negative_corpus_contract",
+    "doesNotImply": [
+      "generator-conformance-does-not-imply-route-replay-conformance",
+      "declared-error-class-does-not-imply-observed-error-class-equivalence",
+      "structural-negative-vector-does-not-imply-security-completeness",
+      "closed-seed-corpus-does-not-imply-production-input-coverage",
+      "p1-a7.1-does-not-replace-p1-a1-through-p1-a6-authorities"
+    ]
+  },
+  "generator": {
+    "canonicalJson": "utf8-sort-keys-indent-2-lf-v1",
+    "pointerSyntax": "RFC6901",
+    "tool": "tools/eigiib_negative_vector_generator.py",
+    "version": "0.1.0"
+  },
+  "profile": "portable-negative-vector-v1",
+  "requiredPlatforms": [
+    "ubuntu-24.04",
+    "macos-15",
+    "windows-2025"
+  ],
+  "requiredRoutes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "standard": "EIGIIB-P1-A7.1-1.0",
+  "taxonomy": {
+    "identity": {
+      "algorithm": "sha256",
+      "bytes": 3513,
+      "digest": "b7c896ec9c26a2582fa0ac828fb8f9cf6d3f463e3352edbe630fbc9c06b826b6"
+    },
+    "path": "tests/fixtures/p1-a7/error-taxonomy.json"
+  },
+  "vectors": [
+    {
+      "claimBoundary": [
+        "generator-vector-only-does-not-imply-route-adapter-implementation",
+        "expected-portable-class-does-not-imply-observed-route-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "errorClass": "syntax.invalid-json",
+        "precedence": [
+          "syntax.invalid-json"
+        ]
+      },
+      "generatedIdentity": {
+        "algorithm": "sha256",
+        "bytes": 765,
+        "digest": "949f58cc12759665f19b0706f733a3184e44ab3b7be730da58440d0bbb9419ad"
+      },
+      "id": "a7-json-duplicate-standard",
+      "layer": "json",
+      "mutation": {
+        "member": "standard",
+        "operator": "json.duplicate-root-member"
+      },
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ],
+      "source": {
+        "identity": {
+          "algorithm": "sha256",
+          "bytes": 725,
+          "digest": "95e3c0e0a224bc77932ba852ea93b332f975ff60a23c5a641035cb4c278a298e"
+        },
+        "path": "tests/fixtures/p1-a7/source/generator-seed.json"
+      }
+    },
+    {
+      "claimBoundary": [
+        "generator-vector-only-does-not-imply-route-adapter-implementation",
+        "expected-portable-class-does-not-imply-observed-route-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "errorClass": "syntax.invalid-json",
+        "precedence": [
+          "syntax.invalid-json"
+        ]
+      },
+      "generatedIdentity": {
+        "algorithm": "sha256",
+        "bytes": 731,
+        "digest": "62d479d1c004803ca55003cb77527d4347481f5ef3163d61bbf051a21dcd0293"
+      },
+      "id": "a7-json-trailing-data",
+      "layer": "json",
+      "mutation": {
+        "operator": "raw.append-utf8",
+        "value": "\nnull\n"
+      },
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ],
+      "source": {
+        "identity": {
+          "algorithm": "sha256",
+          "bytes": 725,
+          "digest": "95e3c0e0a224bc77932ba852ea93b332f975ff60a23c5a641035cb4c278a298e"
+        },
+        "path": "tests/fixtures/p1-a7/source/generator-seed.json"
+      }
+    },
+    {
+      "claimBoundary": [
+        "generator-vector-only-does-not-imply-route-adapter-implementation",
+        "expected-portable-class-does-not-imply-observed-route-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "errorClass": "syntax.invalid-utf8",
+        "precedence": [
+          "syntax.invalid-utf8"
+        ]
+      },
+      "generatedIdentity": {
+        "algorithm": "sha256",
+        "bytes": 726,
+        "digest": "cbfa988e00112c545d51f36da5c9096f8bf24517288a92536b9d606bc2acbdc3"
+      },
+      "id": "a7-utf8-invalid-prefix",
+      "layer": "json",
+      "mutation": {
+        "hex": "ff",
+        "offset": 0,
+        "operator": "raw.insert-hex"
+      },
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ],
+      "source": {
+        "identity": {
+          "algorithm": "sha256",
+          "bytes": 725,
+          "digest": "95e3c0e0a224bc77932ba852ea93b332f975ff60a23c5a641035cb4c278a298e"
+        },
+        "path": "tests/fixtures/p1-a7/source/generator-seed.json"
+      }
+    },
+    {
+      "claimBoundary": [
+        "generator-vector-only-does-not-imply-route-adapter-implementation",
+        "expected-portable-class-does-not-imply-observed-route-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "errorClass": "encoding.noncanonical-base64",
+        "precedence": [
+          "encoding.noncanonical-base64"
+        ]
+      },
+      "generatedIdentity": {
+        "algorithm": "sha256",
+        "bytes": 726,
+        "digest": "3233c34bfeff6027a411607f9c253392544fe7d83d251431625ccb152d1bc1de"
+      },
+      "id": "a7-base64-extra-padding",
+      "layer": "base64",
+      "mutation": {
+        "operator": "json.append-string",
+        "pointer": "/payload/base64",
+        "suffix": "="
+      },
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ],
+      "source": {
+        "identity": {
+          "algorithm": "sha256",
+          "bytes": 725,
+          "digest": "95e3c0e0a224bc77932ba852ea93b332f975ff60a23c5a641035cb4c278a298e"
+        },
+        "path": "tests/fixtures/p1-a7/source/generator-seed.json"
+      }
+    },
+    {
+      "claimBoundary": [
+        "generator-vector-only-does-not-imply-route-adapter-implementation",
+        "expected-portable-class-does-not-imply-observed-route-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "errorClass": "path.unsafe",
+        "precedence": [
+          "path.unsafe"
+        ]
+      },
+      "generatedIdentity": {
+        "algorithm": "sha256",
+        "bytes": 712,
+        "digest": "3d28d98a371c6067eaa44b92e2851be42d714ee11f2e4238cc4e8a1d6054779a"
+      },
+      "id": "a7-path-parent-traversal",
+      "layer": "path",
+      "mutation": {
+        "operator": "json.set",
+        "pointer": "/payload/path",
+        "value": "../escape.json"
+      },
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ],
+      "source": {
+        "identity": {
+          "algorithm": "sha256",
+          "bytes": 725,
+          "digest": "95e3c0e0a224bc77932ba852ea93b332f975ff60a23c5a641035cb4c278a298e"
+        },
+        "path": "tests/fixtures/p1-a7/source/generator-seed.json"
+      }
+    },
+    {
+      "claimBoundary": [
+        "generator-vector-only-does-not-imply-route-adapter-implementation",
+        "expected-portable-class-does-not-imply-observed-route-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "errorClass": "identity.length-mismatch",
+        "precedence": [
+          "identity.length-mismatch"
+        ]
+      },
+      "generatedIdentity": {
+        "algorithm": "sha256",
+        "bytes": 725,
+        "digest": "0c60c5d9aa26a3e414922da602167ebb3cfcd9a5fa99116c1b067ca7f858edba"
+      },
+      "id": "a7-identity-length-mismatch",
+      "layer": "identity",
+      "mutation": {
+        "operator": "json.set",
+        "pointer": "/payload/identity/bytes",
+        "value": 5
+      },
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ],
+      "source": {
+        "identity": {
+          "algorithm": "sha256",
+          "bytes": 725,
+          "digest": "95e3c0e0a224bc77932ba852ea93b332f975ff60a23c5a641035cb4c278a298e"
+        },
+        "path": "tests/fixtures/p1-a7/source/generator-seed.json"
+      }
+    },
+    {
+      "claimBoundary": [
+        "generator-vector-only-does-not-imply-route-adapter-implementation",
+        "expected-portable-class-does-not-imply-observed-route-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "errorClass": "identity.digest-mismatch",
+        "precedence": [
+          "identity.digest-mismatch"
+        ]
+      },
+      "generatedIdentity": {
+        "algorithm": "sha256",
+        "bytes": 725,
+        "digest": "aa7864183b51c13a78fb3ef924e9da2ea7d5dfe06e17910894ef0d4ca182f4b7"
+      },
+      "id": "a7-identity-digest-mismatch",
+      "layer": "identity",
+      "mutation": {
+        "operator": "json.set",
+        "pointer": "/payload/identity/digest",
+        "value": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ],
+      "source": {
+        "identity": {
+          "algorithm": "sha256",
+          "bytes": 725,
+          "digest": "95e3c0e0a224bc77932ba852ea93b332f975ff60a23c5a641035cb4c278a298e"
+        },
+        "path": "tests/fixtures/p1-a7/source/generator-seed.json"
+      }
+    },
+    {
+      "claimBoundary": [
+        "generator-vector-only-does-not-imply-route-adapter-implementation",
+        "expected-portable-class-does-not-imply-observed-route-equivalence"
+      ],
+      "expect": {
+        "accepted": false,
+        "errorClass": "projection.invalid",
+        "precedence": [
+          "projection.invalid"
+        ]
+      },
+      "generatedIdentity": {
+        "algorithm": "sha256",
+        "bytes": 686,
+        "digest": "84f0738c0151649aecf97e04a31ed326088b80ddb106a38d03cbd8ef505b153b"
+      },
+      "id": "a7-projection-missing-field",
+      "layer": "projection",
+      "mutation": {
+        "operator": "json.delete",
+        "pointer": "/projection/end_to_end_result"
+      },
+      "requiredPlatforms": [
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025"
+      ],
+      "requiredRoutes": [
+        "reference-python-openssl",
+        "independent-go-stdlib",
+        "external-go-cose"
+      ],
+      "source": {
+        "identity": {
+          "algorithm": "sha256",
+          "bytes": 725,
+          "digest": "95e3c0e0a224bc77932ba852ea93b332f975ff60a23c5a641035cb4c278a298e"
+        },
+        "path": "tests/fixtures/p1-a7/source/generator-seed.json"
+      }
+    }
+  ]
+}
