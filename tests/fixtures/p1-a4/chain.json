@@ -92,7 +92,7 @@
     "checkers": [
       {
         "id": "p1-a1",
-        "path": "tools/eigiib_in_toto_capsule.py",
+        "path": "tools/eigib_in_toto_capsule.py",
         "toolVersion": "0.2.0"
       },
       {
@@ -102,7 +102,7 @@
       },
       {
         "id": "p1-a3-h0.2",
-        "path": "tools/eigib_scitt_receipt_hardening_check.py",
+        "path": "tools/eigiib_scitt_receipt_hardening_check.py",
         "toolVersion": "0.2.0"
       }
     ],
