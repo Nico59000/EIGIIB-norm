@@ -92,7 +92,7 @@
     "checkers": [
       {
         "id": "p1-a1",
-        "path": "tools/eigib_in_toto_capsule.py",
+        "path": "tools/eigiib_in_toto_capsule.py",
         "toolVersion": "0.2.0"
       },
       {
