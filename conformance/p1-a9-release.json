@@ -1,0 +1,73 @@
+{
+  "standard": "EIGIIB-P1-A9-1.0",
+  "profile": "authenticated-release-registration-supersession-v1",
+  "status": "route-bound-closure",
+  "source_release": {
+    "release_id": "eigiib-p1-a7-authority-1.0",
+    "descriptor_sha256": "1551056d0b903f3f74b0c4834c7dd60720ea651f3608c2ee3ea9b302a2b9f5ec"
+  },
+  "authenticated_release_envelope": {
+    "sha256": "ce1286285115917ddce92b8746087f97820029ff417ede1886390ce09c2ba718",
+    "signature_profile": "DSSE-Ed25519-supplied-SPKI"
+  },
+  "transparency_registration": {
+    "tree_size": 2,
+    "root": "12bb270bb723153bebb17c56d293780c2866e325e87182d958250e05a8a4f066",
+    "receipt_profile": "RFC9942-RFC9162_SHA256-supplied-TS-SPKI",
+    "registered_entries": 2
+  },
+  "supersession": {
+    "relation": "authority-carrier-upgrade",
+    "predecessor_sequence": 0,
+    "successor_sequence": 1,
+    "supersession_envelope_sha256": "bc854141342a3d2b096290b504c90ab04da6172d55212eb1dd9ea1a44c23705a",
+    "release_descriptor_preserved": true,
+    "graph_acyclic": true,
+    "unique_current_authority": true
+  },
+  "required_routes": [
+    "reference-python-openssl",
+    "independent-go-stdlib",
+    "external-go-cose"
+  ],
+  "required_platforms": [
+    "ubuntu-24.04",
+    "macos-15",
+    "windows-2025"
+  ],
+  "overall_result": "conformant-for-p1-a9-fixture-scope",
+  "does_not_imply": [
+    "trusted-or-authorized-release-signer",
+    "trusted-transparency-service",
+    "global-append-only-consistency",
+    "content-revocation",
+    "security-vulnerability-remediation",
+    "external-publication-or-durability",
+    "trusted-effective-time",
+    "production-release-governance"
+  ],
+  "inherited_toolchain_revision": {
+    "basis": "closed-additive-descendant-policy-set",
+    "original_a7_policy_preserved": true,
+    "semantic_authority_root_preserved": true,
+    "windows_allowed_distributions": [
+      {
+        "image_version": "20260714.173.1",
+        "git": "git version 2.55.0.windows.2",
+        "policy": "p1-a7.7-original"
+      },
+      {
+        "image_version": "20260728.188.1",
+        "git": "git version 2.55.0.windows.3",
+        "policy": "p1-a9-additive-revision"
+      }
+    ],
+    "unregistered_distribution_result": "rejected",
+    "a8_offline_replay": {
+      "bundle_bytes_preserved": true,
+      "release_digests_preserved": true,
+      "closed_windows_policy_selector": true,
+      "unregistered_distribution_result": "rejected"
+    }
+  }
+}

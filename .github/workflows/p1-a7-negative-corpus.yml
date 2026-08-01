@@ -82,14 +82,28 @@ jobs:
         run: python tools/eigiib_receipt_route_replay.py . --go go --openssl openssl --expected tests/fixtures/p1-a7/expected-a7.6-receipt-replay.json --json
       - name: P1-A7.7 authority registration
         shell: bash
-        run: >-
-          python tools/eigiib_p1_a7_authority_freeze.py .
-          --manifest tests/fixtures/p1-a7/a7.7-authority-freeze.json
-          --policy tests/fixtures/p1-a7/a7.7-toolchain-policy.json
-          --expected tests/fixtures/p1-a7/expected-a7.7-authority-report.json
-          --platform ${{ matrix.platform }}
-          --attestation-out a7.7-${{ matrix.platform }}-attestation.json
-          --require-git-source --json
+        run: |
+          policy=tests/fixtures/p1-a7/a7.7-toolchain-policy.json
+          if test "${{ matrix.platform }}" = windows-2025; then
+            observed_pair="$ImageVersion|$(git --version)"
+            case "$observed_pair" in
+              '20260714.173.1|git version 2.55.0.windows.2') ;;
+              '20260728.188.1|git version 2.55.0.windows.3')
+                policy=tests/fixtures/p1-a9/a7.7-toolchain-policy-revision.json
+                ;;
+              *)
+                printf 'P1A7.7.UNREGISTERED.WINDOWS.DISTRIBUTION: %s\n' "$observed_pair" >&2
+                exit 2
+                ;;
+            esac
+          fi
+          python tools/eigiib_p1_a7_authority_freeze.py . \
+            --manifest tests/fixtures/p1-a7/a7.7-authority-freeze.json \
+            --policy "$policy" \
+            --expected tests/fixtures/p1-a7/expected-a7.7-authority-report.json \
+            --platform ${{ matrix.platform }} \
+            --attestation-out a7.7-${{ matrix.platform }}-attestation.json \
+            --require-git-source --json
       - name: Display platform attestation
         shell: bash
         run: cat a7.7-${{ matrix.platform }}-attestation.json

@@ -1,0 +1,19 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://eigiib.example/schemas/p1-a9-replay-report.json",
+  "type":"object","additionalProperties":false,
+  "required":["standard","profile","routes","observations","release_envelope_result","transparency_registration_result","supersession_replay_result","route_equivalence_result","overall_result","findings","claim_boundary"],
+  "properties":{
+    "standard":{"const":"EIGIIB-P1-A9-REPLAY-1.0"},
+    "profile":{"const":"authenticated-release-registration-supersession-v1"},
+    "routes":{"const":["reference-python-openssl","independent-go-stdlib","external-go-cose"]},
+    "observations":{"type":"array","minItems":3,"maxItems":3,"items":{"$ref":"eigiib-p1-a9-route-result.schema.json"}},
+    "release_envelope_result":{"const":"conformant"},
+    "transparency_registration_result":{"const":"conformant"},
+    "supersession_replay_result":{"const":"conformant"},
+    "route_equivalence_result":{"const":"conformant"},
+    "overall_result":{"const":"conformant"},
+    "findings":{"const":[]},
+    "claim_boundary":{"type":"array","minItems":8,"uniqueItems":true,"items":{"type":"string"}}
+  }
+}

@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/p1-a9-capsule.json",
+  "title": "EIGIIB P1-A9 authenticated release capsule",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "profile",
+    "sourceRelease",
+    "publicKeys",
+    "releaseEnvelope",
+    "supersession",
+    "transparency",
+    "claimBoundary"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-P1-A9-1.0"
+    },
+    "profile": {
+      "const": "authenticated-release-registration-supersession-v1"
+    },
+    "sourceRelease": {
+      "$ref": "#/$defs/sourceRelease"
+    },
+    "publicKeys": {
+      "$ref": "#/$defs/publicKeys"
+    },
+    "releaseEnvelope": {
+      "$ref": "#/$defs/payloadCarrier"
+    },
+    "supersession": {
+      "$ref": "#/$defs/supersession"
+    },
+    "transparency": {
+      "$ref": "#/$defs/transparency"
+    },
+    "claimBoundary": {
+      "$ref": "#/$defs/claimBoundary"
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "digest",
+        "bytes"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "dataCarrier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "identity"
+      ],
+      "properties": {
+        "data": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        }
+      }
+    },
+    "payloadCarrier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "identity",
+        "payloadType"
+      ],
+      "properties": {
+        "data": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "payloadType": {
+          "type": "string",
+          "enum": [
+            "application/vnd.eigiib.release+json",
+            "application/vnd.eigiib.release-supersession+json"
+          ]
+        }
+      }
+    },
+    "sourceRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "releaseId",
+        "identity"
+      ],
+      "properties": {
+        "path": {
+          "const": "tests/fixtures/p1-a8/expected-release.json"
+        },
+        "releaseId": {
+          "const": "eigiib-p1-a7-authority-1.0"
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        }
+      }
+    },
+    "publicKeys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "releaseSignerSpki",
+        "transparencyServiceSpki"
+      ],
+      "properties": {
+        "releaseSignerSpki": {
+          "$ref": "#/$defs/identity"
+        },
+        "transparencyServiceSpki": {
+          "$ref": "#/$defs/identity"
+        }
+      }
+    },
+    "supersession": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "relation",
+        "payload",
+        "envelope"
+      ],
+      "properties": {
+        "relation": {
+          "const": "authority-carrier-upgrade"
+        },
+        "payload": {
+          "$ref": "#/$defs/dataCarrier"
+        },
+        "envelope": {
+          "$ref": "#/$defs/payloadCarrier"
+        }
+      }
+    },
+    "registration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "resource",
+        "status",
+        "location",
+        "mode"
+      ],
+      "properties": {
+        "method": {
+          "const": "POST"
+        },
+        "resource": {
+          "const": "/entries"
+        },
+        "status": {
+          "const": 201
+        },
+        "location": {
+          "type": "string",
+          "pattern": "^https://transparency\\.example/entries/[0-9a-f]{64}$"
+        },
+        "mode": {
+          "const": "fixture-no-network"
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "leafIndex",
+        "signedStatement",
+        "receipt",
+        "registration"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "release-envelope",
+            "supersession-envelope"
+          ]
+        },
+        "leafIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "signedStatement": {
+          "$ref": "#/$defs/dataCarrier"
+        },
+        "receipt": {
+          "$ref": "#/$defs/dataCarrier"
+        },
+        "registration": {
+          "$ref": "#/$defs/registration"
+        }
+      }
+    },
+    "transparency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "treeSize",
+        "root",
+        "entries"
+      ],
+      "properties": {
+        "treeSize": {
+          "const": 2
+        },
+        "root": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "algorithm",
+            "digest",
+            "bytes"
+          ],
+          "properties": {
+            "algorithm": {
+              "const": "rfc9162-sha256"
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "bytes": {
+              "const": 32
+            }
+          }
+        },
+        "entries": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/entry"
+          }
+        }
+      }
+    },
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "doesNotImply"
+      ],
+      "properties": {
+        "doesNotImply": {
+          "type": "array",
+          "minItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

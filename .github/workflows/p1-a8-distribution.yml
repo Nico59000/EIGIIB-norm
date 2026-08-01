@@ -79,13 +79,25 @@ jobs:
           --out-dir ../dist/independent --json
       - name: Independent publication replay and release measurement
         shell: bash
-        run: >-
-          python tools/eigiib_p1_a8_publication_replay.py .
-          --policy tests/fixtures/p1-a8/release-policy.json
-          --reference-dir dist/reference
-          --independent-dir dist/independent
-          --platform ${{ matrix.platform }}
-          --expected-release tests/fixtures/p1-a8/expected-release.json
-          --expected-sha256sums tests/fixtures/p1-a8/expected-SHA256SUMS
-          --expected-report tests/fixtures/p1-a8/expected-publication-report.json
-          --json
+        run: |
+          replay=tools/eigiib_p1_a8_publication_replay.py
+          revision_args=()
+          if test -f tools/eigiib_p1_a9_a8_compat_replay.py; then
+            replay=tools/eigiib_p1_a9_a8_compat_replay.py
+            revision_args+=(
+              --a7-toolchain-policy-revision
+              tests/fixtures/p1-a9/a7.7-toolchain-policy-revision.json
+              --runner-image-version
+              "$ImageVersion"
+            )
+          fi
+          python "$replay" . \
+            --policy tests/fixtures/p1-a8/release-policy.json \
+            --reference-dir dist/reference \
+            --independent-dir dist/independent \
+            --platform ${{ matrix.platform }} \
+            --expected-release tests/fixtures/p1-a8/expected-release.json \
+            --expected-sha256sums tests/fixtures/p1-a8/expected-SHA256SUMS \
+            --expected-report tests/fixtures/p1-a8/expected-publication-report.json \
+            "${revision_args[@]}" \
+            --json
