@@ -1,0 +1,11 @@
+{
+  "standard": "EIGIIB-P1-A5-1.0",
+  "status": "structural-only",
+  "profile": "independent-verifier-matrix-v1",
+  "matrix_manifest": "tests/fixtures/p1-a5/matrix.json",
+  "reference_route": "python-3.13-openssl-p1-a4-h0.2",
+  "independent_route": "go-1.26.5-stdlib-ed25519-cbor",
+  "required_runners": ["ubuntu-24.04", "macos-15", "windows-2025"],
+  "network_mode": "none",
+  "production_replays": []
+}
