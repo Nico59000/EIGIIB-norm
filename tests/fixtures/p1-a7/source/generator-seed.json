@@ -1,0 +1,25 @@
+{
+  "payload": {
+    "base64": "YWJjZA==",
+    "identity": {
+      "algorithm": "sha256",
+      "bytes": 4,
+      "digest": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+    },
+    "path": "tests/fixtures/example.json"
+  },
+  "projection": {
+    "chain_identity": {
+      "algorithm": "sha256",
+      "bytes": 2182,
+      "digest": "8082fbe1c235ec3c5b5809eeb70d5593d20887f75a310abb8b4a9762be28a97d"
+    },
+    "cross_capsule_binding_result": "conformant",
+    "end_to_end_result": "conformant",
+    "manifest_binding_result": "conformant",
+    "p1a1_replay_result": "conformant",
+    "p1a2_replay_result": "conformant",
+    "p1a3_replay_result": "conformant"
+  },
+  "standard": "EIGIIB-P1-A7-SEED-1.0"
+}
