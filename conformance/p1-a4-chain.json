@@ -1,0 +1,9 @@
+{
+  "standard": "EIGIIB-P1-A4-1.0",
+  "status": "structural-only",
+  "profile": "p1-end-to-end-cross-capsule-replay-v1",
+  "chain_manifest": "tests/fixtures/p1-a4/chain.json",
+  "execution_scope": "fixed-repository-checkers-only",
+  "network_mode": "none",
+  "production_replays": []
+}

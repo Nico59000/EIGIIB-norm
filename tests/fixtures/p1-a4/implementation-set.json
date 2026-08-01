@@ -1,0 +1,93 @@
+{
+  "standard": "EIGIIB-P1-A4-hardening-0.2",
+  "profile": "p1-a4-executable-closure-v1",
+  "baselineChainIdentity": {
+    "algorithm": "sha256",
+    "digest": "8082fbe1c235ec3c5b5809eeb70d5593d20887f75a310abb8b4a9762be28a97d",
+    "bytes": 2182
+  },
+  "implementations": [
+    {
+      "role": "p1-a1-checker",
+      "path": "tools/eigiib_in_toto_capsule.py",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "68f40ca62b3d992d94a9db21ee430b5d72119d977958254ebf71cddb4aff76c1",
+        "bytes": 16887
+      }
+    },
+    {
+      "role": "p1-a2-checker",
+      "path": "tools/eigiib_sigstore_bundle.py",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "efa122e4f7063e7be1390f1405967f0d5b0c31d86e83cdfd771ed090798df323",
+        "bytes": 21429
+      }
+    },
+    {
+      "role": "p1-a3-baseline-checker",
+      "path": "tools/eigiib_scitt_receipt.py",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "cc4e4d924b9bb5d979827a793c24065b666f2b5584d712d9c2483f6fd8588c95",
+        "bytes": 31469
+      }
+    },
+    {
+      "role": "p1-a3-hardening-checker",
+      "path": "tools/eigiib_scitt_receipt_hardening_check.py",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "65d13dcb1a747353f5fc57af04d0a00531004387eb6b793d3b63d02d2ea742df",
+        "bytes": 6146
+      }
+    },
+    {
+      "role": "p1-a4-orchestrator",
+      "path": "tools/eigiib_interop_chain.py",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "3898905bc7493fe4f974498c29481be8e207e7054bfc0b3a95633a6d2effa603",
+        "bytes": 7182
+      }
+    },
+    {
+      "role": "p1-a4-contract",
+      "path": "tools/eigiib_interop_chain_contract.py",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "f009fca66995befd488b821ca9dce54d7c62e4ec43c8d80688014013be0c9875",
+        "bytes": 6923
+      }
+    },
+    {
+      "role": "p1-a4-validation",
+      "path": "tools/eigiib_interop_chain_validation.py",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "decadc50f872c5e0f424e5b8cba140be0a9718b79c1e4627d47ba7003022bab8",
+        "bytes": 8987
+      }
+    },
+    {
+      "role": "p1-a4-hardening-checker",
+      "path": "tools/eigiib_interop_chain_hardening_check.py",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "d6aa08749b9f6cd67a3db1e5a024106ff18803c544c64355966eeb11d0bd57c6",
+        "bytes": 9000
+      }
+    }
+  ],
+  "claimBoundary": {
+    "authority": "p1_chain_contract",
+    "doesNotImply": [
+      "byte-exact-replay-closure-does-not-imply-trusted-python-interpreter",
+      "byte-exact-replay-closure-does-not-imply-trusted-openssl-provider",
+      "implementation-identity-does-not-imply-source-authenticity",
+      "exact-checker-bytes-do-not-imply-production-environment-equivalence",
+      "p1-a4-h0.2-does-not-replace-upstream-authorities"
+    ]
+  }
+}
