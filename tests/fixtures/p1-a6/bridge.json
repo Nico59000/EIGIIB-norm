@@ -1,0 +1,51 @@
+{
+  "standard": "EIGIIB-P1-A6-1.0",
+  "profile": "external-native-verifier-bridge-v1",
+  "status": "fixture-observation",
+  "baseline": {
+    "standard": "EIGIIB-P1-A5-1.0",
+    "hardeningChecker": "tools/eigiib_verifier_matrix_hardening_check.py",
+    "expectedProjection": {
+      "path": "tests/fixtures/p1-a5/expected-independent-result.json",
+      "identity": {
+        "algorithm": "sha256",
+        "digest": "97d4860f26ace2b259119d3fd293fa5a0156573d946ebd0ebc1878f5f4f083d9",
+        "bytes": 715
+      }
+    },
+    "chainIdentity": {
+      "algorithm": "sha256",
+      "digest": "8082fbe1c235ec3c5b5809eeb70d5593d20887f75a310abb8b4a9762be28a97d",
+      "bytes": 2182
+    }
+  },
+  "externalObservation": {
+    "id": "veraison-go-cose-p1-a3",
+    "module": "github.com/veraison/go-cose",
+    "version": "v1.3.0",
+    "entrypoint": "external/cmd/eigiib-p1-external",
+    "scope": "p1-a3-cose-sign1-and-receipt",
+    "networkMode": "dependency-download-only",
+    "runtimeNetworkOperations": false
+  },
+  "expectedResult": {
+    "path": "tests/fixtures/p1-a6/expected-external-result.json",
+    "identity": {
+      "algorithm": "sha256",
+      "digest": "9d1c0e22aec9b4259194d53ea5c154d884ba3f49c3e4482e5b89e575f1702682",
+      "bytes": 896
+    }
+  },
+  "requiredRunners": ["ubuntu-24.04", "macos-15", "windows-2025"],
+  "claimBoundary": {
+    "authority": "p1_external_bridge_contract",
+    "doesNotImply": [
+      "external-library-acceptance-does-not-imply-eigiib-claim-truth",
+      "external-cose-verification-does-not-imply-trusted-issuer-or-transparency-service",
+      "partial-external-observation-does-not-imply-third-complete-independent-implementation",
+      "dependency-version-does-not-imply-byte-exact-toolchain-identity",
+      "fixture-observation-does-not-imply-production-interoperability",
+      "p1-a6-does-not-replace-p1-a1-through-p1-a5-or-e-authorities"
+    ]
+  }
+}

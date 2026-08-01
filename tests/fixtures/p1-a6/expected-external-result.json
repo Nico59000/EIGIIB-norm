@@ -1,0 +1,25 @@
+{
+  "tool": "eigiib-external-native-bridge",
+  "tool_version": "0.1.0",
+  "standard": "EIGIIB-P1-A6-1.0",
+  "implementation": "veraison-go-cose-v1.3.0",
+  "observation_scope": "p1-a3-cose-sign1-and-receipt",
+  "structural_result": "conformant",
+  "baseline_route_result": "conformant",
+  "external_observation_result": "conformant",
+  "external_library_result": "valid",
+  "manifest_binding_result": "conformant",
+  "p1a1_replay_result": "conformant",
+  "p1a2_replay_result": "conformant",
+  "p1a3_replay_result": "conformant",
+  "cross_capsule_binding_result": "conformant",
+  "end_to_end_result": "conformant",
+  "chain_identity": {
+    "algorithm": "sha256",
+    "digest": "8082fbe1c235ec3c5b5809eeb70d5593d20887f75a310abb8b4a9762be28a97d",
+    "bytes": 2182
+  },
+  "trust_result": "not-evaluated-by-p1-a6",
+  "production_interoperability_result": "not-evaluated-by-p1-a6",
+  "findings": []
+}

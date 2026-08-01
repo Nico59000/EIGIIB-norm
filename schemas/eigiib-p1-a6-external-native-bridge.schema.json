@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schema/eigiib-p1-a6-external-native-bridge.schema.json",
+  "title": "EIGIIB P1-A6 external native verifier bridge",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "profile",
+    "status",
+    "baseline",
+    "externalObservation",
+    "expectedResult",
+    "requiredRunners",
+    "claimBoundary"
+  ],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A6-1.0"},
+    "profile": {"const": "external-native-verifier-bridge-v1"},
+    "status": {"const": "fixture-observation"},
+    "baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["standard", "hardeningChecker", "expectedProjection", "chainIdentity"],
+      "properties": {
+        "standard": {"const": "EIGIIB-P1-A5-1.0"},
+        "hardeningChecker": {"const": "tools/eigiib_verifier_matrix_hardening_check.py"},
+        "expectedProjection": {"$ref": "#/$defs/pathIdentity"},
+        "chainIdentity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "externalObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "module", "version", "entrypoint", "scope", "networkMode", "runtimeNetworkOperations"],
+      "properties": {
+        "id": {"const": "veraison-go-cose-p1-a3"},
+        "module": {"const": "github.com/veraison/go-cose"},
+        "version": {"const": "v1.3.0"},
+        "entrypoint": {"const": "external/cmd/eigiib-p1-external"},
+        "scope": {"const": "p1-a3-cose-sign1-and-receipt"},
+        "networkMode": {"const": "dependency-download-only"},
+        "runtimeNetworkOperations": {"const": false}
+      }
+    },
+    "expectedResult": {"$ref": "#/$defs/pathIdentity"},
+    "requiredRunners": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "ubuntu-24.04"},
+        {"const": "macos-15"},
+        {"const": "windows-2025"}
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "doesNotImply"],
+      "properties": {
+        "authority": {"const": "p1_external_bridge_contract"},
+        "doesNotImply": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "digest", "bytes"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "bytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "pathIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "identity"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "identity": {"$ref": "#/$defs/identity"}
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "standard": "EIGIIB-P1-A6-1.0",
+  "status": "structural-only",
+  "profile": "external-native-verifier-bridge-v1",
+  "bridge_manifest": "tests/fixtures/p1-a6/bridge.json",
+  "baseline": "P1-A5-H0.2",
+  "external_library": "github.com/veraison/go-cose@v1.3.0",
+  "observation_scope": "p1-a3-cose-sign1-and-receipt",
+  "required_runners": ["ubuntu-24.04", "macos-15", "windows-2025"],
+  "runtime_network_operations": [],
+  "production_replays": []
+}
