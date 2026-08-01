@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schema/p1-a3-scitt-receipt-v1.json",
+  "title": "EIGIIB P1-A3 SCITT receipt-bound registration capsule",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profile", "external_specs", "trust_scope", "registration", "signedStatement", "receipt", "binding", "claimBoundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A3-1.0"},
+    "profile": {"const": "scitt-p1-a2-receipt-v1"},
+    "external_specs": {
+      "const": ["scitt-rfc9943", "cose-receipts-rfc9942", "scitt-scrapi-11"]
+    },
+    "trust_scope": {"const": "supplied-public-keys-only"},
+    "registration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["apiProfile", "transcriptMode", "method", "resource", "status", "location", "requestMediaType", "receiptMediaType"],
+      "properties": {
+        "apiProfile": {"const": "draft-ietf-scitt-scrapi-11"},
+        "transcriptMode": {"const": "fixture-no-network"},
+        "method": {"const": "POST"},
+        "resource": {"const": "/entries"},
+        "status": {"const": 201},
+        "location": {"type": "string", "pattern": "^https://transparency\\.example/entries/[0-9a-f]{64}$"},
+        "requestMediaType": {"const": "application/scitt-statement+cose"},
+        "receiptMediaType": {"const": "application/scitt-receipt+cose"}
+      }
+    },
+    "signedStatement": {"$ref": "#/$defs/signedCarrier"},
+    "receipt": {"$ref": "#/$defs/receiptCarrier"},
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["p1A2Bundle", "vds", "vdsId", "proofType", "treeSize", "leafIndex"],
+      "properties": {
+        "p1A2Bundle": {"$ref": "#/$defs/identity"},
+        "vds": {"const": "RFC9162_SHA256"},
+        "vdsId": {"const": 1},
+        "proofType": {"const": "inclusion"},
+        "treeSize": {"type": "integer", "minimum": 1},
+        "leafIndex": {"type": "integer", "minimum": 0}
+      }
+    },
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "receiptSignatureValidity", "inclusionProofValidity", "registrationEvidence", "doesNotImply"],
+      "properties": {
+        "authority": {"const": "e5"},
+        "receiptSignatureValidity": {"const": "cryptographic-signature-valid-for-supplied-transparency-service-key"},
+        "inclusionProofValidity": {"const": "verified-rfc9162-sha256"},
+        "registrationEvidence": {"const": "receipt-proves-inclusion-relative-to-supplied-key"},
+        "doesNotImply": {
+          "const": [
+            "receipt-signature-valid-does-not-imply-trusted-transparency-service",
+            "inclusion-proof-valid-does-not-imply-global-append-only-consistency",
+            "receipt-bound-registration-does-not-imply-eigiib-claim-truth",
+            "location-header-does-not-imply-receipt-authenticity",
+            "registration-http-status-does-not-imply-persistence-without-receipt",
+            "receipt-registration-does-not-imply-e11-trusted-time",
+            "single-receipt-does-not-imply-e6-cross-view-convergence",
+            "scitt-registration-does-not-imply-registration-policy-correctness",
+            "p1-a3-fixture-does-not-imply-production-transparency-service"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "digest", "bytes"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "bytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "signedCarrier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["encoding", "data", "identity", "issuerKeySpki"],
+      "properties": {
+        "encoding": {"const": "base64-cbor"},
+        "data": {"type": "string", "minLength": 1},
+        "identity": {"$ref": "#/$defs/identity"},
+        "issuerKeySpki": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "receiptCarrier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["encoding", "data", "identity", "transparencyServiceKeySpki"],
+      "properties": {
+        "encoding": {"const": "base64-cbor"},
+        "data": {"type": "string", "minLength": 1},
+        "identity": {"$ref": "#/$defs/identity"},
+        "transparencyServiceKeySpki": {"$ref": "#/$defs/identity"}
+      }
+    }
+  }
+}
