@@ -1,6 +1,6 @@
 {
   "standard": "EIGIIB-M0-A3-1.0",
-  "revision": "M0-A3-p1-a2-1.0",
+  "revision": "M0-A3-p1-a2-1.1",
   "as_of": "2026-08-01",
   "freshness_basis": "declared-observation-date-only",
   "external_specs": [
@@ -115,7 +115,7 @@
     },
     {
       "id": "sigstore-p1-a1-dsse-bundle-v1",
-      "revision": "1.0",
+      "revision": "1.1",
       "state": "implemented",
       "external_spec": "sigstore-bundle-0.3.2",
       "direction": "export",
@@ -160,6 +160,7 @@
         "schemas/eigiib-p1-a2-sigstore-bundle.schema.json",
         "tools/eigiib_sigstore_bundle.py",
         "tests/test_eigiib_sigstore_bundle.py",
+        "tests/test_eigiib_sigstore_bundle_hardening.py",
         "tests/fixtures/p1-a2/bundle.json",
         "tests/fixtures/p1-a2/public-key.pem",
         "conformance/p1-a2-sigstore.json"
