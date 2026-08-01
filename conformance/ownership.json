@@ -40,6 +40,8 @@
     {"id": "repository.conformance-vector-corpus", "authority": "conformance_vectors"},
     {"id": "repository.portable-error-code-expectations", "authority": "conformance_vectors"},
     {"id": "repository.p1-in-toto-capsule-contract", "authority": "p1_in_toto_contract"},
-    {"id": "repository.p1-in-toto-capsule-state", "authority": "p1_in_toto_state"}
+    {"id": "repository.p1-in-toto-capsule-state", "authority": "p1_in_toto_state"},
+    {"id": "repository.p1-sigstore-bundle-contract", "authority": "p1_sigstore_contract"},
+    {"id": "repository.p1-sigstore-bundle-state", "authority": "p1_sigstore_state"}
   ]
 }
