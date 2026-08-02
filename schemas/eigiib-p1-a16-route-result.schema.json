@@ -1,0 +1,195 @@
+{
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a16-route-result.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "overallResult": {
+      "const": "conformant"
+    },
+    "portable": {
+      "additionalProperties": false,
+      "properties": {
+        "artifactType": {
+          "const": "application/vnd.eigiib.cross-registry-release-set.v1"
+        },
+        "boundary": {
+          "const": "named-ghcr-oci-publication-cross-registry-digest-readback-closure"
+        },
+        "config": {
+          "additionalProperties": false,
+          "properties": {
+            "digest": {
+              "const": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+            },
+            "mediaType": {
+              "const": "application/vnd.oci.empty.v1+json"
+            },
+            "size": {
+              "const": 2
+            }
+          },
+          "required": [
+            "digest",
+            "mediaType",
+            "size"
+          ],
+          "type": "object"
+        },
+        "decisions": {
+          "additionalProperties": false,
+          "properties": {
+            "authenticatedRegistryReadback": {
+              "const": "conformant"
+            },
+            "crossRegistryDigestIdentity": {
+              "const": "conformant-for-closed-three-asset-set"
+            },
+            "durableRetention": {
+              "const": "not-claimed"
+            },
+            "externalRegistryPublication": {
+              "const": "conformant-for-named-ghcr-oci-repository-scope"
+            },
+            "productionAuthorization": {
+              "const": "not-claimed"
+            },
+            "publicRegistryReadback": {
+              "const": "conformant"
+            },
+            "registryAdministrativeImmutability": {
+              "const": "not-claimed"
+            },
+            "tagToManifestBinding": {
+              "const": "conformant-at-capture-time"
+            },
+            "universalInteroperability": {
+              "const": "not-claimed"
+            }
+          },
+          "required": [
+            "authenticatedRegistryReadback",
+            "crossRegistryDigestIdentity",
+            "durableRetention",
+            "externalRegistryPublication",
+            "productionAuthorization",
+            "publicRegistryReadback",
+            "registryAdministrativeImmutability",
+            "tagToManifestBinding",
+            "universalInteroperability"
+          ],
+          "type": "object"
+        },
+        "layers": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "digest": {
+                "pattern": "sha256:[0-9a-f]{64}",
+                "type": "string"
+              },
+              "mediaType": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "size": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "digest",
+              "mediaType",
+              "name",
+              "size"
+            ],
+            "type": "object"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "manifestDigest": {
+          "const": "sha256:cf0f9735cc1711cd45a242ac3c1c27185b738ae353f491cd58a5746dbf8a66d8"
+        },
+        "manifestMediaType": {
+          "const": "application/vnd.oci.image.manifest.v1+json"
+        },
+        "manifestSize": {
+          "const": 1493
+        },
+        "publicTags": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "registryHost": {
+          "const": "ghcr.io"
+        },
+        "registryRepository": {
+          "const": "nico59000/eigiib-norm-p1-a16"
+        },
+        "registryTag": {
+          "const": "p1-a16-fixture-v1"
+        },
+        "sourceP1A15Commit": {
+          "const": "461412075d97d9b8a8202e89fc3a9da3b6743f1b"
+        },
+        "sourceReleaseId": {
+          "const": 363652216
+        },
+        "sourceReleaseTag": {
+          "const": "eigiib-p1-a15-live-fixture-v2"
+        },
+        "standard": {
+          "const": "EIGIIB-P1-A16-PORTABLE-RESULT-1.0"
+        }
+      },
+      "required": [
+        "artifactType",
+        "boundary",
+        "config",
+        "decisions",
+        "layers",
+        "manifestDigest",
+        "manifestMediaType",
+        "manifestSize",
+        "publicTags",
+        "registryHost",
+        "registryRepository",
+        "registryTag",
+        "sourceP1A15Commit",
+        "sourceReleaseId",
+        "sourceReleaseTag",
+        "standard"
+      ],
+      "type": "object"
+    },
+    "routes": {
+      "items": {
+        "enum": [
+          "external-oras-cli",
+          "independent-go-stdlib",
+          "reference-python-urllib"
+        ]
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "standard": {
+      "const": "EIGIIB-P1-A16-ROUTE-REPLAY-1.0"
+    }
+  },
+  "required": [
+    "overallResult",
+    "portable",
+    "routes",
+    "standard"
+  ],
+  "type": "object"
+}
