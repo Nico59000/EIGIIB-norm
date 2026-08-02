@@ -1,0 +1,1 @@
+Trigger strict GHCR tag-list corrected P1-A16 publication.
