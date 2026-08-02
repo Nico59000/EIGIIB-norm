@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/schemas/eigiib-m0-a5-f1-authority-freeze.schema.json",
+  "title": "EIGIIB M0-A5-F1 authority freeze",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "source",
+    "canonical_report",
+    "writer_contract",
+    "replay_gate",
+    "authority_freeze",
+    "nonclaims"
+  ],
+  "properties": {
+    "standard": {"const": "EIGIIB-M0-A5-F1-AUTHORITY-FREEZE-1.0"},
+    "status": {"const": "frozen"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch", "pre_fix_head_commit", "canonical_p1_head_commit"],
+      "properties": {
+        "branch": {"const": "agent/m0-a5-canonical-p1-lineage-authority-promotion-e14-handoff"},
+        "pre_fix_head_commit": {"pattern": "^[0-9a-f]{40}$"},
+        "canonical_p1_head_commit": {"pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "canonical_report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "encoding", "newline", "terminal_newline_count", "byte_length", "sha256"],
+      "properties": {
+        "path": {"const": "tests/fixtures/m0-a5/expected-report.json"},
+        "encoding": {"const": "utf-8"},
+        "newline": {"const": "lf"},
+        "terminal_newline_count": {"const": 1},
+        "byte_length": {"const": 587},
+        "sha256": {"pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "writer_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["serialization", "output_mode", "text_newline_translation", "write_api", "platforms"],
+      "properties": {
+        "serialization": {"const": "json-sort-keys-compact"},
+        "output_mode": {"const": "binary-exact"},
+        "text_newline_translation": {"const": "forbidden"},
+        "write_api": {"const": "Path.write_bytes"},
+        "platforms": {
+          "const": ["ubuntu-24.04", "macos-15", "windows-2025"]
+        }
+      }
+    },
+    "replay_gate": {"type": "object"},
+    "authority_freeze": {"type": "object"},
+    "nonclaims": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    }
+  }
+}
