@@ -1,12 +1,6 @@
 name: E15-A1 bounded materialization
 
 on:
-  push:
-    branches:
-      - agent/e15-a1-historical-authority-continuity-delivery-intent-endpoint-carrier-binding
-    paths:
-      - 'conformance/.e15-a1-payload.b64'
-      - '.github/workflows/e15-a1-materialize.yml'
   pull_request:
     branches:
       - agent/m0-a6-e15-entry-normalization-authority-continuity
@@ -17,13 +11,9 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: e15-a1-materialize
-  cancel-in-progress: false
-
 jobs:
   materialize:
-    if: github.event_name == 'push' || github.head_ref == 'agent/e15-a1-historical-authority-continuity-delivery-intent-endpoint-carrier-binding'
+    if: github.head_ref == 'agent/e15-a1-historical-authority-continuity-delivery-intent-endpoint-carrier-binding'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
