@@ -35,9 +35,11 @@ jobs:
         run: |
           python tools/eigiib_disclosure_revocation_check.py . --json > actual.json
           python - <<'PY'
+          import json
           from pathlib import Path
-          a=Path('actual.json').read_bytes(); e=Path('tests/fixtures/e14-a4/expected-report.json').read_bytes()
-          if a != e: raise SystemExit('E14-A4 report mismatch')
+          actual=json.loads(Path('actual.json').read_text(encoding='utf-8'))
+          expected=json.loads(Path('tests/fixtures/e14-a4/expected-report.json').read_text(encoding='utf-8'))
+          if actual != expected: raise SystemExit('E14-A4 report mismatch')
           PY
       - name: Parse authorities
         run: python -c "import json,tomllib,pathlib; json.loads(pathlib.Path('conformance/disclosure-revocation.json').read_text()); json.loads(pathlib.Path('schemas/eigiib-e14-a4-disclosure-revocation.schema.json').read_text()); tomllib.loads(pathlib.Path('EIGIIB.toml').read_text())"
