@@ -1,0 +1,31 @@
+name: P1-A17 local gh bootstrap
+
+on:
+  pull_request:
+    branches: [agent/p1-a16-external-registry-cross-registry-readback]
+
+permissions:
+  contents: read
+
+jobs:
+  package-gh:
+    if: github.head_ref == 'agent/p1-a17-gh-bootstrap'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download official GitHub CLI archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 \
+            -o gh_2.96.0_linux_amd64.tar.gz \
+            https://github.com/cli/cli/releases/download/v2.96.0/gh_2.96.0_linux_amd64.tar.gz
+          printf '%s  %s\n' \
+            83d5c2ccad5498f58bf6368acb1ab32588cf43ab3a4b1c301bf36328b1c8bd60 \
+            gh_2.96.0_linux_amd64.tar.gz | sha256sum -c -
+      - name: Upload verified archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: gh-2.96.0-linux-amd64
+          path: gh_2.96.0_linux_amd64.tar.gz
+          if-no-files-found: error
+          retention-days: 1
