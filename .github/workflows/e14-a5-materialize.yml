@@ -31,6 +31,7 @@ jobs:
           tar -xzf payload.tar.gz
           rm -rf .e14-a5-payload payload.b64 payload.tar.gz
           rm -f .github/workflows/e14-a5-final-closure.yml
+          git checkout HEAD -- .github/workflows/eigiib.yml
       - name: Publish non-workflow A5 tree
         shell: bash
         run: |
