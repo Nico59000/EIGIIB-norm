@@ -5,7 +5,7 @@ on:
     branches:
       - agent/m0-a6-e15-entry-normalization-authority-continuity
     paths:
-      - 'conformance/.e15-a1-payload.b64'
+      - 'conformance/.e15-a1-payload.part*'
       - '.github/workflows/e15-a1-materialize.yml'
 
 permissions:
@@ -28,19 +28,58 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path, PurePosixPath
-          import base64, io, tarfile
+          import base64, hashlib, io, tarfile
 
-          payload = Path('conformance/.e15-a1-payload.b64')
-          encoded = payload.read_text(encoding='ascii').strip()
+          expected_parts = [f'.e15-a1-payload.part{i:02d}' for i in range(8)]
+          parts = sorted(Path('conformance').glob('.e15-a1-payload.part*'))
+          if [p.name for p in parts] != expected_parts:
+              raise SystemExit('payload part set mismatch')
+          encoded = ''.join(p.read_text(encoding='ascii') for p in parts)
+          if len(encoded) != 39832:
+              raise SystemExit('payload encoded length mismatch')
+          if hashlib.sha256(encoded.encode('ascii')).hexdigest() != 'c9d86b59c1ae6404ece9c33cf58070de1927f560bcddca773be047a6bde7bebd':
+              raise SystemExit('payload encoded digest mismatch')
           raw = base64.b64decode(encoded, validate=True)
+          if hashlib.sha256(raw).hexdigest() != 'abf07fc87d0641bdbfffad991f62b6d863c9849d8c166b37f0bd68ff8615037b':
+              raise SystemExit('payload archive digest mismatch')
+          expected_members = {
+              '.github/workflows/e14-a2-disclosure-authorization.yml',
+              '.github/workflows/e14-a3-correlation-control.yml',
+              '.github/workflows/e14-a4-disclosure-revocation.yml',
+              '.github/workflows/e14-a5-final-closure.yml',
+              '.github/workflows/e15-a1-delivery-intent.yml',
+              '.github/workflows/eigiib.yml',
+              'EIGIIB.toml',
+              'conformance/E15-A1-MANUAL-REVIEW.md',
+              'conformance/delivery-intent.json',
+              'conformance/e15-a1-adoption-transition.json',
+              'conformance/e15-a1-authority-freeze.json',
+              'conformance/extension-graph.json',
+              'docs/E15-A1-HUMAN-MASTERY-GUIDE.md',
+              'extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md',
+              'schemas/eigiib-e15-a1-adoption-transition.schema.json',
+              'schemas/eigiib-e15-a1-authority-freeze.schema.json',
+              'schemas/eigiib-e15-a1-delivery-intent.schema.json',
+              'tests/fixtures/e15-a1/expected-report.json',
+              'tests/test_eigiib_delivery_intent.py',
+              'tools/eigiib_delivery_intent_check.py',
+              'tools/eigiib_extension_graph_check.py',
+              'tools/eigiib_historical_e14_replay.py',
+          }
           with tarfile.open(fileobj=io.BytesIO(raw), mode='r:gz') as archive:
               members = archive.getmembers()
+              if {member.name for member in members} != expected_members:
+                  raise SystemExit('payload member set mismatch')
               for member in members:
                   path = PurePosixPath(member.name)
                   if path.is_absolute() or '..' in path.parts or member.issym() or member.islnk():
                       raise SystemExit(f'unsafe payload member: {member.name}')
               archive.extractall('.', filter='data')
-          payload.unlink()
+          invalid = Path('conformance/.e15-a1-payload.b64')
+          if invalid.exists():
+              invalid.unlink()
+          for part in parts:
+              part.unlink()
           Path('.github/workflows/e15-a1-materialize.yml').unlink()
           PY
       - name: Commit bounded E15-A1 tree
