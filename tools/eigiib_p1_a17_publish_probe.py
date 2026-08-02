@@ -42,6 +42,11 @@ def run(*args, input_bytes=None):
     return p.stdout
 
 def gh_json(*args): return load(run("gh", *args))
+def find_release():
+    for release in gh_json("api", f"repos/{REPO}/releases?per_page=100"):
+        if release["tag_name"] == TAG: return release
+    return None
+
 def fetch(url, headers=None, statuses=(200,)):
     req = urllib.request.Request(url, headers={"User-Agent":"eigiib-p1-a17-probe/1.0", **(headers or {})})
     try:
@@ -87,7 +92,11 @@ def main():
         raw=b"{}" if path is None else (ROOT/path).read_bytes()
         need(len(raw)==size and "sha256:"+sha(raw)==digest, f"object mismatch: {name}"); data[name]=raw
     set_hash=protected_hash(OBJECTS)
-    need(subprocess.run(["gh","release","view",TAG,"--repo",REPO],capture_output=True).returncode != 0, "release tag already exists")
+    existing=find_release()
+    if existing is not None:
+        need(existing["draft"] is True, "existing recovery release is not a disposable draft")
+        run("gh","api","--method","DELETE",f"repos/{REPO}/releases/{existing['id']}")
+        subprocess.run(["gh","api","--method","DELETE",f"repos/{REPO}/git/refs/tags/{TAG}"],capture_output=True)
     with tempfile.TemporaryDirectory(prefix="eigiib-p1-a17-") as td:
         td=pathlib.Path(td); files=[]
         for name in data: p=td/name; p.write_bytes(data[name]); files.append(p)
@@ -95,7 +104,7 @@ def main():
         for name,raw in extras: p=td/name; p.write_bytes(raw); files.append(p)
         run("gh","release","create",TAG,"--repo",REPO,"--target",A16,"--title",TITLE,"--notes","P1-A17 recovery replica fixture. This records a policy-bound recovery location, not a platform-enforced future availability guarantee.","--draft","--prerelease")
         run("gh","release","upload",TAG,*map(str,files),"--repo",REPO)
-        release=gh_json("api",f"repos/{REPO}/releases/tags/{TAG}")
+        release=find_release(); need(release is not None and release["draft"] is True, "draft release inventory lookup failed")
         assets=release["assets"]
         manifest={"standard":"EIGIIB-P1-A17-RESTORE-MANIFEST-1.0","sourceP1A16":{"commit":A16,"reportSha256":A16_REPORT,"capsuleSha256":A16_CAPSULE,"registry":REGISTRY,"tag":REG_TAG,"manifestDigest":MANIFEST},"retentionPolicy":{"sha256":POLICY_SHA,"capsuleSha256":sha(capsule),"publicKeySpkiSha256":KEY_SPKI},"recoveryRelease":{"repository":REPO,"releaseId":release["id"],"releaseNodeId":release["node_id"],"tag":TAG,"targetCommitish":A16},"protectedObjectSetSha256":set_hash,"protectedObjects":[{"name":n,"digest":d,"size":s} for n,_,d,s,_ in OBJECTS],"assets":[{"name":a["name"],"assetId":a["id"],"size":a["size"],"apiDigest":a.get("digest")} for a in assets],"boundary":BOUNDARY}
         restore=td/"eigiib-p1-a17-restore-manifest.json"; restore.write_bytes(canon(manifest))
