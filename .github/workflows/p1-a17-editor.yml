@@ -35,7 +35,7 @@ jobs:
               if len(z.namelist()) != 26: raise SystemExit('unexpected P1-A17 file count')
               z.extractall(root)
           PY
-          rm -rf .p1-a17-editor payload.b64 payload.zip .github/workflows/p1-a17-editor.yml
+          rm -rf .p1-a17-editor payload.b64 payload.zip
       - name: Validate materialized tree
         shell: bash
         run: |
@@ -49,13 +49,15 @@ jobs:
           go test ./p1durability ./cmd/eigiib-p1-durability-adapter
           cd ..
           rm -f actual-report.json
-      - name: Persist final editor tree
+      - name: Persist non-workflow editor tree
         shell: bash
         run: |
           set -euo pipefail
+          rm -rf tests/__pycache__ tools/__pycache__
+          rm -f .github/workflows/p1-a17-durable-availability.yml
           git config user.name 'eigiib-p1-a17-editor'
           git config user.email 'eigiib-p1-a17-editor@users.noreply.github.com'
           git add -A
           git diff --cached --check
-          git commit -m 'P1-A17: materialize replication retention restore closure'
+          git commit -m 'P1-A17: materialize validated non-workflow closure'
           git push origin HEAD:${{ github.head_ref }}
