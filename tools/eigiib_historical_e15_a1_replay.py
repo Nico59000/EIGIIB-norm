@@ -82,7 +82,9 @@ def replay(root: Path, source_commit: str = SOURCE_COMMIT) -> dict[str, Any]:
                     if e14_report.get("overall_result") != "conformant":
                         raise RuntimeError("historical E14 replay is non-conformant")
                     historical_e14_result = "conformant"
-                    history_path = td_path / "historical-e14-report.json"
+                    history_rel = Path(".eigiib-runtime/historical-e14-report.json")
+                    history_path = tree / history_rel
+                    history_path.parent.mkdir(parents=True, exist_ok=True)
                     history_path.write_text(json.dumps(e14_report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
                 except Exception as exc:
                     findings.append(Finding("error", "E15A2.HISTORY.E14", "historical-e14", str(exc)))
@@ -93,7 +95,7 @@ def replay(root: Path, source_commit: str = SOURCE_COMMIT) -> dict[str, Any]:
                         report = parse_json_output(
                             run_command([
                                 sys.executable, str(checker), str(tree),
-                                "--history-report", str(history_path), "--json",
+                                "--history-report", history_rel.as_posix(), "--json",
                             ], tree),
                             "e15-a1",
                         )
