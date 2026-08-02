@@ -13,8 +13,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: e15-a2-materialize
-  cancel-in-progress: false
+  group: e15-a2-materialize-final
+  cancel-in-progress: true
 
 jobs:
   materialize:
