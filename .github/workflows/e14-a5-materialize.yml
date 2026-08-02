@@ -1,3 +1,4 @@
+# Second push intentionally activates the already registered workflow.
 name: E14-A5 materialize validated closure
 
 on:
