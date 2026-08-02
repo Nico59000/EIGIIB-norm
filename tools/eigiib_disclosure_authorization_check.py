@@ -72,7 +72,7 @@ class Checker:
         elif (ms[0].get("status"),ms[0].get("authority"),ms[0].get("attestation"))!=exact:self.add("error","E14A2.PROFILE.GATE","E14-A2 manual gate is not exact","EIGIIB.toml")
         else:self.confined(ms[0]["attestation"],"E14A2.PROFILE",True)
     def upstream(self,o):
-        loc=str(self.upstream_path)
+        loc=self.upstream_path.as_posix()
         if o.get("standard")!=UPSTREAM_STANDARD:self.add("error","E14A2.UPSTREAM.STANDARD","unexpected E14-A1 registry standard",loc)
         self.records=self.index(o,"records","E14A2.UPSTREAM.RECORD"); self.projections=self.index(o,"projections","E14A2.UPSTREAM.PROJECTION")
         for rid,r in self.records.items():
@@ -205,9 +205,9 @@ class Checker:
         self.profile(); up=self.load(self.upstream_path,"E14A2.UPSTREAM"); reg=self.load(self.registry_path,"E14A2.REGISTRY")
         if up:self.upstream(up)
         if reg:
-            if reg.get("standard")!=STANDARD:self.add("error","E14A2.REGISTRY.STANDARD","unexpected registry standard",str(self.registry_path))
-            if reg.get("status")!="structural-only":self.add("error","E14A2.REGISTRY.STATUS","registry must be structural-only",str(self.registry_path))
-            if reg.get("upstream_registry")!=str(self.upstream_path):self.add("error","E14A2.REGISTRY.UPSTREAM","upstream registry path mismatch",str(self.registry_path))
+            if reg.get("standard")!=STANDARD:self.add("error","E14A2.REGISTRY.STANDARD","unexpected registry standard",self.registry_path.as_posix())
+            if reg.get("status")!="structural-only":self.add("error","E14A2.REGISTRY.STATUS","registry must be structural-only",self.registry_path.as_posix())
+            if reg.get("upstream_registry")!=self.upstream_path.as_posix():self.add("error","E14A2.REGISTRY.UPSTREAM","upstream registry path mismatch",self.registry_path.as_posix())
             self.audiences=self.index(reg,"audiences","E14A2.AUDIENCE"); self.policies=self.index(reg,"disclosure_policies","E14A2.POLICY"); self.contexts=self.index(reg,"evaluation_contexts","E14A2.CONTEXT"); self.requests=self.index(reg,"requests","E14A2.REQUEST"); self.decisions=self.index(reg,"decisions","E14A2.DECISION")
             self.objects()
             if up:self.check_requests();self.check_decisions()

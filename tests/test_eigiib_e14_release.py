@@ -143,13 +143,15 @@ class ReleaseTests(unittest.TestCase):
                 "docs/E14-A5-HUMAN-MASTERY-GUIDE.md": "guide\n",
                 "docs/E14-FINAL-CLOSURE-REPORT.md": "report\n",
                 "conformance/E14-A5-MANUAL-REVIEW.md": "review\n",
+                "extensions/E14-A5-F1-PORTABLE-AUTHORITY-REBIND-WORKFLOW-NEUTRAL-PUBLICATION.md": "correction\n",
+                "conformance/E14-A5-F1-MANUAL-REVIEW.md": "correction-review\n",
             }
             for rel, text in required_files.items():
                 (root / rel).parent.mkdir(parents=True, exist_ok=True)
                 (root / rel).write_text(text, encoding="utf-8")
             toml = '''extensions=["E14-1.0"]
 revision="EIGIIB-E14-1.0"
-required_authorities=["confidential_evidence","disclosure_authorization","correlation_control","disclosure_revocation","e14_a5_contract","e14_release_boundary","e14_a5_verifier_matrix","e14_a5_authority_freeze","e14_a5_human_mastery","e14_final_closure_report"]
+required_authorities=["confidential_evidence","disclosure_authorization","correlation_control","disclosure_revocation","e14_a5_contract","e14_release_boundary","e14_a5_verifier_matrix","e14_a5_authority_freeze","e14_a5_human_mastery","e14_final_closure_report","e14_a5_f1_contract"]
 [authorities]
 confidential_evidence="conformance/confidential-evidence.json"
 disclosure_authorization="conformance/disclosure-authorization.json"
@@ -161,11 +163,17 @@ e14_a5_verifier_matrix="conformance/e14-a5-verifier-matrix.json"
 e14_a5_authority_freeze="conformance/e14-a5-authority-freeze.json"
 e14_a5_human_mastery="docs/E14-A5-HUMAN-MASTERY-GUIDE.md"
 e14_final_closure_report="docs/E14-FINAL-CLOSURE-REPORT.md"
+e14_a5_f1_contract="extensions/E14-A5-F1-PORTABLE-AUTHORITY-REBIND-WORKFLOW-NEUTRAL-PUBLICATION.md"
 [[manual_gates]]
 id="e14-a5-final-closure-boundary-review"
 status="complete"
 authority="e14_a5_contract"
 attestation="conformance/E14-A5-MANUAL-REVIEW.md"
+[[manual_gates]]
+id="e14-a5-f1-portable-authority-rebind-review"
+status="complete"
+authority="e14_a5_f1_contract"
+attestation="conformance/E14-A5-F1-MANUAL-REVIEW.md"
 '''
             (root / "EIGIIB.toml").write_text(toml, encoding="utf-8")
             frozen_paths = {
@@ -176,6 +184,8 @@ attestation="conformance/E14-A5-MANUAL-REVIEW.md"
                 "docs/E14-A5-HUMAN-MASTERY-GUIDE.md",
                 "docs/E14-FINAL-CLOSURE-REPORT.md",
                 "conformance/E14-A5-MANUAL-REVIEW.md",
+                "extensions/E14-A5-F1-PORTABLE-AUTHORITY-REBIND-WORKFLOW-NEUTRAL-PUBLICATION.md",
+                "conformance/E14-A5-F1-MANUAL-REVIEW.md",
             }
             original = MODULE.EXPECTED_FREEZE_PATHS
             MODULE.EXPECTED_FREEZE_PATHS = frozen_paths
@@ -323,6 +333,12 @@ attestation="conformance/E14-A5-MANUAL-REVIEW.md"
         report = self.run_case(*self.base(), mutate_freeze=lambda freeze: freeze["authorities"][0].update(sha256="0" * 64))
         self.assertEqual(report["authority_freeze_result"], "non-conformant")
 
+    def test_corrected_a4_head_is_frozen(self):
+        self.assertEqual(MODULE.A4_SOURCE_HEAD, "31e85dbd109ecbe8c27564cd3411f11358e87acb")
+
+    def test_pre_correction_a4_head_is_rejected(self):
+        report = self.run_case(*self.base(), mutate_freeze=lambda freeze: freeze.update(source_head="82534d603db88ea351c4254ba84d3cdc0bc89e0d"))
+        self.assertEqual(report["authority_freeze_result"], "non-conformant")
 
 if __name__ == "__main__":
     unittest.main()

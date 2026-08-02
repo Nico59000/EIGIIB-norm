@@ -2,44 +2,570 @@
   "standard": "EIGIIB-M0-A1-1.0",
   "status": "structural",
   "authority": "conformance/extension-graph.json",
-  "source_of_truth_for": ["functional extension graph", "extension artifact index", "hardening attachment index"],
-  "derived_fields": ["used_by"],
+  "source_of_truth_for": [
+    "functional extension graph",
+    "extension artifact index",
+    "hardening attachment index"
+  ],
+  "derived_fields": [
+    "used_by"
+  ],
   "functional_layers": [
-    {"id": "core", "label": "Core", "description": "minimal sufficient explicitness and ownership rule", "nodes": ["Core"]},
-    {"id": "epistemology-conformance", "label": "epistemology + conformance", "description": "typed claims/evidence and mechanically checkable repository conformance", "nodes": ["E1", "E2"]},
-    {"id": "artifact-trust-transparency", "label": "artifact + trust + transparency", "description": "artifact identity, provenance, authentication, transparency and bounded multi-view accountability", "nodes": ["E3", "E4", "E5", "E6"]},
-    {"id": "resilience-adoption-degradation", "label": "resilience + adoption + degraded operation", "description": "recovery, relying-party migration and bounded partial-trust operation", "nodes": ["E7", "E8", "E9"]},
-    {"id": "decision-time-commit", "label": "decision + time + commit", "description": "policy-safe authorization, explicit temporal admissibility, commit-time revalidation and bounded one-shot/idempotent commit relations", "nodes": ["E10", "E11", "E12"]},
-    {"id": "policy-composition", "label": "multi-policy composition", "description": "explicit composition algorithms, conflict resolution and bounded obligation semantics branching from E10 authorization", "nodes": ["E13"]},
-    {"id": "confidential-evidence-disclosure", "label": "confidential evidence + disclosure projection", "description": "confidential record identity, committed selective projection and claim-boundary-preserving minimization", "nodes": ["E14"]}
+    {
+      "id": "core",
+      "label": "Core",
+      "description": "minimal sufficient explicitness and ownership rule",
+      "nodes": [
+        "Core"
+      ]
+    },
+    {
+      "id": "epistemology-conformance",
+      "label": "epistemology + conformance",
+      "description": "typed claims/evidence and mechanically checkable repository conformance",
+      "nodes": [
+        "E1",
+        "E2"
+      ]
+    },
+    {
+      "id": "artifact-trust-transparency",
+      "label": "artifact + trust + transparency",
+      "description": "artifact identity, provenance, authentication, transparency and bounded multi-view accountability",
+      "nodes": [
+        "E3",
+        "E4",
+        "E5",
+        "E6"
+      ]
+    },
+    {
+      "id": "resilience-adoption-degradation",
+      "label": "resilience + adoption + degraded operation",
+      "description": "recovery, relying-party migration and bounded partial-trust operation",
+      "nodes": [
+        "E7",
+        "E8",
+        "E9"
+      ]
+    },
+    {
+      "id": "decision-time-commit",
+      "label": "decision + time + commit",
+      "description": "policy-safe authorization, explicit temporal admissibility, commit-time revalidation and bounded one-shot/idempotent commit relations",
+      "nodes": [
+        "E10",
+        "E11",
+        "E12"
+      ]
+    },
+    {
+      "id": "policy-composition",
+      "label": "multi-policy composition",
+      "description": "explicit composition algorithms, conflict resolution and bounded obligation semantics branching from E10 authorization",
+      "nodes": [
+        "E13"
+      ]
+    },
+    {
+      "id": "confidential-evidence-disclosure",
+      "label": "confidential evidence + disclosure projection",
+      "description": "confidential record identity, committed selective projection and claim-boundary-preserving minimization",
+      "nodes": [
+        "E14"
+      ]
+    }
   ],
   "nodes": [
-    {"id": "Core", "kind": "core", "title": "EIGIIB Core", "theme": "minimal sufficient explicitness", "authority_key": "standard", "authority": "EIGIIB-STANDARD.md", "depends_on": [], "consumes_authorities": [], "does_not_reprove": []},
-    {"id": "E1", "kind": "extension", "title": "Typed Evidence, Claims and Conformance", "theme": "epistemology", "authority_key": "e1", "authority": "extensions/E1-TYPED-EVIDENCE-CLAIMS-CONFORMANCE.md", "schema": "schemas/eigiib-e1-record.schema.json", "registry_authority_key": "evidence", "registry": "conformance/e1-registry.json", "depends_on": ["Core"], "consumes_authorities": [], "does_not_reprove": ["external semantic truth"]},
-    {"id": "E2", "kind": "extension", "title": "Machine-Checkable Repository Conformance", "theme": "conformance", "authority_key": "e2", "authority": "extensions/E2-MACHINE-CHECKABLE-REPOSITORY-CONFORMANCE.md", "schema": "schemas/eigiib-e2-ownership.schema.json", "checker": "tools/eigiib_check.py", "depends_on": ["Core", "E1"], "consumes_authorities": ["evidence"], "does_not_reprove": ["manual semantic attestations"]},
-    {"id": "E3", "kind": "extension", "title": "Reproducible Evidence, Provenance and Artifact Identity", "theme": "artifact + provenance", "authority_key": "e3", "authority": "extensions/E3-REPRODUCIBLE-EVIDENCE-PROVENANCE-ARTIFACT-IDENTITY.md", "schema": "schemas/eigiib-e3-provenance.schema.json", "checker": "tools/eigiib_provenance_check.py", "registry_authority_key": "provenance", "registry": "conformance/provenance.json", "depends_on": ["E1", "E2"], "consumes_authorities": ["evidence"], "does_not_reprove": ["artifact authenticity", "external replay independence"]},
-    {"id": "E4", "kind": "extension", "title": "Authenticated Attestations, Trust Roots and Provenance Integrity", "theme": "trust + authentication", "authority_key": "e4", "authority": "extensions/E4-AUTHENTICATED-ATTESTATIONS-TRUST-ROOTS-PROVENANCE-INTEGRITY.md", "schema": "schemas/eigiib-e4-trust.schema.json", "checker": "tools/eigiib_trust_check.py", "registry_authority_key": "trust", "registry": "conformance/trust.json", "depends_on": ["E3"], "consumes_authorities": ["provenance"], "does_not_reprove": ["semantic truth", "real-world principal identity"]},
-    {"id": "E5", "kind": "extension", "title": "Transparency, Witnessing and Append-Only Trust History", "theme": "transparency", "authority_key": "e5", "authority": "extensions/E5-TRANSPARENCY-WITNESSING-APPEND-ONLY-TRUST-HISTORY.md", "schema": "schemas/eigiib-e5-transparency.schema.json", "checker": "tools/eigiib_transparency_check.py", "registry_authority_key": "transparency", "registry": "conformance/transparency.json", "depends_on": ["E4"], "consumes_authorities": ["trust"], "does_not_reprove": ["E4 authentication", "semantic truth", "global fork absence"]},
-    {"id": "E6", "kind": "extension", "title": "Gossip, Cross-Log Consistency and Fork Accountability", "theme": "multi-view accountability", "authority_key": "e6", "authority": "extensions/E6-GOSSIP-CROSS-LOG-CONSISTENCY-FORK-ACCOUNTABILITY.md", "schema": "schemas/eigiib-e6-gossip.schema.json", "checker": "tools/eigiib_gossip_check.py", "registry_authority_key": "gossip", "registry": "conformance/gossip.json", "depends_on": ["E5"], "consumes_authorities": ["trust", "transparency"], "does_not_reprove": ["E4 authentication", "E5 consistency", "malicious intent", "legal responsibility"]},
-    {"id": "E7", "kind": "extension", "title": "Recovery, Remediation and Trust-State Continuity", "theme": "resilience", "authority_key": "e7", "authority": "extensions/E7-RECOVERY-REMEDIATION-TRUST-STATE-CONTINUITY.md", "schema": "schemas/eigiib-e7-recovery.schema.json", "checker": "tools/eigiib_recovery_check.py", "registry_authority_key": "recovery", "registry": "conformance/recovery.json", "depends_on": ["E6"], "consumes_authorities": ["trust", "transparency", "gossip"], "does_not_reprove": ["lower-layer authentication", "transparency history", "fork accountability", "root-cause resolution"], "hardening_profiles": ["E7-H0.2"]},
-    {"id": "E8", "kind": "extension", "title": "Relying-Party Convergence, Migration Safety and Trust-State Adoption", "theme": "adoption + migration", "authority_key": "e8", "authority": "extensions/E8-RELYING-PARTY-CONVERGENCE-MIGRATION-SAFETY-TRUST-STATE-ADOPTION.md", "schema": "schemas/eigiib-e8-convergence.schema.json", "checker": "tools/eigiib_convergence_check.py", "registry_authority_key": "convergence", "registry": "conformance/convergence.json", "depends_on": ["E7"], "consumes_authorities": ["recovery"], "does_not_reprove": ["E7 continuity", "real-world relying-party independence", "global convergence"]},
-    {"id": "E9", "kind": "extension", "title": "Degraded Operation, Safe Fallback and Partial Trust Availability", "theme": "degraded operation", "authority_key": "e9", "authority": "extensions/E9-DEGRADED-OPERATION-SAFE-FALLBACK-PARTIAL-TRUST-AVAILABILITY.md", "schema": "schemas/eigiib-e9-degraded.schema.json", "checker": "tools/eigiib_degraded_check.py", "registry_authority_key": "degraded", "registry": "conformance/degraded.json", "depends_on": ["E8"], "consumes_authorities": ["convergence"], "does_not_reprove": ["E8 cutover", "full trust from service availability", "cause attribution"], "hardening_profiles": ["E9-H0.2"]},
-    {"id": "E10", "kind": "extension", "title": "Policy-Safe Automation, Delegated Execution and Decision Accountability", "theme": "decision + authorization", "authority_key": "e10", "authority": "extensions/E10-POLICY-SAFE-AUTOMATION-DELEGATED-EXECUTION-DECISION-ACCOUNTABILITY.md", "schema": "schemas/eigiib-e10-automation.schema.json", "checker": "tools/eigiib_automation_check.py", "registry_authority_key": "automation", "registry": "conformance/automation.json", "depends_on": ["E9"], "consumes_authorities": ["degraded"], "does_not_reprove": ["E9 degraded-operation state", "real-world identity", "human consent", "global safety"], "hardening_profiles": ["E10-H0.2"]},
-    {"id": "E11", "kind": "extension", "title": "Temporal Validity, Freshness, Leases and Replay Resistance", "theme": "time + temporal admissibility", "authority_key": "e11", "authority": "extensions/E11-TEMPORAL-VALIDITY-FRESHNESS-LEASES-REPLAY-RESISTANCE.md", "schema": "schemas/eigiib-e11-temporal.schema.json", "checker": "tools/eigiib_temporal_check.py", "registry_authority_key": "temporal", "registry": "conformance/temporal.json", "depends_on": ["E10"], "consumes_authorities": ["automation"], "does_not_reprove": ["E10 authorization", "globally trusted wall-clock time", "malicious replay intent"], "hardening_profiles": ["E11-H0.2"]},
-    {"id": "E12", "kind": "extension", "title": "Atomic Authorization Consumption, Commit-Time Revalidation and TOCTOU Closure", "theme": "commit + TOCTOU closure", "authority_key": "e12", "authority": "extensions/E12-ATOMIC-AUTHORIZATION-CONSUMPTION-COMMIT-TIME-REVALIDATION-TOCTOU-CLOSURE.md", "schema": "schemas/eigiib-e12-commit.schema.json", "checker": "tools/eigiib_commit_check.py", "registry_authority_key": "commit", "registry": "conformance/commit.json", "depends_on": ["E10", "E11"], "consumes_authorities": ["automation", "temporal", "recovery"], "does_not_reprove": ["E10 authorization", "E11 temporal validity", "E7 compensation semantics", "external store linearizability", "exactly-once external effects"], "hardening_profiles": ["E12-H0.2"]},
-    {"id": "E13", "kind": "extension", "title": "Policy Composition, Conflict Resolution and Obligations", "theme": "multi-policy composition + obligations", "authority_key": "e13", "authority": "extensions/E13-POLICY-COMPOSITION-CONFLICT-RESOLUTION-OBLIGATIONS.md", "schema": "schemas/eigiib-e13-policy-composition.schema.json", "checker": "tools/eigiib_policy_composition_check.py", "registry_authority_key": "policy_composition", "registry": "conformance/policy-composition.json", "depends_on": ["E10"], "consumes_authorities": ["automation"], "does_not_reprove": ["E10 constituent authorization", "E12 commit safety", "live policy applicability", "semantic consistency among policies", "human intent", "legal responsibility"], "hardening_profiles": ["E13-H0.2"]},
-    {"id": "E14", "kind": "extension", "title": "Confidential Evidence, Selective Disclosure and Information Minimization", "theme": "confidential evidence + claim-boundary-preserving projection", "authority_key": "e14", "authority": "extensions/E14-CONFIDENTIAL-EVIDENCE-SELECTIVE-DISCLOSURE-INFORMATION-MINIMIZATION.md", "schema": "schemas/eigiib-e14-confidential-evidence.schema.json", "checker": "tools/eigiib_confidential_evidence_check.py", "registry_authority_key": "confidential_evidence", "registry": "conformance/confidential-evidence.json", "depends_on": ["E1", "E3"], "consumes_authorities": ["evidence", "provenance", "m0_a5_e14_handoff", "m0_a5_f1_authority_freeze", "e14_a1_transition"], "does_not_reprove": ["E1 semantic truth", "E3 artifact authenticity", "disclosure authorization", "confidential storage", "audience authentication", "correlation-control effectiveness", "global revocation freshness", "anonymity", "unlinkability", "zero knowledge"], "hardening_profiles": ["E14-A2", "E14-A3", "E14-A4", "E14-A5"]}
+    {
+      "id": "Core",
+      "kind": "core",
+      "title": "EIGIIB Core",
+      "theme": "minimal sufficient explicitness",
+      "authority_key": "standard",
+      "authority": "EIGIIB-STANDARD.md",
+      "depends_on": [],
+      "consumes_authorities": [],
+      "does_not_reprove": []
+    },
+    {
+      "id": "E1",
+      "kind": "extension",
+      "title": "Typed Evidence, Claims and Conformance",
+      "theme": "epistemology",
+      "authority_key": "e1",
+      "authority": "extensions/E1-TYPED-EVIDENCE-CLAIMS-CONFORMANCE.md",
+      "schema": "schemas/eigiib-e1-record.schema.json",
+      "registry_authority_key": "evidence",
+      "registry": "conformance/e1-registry.json",
+      "depends_on": [
+        "Core"
+      ],
+      "consumes_authorities": [],
+      "does_not_reprove": [
+        "external semantic truth"
+      ]
+    },
+    {
+      "id": "E2",
+      "kind": "extension",
+      "title": "Machine-Checkable Repository Conformance",
+      "theme": "conformance",
+      "authority_key": "e2",
+      "authority": "extensions/E2-MACHINE-CHECKABLE-REPOSITORY-CONFORMANCE.md",
+      "schema": "schemas/eigiib-e2-ownership.schema.json",
+      "checker": "tools/eigiib_check.py",
+      "depends_on": [
+        "Core",
+        "E1"
+      ],
+      "consumes_authorities": [
+        "evidence"
+      ],
+      "does_not_reprove": [
+        "manual semantic attestations"
+      ]
+    },
+    {
+      "id": "E3",
+      "kind": "extension",
+      "title": "Reproducible Evidence, Provenance and Artifact Identity",
+      "theme": "artifact + provenance",
+      "authority_key": "e3",
+      "authority": "extensions/E3-REPRODUCIBLE-EVIDENCE-PROVENANCE-ARTIFACT-IDENTITY.md",
+      "schema": "schemas/eigiib-e3-provenance.schema.json",
+      "checker": "tools/eigiib_provenance_check.py",
+      "registry_authority_key": "provenance",
+      "registry": "conformance/provenance.json",
+      "depends_on": [
+        "E1",
+        "E2"
+      ],
+      "consumes_authorities": [
+        "evidence"
+      ],
+      "does_not_reprove": [
+        "artifact authenticity",
+        "external replay independence"
+      ]
+    },
+    {
+      "id": "E4",
+      "kind": "extension",
+      "title": "Authenticated Attestations, Trust Roots and Provenance Integrity",
+      "theme": "trust + authentication",
+      "authority_key": "e4",
+      "authority": "extensions/E4-AUTHENTICATED-ATTESTATIONS-TRUST-ROOTS-PROVENANCE-INTEGRITY.md",
+      "schema": "schemas/eigiib-e4-trust.schema.json",
+      "checker": "tools/eigiib_trust_check.py",
+      "registry_authority_key": "trust",
+      "registry": "conformance/trust.json",
+      "depends_on": [
+        "E3"
+      ],
+      "consumes_authorities": [
+        "provenance"
+      ],
+      "does_not_reprove": [
+        "semantic truth",
+        "real-world principal identity"
+      ]
+    },
+    {
+      "id": "E5",
+      "kind": "extension",
+      "title": "Transparency, Witnessing and Append-Only Trust History",
+      "theme": "transparency",
+      "authority_key": "e5",
+      "authority": "extensions/E5-TRANSPARENCY-WITNESSING-APPEND-ONLY-TRUST-HISTORY.md",
+      "schema": "schemas/eigiib-e5-transparency.schema.json",
+      "checker": "tools/eigiib_transparency_check.py",
+      "registry_authority_key": "transparency",
+      "registry": "conformance/transparency.json",
+      "depends_on": [
+        "E4"
+      ],
+      "consumes_authorities": [
+        "trust"
+      ],
+      "does_not_reprove": [
+        "E4 authentication",
+        "semantic truth",
+        "global fork absence"
+      ]
+    },
+    {
+      "id": "E6",
+      "kind": "extension",
+      "title": "Gossip, Cross-Log Consistency and Fork Accountability",
+      "theme": "multi-view accountability",
+      "authority_key": "e6",
+      "authority": "extensions/E6-GOSSIP-CROSS-LOG-CONSISTENCY-FORK-ACCOUNTABILITY.md",
+      "schema": "schemas/eigiib-e6-gossip.schema.json",
+      "checker": "tools/eigiib_gossip_check.py",
+      "registry_authority_key": "gossip",
+      "registry": "conformance/gossip.json",
+      "depends_on": [
+        "E5"
+      ],
+      "consumes_authorities": [
+        "trust",
+        "transparency"
+      ],
+      "does_not_reprove": [
+        "E4 authentication",
+        "E5 consistency",
+        "malicious intent",
+        "legal responsibility"
+      ]
+    },
+    {
+      "id": "E7",
+      "kind": "extension",
+      "title": "Recovery, Remediation and Trust-State Continuity",
+      "theme": "resilience",
+      "authority_key": "e7",
+      "authority": "extensions/E7-RECOVERY-REMEDIATION-TRUST-STATE-CONTINUITY.md",
+      "schema": "schemas/eigiib-e7-recovery.schema.json",
+      "checker": "tools/eigiib_recovery_check.py",
+      "registry_authority_key": "recovery",
+      "registry": "conformance/recovery.json",
+      "depends_on": [
+        "E6"
+      ],
+      "consumes_authorities": [
+        "trust",
+        "transparency",
+        "gossip"
+      ],
+      "does_not_reprove": [
+        "lower-layer authentication",
+        "transparency history",
+        "fork accountability",
+        "root-cause resolution"
+      ],
+      "hardening_profiles": [
+        "E7-H0.2"
+      ]
+    },
+    {
+      "id": "E8",
+      "kind": "extension",
+      "title": "Relying-Party Convergence, Migration Safety and Trust-State Adoption",
+      "theme": "adoption + migration",
+      "authority_key": "e8",
+      "authority": "extensions/E8-RELYING-PARTY-CONVERGENCE-MIGRATION-SAFETY-TRUST-STATE-ADOPTION.md",
+      "schema": "schemas/eigiib-e8-convergence.schema.json",
+      "checker": "tools/eigiib_convergence_check.py",
+      "registry_authority_key": "convergence",
+      "registry": "conformance/convergence.json",
+      "depends_on": [
+        "E7"
+      ],
+      "consumes_authorities": [
+        "recovery"
+      ],
+      "does_not_reprove": [
+        "E7 continuity",
+        "real-world relying-party independence",
+        "global convergence"
+      ]
+    },
+    {
+      "id": "E9",
+      "kind": "extension",
+      "title": "Degraded Operation, Safe Fallback and Partial Trust Availability",
+      "theme": "degraded operation",
+      "authority_key": "e9",
+      "authority": "extensions/E9-DEGRADED-OPERATION-SAFE-FALLBACK-PARTIAL-TRUST-AVAILABILITY.md",
+      "schema": "schemas/eigiib-e9-degraded.schema.json",
+      "checker": "tools/eigiib_degraded_check.py",
+      "registry_authority_key": "degraded",
+      "registry": "conformance/degraded.json",
+      "depends_on": [
+        "E8"
+      ],
+      "consumes_authorities": [
+        "convergence"
+      ],
+      "does_not_reprove": [
+        "E8 cutover",
+        "full trust from service availability",
+        "cause attribution"
+      ],
+      "hardening_profiles": [
+        "E9-H0.2"
+      ]
+    },
+    {
+      "id": "E10",
+      "kind": "extension",
+      "title": "Policy-Safe Automation, Delegated Execution and Decision Accountability",
+      "theme": "decision + authorization",
+      "authority_key": "e10",
+      "authority": "extensions/E10-POLICY-SAFE-AUTOMATION-DELEGATED-EXECUTION-DECISION-ACCOUNTABILITY.md",
+      "schema": "schemas/eigiib-e10-automation.schema.json",
+      "checker": "tools/eigiib_automation_check.py",
+      "registry_authority_key": "automation",
+      "registry": "conformance/automation.json",
+      "depends_on": [
+        "E9"
+      ],
+      "consumes_authorities": [
+        "degraded"
+      ],
+      "does_not_reprove": [
+        "E9 degraded-operation state",
+        "real-world identity",
+        "human consent",
+        "global safety"
+      ],
+      "hardening_profiles": [
+        "E10-H0.2"
+      ]
+    },
+    {
+      "id": "E11",
+      "kind": "extension",
+      "title": "Temporal Validity, Freshness, Leases and Replay Resistance",
+      "theme": "time + temporal admissibility",
+      "authority_key": "e11",
+      "authority": "extensions/E11-TEMPORAL-VALIDITY-FRESHNESS-LEASES-REPLAY-RESISTANCE.md",
+      "schema": "schemas/eigiib-e11-temporal.schema.json",
+      "checker": "tools/eigiib_temporal_check.py",
+      "registry_authority_key": "temporal",
+      "registry": "conformance/temporal.json",
+      "depends_on": [
+        "E10"
+      ],
+      "consumes_authorities": [
+        "automation"
+      ],
+      "does_not_reprove": [
+        "E10 authorization",
+        "globally trusted wall-clock time",
+        "malicious replay intent"
+      ],
+      "hardening_profiles": [
+        "E11-H0.2"
+      ]
+    },
+    {
+      "id": "E12",
+      "kind": "extension",
+      "title": "Atomic Authorization Consumption, Commit-Time Revalidation and TOCTOU Closure",
+      "theme": "commit + TOCTOU closure",
+      "authority_key": "e12",
+      "authority": "extensions/E12-ATOMIC-AUTHORIZATION-CONSUMPTION-COMMIT-TIME-REVALIDATION-TOCTOU-CLOSURE.md",
+      "schema": "schemas/eigiib-e12-commit.schema.json",
+      "checker": "tools/eigiib_commit_check.py",
+      "registry_authority_key": "commit",
+      "registry": "conformance/commit.json",
+      "depends_on": [
+        "E10",
+        "E11"
+      ],
+      "consumes_authorities": [
+        "automation",
+        "temporal",
+        "recovery"
+      ],
+      "does_not_reprove": [
+        "E10 authorization",
+        "E11 temporal validity",
+        "E7 compensation semantics",
+        "external store linearizability",
+        "exactly-once external effects"
+      ],
+      "hardening_profiles": [
+        "E12-H0.2"
+      ]
+    },
+    {
+      "id": "E13",
+      "kind": "extension",
+      "title": "Policy Composition, Conflict Resolution and Obligations",
+      "theme": "multi-policy composition + obligations",
+      "authority_key": "e13",
+      "authority": "extensions/E13-POLICY-COMPOSITION-CONFLICT-RESOLUTION-OBLIGATIONS.md",
+      "schema": "schemas/eigiib-e13-policy-composition.schema.json",
+      "checker": "tools/eigiib_policy_composition_check.py",
+      "registry_authority_key": "policy_composition",
+      "registry": "conformance/policy-composition.json",
+      "depends_on": [
+        "E10"
+      ],
+      "consumes_authorities": [
+        "automation"
+      ],
+      "does_not_reprove": [
+        "E10 constituent authorization",
+        "E12 commit safety",
+        "live policy applicability",
+        "semantic consistency among policies",
+        "human intent",
+        "legal responsibility"
+      ],
+      "hardening_profiles": [
+        "E13-H0.2"
+      ]
+    },
+    {
+      "id": "E14",
+      "kind": "extension",
+      "title": "Confidential Evidence, Selective Disclosure and Information Minimization",
+      "theme": "confidential evidence + claim-boundary-preserving projection",
+      "authority_key": "e14",
+      "authority": "extensions/E14-CONFIDENTIAL-EVIDENCE-SELECTIVE-DISCLOSURE-INFORMATION-MINIMIZATION.md",
+      "schema": "schemas/eigiib-e14-confidential-evidence.schema.json",
+      "checker": "tools/eigiib_confidential_evidence_check.py",
+      "registry_authority_key": "confidential_evidence",
+      "registry": "conformance/confidential-evidence.json",
+      "depends_on": [
+        "E1",
+        "E3"
+      ],
+      "consumes_authorities": [
+        "evidence",
+        "provenance",
+        "m0_a5_e14_handoff",
+        "m0_a5_f1_authority_freeze",
+        "e14_a1_transition"
+      ],
+      "does_not_reprove": [
+        "E1 semantic truth",
+        "E3 artifact authenticity",
+        "disclosure authorization",
+        "confidential storage",
+        "audience authentication",
+        "correlation-control effectiveness",
+        "global revocation freshness",
+        "anonymity",
+        "unlinkability",
+        "zero knowledge"
+      ],
+      "hardening_profiles": [
+        "E14-A2",
+        "E14-A3",
+        "E14-A4",
+        "E14-A5",
+        "E14-A5-F1"
+      ]
+    }
   ],
   "hardening_profiles": [
-    {"id": "E7-H0.2", "applies_to": "E7", "authority": "extensions/E7-RECOVERY-HARDENING-PROFILE-0.2.md", "schema": "schemas/eigiib-e7-recovery-hardening.schema.json", "checker": "tools/eigiib_recovery_hardening_check.py", "tests": ["tests/test_eigiib_recovery_hardening.py"]},
-    {"id": "E9-H0.2", "applies_to": "E9", "authority": "extensions/E9-DEGRADED-HARDENING-PROFILE-0.2.md", "schema": "schemas/eigiib-e9-degraded-hardening.schema.json", "checker": "tools/eigiib_degraded_hardening_check.py", "tests": ["tests/test_eigiib_degraded_hardening.py"]},
-    {"id": "E10-H0.2", "applies_to": "E10", "authority": "extensions/E10-AUTOMATION-HARDENING-PROFILE-0.2.md", "schema": "schemas/eigiib-e10-automation.schema.json", "checker": "tools/eigiib_automation_hardening_check.py", "tests": ["tests/test_eigiib_automation_hardening.py", "tests/test_eigiib_automation_separation.py"]},
-    {"id": "E11-H0.2", "applies_to": "E11", "authority": "extensions/E11-TEMPORAL-HARDENING-PROFILE-0.2.md", "schema": "schemas/eigiib-e11-temporal-hardening.schema.json", "checker": "tools/eigiib_temporal_hardening_check.py", "tests": ["tests/test_eigiib_temporal_hardening.py"]},
-    {"id": "E12-H0.2", "applies_to": "E12", "authority": "extensions/E12-COMMIT-HARDENING-PROFILE-0.2.md", "schema": "schemas/eigiib-e12-commit-hardening.schema.json", "checker": "tools/eigiib_commit_hardening_check.py", "tests": ["tests/test_eigiib_commit_hardening.py"]},
-    {"id": "E13-H0.2", "applies_to": "E13", "authority": "extensions/E13-POLICY-COMPOSITION-HARDENING-PROFILE-0.2.md", "schema": "schemas/eigiib-e13-policy-composition-hardening.schema.json", "checker": "tools/eigiib_policy_composition_hardening_check.py", "tests": ["tests/test_eigiib_policy_composition_hardening.py"]},
-    {"id": "E14-A2", "applies_to": "E14", "authority": "extensions/E14-A2-DISCLOSURE-AUTHORIZATION-AUDIENCE-ELIGIBILITY-CONTEXT-REVALIDATION.md", "schema": "schemas/eigiib-e14-a2-disclosure-authorization.schema.json", "checker": "tools/eigiib_disclosure_authorization_check.py", "tests": ["tests/test_eigiib_disclosure_authorization.py"]},
-    {"id": "E14-A3", "applies_to": "E14", "authority": "extensions/E14-A3-CORRELATION-CONTROL-SINGLE-USE-LINKABILITY-REPLAY.md", "schema": "schemas/eigiib-e14-a3-correlation-control.schema.json", "checker": "tools/eigiib_correlation_control_check.py", "tests": ["tests/test_eigiib_correlation_control.py"]},
-    {"id": "E14-A4", "applies_to": "E14", "authority": "extensions/E14-A4-REVOCATION-FRESHNESS-DISTRIBUTION-WITHDRAWAL-DISCLOSURE-ANTI-ROLLBACK-REPLAY.md", "schema": "schemas/eigiib-e14-a4-disclosure-revocation.schema.json", "checker": "tools/eigiib_disclosure_revocation_check.py", "tests": ["tests/test_eigiib_disclosure_revocation.py"]},
-    {"id": "E14-A5", "applies_to": "E14", "authority": "extensions/E14-A5-INDEPENDENT-VERIFIER-MATRIX-RELEASE-BOUNDARY-FINAL-AUTHORITY-FREEZE.md", "schema": "schemas/eigiib-e14-a5-release-boundary.schema.json", "checker": "tools/eigiib_e14_release_check.py", "tests": ["tests/test_eigiib_e14_release.py", "tests/test_eigiib_e14_release_matrix.py"]}
+    {
+      "id": "E7-H0.2",
+      "applies_to": "E7",
+      "authority": "extensions/E7-RECOVERY-HARDENING-PROFILE-0.2.md",
+      "schema": "schemas/eigiib-e7-recovery-hardening.schema.json",
+      "checker": "tools/eigiib_recovery_hardening_check.py",
+      "tests": [
+        "tests/test_eigiib_recovery_hardening.py"
+      ]
+    },
+    {
+      "id": "E9-H0.2",
+      "applies_to": "E9",
+      "authority": "extensions/E9-DEGRADED-HARDENING-PROFILE-0.2.md",
+      "schema": "schemas/eigiib-e9-degraded-hardening.schema.json",
+      "checker": "tools/eigiib_degraded_hardening_check.py",
+      "tests": [
+        "tests/test_eigiib_degraded_hardening.py"
+      ]
+    },
+    {
+      "id": "E10-H0.2",
+      "applies_to": "E10",
+      "authority": "extensions/E10-AUTOMATION-HARDENING-PROFILE-0.2.md",
+      "schema": "schemas/eigiib-e10-automation.schema.json",
+      "checker": "tools/eigiib_automation_hardening_check.py",
+      "tests": [
+        "tests/test_eigiib_automation_hardening.py",
+        "tests/test_eigiib_automation_separation.py"
+      ]
+    },
+    {
+      "id": "E11-H0.2",
+      "applies_to": "E11",
+      "authority": "extensions/E11-TEMPORAL-HARDENING-PROFILE-0.2.md",
+      "schema": "schemas/eigiib-e11-temporal-hardening.schema.json",
+      "checker": "tools/eigiib_temporal_hardening_check.py",
+      "tests": [
+        "tests/test_eigiib_temporal_hardening.py"
+      ]
+    },
+    {
+      "id": "E12-H0.2",
+      "applies_to": "E12",
+      "authority": "extensions/E12-COMMIT-HARDENING-PROFILE-0.2.md",
+      "schema": "schemas/eigiib-e12-commit-hardening.schema.json",
+      "checker": "tools/eigiib_commit_hardening_check.py",
+      "tests": [
+        "tests/test_eigiib_commit_hardening.py"
+      ]
+    },
+    {
+      "id": "E13-H0.2",
+      "applies_to": "E13",
+      "authority": "extensions/E13-POLICY-COMPOSITION-HARDENING-PROFILE-0.2.md",
+      "schema": "schemas/eigiib-e13-policy-composition-hardening.schema.json",
+      "checker": "tools/eigiib_policy_composition_hardening_check.py",
+      "tests": [
+        "tests/test_eigiib_policy_composition_hardening.py"
+      ]
+    },
+    {
+      "id": "E14-A2",
+      "applies_to": "E14",
+      "authority": "extensions/E14-A2-DISCLOSURE-AUTHORIZATION-AUDIENCE-ELIGIBILITY-CONTEXT-REVALIDATION.md",
+      "schema": "schemas/eigiib-e14-a2-disclosure-authorization.schema.json",
+      "checker": "tools/eigiib_disclosure_authorization_check.py",
+      "tests": [
+        "tests/test_eigiib_disclosure_authorization.py"
+      ]
+    },
+    {
+      "id": "E14-A3",
+      "applies_to": "E14",
+      "authority": "extensions/E14-A3-CORRELATION-CONTROL-SINGLE-USE-LINKABILITY-REPLAY.md",
+      "schema": "schemas/eigiib-e14-a3-correlation-control.schema.json",
+      "checker": "tools/eigiib_correlation_control_check.py",
+      "tests": [
+        "tests/test_eigiib_correlation_control.py"
+      ]
+    },
+    {
+      "id": "E14-A4",
+      "applies_to": "E14",
+      "authority": "extensions/E14-A4-REVOCATION-FRESHNESS-DISTRIBUTION-WITHDRAWAL-DISCLOSURE-ANTI-ROLLBACK-REPLAY.md",
+      "schema": "schemas/eigiib-e14-a4-disclosure-revocation.schema.json",
+      "checker": "tools/eigiib_disclosure_revocation_check.py",
+      "tests": [
+        "tests/test_eigiib_disclosure_revocation.py"
+      ]
+    },
+    {
+      "id": "E14-A5",
+      "applies_to": "E14",
+      "authority": "extensions/E14-A5-INDEPENDENT-VERIFIER-MATRIX-RELEASE-BOUNDARY-FINAL-AUTHORITY-FREEZE.md",
+      "schema": "schemas/eigiib-e14-a5-release-boundary.schema.json",
+      "checker": "tools/eigiib_e14_release_check.py",
+      "tests": [
+        "tests/test_eigiib_e14_release.py",
+        "tests/test_eigiib_e14_release_matrix.py"
+      ]
+    },
+    {
+      "id": "E14-A5-F1",
+      "applies_to": "E14",
+      "authority": "extensions/E14-A5-F1-PORTABLE-AUTHORITY-REBIND-WORKFLOW-NEUTRAL-PUBLICATION.md",
+      "schema": "schemas/eigiib-e14-a5-authority-freeze.schema.json",
+      "checker": "tools/eigiib_e14_release_check.py",
+      "tests": [
+        "tests/test_eigiib_e14_release.py",
+        "tests/test_eigiib_e14_release_matrix.py"
+      ]
+    }
   ]
 }

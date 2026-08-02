@@ -40,9 +40,10 @@ jobs:
         run: |
           python tools/eigiib_e14_release_check.py . --json > actual-release.json
           python - <<'PY'
+          import json
           from pathlib import Path
-          actual=Path('actual-release.json').read_bytes()
-          expected=Path('tests/fixtures/e14-a5/expected-release-report.json').read_bytes()
+          actual=json.loads(Path('actual-release.json').read_text(encoding='utf-8'))
+          expected=json.loads(Path('tests/fixtures/e14-a5/expected-release-report.json').read_text(encoding='utf-8'))
           if actual != expected: raise SystemExit('E14-A5 release report mismatch')
           PY
       - name: Independent verifier matrix
@@ -50,9 +51,10 @@ jobs:
         run: |
           python tools/eigiib_e14_release_matrix.py . --json > actual-matrix.json
           python - <<'PY'
+          import json
           from pathlib import Path
-          actual=Path('actual-matrix.json').read_bytes()
-          expected=Path('tests/fixtures/e14-a5/expected-matrix-report.json').read_bytes()
+          actual=json.loads(Path('actual-matrix.json').read_text(encoding='utf-8'))
+          expected=json.loads(Path('tests/fixtures/e14-a5/expected-matrix-report.json').read_text(encoding='utf-8'))
           if actual != expected: raise SystemExit('E14-A5 matrix report mismatch')
           PY
       - name: Parse final authorities

@@ -14,3 +14,6 @@ The review confirms that:
 - the frozen vector matrix covers positive, negative, held and unavailable outcomes;
 - the final authority freeze checks exact paths, byte lengths and SHA-256 digests;
 - external delivery, remote possession, universal correctness and external durability remain outside the claim boundary.
+
+The final review also records that A5-F1 rebinding is required after the corrected A4 portability commits and that temporary publication mechanics are excluded from the final authority set.
+
