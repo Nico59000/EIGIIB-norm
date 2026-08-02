@@ -30,8 +30,8 @@ jobs:
           test "$(tar -tzf payload.tar.gz | wc -l)" -eq 26
           tar -xzf payload.tar.gz
           rm -rf .e14-a5-payload payload.b64 payload.tar.gz
-          rm -f .github/workflows/e14-a5-materialize.yml
-      - name: Publish final A5 tree
+          rm -f .github/workflows/e14-a5-final-closure.yml
+      - name: Publish non-workflow A5 tree
         shell: bash
         run: |
           set -euo pipefail
@@ -39,5 +39,5 @@ jobs:
           git config user.email 'eigiib-closure-bot@users.noreply.github.com'
           git add -A
           git diff --cached --quiet && exit 0
-          git commit -m 'E14-A5: materialize final closure slice'
+          git commit -m 'E14-A5: materialize non-workflow closure tree'
           git push origin HEAD:"${{ github.head_ref }}"
