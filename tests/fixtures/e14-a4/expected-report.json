@@ -1,0 +1,22 @@
+{
+  "anti_rollback_result": "not-evaluated",
+  "decision_count": 0,
+  "decision_counts": {
+    "admissible": 0,
+    "held": 0,
+    "rejected": 0,
+    "unavailable": 0
+  },
+  "disclosure_attempt_count": 0,
+  "distribution_channel_count": 0,
+  "distribution_withdrawal_result": "not-evaluated",
+  "findings": [],
+  "freshness_source_count": 0,
+  "revocation_freshness_result": "not-evaluated",
+  "standard": "EIGIIB-E14-A4-1.0",
+  "status_history_count": 0,
+  "structural_result": "conformant",
+  "tool": "eigiib-disclosure-revocation-check",
+  "tool_version": "0.1.0",
+  "upstream_binding_result": "conformant"
+}
