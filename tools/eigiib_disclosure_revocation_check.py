@@ -117,7 +117,7 @@ class Checker:
   self.profile();a=self.load(self.p1,"E14A4.A1");b=self.load(self.p2,"E14A4.A2");c=self.load(self.p3,"E14A4.A3");r=self.load(self.rp,"E14A4.REGISTRY")
   if a and b and c:self.upstream(a,b,c)
   if r:
-   if r.get("standard")!=STD or r.get("status")!="structural-only" or r.get("upstream_projection_registry")!=str(self.p1) or r.get("upstream_authorization_registry")!=str(self.p2) or r.get("upstream_correlation_registry")!=str(self.p3):self.add("E14A4.REGISTRY","registry envelope mismatch",str(self.rp))
+   if r.get("standard")!=STD or r.get("status")!="structural-only" or r.get("upstream_projection_registry")!=self.p1.as_posix() or r.get("upstream_authorization_registry")!=self.p2.as_posix() or r.get("upstream_correlation_registry")!=self.p3.as_posix():self.add("E14A4.REGISTRY","registry envelope mismatch",str(self.rp))
    self.fr=self.ix(r,"freshness_sources","E14A4.FRESHNESS");self.ch=self.ix(r,"distribution_channels","E14A4.DISTRIBUTION");self.h=self.ix(r,"status_histories","E14A4.HISTORY");self.at=self.ix(r,"disclosure_attempts","E14A4.ATTEMPT");self.de=self.ix(r,"decisions","E14A4.DECISION")
    if a and b and c:self.objects();self.attempts();self.decisions()
   bad=bool(self.fs);ev="not-evaluated" if not self.de else "non-conformant" if bad else "conformant";states=[v.get("state") for v in self.derived.values()]
