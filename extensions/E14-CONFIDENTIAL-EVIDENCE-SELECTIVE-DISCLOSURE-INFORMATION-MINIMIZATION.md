@@ -258,3 +258,8 @@ E14-A5 adds the explicit release-event boundary, receipt commitment, independent
 The final profile revision is `EIGIIB-E14-1.0`. Its authority is `extensions/E14-A5-INDEPENDENT-VERIFIER-MATRIX-RELEASE-BOUNDARY-FINAL-AUTHORITY-FREEZE.md`.
 
 A repository `released` event does not prove remote delivery, recipient possession or external durability. These remain explicit nonclaims after E14 closure.
+
+## 19. E14-A5-F1 corrective companion
+
+E14-A5-F1 binds the final closure to the corrected E14-A4 head and its portable checker bytes. It changes no disclosure or release semantics and introduces no E14-A6 principal slice.
+

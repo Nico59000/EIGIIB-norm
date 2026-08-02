@@ -14,7 +14,7 @@ TOOL_VERSION = "0.1.0"
 STANDARD = "EIGIIB-E14-A5-1.0"
 PROFILE_REVISION = "EIGIIB-E14-1.0"
 A1_STANDARD = "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0+E8-1.0+E9-1.0+E10-1.0+E11-1.0+E12-1.0+E13-1.0+E14-1.0"
-A4_SOURCE_HEAD = "82534d603db88ea351c4254ba84d3cdc0bc89e0d"
+A4_SOURCE_HEAD = "31e85dbd109ecbe8c27564cd3411f11358e87acb"
 RELEASE_ACTION = "eigiib:e14:release-projection"
 EVENT_STATES = {"released", "rejected", "held", "unavailable"}
 
@@ -31,6 +31,7 @@ EXPECTED_FREEZE_PATHS = {
     "conformance/E14-A3-MANUAL-REVIEW.md",
     "conformance/E14-A4-MANUAL-REVIEW.md",
     "conformance/E14-A5-MANUAL-REVIEW.md",
+    "conformance/E14-A5-F1-MANUAL-REVIEW.md",
     "conformance/confidential-evidence.json",
     "conformance/disclosure-authorization.json",
     "conformance/correlation-control.json",
@@ -51,6 +52,7 @@ EXPECTED_FREEZE_PATHS = {
     "extensions/E14-A3-CORRELATION-CONTROL-SINGLE-USE-LINKABILITY-REPLAY.md",
     "extensions/E14-A4-REVOCATION-FRESHNESS-DISTRIBUTION-WITHDRAWAL-DISCLOSURE-ANTI-ROLLBACK-REPLAY.md",
     "extensions/E14-A5-INDEPENDENT-VERIFIER-MATRIX-RELEASE-BOUNDARY-FINAL-AUTHORITY-FREEZE.md",
+    "extensions/E14-A5-F1-PORTABLE-AUTHORITY-REBIND-WORKFLOW-NEUTRAL-PUBLICATION.md",
     "schemas/eigiib-e14-confidential-evidence.schema.json",
     "schemas/eigiib-e14-a1-adoption-transition.schema.json",
     "schemas/eigiib-e14-a2-disclosure-authorization.schema.json",
@@ -232,6 +234,7 @@ class Checker:
             "e14_a5_authority_freeze": str(self.freeze_path),
             "e14_a5_human_mastery": "docs/E14-A5-HUMAN-MASTERY-GUIDE.md",
             "e14_final_closure_report": "docs/E14-FINAL-CLOSURE-REPORT.md",
+            "e14_a5_f1_contract": "extensions/E14-A5-F1-PORTABLE-AUTHORITY-REBIND-WORKFLOW-NEUTRAL-PUBLICATION.md",
         }
         authorities = profile.get("authorities", {})
         required = profile.get("required_authorities", [])
@@ -254,6 +257,17 @@ class Checker:
             self.add("error", "E14A5.PROFILE.GATE", "E14-A5 manual gate is not exact", "EIGIIB.toml")
         else:
             self.confined(matches[0]["attestation"], "E14A5.PROFILE", True)
+        correction_matches = [
+            gate for gate in gates
+            if isinstance(gate, dict) and gate.get("id") == "e14-a5-f1-portable-authority-rebind-review"
+        ] if isinstance(gates, list) else []
+        correction_exact = ("complete", "e14_a5_f1_contract", "conformance/E14-A5-F1-MANUAL-REVIEW.md")
+        if len(correction_matches) != 1:
+            self.add("error", "E14A5.PROFILE.F1_GATE", "E14-A5-F1 manual gate missing or duplicated", "EIGIIB.toml")
+        elif (correction_matches[0].get("status"), correction_matches[0].get("authority"), correction_matches[0].get("attestation")) != correction_exact:
+            self.add("error", "E14A5.PROFILE.F1_GATE", "E14-A5-F1 manual gate is not exact", "EIGIIB.toml")
+        else:
+            self.confined(correction_matches[0]["attestation"], "E14A5.PROFILE", True)
 
     def load_upstream(self) -> bool:
         a1 = self.load_json(self.a1_path, "E14A5.UPSTREAM.A1")

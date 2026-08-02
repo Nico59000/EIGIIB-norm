@@ -10,6 +10,8 @@ Status: final closure authority for E14 1.0.
 4. E14-A4 — revocation freshness, distribution withdrawal and anti-rollback replay.
 5. E14-A5 — release-boundary replay, independent verifier matrix and final authority freeze.
 
+Bounded correction: E14-A5-F1 — corrected A4 authority rebinding, portable report replay and workflow-neutral publication.
+
 ## Final profile
 
 ```text
@@ -34,4 +36,4 @@ Closure requires simultaneously:
 - global EIGIIB conformance;
 - successful Ubuntu, macOS and Windows A5 closure replay.
 
-Until the dedicated A5 matrix completes on all three platforms, repository implementation is published but cross-platform final freeze remains not yet externally demonstrated.
+Final closure additionally requires the A5-F1 rebinding to the corrected A4 head and absence of temporary publication payloads. Until the dedicated final matrix completes on all three platforms, cross-platform final freeze remains not yet externally demonstrated.

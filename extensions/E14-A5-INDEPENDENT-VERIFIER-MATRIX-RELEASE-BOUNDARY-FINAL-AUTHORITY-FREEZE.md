@@ -183,3 +183,8 @@ tools/eigiib_e14_release_matrix.py
 ```
 
 All use the Python standard library only.
+
+## 12. E14-A5-F1 bounded correction
+
+A5-F1 rebinds the final freeze to the corrected A4 head, refreezes the corrected checker bytes and makes report comparison independent of platform newline representation. It does not change the release relation, registry schema, verifier vectors or final profile revision.
+
