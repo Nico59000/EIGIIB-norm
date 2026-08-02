@@ -96,6 +96,8 @@ def decide_route(registry: dict[str, Any], route: dict[str, Any]) -> tuple[str, 
             continue
         if not (version_tuple(window["min"]) <= version_tuple(requested_version) <= version_tuple(window["max"])):
             return "reject", "toolchain-version-outside-window"
+        if current == "3.x":
+            continue
         succession_item = succession.get(toolchain_id)
         if succession_item and registry["currentEpoch"] > succession_item["compatibilityEndsEpoch"]:
             return "reject", "compatibility-window-expired"
