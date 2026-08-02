@@ -1,0 +1,50 @@
+{
+  "standard": "EIGIIB-M0-A5-F1-AUTHORITY-FREEZE-1.0",
+  "status": "frozen",
+  "source": {
+    "branch": "agent/m0-a5-canonical-p1-lineage-authority-promotion-e14-handoff",
+    "pre_fix_head_commit": "85df644e67a610a8645b753177f0f2056d0452b3",
+    "canonical_p1_head_commit": "c1983e9f2e95879ee16c162075c8d72bc73d88f9"
+  },
+  "canonical_report": {
+    "path": "tests/fixtures/m0-a5/expected-report.json",
+    "encoding": "utf-8",
+    "newline": "lf",
+    "terminal_newline_count": 1,
+    "byte_length": 587,
+    "sha256": "f7829589228cf480c3b69f4e954edf882eea238301aefdd16e34a00422abace6"
+  },
+  "writer_contract": {
+    "serialization": "json-sort-keys-compact",
+    "output_mode": "binary-exact",
+    "text_newline_translation": "forbidden",
+    "write_api": "Path.write_bytes",
+    "platforms": [
+      "ubuntu-24.04",
+      "macos-15",
+      "windows-2025"
+    ]
+  },
+  "replay_gate": {
+    "unit_tests": "required",
+    "canonical_report_bytes": "required",
+    "canonical_p1_ancestry": "required",
+    "e14_non_adoption": "required",
+    "platform_matrix": "all-required"
+  },
+  "authority_freeze": {
+    "lineage": "conformance/m0-a5-p1-lineage.json",
+    "e14_handoff": "conformance/m0-a5-e14-handoff.json",
+    "human_mastery": "docs/M0-A5-HUMAN-MASTERY-GUIDE.md",
+    "closure_document": "docs/M0-A5-F1-CROSS-PLATFORM-CANONICAL-REPORT-NORMALIZATION-WINDOWS-BYTE-EXACT-REPLAY-AND-FINAL-AUTHORITY-FREEZE.md",
+    "manual_review": "conformance/M0-A5-F1-MANUAL-REVIEW.md",
+    "e14_adopted": false,
+    "silent_retargeting_forbidden": true
+  },
+  "nonclaims": [
+    "e14-normative-adoption",
+    "new-p1-lineage-content",
+    "semantic-change-to-the-m0-a5-report",
+    "platform-equivalence-beyond-the-tested-matrix"
+  ]
+}
