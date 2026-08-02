@@ -52,7 +52,7 @@
     {
       "id": "decision-time-commit",
       "label": "decision + time + commit",
-      "description": "policy-safe authorization, explicit temporal admissibility, commit-time revalidation and bounded one-shot/idempotent commit relations",
+      "description": "policy-safe authorization, temporal admissibility and commit-time revalidation",
       "nodes": [
         "E10",
         "E11",
@@ -62,7 +62,7 @@
     {
       "id": "policy-composition",
       "label": "multi-policy composition",
-      "description": "explicit composition algorithms, conflict resolution and bounded obligation semantics branching from E10 authorization",
+      "description": "explicit composition algorithms, conflict resolution and bounded obligation semantics",
       "nodes": [
         "E13"
       ]
@@ -70,9 +70,17 @@
     {
       "id": "confidential-evidence-disclosure",
       "label": "confidential evidence + disclosure projection",
-      "description": "confidential record identity, committed selective projection and claim-boundary-preserving minimization",
+      "description": "confidential record identity, committed selective projection and release boundary",
       "nodes": [
         "E14"
+      ]
+    },
+    {
+      "id": "external-delivery-publication-governance",
+      "label": "external delivery + publication governance",
+      "description": "historically anchored delivery intent, external evidence, bounded persistence and withdrawal governance",
+      "nodes": [
+        "E15"
       ]
     }
   ],
@@ -450,6 +458,46 @@
         "E14-A4",
         "E14-A5",
         "E14-A5-F1"
+      ]
+    },
+    {
+      "id": "E15",
+      "kind": "extension",
+      "title": "Externally Attested Delivery, Durable Publication, Recipient Acknowledgement and Withdrawal Governance",
+      "theme": "external delivery + publication + withdrawal governance",
+      "authority_key": "e15",
+      "authority": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
+      "schema": "schemas/eigiib-e15-a1-delivery-intent.schema.json",
+      "checker": "tools/eigiib_delivery_intent_check.py",
+      "registry_authority_key": "delivery_intent",
+      "registry": "conformance/delivery-intent.json",
+      "depends_on": [
+        "E4",
+        "E11",
+        "E12",
+        "E13",
+        "E14"
+      ],
+      "consumes_authorities": [
+        "trust",
+        "temporal",
+        "commit",
+        "policy_composition",
+        "e14_release_boundary",
+        "e14_a5_authority_freeze",
+        "m0_a6_e15_entry",
+        "e15_a1_transition"
+      ],
+      "does_not_reprove": [
+        "E4 authentication",
+        "E11 temporal validity",
+        "E12 commit safety",
+        "E13 policy composition",
+        "E14 release admissibility",
+        "external delivery",
+        "recipient possession",
+        "publication durability",
+        "global withdrawal"
       ]
     }
   ],

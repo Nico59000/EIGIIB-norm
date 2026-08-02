@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -115,41 +117,21 @@ jobs:
         run: |
           set -o pipefail
           python tools/eigiib_policy_composition_hardening_check.py . --json | tee .eigiib-results/components/e13-h0.2.json
-      - name: EIGIIB E14 confidential evidence conformance
+      - name: Historical E14 authority replay
         if: always()
         run: |
           set -o pipefail
-          python tools/eigiib_confidential_evidence_check.py . --json | tee .eigiib-results/components/e14.json
-      - name: EIGIIB E14-A2 disclosure authorization conformance
+          python tools/eigiib_historical_e14_replay.py . \
+            --output-dir .eigiib-results/components \
+            --matrix-output .eigiib-results/e14-a5-matrix.json \
+            --json | tee .eigiib-results/e14-history.json
+      - name: EIGIIB E15-A1 delivery-intent conformance
         if: always()
         run: |
           set -o pipefail
-          python tools/eigiib_disclosure_authorization_check.py . --json | tee .eigiib-results/components/e14-a2.json
-      - name: EIGIIB E14-A3 correlation-control conformance
-        if: always()
-        run: |
-          set -o pipefail
-          python tools/eigiib_correlation_control_check.py . --json | tee .eigiib-results/components/e14-a3.json
-      - name: EIGIIB E14-A4 revocation freshness conformance
-        if: always()
-        run: |
-          set -o pipefail
-          python tools/eigiib_disclosure_revocation_check.py . --json | tee .eigiib-results/components/e14-a4.json
-      - name: EIGIIB E14-A5 release-boundary and authority-freeze conformance
-        if: always()
-        run: |
-          set -o pipefail
-          python tools/eigiib_e14_release_check.py . --json | tee .eigiib-results/components/e14-a5.json
-      - name: EIGIIB E14-A5-F1 portable authority rebinding conformance
-        if: always()
-        run: |
-          set -o pipefail
-          python tools/eigiib_e14_release_check.py . --json | tee .eigiib-results/components/e14-a5-f1.json
-      - name: EIGIIB E14-A5 independent verifier matrix
-        if: always()
-        run: |
-          set -o pipefail
-          python tools/eigiib_e14_release_matrix.py . --json | tee .eigiib-results/e14-a5-matrix.json
+          python tools/eigiib_delivery_intent_check.py . \
+            --history-report .eigiib-results/e14-history.json \
+            --json | tee .eigiib-results/components/e15.json
       - name: EIGIIB M0-A2 aggregate conformance
         if: always()
         run: |

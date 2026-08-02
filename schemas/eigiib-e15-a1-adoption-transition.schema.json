@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-e15-a1-adoption-transition.schema.json",
+  "title": "EIGIIB E15-A1 adoption transition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "source",
+    "historical_replay",
+    "target",
+    "consumed_inputs",
+    "historical_preservation"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E15-A1-TRANSITION-1.0"
+    },
+    "status": {
+      "const": "adopted-e15-a1"
+    },
+    "source": {
+      "type": "object"
+    },
+    "historical_replay": {
+      "type": "object"
+    },
+    "target": {
+      "type": "object"
+    },
+    "consumed_inputs": {
+      "type": "object",
+      "minProperties": 12,
+      "maxProperties": 12
+    },
+    "historical_preservation": {
+      "type": "object"
+    }
+  }
+}

@@ -15,10 +15,10 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-TOOL_VERSION = "0.1.1"
+TOOL_VERSION = "0.1.2"
 STANDARD = "EIGIIB-M0-A1-1.0"
 BASE_REQUIRED_NODES = ["Core"] + [f"E{i}" for i in range(1, 14)]
-OPTIONAL_ADOPTED_NODES = {"E14-1.0": "E14"}
+OPTIONAL_ADOPTED_NODES = {"E14-1.0": "E14", "E15-1.0": "E15"}
 ALLOWED_TOP = {
     "standard", "status", "authority", "source_of_truth_for", "derived_fields",
     "functional_layers", "nodes", "hardening_profiles",
@@ -69,10 +69,8 @@ class Checker:
             self.add("error", "M0.GRAPH.TYPE", "manifest root must be an object", str(self.manifest_path))
             return False
         self.obj = obj
-
-        profile_path = self.root / "EIGIIB.toml"
         try:
-            self.profile = tomllib.loads(profile_path.read_text(encoding="utf-8"))
+            self.profile = tomllib.loads((self.root / "EIGIIB.toml").read_text(encoding="utf-8"))
         except Exception as exc:
             self.add("error", "M0.PROFILE.PARSE", str(exc), "EIGIIB.toml")
             return False
@@ -82,10 +80,7 @@ class Checker:
         extensions = self.profile.get("extensions", [])
         if not isinstance(extensions, list):
             extensions = []
-        return BASE_REQUIRED_NODES + [
-            node for extension, node in OPTIONAL_ADOPTED_NODES.items()
-            if extension in extensions
-        ]
+        return BASE_REQUIRED_NODES + [node for extension, node in OPTIONAL_ADOPTED_NODES.items() if extension in extensions]
 
     def check_shape(self) -> None:
         unknown = set(self.obj) - ALLOWED_TOP
@@ -94,7 +89,6 @@ class Checker:
         for field in ALLOWED_TOP:
             if field not in self.obj:
                 self.add("error", "M0.GRAPH.REQUIRED", f"missing top-level field {field}", field)
-
         if self.obj.get("standard") != STANDARD:
             self.add("error", "M0.GRAPH.STANDARD", f"standard must be {STANDARD}", "standard")
         if self.obj.get("status") != "structural":
@@ -129,12 +123,9 @@ class Checker:
         nodes = self.index(self.obj.get("nodes"), "NODES", self.add)
         profiles = self.index(self.obj.get("hardening_profiles"), "HARDENING", self.add)
         required_nodes = self.required_nodes()
-
-        missing = [n for n in required_nodes if n not in nodes]
-        extra = [n for n in nodes if n not in required_nodes]
-        for n in missing:
+        for n in [n for n in required_nodes if n not in nodes]:
             self.add("error", "M0.NODES.REQUIRED", f"required node {n} missing", "nodes")
-        for n in extra:
+        for n in [n for n in nodes if n not in required_nodes]:
             self.add("error", "M0.NODES.EXTRA", f"unexpected canonical node {n}", f"node:{n}")
 
         authorities = self.profile.get("authorities", {})
@@ -146,21 +137,16 @@ class Checker:
             loc = f"node:{nid}"
             if DERIVED_NODE_FIELDS & set(node):
                 self.add("error", "M0.NODES.DERIVED_FIELD", "used_by is derived and must not be stored", loc)
-
             expected_kind = "core" if nid == "Core" else "extension"
             if node.get("kind") != expected_kind:
                 self.add("error", "M0.NODES.KIND", f"{nid} kind must be {expected_kind}", loc)
-
             for key in ("title", "theme", "authority_key", "authority"):
                 if not isinstance(node.get(key), str) or not node[key]:
                     self.add("error", "M0.NODES.FIELD", f"{key} must be a non-empty string", loc)
-
             auth_key = node.get("authority_key")
             authority = node.get("authority")
             if isinstance(auth_key, str) and authorities.get(auth_key) != authority:
-                self.add("error", "M0.NODES.AUTHORITY_BINDING",
-                         f"authority {auth_key!r} does not match EIGIIB.toml", loc)
-
+                self.add("error", "M0.NODES.AUTHORITY_BINDING", f"authority {auth_key!r} does not match EIGIIB.toml", loc)
             for path_key in ("authority", "schema", "checker", "registry"):
                 rel = node.get(path_key)
                 if rel is None:
@@ -171,17 +157,13 @@ class Checker:
                 p = self.confined(rel, "M0.NODES")
                 if p is not None and not p.is_file():
                     self.add("error", "M0.NODES.PATH_MISSING", f"{path_key} path does not exist", rel)
-
             reg_key = node.get("registry_authority_key")
             registry = node.get("registry")
             if reg_key is not None or registry is not None:
                 if not isinstance(reg_key, str) or not isinstance(registry, str):
-                    self.add("error", "M0.NODES.REGISTRY_BINDING",
-                             "registry and registry_authority_key must appear together", loc)
+                    self.add("error", "M0.NODES.REGISTRY_BINDING", "registry and registry_authority_key must appear together", loc)
                 elif authorities.get(reg_key) != registry:
-                    self.add("error", "M0.NODES.REGISTRY_AUTHORITY",
-                             f"registry authority {reg_key!r} does not match EIGIIB.toml", loc)
-
+                    self.add("error", "M0.NODES.REGISTRY_AUTHORITY", f"registry authority {reg_key!r} does not match EIGIIB.toml", loc)
             deps = node.get("depends_on", [])
             if not isinstance(deps, list) or any(not isinstance(x, str) for x in deps):
                 self.add("error", "M0.NODES.DEPENDS_TYPE", "depends_on must be an array of ids", loc)
@@ -191,7 +173,6 @@ class Checker:
                         self.add("error", "M0.NODES.DEPENDS_REF", f"dependency {dep} does not resolve", loc)
                     if dep == nid:
                         self.add("error", "M0.NODES.SELF_DEPENDENCY", "node cannot depend on itself", loc)
-
             consumes = node.get("consumes_authorities", [])
             if not isinstance(consumes, list) or any(not isinstance(x, str) for x in consumes):
                 self.add("error", "M0.NODES.CONSUMES_TYPE", "consumes_authorities must be an array of authority keys", loc)
@@ -199,11 +180,9 @@ class Checker:
                 for key in consumes:
                     if key not in authorities:
                         self.add("error", "M0.NODES.CONSUMES_REF", f"authority {key} does not resolve", loc)
-
             nonreprove = node.get("does_not_reprove", [])
             if not isinstance(nonreprove, list) or any(not isinstance(x, str) or not x for x in nonreprove):
                 self.add("error", "M0.NODES.NONREPROVE", "does_not_reprove must be an array of non-empty strings", loc)
-
             hp = node.get("hardening_profiles", [])
             if hp is not None:
                 if not isinstance(hp, list) or any(not isinstance(x, str) for x in hp):
@@ -213,8 +192,7 @@ class Checker:
                         if hid not in profiles:
                             self.add("error", "M0.NODES.HARDENING_REF", f"hardening profile {hid} does not resolve", loc)
                         elif profiles[hid].get("applies_to") != nid:
-                            self.add("error", "M0.NODES.HARDENING_TARGET",
-                                     f"hardening profile {hid} does not apply to {nid}", loc)
+                            self.add("error", "M0.NODES.HARDENING_TARGET", f"hardening profile {hid} does not apply to {nid}", loc)
 
         for hid, hp in profiles.items():
             loc = f"hardening:{hid}"
@@ -237,15 +215,10 @@ class Checker:
                     p = self.confined(rel, "M0.HARDENING")
                     if p is not None and not p.is_file():
                         self.add("error", "M0.HARDENING.PATH_MISSING", "tests path does not exist", rel)
-
         for hid, hp in profiles.items():
             target = hp.get("applies_to")
-            if target in nodes:
-                attached = nodes[target].get("hardening_profiles", [])
-                if hid not in attached:
-                    self.add("error", "M0.HARDENING.UNATTACHED",
-                             f"hardening profile {hid} is not attached by target node {target}", f"hardening:{hid}")
-
+            if target in nodes and hid not in nodes[target].get("hardening_profiles", []):
+                self.add("error", "M0.HARDENING.UNATTACHED", f"hardening profile {hid} is not attached by target node {target}", f"hardening:{hid}")
         return nodes, profiles
 
     def check_layers(self, nodes: dict[str, dict[str, Any]]) -> None:
@@ -281,11 +254,7 @@ class Checker:
         for nid in nodes:
             if nid not in membership:
                 self.add("error", "M0.LAYERS.MISSING", f"node {nid} is not assigned to a functional layer", f"node:{nid}")
-
-        layer_order = {
-            layer.get("id"): i for i, layer in enumerate(layers)
-            if isinstance(layer, dict) and isinstance(layer.get("id"), str)
-        }
+        layer_order = {layer.get("id"): i for i, layer in enumerate(layers) if isinstance(layer, dict) and isinstance(layer.get("id"), str)}
         for nid, node in nodes.items():
             here = layer_order.get(membership.get(nid))
             if here is None:
@@ -293,14 +262,12 @@ class Checker:
             for dep in node.get("depends_on", []):
                 dep_layer = layer_order.get(membership.get(dep))
                 if dep_layer is not None and dep_layer > here:
-                    self.add("error", "M0.LAYERS.FORWARD_DEPENDENCY",
-                             f"{nid} depends on later functional layer node {dep}", f"node:{nid}")
+                    self.add("error", "M0.LAYERS.FORWARD_DEPENDENCY", f"{nid} depends on later functional layer node {dep}", f"node:{nid}")
 
     def check_acyclic(self, nodes: dict[str, dict[str, Any]]) -> None:
         graph = {nid: [d for d in node.get("depends_on", []) if d in nodes] for nid, node in nodes.items()}
         color = {nid: 0 for nid in graph}
         stack: list[str] = []
-
         def visit(nid: str) -> None:
             color[nid] = 1
             stack.append(nid)
@@ -316,11 +283,9 @@ class Checker:
                     self.add("error", "M0.GRAPH.CYCLE", "dependency cycle: " + " -> ".join(cycle), f"node:{nid}")
             stack.pop()
             color[nid] = 2
-
         for nid in graph:
             if color[nid] == 0:
                 visit(nid)
-
         reverse = {nid: [] for nid in graph}
         for nid, deps in graph.items():
             for dep in deps:
@@ -333,8 +298,7 @@ class Checker:
         manifest_key = "extension_graph"
         manifest_path = str(self.manifest_path)
         if not isinstance(authorities, dict) or authorities.get(manifest_key) != manifest_path:
-            self.add("error", "M0.PROFILE.GRAPH_AUTHORITY",
-                     f"EIGIIB.toml must bind {manifest_key} to {manifest_path}", "EIGIIB.toml")
+            self.add("error", "M0.PROFILE.GRAPH_AUTHORITY", f"EIGIIB.toml must bind {manifest_key} to {manifest_path}", "EIGIIB.toml")
         if not isinstance(required, list) or manifest_key not in required:
             self.add("error", "M0.PROFILE.GRAPH_REQUIRED", "extension_graph must be a required authority", "EIGIIB.toml")
 
