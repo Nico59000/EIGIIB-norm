@@ -1,0 +1,41 @@
+name: P1-A17 recovery release publisher probe
+
+on:
+  pull_request:
+    branches: [agent/p1-a16-external-registry-cross-registry-readback]
+
+permissions:
+  contents: write
+
+jobs:
+  publish-and-capture:
+    if: github.head_ref == 'agent/p1-a17-recovery-publisher-probe'
+    runs-on: ubuntu-24.04
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Publish recovery replica and capture evidence
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          openssl version
+          python tools/eigiib_p1_a17_publish_probe.py
+      - name: Persist captured evidence on probe branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'eigiib-p1-a17-probe'
+          git config user.email 'eigiib-p1-a17-probe@users.noreply.github.com'
+          git add tests/fixtures/p1-a17/live-durability-evidence.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'P1-A17 probe: capture recovery release evidence'
+          git push origin HEAD:${{ github.head_ref }}
