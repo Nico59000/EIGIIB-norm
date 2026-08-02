@@ -38,7 +38,7 @@ This prevents the central index from becoming a second, drifting specification.
 
 ## 3. Canonical lineage
 
-The machine authority is [`conformance/m0-a5-p1-lineage.json`](../conformance/m0-a5-p1-lineage.json).
+The machine authority is `conformance/m0-a5-p1-lineage.json`.
 
 It registers P1-A1 through P1-A20, including P1-A19-F2. Ordinary slices are exact single-child transitions. P1-A7 is explicitly recorded as a staged 35-commit closure from P1-A6 to P1-A7.7 rather than being falsely flattened into one commit.
 
@@ -72,7 +72,7 @@ Each crossing must preserve the source identity and claim boundary that entered 
 
 ## 6. E14 handoff
 
-The handoff authority is [`conformance/m0-a5-e14-handoff.json`](../conformance/m0-a5-e14-handoff.json).
+The handoff authority is `conformance/m0-a5-e14-handoff.json`.
 
 It freezes the minimum input classes required before E14 design:
 
