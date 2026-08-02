@@ -4,7 +4,7 @@ conformance_target = "EIGIIB-C2"
 revision = "EIGIIB-E13-draft-1.0"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state", "p1_sigstore_contract", "p1_sigstore_state", "p1_scitt_contract", "p1_scitt_state", "p1_chain_contract", "p1_chain_state", "p1_verifier_matrix_contract", "p1_verifier_matrix_state", "p1_external_bridge_contract", "p1_external_bridge_state"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state", "p1_sigstore_contract", "p1_sigstore_state", "p1_scitt_contract", "p1_scitt_state", "p1_chain_contract", "p1_chain_state", "p1_verifier_matrix_contract", "p1_verifier_matrix_state", "p1_external_bridge_contract", "p1_external_bridge_state", "m0_a5_p1_lineage", "m0_a5_e14_handoff", "m0_a5_human_mastery"]
 
 [authorities]
 scope = "README.md"
@@ -52,6 +52,9 @@ p1_verifier_matrix_contract = "docs/P1-A5-INDEPENDENT-VERIFIER-MATRIX.md"
 p1_verifier_matrix_state = "conformance/p1-a5-verifier-matrix.json"
 p1_external_bridge_contract = "docs/P1-A6-EXTERNAL-NATIVE-VERIFIER-BRIDGE.md"
 p1_external_bridge_state = "conformance/p1-a6-external-native.json"
+m0_a5_p1_lineage = "conformance/m0-a5-p1-lineage.json"
+m0_a5_e14_handoff = "conformance/m0-a5-e14-handoff.json"
+m0_a5_human_mastery = "docs/M0-A5-HUMAN-MASTERY-GUIDE.md"
 
 [checks]
 markdown_links = true
@@ -169,3 +172,9 @@ id = "p1-external-native-verifier-boundary-review"
 status = "complete"
 authority = "p1_external_bridge_contract"
 attestation = "conformance/P1-A6-MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "m0-a5-lineage-e14-handoff-review"
+status = "complete"
+authority = "m0_a5_p1_lineage"
+attestation = "conformance/M0-A5-MANUAL-REVIEW.md"
