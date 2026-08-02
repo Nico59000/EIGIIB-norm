@@ -1,0 +1,13 @@
+{
+  "adoption_transition_result": "conformant",
+  "claim_boundary_result": "not-evaluated",
+  "confidential_record_result": "not-evaluated",
+  "findings": [],
+  "projection_binding_result": "not-evaluated",
+  "projection_count": 0,
+  "record_count": 0,
+  "standard": "EIGIIB-1.0+E1-1.0+E2-1.0+E3-1.0+E4-1.0+E5-1.0+E6-1.0+E7-1.0+E8-1.0+E9-1.0+E10-1.0+E11-1.0+E12-1.0+E13-1.0+E14-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-confidential-evidence-check",
+  "tool_version": "0.1.0"
+}

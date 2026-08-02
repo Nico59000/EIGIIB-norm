@@ -1,0 +1,57 @@
+name: E14-A1 confidential evidence and disclosure projection
+
+on:
+  pull_request:
+    branches:
+      - agent/m0-a5-f1-staging
+      - agent/m0-a5-canonical-p1-lineage-authority-promotion-e14-handoff
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e14-a1-${{ github.event.pull_request.head.sha }}
+  cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  confidential-evidence:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Unit tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_confidential_evidence.py
+      - name: Structural registry
+        shell: bash
+        run: |
+          python tools/eigiib_confidential_evidence_check.py . --json > actual-e14-a1-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('tests/fixtures/e14-a1/expected-report.json').read_text(encoding='utf-8'))
+          actual = json.loads(Path('actual-e14-a1-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('E14-A1 report differs from canonical fixture')
+          PY
+      - name: Schemas and transition
+        shell: bash
+        run: |
+          python -m json.tool schemas/eigiib-e14-confidential-evidence.schema.json >/dev/null
+          python -m json.tool schemas/eigiib-e14-a1-adoption-transition.schema.json >/dev/null
+          python -m json.tool conformance/e14-a1-adoption-transition.json >/dev/null
+      - name: Exact M0-A5-F1 ancestry
+        shell: bash
+        run: git merge-base --is-ancestor a547e0f94af1b256200c12836a1539c4d5b28716 "${{ github.event.pull_request.head.sha }}"
