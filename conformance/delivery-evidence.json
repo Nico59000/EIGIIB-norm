@@ -1,0 +1,11 @@
+{
+  "attester_profiles": [],
+  "delivery_evidence_decisions": [],
+  "external_attestation_policies": [],
+  "external_delivery_evidence": [],
+  "recipient_acknowledgements": [],
+  "source_e15_a1_commit": "ca0dfde0efcee975ef4957f604d4954b6de07e01",
+  "standard": "EIGIIB-E15-A2-1.0",
+  "status": "structural-only",
+  "transfer_attempts": []
+}
