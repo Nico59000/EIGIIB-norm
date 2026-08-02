@@ -1,0 +1,1 @@
+Trigger the bounded-fragment P1-A16 ordinary payload publisher.
