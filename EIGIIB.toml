@@ -1,10 +1,10 @@
 standard = "EIGIIB-1.0"
-extensions = ["E1-1.0", "E2-1.0", "E3-1.0", "E4-1.0", "E5-1.0", "E6-1.0", "E7-1.0", "E8-1.0", "E9-1.0", "E10-1.0", "E11-1.0", "E12-1.0", "E13-1.0"]
+extensions = ["E1-1.0", "E2-1.0", "E3-1.0", "E4-1.0", "E5-1.0", "E6-1.0", "E7-1.0", "E8-1.0", "E9-1.0", "E10-1.0", "E11-1.0", "E12-1.0", "E13-1.0", "E14-1.0"]
 conformance_target = "EIGIIB-C2"
-revision = "EIGIIB-E13-draft-1.0"
+revision = "EIGIIB-E14-draft-1.0"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state", "p1_sigstore_contract", "p1_sigstore_state", "p1_scitt_contract", "p1_scitt_state", "p1_chain_contract", "p1_chain_state", "p1_verifier_matrix_contract", "p1_verifier_matrix_state", "p1_external_bridge_contract", "p1_external_bridge_state", "m0_a5_p1_lineage", "m0_a5_e14_handoff", "m0_a5_human_mastery", "m0_a5_f1_authority_freeze"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state", "p1_sigstore_contract", "p1_sigstore_state", "p1_scitt_contract", "p1_scitt_state", "p1_chain_contract", "p1_chain_state", "p1_verifier_matrix_contract", "p1_verifier_matrix_state", "p1_external_bridge_contract", "p1_external_bridge_state", "m0_a5_p1_lineage", "m0_a5_e14_handoff", "m0_a5_human_mastery", "m0_a5_f1_authority_freeze", "e14", "confidential_evidence", "e14_a1_transition", "e14_a1_human_mastery"]
 
 [authorities]
 scope = "README.md"
@@ -22,6 +22,7 @@ e10 = "extensions/E10-POLICY-SAFE-AUTOMATION-DELEGATED-EXECUTION-DECISION-ACCOUN
 e11 = "extensions/E11-TEMPORAL-VALIDITY-FRESHNESS-LEASES-REPLAY-RESISTANCE.md"
 e12 = "extensions/E12-ATOMIC-AUTHORIZATION-CONSUMPTION-COMMIT-TIME-REVALIDATION-TOCTOU-CLOSURE.md"
 e13 = "extensions/E13-POLICY-COMPOSITION-CONFLICT-RESOLUTION-OBLIGATIONS.md"
+e14 = "extensions/E14-CONFIDENTIAL-EVIDENCE-SELECTIVE-DISCLOSURE-INFORMATION-MINIMIZATION.md"
 evidence = "conformance/e1-registry.json"
 provenance = "conformance/provenance.json"
 trust = "conformance/trust.json"
@@ -56,6 +57,9 @@ m0_a5_p1_lineage = "conformance/m0-a5-p1-lineage.json"
 m0_a5_e14_handoff = "conformance/m0-a5-e14-handoff.json"
 m0_a5_human_mastery = "docs/M0-A5-HUMAN-MASTERY-GUIDE.md"
 m0_a5_f1_authority_freeze = "conformance/m0-a5-f1-authority-freeze.json"
+confidential_evidence = "conformance/confidential-evidence.json"
+e14_a1_transition = "conformance/e14-a1-adoption-transition.json"
+e14_a1_human_mastery = "docs/E14-A1-HUMAN-MASTERY-GUIDE.md"
 
 [checks]
 markdown_links = true
@@ -185,3 +189,9 @@ id = "m0-a5-f1-cross-platform-authority-freeze-review"
 status = "complete"
 authority = "m0_a5_f1_authority_freeze"
 attestation = "conformance/M0-A5-F1-MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "e14-a1-confidential-evidence-boundary-review"
+status = "complete"
+authority = "e14"
+attestation = "conformance/E14-A1-MANUAL-REVIEW.md"
