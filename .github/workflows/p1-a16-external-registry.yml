@@ -66,7 +66,13 @@ jobs:
         run: |
           set -euo pipefail
           python tools/eigiib_p1_a16_external_registry_check.py --output actual-report.json >/dev/null
-          cmp tests/fixtures/p1-a16/expected-report.json actual-report.json
+          python - <<'PY'
+          from pathlib import Path
+          expected = Path("tests/fixtures/p1-a16/expected-report.json").read_text(encoding="utf-8")
+          actual = Path("actual-report.json").read_text(encoding="utf-8")
+          if expected != actual:
+              raise SystemExit("exact reference report differs")
+          PY
       - name: Independent Go contract tests
         shell: bash
         run: |
@@ -90,7 +96,13 @@ jobs:
         run: |
           set -euo pipefail
           python tools/eigiib_p1_a16_route_replay.py route-python.json route-go.json route-oras.json --output actual-replay.json >/dev/null
-          cmp tests/fixtures/p1-a16/expected-replay.json actual-replay.json
+          python - <<'PY'
+          from pathlib import Path
+          expected = Path("tests/fixtures/p1-a16/expected-replay.json").read_text(encoding="utf-8")
+          actual = Path("actual-replay.json").read_text(encoding="utf-8")
+          if expected != actual:
+              raise SystemExit("exact three-route replay differs")
+          PY
       - name: Closed schema validation
         shell: bash
         run: python tools/eigiib_p1_a16_schema_check.py
