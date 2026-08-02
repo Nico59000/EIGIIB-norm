@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -58,6 +59,11 @@ EXPECTED_NONCLAIMS = [
     "unlinkability",
     "zero-knowledge",
 ]
+EXPECTED_REPORT_PATH = "tests/fixtures/m0-a5/expected-report.json"
+EXPECTED_REPORT_SHA256 = "f7829589228cf480c3b69f4e954edf882eea238301aefdd16e34a00422abace6"
+EXPECTED_REPORT_BYTE_LENGTH = 587
+EXPECTED_FREEZE_PATH = "conformance/m0-a5-f1-authority-freeze.json"
+
 EXPECTED_SAFETY_RULES = [
     "a-permitted-source-claim-does-not-imply-disclosure-is-permitted",
     "missing-required-input-cannot-be-promoted-to-permit",
@@ -186,6 +192,65 @@ def validate_handoff(root: Path, handoff: dict) -> None:
     require(gate.get("readiness") == "ready-for-design", "E14 design readiness mismatch")
 
 
+def canonical_report_bytes(report: dict) -> bytes:
+    """Serialize a report to the repository's byte-exact JSON form."""
+    return (json.dumps(report, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+
+
+def write_canonical_report(path: Path, report: dict) -> None:
+    """Write canonical bytes without platform newline translation."""
+    path.write_bytes(canonical_report_bytes(report))
+
+
+def validate_freeze(root: Path, report: dict) -> None:
+    freeze = load_json(root / EXPECTED_FREEZE_PATH)
+    require(freeze.get("standard") == "EIGIIB-M0-A5-F1-AUTHORITY-FREEZE-1.0", "unexpected M0-A5-F1 freeze standard")
+    require(freeze.get("status") == "frozen", "M0-A5-F1 authority is not frozen")
+
+    source = freeze.get("source")
+    require(isinstance(source, dict), "M0-A5-F1 source must be an object")
+    require(source.get("branch") == "agent/m0-a5-canonical-p1-lineage-authority-promotion-e14-handoff", "M0-A5-F1 branch mismatch")
+    require(source.get("pre_fix_head_commit") == "85df644e67a610a8645b753177f0f2056d0452b3", "M0-A5-F1 pre-fix head mismatch")
+    require(source.get("canonical_p1_head_commit") == EXPECTED_HEADS["P1-A20"], "M0-A5-F1 canonical P1 head mismatch")
+
+    canonical = freeze.get("canonical_report")
+    require(isinstance(canonical, dict), "M0-A5-F1 canonical_report must be an object")
+    require(canonical.get("path") == EXPECTED_REPORT_PATH, "M0-A5-F1 report path mismatch")
+    require(canonical.get("encoding") == "utf-8", "M0-A5-F1 report encoding mismatch")
+    require(canonical.get("newline") == "lf", "M0-A5-F1 report newline mismatch")
+    require(canonical.get("terminal_newline_count") == 1, "M0-A5-F1 terminal newline mismatch")
+    require(canonical.get("byte_length") == EXPECTED_REPORT_BYTE_LENGTH, "M0-A5-F1 byte length mismatch")
+    require(canonical.get("sha256") == EXPECTED_REPORT_SHA256, "M0-A5-F1 report digest mismatch")
+
+    expected_path = confined_file(root, EXPECTED_REPORT_PATH)
+    expected_bytes = expected_path.read_bytes()
+    require(len(expected_bytes) == EXPECTED_REPORT_BYTE_LENGTH, "canonical report fixture byte length changed")
+    require(hashlib.sha256(expected_bytes).hexdigest() == EXPECTED_REPORT_SHA256, "canonical report fixture digest changed")
+    require(expected_bytes.endswith(b"\n") and not expected_bytes.endswith(b"\r\n"), "canonical report fixture must end in one LF")
+    require(expected_bytes.count(b"\r") == 0, "canonical report fixture contains carriage returns")
+    require(canonical_report_bytes(report) == expected_bytes, "canonical report bytes differ from frozen fixture")
+
+    writer = freeze.get("writer_contract")
+    require(isinstance(writer, dict), "M0-A5-F1 writer_contract must be an object")
+    require(writer.get("serialization") == "json-sort-keys-compact", "M0-A5-F1 serialization mismatch")
+    require(writer.get("output_mode") == "binary-exact", "M0-A5-F1 output mode mismatch")
+    require(writer.get("text_newline_translation") == "forbidden", "M0-A5-F1 newline translation must be forbidden")
+    require(writer.get("write_api") == "Path.write_bytes", "M0-A5-F1 writer API mismatch")
+    require(writer.get("platforms") == ["ubuntu-24.04", "macos-15", "windows-2025"], "M0-A5-F1 platform matrix mismatch")
+
+    authority = freeze.get("authority_freeze")
+    require(isinstance(authority, dict), "M0-A5-F1 authority_freeze must be an object")
+    require(authority.get("lineage") == "conformance/m0-a5-p1-lineage.json", "M0-A5-F1 lineage authority mismatch")
+    require(authority.get("e14_handoff") == "conformance/m0-a5-e14-handoff.json", "M0-A5-F1 E14 handoff mismatch")
+    require(authority.get("human_mastery") == "docs/M0-A5-HUMAN-MASTERY-GUIDE.md", "M0-A5-F1 human guide mismatch")
+    require(authority.get("closure_document") == "docs/M0-A5-F1-CROSS-PLATFORM-CANONICAL-REPORT-NORMALIZATION-WINDOWS-BYTE-EXACT-REPLAY-AND-FINAL-AUTHORITY-FREEZE.md", "M0-A5-F1 closure document mismatch")
+    require(authority.get("manual_review") == "conformance/M0-A5-F1-MANUAL-REVIEW.md", "M0-A5-F1 manual review mismatch")
+    require(authority.get("e14_adopted") is False, "M0-A5-F1 must not adopt E14")
+    require(authority.get("silent_retargeting_forbidden") is True, "M0-A5-F1 silent retargeting must remain forbidden")
+    for key in ("lineage", "e14_handoff", "human_mastery", "closure_document", "manual_review"):
+        confined_file(root, authority[key])
+
+
 def validate_adoption_profile(root: Path) -> None:
     profile_path = root / "EIGIIB.toml"
     try:
@@ -198,7 +263,7 @@ def validate_adoption_profile(root: Path) -> None:
 
     required = profile.get("required_authorities")
     require(isinstance(required, list), "required_authorities must be an array")
-    for authority in ("m0_a5_p1_lineage", "m0_a5_e14_handoff", "m0_a5_human_mastery"):
+    for authority in ("m0_a5_p1_lineage", "m0_a5_e14_handoff", "m0_a5_human_mastery", "m0_a5_f1_authority_freeze"):
         require(authority in required, f"missing required authority: {authority}")
 
     authorities = profile.get("authorities")
@@ -207,6 +272,7 @@ def validate_adoption_profile(root: Path) -> None:
         "m0_a5_p1_lineage": "conformance/m0-a5-p1-lineage.json",
         "m0_a5_e14_handoff": "conformance/m0-a5-e14-handoff.json",
         "m0_a5_human_mastery": "docs/M0-A5-HUMAN-MASTERY-GUIDE.md",
+        "m0_a5_f1_authority_freeze": EXPECTED_FREEZE_PATH,
     }
     for key, path in expected.items():
         require(authorities.get(key) == path, f"authority path mismatch: {key}")
@@ -222,6 +288,14 @@ def validate_adoption_profile(root: Path) -> None:
     require(gate.get("attestation") == "conformance/M0-A5-MANUAL-REVIEW.md", "M0-A5 attestation mismatch")
     confined_file(root, gate["attestation"])
 
+    freeze_matches = [g for g in gates if isinstance(g, dict) and g.get("id") == "m0-a5-f1-cross-platform-authority-freeze-review"]
+    require(len(freeze_matches) == 1, "M0-A5-F1 manual gate missing or duplicated")
+    freeze_gate = freeze_matches[0]
+    require(freeze_gate.get("status") == "complete", "M0-A5-F1 manual gate incomplete")
+    require(freeze_gate.get("authority") == "m0_a5_f1_authority_freeze", "M0-A5-F1 manual gate authority mismatch")
+    require(freeze_gate.get("attestation") == "conformance/M0-A5-F1-MANUAL-REVIEW.md", "M0-A5-F1 attestation mismatch")
+    confined_file(root, freeze_gate["attestation"])
+
 
 def validate(root: Path) -> dict:
     lineage = load_json(root / "conformance/m0-a5-p1-lineage.json")
@@ -230,7 +304,7 @@ def validate(root: Path) -> dict:
     validate_handoff(root, handoff)
     validate_adoption_profile(root)
 
-    return {
+    report = {
         "standard": "EIGIIB-M0-A5-CHECK-1.0",
         "overallResult": "conformant",
         "boundary": "canonical-p1-lineage-reference-only-authority-promotion-and-e14-design-handoff",
@@ -244,6 +318,8 @@ def validate(root: Path) -> dict:
         "e14Adopted": False,
         "humanMasteryGuide": "docs/M0-A5-HUMAN-MASTERY-GUIDE.md",
     }
+    validate_freeze(root, report)
+    return report
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -256,11 +332,11 @@ def main(argv: list[str] | None = None) -> int:
     except ValidationError as exc:
         print(f"M0-A5 validation failed: {exc}", file=sys.stderr)
         return 1
-    encoded = json.dumps(report, sort_keys=True, separators=(",", ":")) + "\n"
+    encoded = canonical_report_bytes(report)
     if args.output:
-        Path(args.output).write_text(encoded, encoding="utf-8")
+        write_canonical_report(Path(args.output), report)
     else:
-        sys.stdout.write(encoded)
+        sys.stdout.buffer.write(encoded)
     return 0
 
 
