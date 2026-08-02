@@ -5,16 +5,25 @@ import sys
 import unittest
 from pathlib import Path
 
-from jsonschema.exceptions import SchemaError, ValidationError
-
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 
 from eigiib_p1_a19_common import FIXTURE, load_json, validate_bundle
-from eigiib_p1_a19_schema import DRAFT_2020_12, validate_draft202012_instance
+
+try:
+    from jsonschema.exceptions import ValidationError
+    from eigiib_p1_a19_schema import DRAFT_2020_12, validate_draft202012_instance
+except ModuleNotFoundError:
+    JSONSCHEMA_AVAILABLE = False
+    DRAFT_2020_12 = None
+    ValidationError = Exception
+    validate_draft202012_instance = None
+else:
+    JSONSCHEMA_AVAILABLE = True
 
 SCHEMA = FIXTURE.parent.parent.parent / "schemas/eigiib-p1-a19-bundle.schema.json"
 
 
+@unittest.skipUnless(JSONSCHEMA_AVAILABLE, "P1-A19-F2 locked jsonschema environment is not installed")
 class P1A19F2SchemaTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
