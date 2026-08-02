@@ -30,31 +30,27 @@ jobs:
           import json
 
           workflow = Path('.github/workflows/eigiib.yml')
-          text = workflow.read_text(encoding='utf-8')
-          old = """      - name: EIGIIB E14-A5 independent verifier matrix
-                if: always()
-                run: |
-                  set -o pipefail
-                  python tools/eigiib_e14_release_matrix.py . --json | tee .eigiib-results/components/e14-a5-matrix.json
-              - name: EIGIIB M0-A2 aggregate conformance
-          """
-          new = """      - name: EIGIIB E14-A5-F1 portable authority rebinding conformance
-                if: always()
-                run: |
-                  set -o pipefail
-                  python tools/eigiib_e14_release_check.py . --json | tee .eigiib-results/components/e14-a5-f1.json
-              - name: EIGIIB E14-A5 independent verifier matrix
-                if: always()
-                run: |
-                  set -o pipefail
-                  python tools/eigiib_e14_release_matrix.py . --json | tee .eigiib-results/e14-a5-matrix.json
-              - name: EIGIIB M0-A2 aggregate conformance
-          """
-          if old not in text:
-              if new not in text:
-                  raise SystemExit('aggregate ordering block not found')
-          else:
-              workflow.write_text(text.replace(old, new), encoding='utf-8', newline='\n')
+          lines = workflow.read_text(encoding='utf-8').splitlines()
+          start_marker = '      - name: EIGIIB E14-A5 independent verifier matrix'
+          end_marker = '      - name: EIGIIB M0-A2 aggregate conformance'
+          f1_marker = '      - name: EIGIIB E14-A5-F1 portable authority rebinding conformance'
+          if f1_marker not in lines:
+              start = lines.index(start_marker)
+              end = lines.index(end_marker)
+              replacement = [
+                  f1_marker,
+                  '        if: always()',
+                  '        run: |',
+                  '          set -o pipefail',
+                  '          python tools/eigiib_e14_release_check.py . --json | tee .eigiib-results/components/e14-a5-f1.json',
+                  start_marker,
+                  '        if: always()',
+                  '        run: |',
+                  '          set -o pipefail',
+                  '          python tools/eigiib_e14_release_matrix.py . --json | tee .eigiib-results/e14-a5-matrix.json',
+              ]
+              lines[start:end] = replacement
+              workflow.write_text('\n'.join(lines) + '\n', encoding='utf-8', newline='\n')
 
           data = workflow.read_bytes()
           freeze_path = Path('conformance/e14-a5-authority-freeze.json')
