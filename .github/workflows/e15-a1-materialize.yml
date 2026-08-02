@@ -1,0 +1,56 @@
+name: E15-A1 bounded materialization
+
+on:
+  push:
+    branches:
+      - agent/e15-a1-historical-authority-continuity-delivery-intent-endpoint-carrier-binding
+    paths:
+      - 'conformance/.e15-a1-payload.b64'
+      - '.github/workflows/e15-a1-materialize.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: e15-a1-materialize
+  cancel-in-progress: false
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/e15-a1-historical-authority-continuity-delivery-intent-endpoint-carrier-binding
+          fetch-depth: 0
+      - name: Verify exact M0-A6 parent
+        shell: bash
+        run: git merge-base --is-ancestor 9cff4c1e392b6661af4b01e710f10342fe2ad402 HEAD
+      - name: Materialize bounded payload
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import base64, io, tarfile
+
+          payload = Path('conformance/.e15-a1-payload.b64')
+          raw = base64.b64decode(payload.read_text(encoding='ascii'), validate=True)
+          with tarfile.open(fileobj=io.BytesIO(raw), mode='r:gz') as archive:
+              members = archive.getmembers()
+              for member in members:
+                  path = PurePosixPath(member.name)
+                  if path.is_absolute() or '..' in path.parts or member.issym() or member.islnk():
+                      raise SystemExit(f'unsafe payload member: {member.name}')
+              archive.extractall('.', filter='data')
+          payload.unlink()
+          Path('.github/workflows/e15-a1-materialize.yml').unlink()
+          PY
+      - name: Commit bounded E15-A1 tree
+        shell: bash
+        run: |
+          git config user.name 'eigiib-ci'
+          git config user.email 'eigiib-ci@users.noreply.github.com'
+          git add -A
+          git diff --cached --name-status
+          git commit -m 'E15-A1: historical continuity and delivery-intent boundary'
+          git push origin HEAD:agent/e15-a1-historical-authority-continuity-delivery-intent-endpoint-carrier-binding
