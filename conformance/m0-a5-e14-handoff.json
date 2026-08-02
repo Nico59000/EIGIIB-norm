@@ -1,0 +1,65 @@
+{
+  "decision_vocabulary": [
+    "permit",
+    "deny",
+    "held",
+    "unavailable"
+  ],
+  "entry_gate": {
+    "authority_promotion": "complete",
+    "e14_normative_text": "not-created",
+    "e14_schema_and_checker": "not-created",
+    "human_control_documentation": "complete",
+    "lineage_inventory": "complete",
+    "readiness": "ready-for-design"
+  },
+  "input_contract": {
+    "authorized_audience": "named or typed relying-party scope permitted to receive the projection",
+    "correlation_controls": "declared identifiers, linkability limits and cross-context reuse constraints",
+    "cryptographic_commitment": "binding from disclosed view to the declared source evidence identity or commitment",
+    "disclosable_projection": "explicitly selected view derived from the full evidence object",
+    "disclosure_policy": "versioned rules that determine permitted fields, transformations and omissions",
+    "evaluation_context": "purpose, policy revision and operation context fixed before disclosure evaluation",
+    "full_evidence_artifact": "complete evidence object retained by its declared owner",
+    "revocation_state": "current declared revocation or withdrawal observation for evidence, policy and disclosure authorization"
+  },
+  "nonclaims": [
+    "anonymity",
+    "confidential-storage",
+    "long-term-cryptographic-validity",
+    "post-quantum-resistance",
+    "unlinkability",
+    "zero-knowledge"
+  ],
+  "required_inputs": [
+    "authorized_audience",
+    "correlation_controls",
+    "cryptographic_commitment",
+    "disclosable_projection",
+    "disclosure_policy",
+    "evaluation_context",
+    "full_evidence_artifact",
+    "revocation_state"
+  ],
+  "safety_rules": [
+    "a-permitted-source-claim-does-not-imply-disclosure-is-permitted",
+    "missing-required-input-cannot-be-promoted-to-permit",
+    "context-or-policy-change-requires-new-evaluation",
+    "projection-must-not-strengthen-source-claim",
+    "revoked-or-withdrawn-authority-cannot-be-silently-reused",
+    "every-crossing-must-preserve-source-identity-and-claim-boundary"
+  ],
+  "source_lineage": {
+    "authority": "conformance/m0-a5-p1-lineage.json",
+    "canonical_head_commit": "c1983e9f2e95879ee16c162075c8d72bc73d88f9",
+    "required_terminal_slice": "P1-A20"
+  },
+  "standard": "EIGIIB-M0-A5-E14-HANDOFF-1.0",
+  "status": "ready-for-e14-design-not-normatively-adopted",
+  "target": {
+    "adoption_state": "not-adopted",
+    "extension_file": null,
+    "identifier": "E14",
+    "working_title": "Confidential Evidence, Selective Disclosure and Information Minimization"
+  }
+}

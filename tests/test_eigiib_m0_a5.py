@@ -1,0 +1,136 @@
+from __future__ import annotations
+
+import importlib.util
+import json
+from pathlib import Path
+import tempfile
+import unittest
+
+
+MODULE_PATH = Path(__file__).resolve().parents[1] / "tools/eigiib_m0_a5_check.py"
+SPEC = importlib.util.spec_from_file_location("eigiib_m0_a5_check", MODULE_PATH)
+assert SPEC and SPEC.loader
+CHECK = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(CHECK)
+
+
+class M0A5Test(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        source_root = Path(__file__).resolve().parents[1]
+        for relative in (
+            "conformance/m0-a5-p1-lineage.json",
+            "conformance/m0-a5-e14-handoff.json",
+            "conformance/m0-a5-f1-authority-freeze.json",
+        ):
+            target = self.root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text((source_root / relative).read_text(encoding="utf-8"), encoding="utf-8")
+
+        fixture_relative = "tests/fixtures/m0-a5/expected-report.json"
+        fixture_target = self.root / fixture_relative
+        fixture_target.parent.mkdir(parents=True, exist_ok=True)
+        fixture_target.write_bytes((source_root / fixture_relative).read_bytes())
+
+        lineage = json.loads((self.root / "conformance/m0-a5-p1-lineage.json").read_text(encoding="utf-8"))
+        paths: set[str] = set()
+        for entry in lineage["slices"]:
+            paths.update((entry["document"], entry["state"], entry["manual_review"]))
+        for stage in lineage["embedded_staged_closures"]["P1-A7"]:
+            paths.update((stage["document"], stage["manual_review"]))
+        paths.update(
+            (
+                "docs/M0-A5-HUMAN-MASTERY-GUIDE.md",
+                "conformance/M0-A5-MANUAL-REVIEW.md",
+                "docs/M0-A5-F1-CROSS-PLATFORM-CANONICAL-REPORT-NORMALIZATION-WINDOWS-BYTE-EXACT-REPLAY-AND-FINAL-AUTHORITY-FREEZE.md",
+                "conformance/M0-A5-F1-MANUAL-REVIEW.md",
+            )
+        )
+        for relative in paths:
+            target = self.root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text("fixture\n", encoding="utf-8")
+
+        self.profile = """standard = "EIGIIB-1.0"
+extensions = ["E13-1.0"]
+required_authorities = ["m0_a5_p1_lineage", "m0_a5_e14_handoff", "m0_a5_human_mastery", "m0_a5_f1_authority_freeze"]
+
+[authorities]
+m0_a5_p1_lineage = "conformance/m0-a5-p1-lineage.json"
+m0_a5_e14_handoff = "conformance/m0-a5-e14-handoff.json"
+m0_a5_human_mastery = "docs/M0-A5-HUMAN-MASTERY-GUIDE.md"
+m0_a5_f1_authority_freeze = "conformance/m0-a5-f1-authority-freeze.json"
+
+[[manual_gates]]
+id = "m0-a5-lineage-e14-handoff-review"
+status = "complete"
+authority = "m0_a5_p1_lineage"
+attestation = "conformance/M0-A5-MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "m0-a5-f1-cross-platform-authority-freeze-review"
+status = "complete"
+authority = "m0_a5_f1_authority_freeze"
+attestation = "conformance/M0-A5-F1-MANUAL-REVIEW.md"
+"""
+        (self.root / "EIGIIB.toml").write_text(self.profile, encoding="utf-8")
+
+    def tearDown(self) -> None:
+        self.temp.cleanup()
+
+    def test_conformant_registry_and_handoff(self) -> None:
+        report = CHECK.validate(self.root)
+        expected = json.loads(
+            (Path(__file__).resolve().parent / "fixtures/m0-a5/expected-report.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(report, expected)
+
+    def test_canonical_head_substitution_is_rejected(self) -> None:
+        path = self.root / "conformance/m0-a5-p1-lineage.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        data["canonical"]["head_commit"] = "0" * 40
+        path.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaisesRegex(CHECK.ValidationError, "canonical head mismatch"):
+            CHECK.validate(self.root)
+
+    def test_missing_required_e14_input_is_rejected(self) -> None:
+        path = self.root / "conformance/m0-a5-e14-handoff.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        data["required_inputs"].remove("revocation_state")
+        path.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaisesRegex(CHECK.ValidationError, "E14 input set"):
+            CHECK.validate(self.root)
+
+    def test_premature_e14_adoption_is_rejected(self) -> None:
+        (self.root / "EIGIIB.toml").write_text(self.profile.replace('["E13-1.0"]', '["E13-1.0", "E14-1.0"]'), encoding="utf-8")
+        with self.assertRaisesRegex(CHECK.ValidationError, "prematurely adopted"):
+            CHECK.validate(self.root)
+
+    def test_canonical_report_writer_is_byte_exact(self) -> None:
+        report = CHECK.validate(self.root)
+        output = self.root / "actual-report.json"
+        CHECK.write_canonical_report(output, report)
+        expected = (Path(__file__).resolve().parent / "fixtures/m0-a5/expected-report.json").read_bytes()
+        actual = output.read_bytes()
+        self.assertEqual(actual, expected)
+        self.assertNotIn(b"\r", actual)
+        self.assertTrue(actual.endswith(b"\n"))
+
+    def test_carriage_return_fixture_is_rejected(self) -> None:
+        fixture = self.root / "tests/fixtures/m0-a5/expected-report.json"
+        fixture.write_bytes(fixture.read_bytes().replace(b"\n", b"\r\n"))
+        with self.assertRaisesRegex(CHECK.ValidationError, "byte length changed|carriage returns"):
+            CHECK.validate(self.root)
+
+    def test_authority_freeze_digest_substitution_is_rejected(self) -> None:
+        path = self.root / "conformance/m0-a5-f1-authority-freeze.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        data["canonical_report"]["sha256"] = "0" * 64
+        path.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaisesRegex(CHECK.ValidationError, "report digest mismatch"):
+            CHECK.validate(self.root)
+
+
+if __name__ == "__main__":
+    unittest.main()
