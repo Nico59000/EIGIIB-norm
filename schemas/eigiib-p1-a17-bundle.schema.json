@@ -1,0 +1,154 @@
+{
+  "$id": "https://eigiib.example/schemas/p1-a17-bundle.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary": {},
+        "capturedAt": {},
+        "decisions": {},
+        "primaryLocation": {},
+        "recoveryLocation": {},
+        "restoreReplay": {},
+        "retentionPolicy": {},
+        "sourceP1A16": {},
+        "standard": {}
+      },
+      "required": [
+        "boundary",
+        "capturedAt",
+        "decisions",
+        "primaryLocation",
+        "recoveryLocation",
+        "restoreReplay",
+        "retentionPolicy",
+        "sourceP1A16",
+        "standard"
+      ],
+      "type": "object"
+    },
+    "finalCapsule": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "Ed25519"
+        },
+        "keyId": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        },
+        "standard": {
+          "const": "EIGIIB-P1-A17-CAPSULE-1.0"
+        }
+      },
+      "required": [
+        "standard",
+        "algorithm",
+        "keyId",
+        "payload",
+        "signature"
+      ],
+      "type": "object"
+    },
+    "restoreManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "assets": {},
+        "boundary": {},
+        "protectedObjectSetSha256": {},
+        "protectedObjects": {},
+        "recoveryRelease": {},
+        "retentionPolicy": {},
+        "sourceP1A16": {},
+        "standard": {}
+      },
+      "required": [
+        "assets",
+        "boundary",
+        "protectedObjectSetSha256",
+        "protectedObjects",
+        "recoveryRelease",
+        "retentionPolicy",
+        "sourceP1A16",
+        "standard"
+      ],
+      "type": "object"
+    },
+    "retentionCapsule": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "Ed25519"
+        },
+        "keyId": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        },
+        "standard": {
+          "const": "EIGIIB-P1-A17-RETENTION-CAPSULE-1.0"
+        }
+      },
+      "required": [
+        "standard",
+        "algorithm",
+        "keyId",
+        "payload",
+        "signature"
+      ],
+      "type": "object"
+    },
+    "retentionPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary": {},
+        "claims": {},
+        "deletionPreconditions": {},
+        "effectiveAt": {},
+        "locations": {},
+        "minimumRetentionDays": {},
+        "policyId": {},
+        "protectedObjectSet": {},
+        "requiredLocationCount": {},
+        "restoreAuditIntervalDays": {},
+        "sourceP1A16": {},
+        "standard": {}
+      },
+      "required": [
+        "boundary",
+        "claims",
+        "deletionPreconditions",
+        "effectiveAt",
+        "locations",
+        "minimumRetentionDays",
+        "policyId",
+        "protectedObjectSet",
+        "requiredLocationCount",
+        "restoreAuditIntervalDays",
+        "sourceP1A16",
+        "standard"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "evidence",
+    "retentionPolicy",
+    "retentionCapsule",
+    "restoreManifest",
+    "finalCapsule"
+  ],
+  "title": "EIGIIB P1-A17 closed artifact schemas",
+  "type": "object"
+}
