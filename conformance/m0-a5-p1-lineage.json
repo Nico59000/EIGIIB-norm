@@ -1,0 +1,353 @@
+{
+  "canonical": {
+    "branch": "agent/p1-a20-registered-runner-admission-toolchain-succession-compatibility-rollback",
+    "default_branch_relation": {
+      "authority": "informational-observation-not-canonical-pointer",
+      "branch": "main",
+      "observed_commit": "b0f4ec77000c0d4dd49915d78d0ab23946da4031",
+      "relation_at_m0_a5_authoring": "ancestor-behind-canonical-p1-head"
+    },
+    "head_commit": "c1983e9f2e95879ee16c162075c8d72bc73d88f9",
+    "head_slice": "P1-A20",
+    "promotion_rule": "exact-commit-and-path-reference-only"
+  },
+  "embedded_staged_closures": {
+    "P1-A7": [
+      {
+        "commit_binding": "transitively-frozen-by-p1-a7.7",
+        "document": "docs/P1-A7-DIFFERENTIAL-NEGATIVE-CORPUS-AND-PARSER-AMBIGUITY-CLOSURE.md",
+        "id": "P1-A7.1",
+        "manual_review": "conformance/P1-A7.1-MANUAL-REVIEW.md"
+      },
+      {
+        "commit_binding": "transitively-frozen-by-p1-a7.7",
+        "document": "docs/P1-A7.2-PORTABLE-ERROR-ADAPTERS-AND-FIRST-ROUTE-REPLAY.md",
+        "id": "P1-A7.2",
+        "manual_review": "conformance/P1-A7.2-MANUAL-REVIEW.md"
+      },
+      {
+        "commit_binding": "transitively-frozen-by-p1-a7.7",
+        "document": "docs/P1-A7.3-IDENTITY-PROJECTION-PRECEDENCE-AND-STRUCTURAL-REPLAY.md",
+        "id": "P1-A7.3",
+        "manual_review": "conformance/P1-A7.3-MANUAL-REVIEW.md"
+      },
+      {
+        "commit_binding": "transitively-frozen-by-p1-a7.7",
+        "document": "docs/P1-A7.4-MANIFEST-DSSE-AND-SIGNATURE-CARRIER-NEGATIVE-REPLAY.md",
+        "id": "P1-A7.4",
+        "manual_review": "conformance/P1-A7.4-MANUAL-REVIEW.md"
+      },
+      {
+        "commit_binding": "transitively-frozen-by-p1-a7.7",
+        "document": "docs/P1-A7.5-DETERMINISTIC-CBOR-AND-COSE-HEADER-NEGATIVE-REPLAY.md",
+        "id": "P1-A7.5",
+        "manual_review": "conformance/P1-A7.5-MANUAL-REVIEW.md"
+      },
+      {
+        "commit": "5e652647ab40d55c1041a2b4a4432931a62e95e8",
+        "commit_binding": "exact-source-commit",
+        "document": "docs/P1-A7.6-RECEIPT-DETACHED-BINDING-PROOF-COORDINATES-AND-ROOT-NEGATIVE-REPLAY.md",
+        "id": "P1-A7.6",
+        "manual_review": "conformance/P1-A7.6-MANUAL-REVIEW.md"
+      },
+      {
+        "commit": "a478bda55bb88bb3fa611e3ae52a9ce880d2243b",
+        "commit_binding": "exact-head-commit",
+        "document": "docs/P1-A7.7-FULL-CORPUS-FREEZE-CROSS-PLATFORM-REPRODUCIBILITY-AND-AUTHORITY-REGISTRATION.md",
+        "id": "P1-A7.7",
+        "manual_review": "conformance/P1-A7.7-MANUAL-REVIEW.md"
+      }
+    ]
+  },
+  "governance": {
+    "branch_name_is_sufficient_authority": false,
+    "content_owners_remain_slice_documents_and_state_files": true,
+    "exact_commit_is_required": true,
+    "pr_state_is_authority": false,
+    "silent_retargeting_forbidden": true
+  },
+  "nonclaims": [
+    "main-is-current-canonical-p1-head",
+    "closed-pull-request-means-proof-invalid",
+    "branch-name-alone-identifies-authority",
+    "p1-is-a-numbered-eigiib-extension",
+    "e14-is-normatively-adopted"
+  ],
+  "slices": [
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": null,
+      "commit_span": "p1-root",
+      "crossing": "portable-attestation-capsule",
+      "document": "docs/P1-A1-IN-TOTO-ATTESTATION-CAPSULE.md",
+      "head_commit": "7c0e8c24562a96eab7323c66cf53a8c3da8ec171",
+      "id": "P1-A1",
+      "manual_review": "conformance/P1-A1-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a1-in-toto.json",
+      "title": "in-toto Attestation Capsule and EIGIIB Claim-Boundary Preservation"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "7c0e8c24562a96eab7323c66cf53a8c3da8ec171",
+      "commit_span": "single-child",
+      "crossing": "authenticated-carrier",
+      "document": "docs/P1-A2-SIGSTORE-SIGNED-BUNDLE-CAPSULE.md",
+      "head_commit": "7062f67d31037401e892eb0237a775d3a4b18ca0",
+      "id": "P1-A2",
+      "manual_review": "conformance/P1-A2-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a2-sigstore.json",
+      "title": "Sigstore Signed Bundle Capsule and Authenticated Carrier Binding"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "7062f67d31037401e892eb0237a775d3a4b18ca0",
+      "commit_span": "single-child",
+      "crossing": "transparency-receipt-carrier",
+      "document": "docs/P1-A3-SCITT-TRANSPARENCY-REGISTRATION-CAPSULE.md",
+      "head_commit": "c9ee247fe38f8b4e90d083f3bea4c92d50ad664d",
+      "id": "P1-A3",
+      "manual_review": "conformance/P1-A3-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a3-scitt.json",
+      "title": "SCITT Transparency Registration Capsule and Receipt-Bound Evidence"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "c9ee247fe38f8b4e90d083f3bea4c92d50ad664d",
+      "commit_span": "single-child",
+      "crossing": "cross-capsule-chain",
+      "document": "docs/P1-A4-END-TO-END-INTEROPERABILITY-CHAIN.md",
+      "head_commit": "3592b245f871cff8ced88657012abf807b4c3d03",
+      "id": "P1-A4",
+      "manual_review": "conformance/P1-A4-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a4-chain.json",
+      "title": "End-to-End Interoperability Chain and Cross-Capsule Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "3592b245f871cff8ced88657012abf807b4c3d03",
+      "commit_span": "single-child",
+      "crossing": "independent-verifier",
+      "document": "docs/P1-A5-INDEPENDENT-VERIFIER-MATRIX.md",
+      "head_commit": "6cfb1ab89aa5065b87059171720b3f83230afc2d",
+      "id": "P1-A5",
+      "manual_review": "conformance/P1-A5-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a5-verifier-matrix.json",
+      "title": "Independent Verifier Matrix and Cross-Platform Differential Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "6cfb1ab89aa5065b87059171720b3f83230afc2d",
+      "commit_span": "single-child",
+      "crossing": "external-native-verifier",
+      "document": "docs/P1-A6-EXTERNAL-NATIVE-VERIFIER-BRIDGE.md",
+      "head_commit": "784fdf48bdc9a5c733735da049a8c87022c87b1b",
+      "id": "P1-A6",
+      "manual_review": "conformance/P1-A6-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a6-external-native.json",
+      "title": "External Native Verifier Bridge"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "784fdf48bdc9a5c733735da049a8c87022c87b1b",
+      "commit_span": "35-commit-staged-closure",
+      "crossing": "adversarial-parser-and-authority-freeze",
+      "document": "docs/P1-A7-DIFFERENTIAL-NEGATIVE-CORPUS-AND-PARSER-AMBIGUITY-CLOSURE.md",
+      "head_commit": "a478bda55bb88bb3fa611e3ae52a9ce880d2243b",
+      "id": "P1-A7",
+      "manual_review": "conformance/P1-A7.7-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a7-authority.json",
+      "title": "Differential Negative Corpus, Parser Ambiguity Closure and Full-Corpus Authority Freeze"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "a478bda55bb88bb3fa611e3ae52a9ce880d2243b",
+      "commit_span": "single-child",
+      "crossing": "distribution-bundle",
+      "document": "docs/P1-A8-EXACT-DISTRIBUTION-BUNDLE-RELEASE-DIGESTS-AND-INDEPENDENT-PUBLICATION-REPLAY.md",
+      "head_commit": "7a7a4ece20a5f03029e24c5ab7e7685cab15d7c3",
+      "id": "P1-A8",
+      "manual_review": "conformance/P1-A8-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a8-distribution.json",
+      "title": "Exact Distribution Bundle, Release Digests and Independent Publication Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "7a7a4ece20a5f03029e24c5ab7e7685cab15d7c3",
+      "commit_span": "single-child",
+      "crossing": "authenticated-release",
+      "document": "docs/P1-A9-AUTHENTICATED-RELEASE-ENVELOPE-TRANSPARENCY-REGISTRATION-AND-SUPERSESSION-REPLAY.md",
+      "head_commit": "d854ab836a9cdf23f88f23d620e1d61fd6bfcdf6",
+      "id": "P1-A9",
+      "manual_review": "conformance/P1-A9-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a9-release.json",
+      "title": "Authenticated Release Envelope, Transparency Registration and Supersession Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "d854ab836a9cdf23f88f23d620e1d61fd6bfcdf6",
+      "commit_span": "single-child",
+      "crossing": "delegated-release-authorization",
+      "document": "docs/P1-A10-DELEGATED-RELEASE-AUTHORIZATION-THRESHOLD-APPROVAL-AND-REVOCATION-REPLAY.md",
+      "head_commit": "d2fcb409c93f88e41c1ce084aa29baffc1809581",
+      "id": "P1-A10",
+      "manual_review": "conformance/P1-A10-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a10-authorization.json",
+      "title": "Delegated Release Authorization, Threshold Approval and Revocation Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "d2fcb409c93f88e41c1ce084aa29baffc1809581",
+      "commit_span": "single-child",
+      "crossing": "trusted-time-window",
+      "document": "docs/P1-A11-TRUSTED-TIMESTAMP-AUTHORITY-VALIDITY-WINDOWS-CLOCK-ROLLBACK-AND-EXPIRY-REPLAY.md",
+      "head_commit": "356949456e8d4084ce317f45f5912522150ecd97",
+      "id": "P1-A11",
+      "manual_review": "conformance/P1-A11-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a11-time.json",
+      "title": "Trusted Timestamp Authority, Validity Windows, Clock Rollback and Expiry Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "356949456e8d4084ce317f45f5912522150ecd97",
+      "commit_span": "single-child",
+      "crossing": "trusted-transparency-service",
+      "document": "docs/P1-A12-TRANSPARENCY-SERVICE-TRUST-WITNESS-QUORUM-CONSISTENCY-AND-EQUIVOCATION-REPLAY.md",
+      "head_commit": "286c17db08911ae22202aa30c90cac10dc3c61b8",
+      "id": "P1-A12",
+      "manual_review": "conformance/P1-A12-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a12-transparency.json",
+      "title": "Transparency Service Trust, Witness Quorum, Consistency and Equivocation Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "286c17db08911ae22202aa30c90cac10dc3c61b8",
+      "commit_span": "single-child",
+      "crossing": "revocation-and-withdrawal",
+      "document": "docs/P1-A13-CONTENT-REVOCATION-DISTRIBUTION-WITHDRAWAL-AND-ANTI-ROLLBACK-REPLAY.md",
+      "head_commit": "077634971f2c16f3f74eb4c6c5b75aa7099bee55",
+      "id": "P1-A13",
+      "manual_review": "conformance/P1-A13-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a13-revocation.json",
+      "title": "Content Revocation, Distribution Withdrawal and Anti-Rollback Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "077634971f2c16f3f74eb4c6c5b75aa7099bee55",
+      "commit_span": "single-child",
+      "crossing": "remediation-and-fixed-release",
+      "document": "docs/P1-A14-ADVISORY-BINDING-REMEDIATION-LINEAGE-AND-FIXED-RELEASE-REPLAY.md",
+      "head_commit": "586784811f1139349141728c6db966f7f54459a1",
+      "id": "P1-A14",
+      "manual_review": "conformance/P1-A14-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a14-remediation.json",
+      "title": "Advisory Binding, Remediation Lineage and Fixed Release Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "586784811f1139349141728c6db966f7f54459a1",
+      "commit_span": "single-child",
+      "crossing": "live-github-release-egress-readback",
+      "document": "docs/P1-A15-LIVE-GITHUB-RELEASE-IMMUTABLE-ASSET-IDENTITY-AND-API-READBACK-REPLAY.md",
+      "head_commit": "461412075d97d9b8a8202e89fc3a9da3b6743f1b",
+      "id": "P1-A15",
+      "manual_review": "conformance/P1-A15-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a15-live-release.json",
+      "title": "Live GitHub Release, Immutable Asset Identity and API Readback Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "461412075d97d9b8a8202e89fc3a9da3b6743f1b",
+      "commit_span": "single-child",
+      "crossing": "external-registry-egress-readback",
+      "document": "docs/P1-A16-EXTERNAL-REGISTRY-PUBLICATION-CROSS-REGISTRY-DIGEST-IDENTITY-AND-READBACK-REPLAY.md",
+      "head_commit": "020cbfc29aaeccb51606021669b7f381f2ec00f6",
+      "id": "P1-A16",
+      "manual_review": "conformance/P1-A16-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a16-external-registry.json",
+      "title": "External Registry Publication, Cross-Registry Digest Identity and Readback Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "020cbfc29aaeccb51606021669b7f381f2ec00f6",
+      "commit_span": "single-child",
+      "crossing": "replication-retention-restore",
+      "document": "docs/P1-A17-REPLICATION-RETENTION-POLICY-RESTORE-VERIFICATION-AND-DURABLE-AVAILABILITY-REPLAY.md",
+      "head_commit": "2e2ea29ac61787cb62c22f7db828766257af4c01",
+      "id": "P1-A17",
+      "manual_review": "conformance/P1-A17-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a17-durable-availability.json",
+      "title": "Replication, Retention Policy, Restore Verification and Durable Availability Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "2e2ea29ac61787cb62c22f7db828766257af4c01",
+      "commit_span": "single-child",
+      "crossing": "release-governance",
+      "document": "docs/P1-A18-DEPLOYED-RELEASE-GOVERNANCE-SEPARATION-OF-DUTIES-AND-EMERGENCY-OVERRIDE-REPLAY.md",
+      "head_commit": "be2eda2c9a86c703c6d486599d1062143c228ca9",
+      "id": "P1-A18",
+      "manual_review": "conformance/P1-A18-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a18-governance.json",
+      "title": "Deployed Release Governance, Separation of Duties and Emergency Override Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "be2eda2c9a86c703c6d486599d1062143c228ca9",
+      "commit_span": "single-child",
+      "crossing": "registered-profile-negotiation",
+      "document": "docs/P1-A19-REGISTERED-PROFILE-INTEROPERABILITY-CAPABILITY-NEGOTIATION-AND-CROSS-IMPLEMENTATION-DIFFERENTIAL-REPLAY.md",
+      "head_commit": "d791f780bc97d70e8f97e5165d3c86dc4a90fddf",
+      "id": "P1-A19",
+      "manual_review": "conformance/P1-A19-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a19-interoperability.json",
+      "title": "Registered Profile Interoperability, Capability Negotiation and Differential Replay"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "d791f780bc97d70e8f97e5165d3c86dc4a90fddf",
+      "commit_span": "single-child",
+      "crossing": "closed-schema-enforcement",
+      "document": "docs/P1-A19-F2-DRAFT-2020-12-CLOSED-SCHEMA-ENFORCEMENT-AND-REVIEW-CLOSURE.md",
+      "head_commit": "66b25d4f27ded3e273922f9fdcf80b9c88c8c808",
+      "id": "P1-A19-F2",
+      "manual_review": "conformance/P1-A19-F2-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a19-f2-schema-enforcement.json",
+      "title": "Draft 2020-12 Closed Schema Enforcement and Review Closure"
+    },
+    {
+      "authority_mode": "reference-not-copy",
+      "base_commit": "66b25d4f27ded3e273922f9fdcf80b9c88c8c808",
+      "commit_span": "single-child",
+      "crossing": "registered-runner-and-toolchain-admission",
+      "document": "docs/P1-A20-REGISTERED-RUNNER-ADMISSION-TOOLCHAIN-SUCCESSION-COMPATIBILITY-WINDOWS-AND-ROLLBACK-REPLAY.md",
+      "head_commit": "c1983e9f2e95879ee16c162075c8d72bc73d88f9",
+      "id": "P1-A20",
+      "manual_review": "conformance/P1-A20-MANUAL-REVIEW.md",
+      "promotion_status": "promoted-by-m0-a5-index",
+      "state": "conformance/p1-a20-runner-toolchain.json",
+      "title": "Registered Runner Admission, Toolchain Succession, Compatibility Windows and Rollback Replay"
+    }
+  ],
+  "standard": "EIGIIB-M0-A5-P1-LINEAGE-1.0",
+  "status": "canonical-p1-lineage-promoted"
+}
