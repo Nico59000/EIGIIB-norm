@@ -1,0 +1,118 @@
+{
+  "$defs": {
+    "emergency": {
+      "additionalProperties": false,
+      "properties": {
+        "override": {
+          "$ref": "#/$defs/signed"
+        },
+        "promotion": {
+          "$ref": "#/$defs/signed"
+        },
+        "review": {
+          "$ref": "#/$defs/signed"
+        }
+      },
+      "required": [
+        "override",
+        "promotion",
+        "review"
+      ],
+      "type": "object"
+    },
+    "normal": {
+      "additionalProperties": false,
+      "properties": {
+        "approvals": {
+          "items": {
+            "$ref": "#/$defs/signed"
+          },
+          "minItems": 2,
+          "type": "array"
+        },
+        "promotion": {
+          "$ref": "#/$defs/signed"
+        },
+        "request": {
+          "$ref": "#/$defs/signed"
+        }
+      },
+      "required": [
+        "request",
+        "approvals",
+        "promotion"
+      ],
+      "type": "object"
+    },
+    "signature": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "Ed25519"
+        },
+        "keyId": {
+          "type": "string"
+        },
+        "payloadSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "signatureBase64": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "algorithm",
+        "keyId",
+        "payloadSha256",
+        "signatureBase64"
+      ],
+      "type": "object"
+    },
+    "signed": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "type": "object"
+        },
+        "signature": {
+          "$ref": "#/$defs/signature"
+        }
+      },
+      "required": [
+        "payload",
+        "signature"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a18-bundle.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "boundary": {
+      "const": "workflow-executed-fixture-production-governance-sod-and-reviewed-emergency-override-closure"
+    },
+    "emergency": {
+      "$ref": "#/$defs/emergency"
+    },
+    "normal": {
+      "$ref": "#/$defs/normal"
+    },
+    "policy": {
+      "$ref": "#/$defs/signed"
+    },
+    "standard": {
+      "const": "EIGIIB-P1-A18-BUNDLE-1.0"
+    }
+  },
+  "required": [
+    "standard",
+    "policy",
+    "normal",
+    "emergency",
+    "boundary"
+  ],
+  "title": "EIGIIB P1-A18 governance bundle",
+  "type": "object"
+}
