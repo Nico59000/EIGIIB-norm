@@ -1,0 +1,40 @@
+name: E14-A3 correlation control and linkability replay
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  correlation-control:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13'
+      - name: Unit tests
+        run: python -m unittest tests/test_eigiib_correlation_control.py
+      - name: Structural registry
+        shell: bash
+        run: |
+          python tools/eigiib_correlation_control_check.py . --json > actual-e14-a3-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected=json.loads(Path('tests/fixtures/e14-a3/expected-report.json').read_text(encoding='utf-8'))
+          actual=json.loads(Path('actual-e14-a3-report.json').read_text(encoding='utf-8'))
+          assert actual == expected, (actual, expected)
+          PY
+      - name: Schemas and profile
+        run: python -c "import json,tomllib,pathlib; json.loads(pathlib.Path('schemas/eigiib-e14-a3-correlation-control.schema.json').read_text(encoding='utf-8')); tomllib.loads(pathlib.Path('EIGIIB.toml').read_text(encoding='utf-8'))"
+      - name: Exact E14-A2 ancestry
+        shell: bash
+        run: git merge-base --is-ancestor 46034359357830a418ca0f0a9167109c28400780 HEAD
