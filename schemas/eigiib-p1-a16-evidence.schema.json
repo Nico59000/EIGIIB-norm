@@ -1,0 +1,269 @@
+{
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a16-evidence.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "boundary": {
+      "const": "named-ghcr-oci-publication-cross-registry-digest-readback-closure"
+    },
+    "capturedAt": {
+      "const": "2026-08-02T00:23:59Z"
+    },
+    "decisions": {
+      "additionalProperties": false,
+      "properties": {
+        "authenticatedRegistryReadback": {
+          "const": "conformant"
+        },
+        "crossRegistryDigestIdentity": {
+          "const": "conformant-for-closed-three-asset-set"
+        },
+        "durableRetention": {
+          "const": "not-claimed"
+        },
+        "externalRegistryPublication": {
+          "const": "conformant-for-named-ghcr-oci-repository-scope"
+        },
+        "productionAuthorization": {
+          "const": "not-claimed"
+        },
+        "publicRegistryReadback": {
+          "const": "conformant"
+        },
+        "registryAdministrativeImmutability": {
+          "const": "not-claimed"
+        },
+        "tagToManifestBinding": {
+          "const": "conformant-at-capture-time"
+        },
+        "universalInteroperability": {
+          "const": "not-claimed"
+        }
+      },
+      "required": [
+        "authenticatedRegistryReadback",
+        "crossRegistryDigestIdentity",
+        "durableRetention",
+        "externalRegistryPublication",
+        "productionAuthorization",
+        "publicRegistryReadback",
+        "registryAdministrativeImmutability",
+        "tagToManifestBinding",
+        "universalInteroperability"
+      ],
+      "type": "object"
+    },
+    "registry": {
+      "additionalProperties": false,
+      "properties": {
+        "artifactType": {
+          "const": "application/vnd.eigiib.cross-registry-release-set.v1"
+        },
+        "config": {
+          "additionalProperties": false,
+          "properties": {
+            "digest": {
+              "const": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+            },
+            "mediaType": {
+              "const": "application/vnd.oci.empty.v1+json"
+            },
+            "size": {
+              "const": 2
+            }
+          },
+          "required": [
+            "digest",
+            "mediaType",
+            "size"
+          ],
+          "type": "object"
+        },
+        "host": {
+          "const": "ghcr.io"
+        },
+        "layers": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "authenticatedRegistryContentDigest": {
+                "type": [
+                  "null",
+                  "string"
+                ]
+              },
+              "authenticatedRegistrySha256": {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              },
+              "digest": {
+                "pattern": "sha256:[0-9a-f]{64}",
+                "type": "string"
+              },
+              "githubReleaseSha256": {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              },
+              "mediaType": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "publicRegistryContentDigest": {
+                "type": [
+                  "null",
+                  "string"
+                ]
+              },
+              "publicRegistrySha256": {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              },
+              "size": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "authenticatedRegistryContentDigest",
+              "authenticatedRegistrySha256",
+              "digest",
+              "githubReleaseSha256",
+              "mediaType",
+              "name",
+              "publicRegistryContentDigest",
+              "publicRegistrySha256",
+              "size"
+            ],
+            "type": "object"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "manifestDigest": {
+          "const": "sha256:cf0f9735cc1711cd45a242ac3c1c27185b738ae353f491cd58a5746dbf8a66d8"
+        },
+        "manifestMediaType": {
+          "const": "application/vnd.oci.image.manifest.v1+json"
+        },
+        "manifestSize": {
+          "const": 1493
+        },
+        "publicTagListing": {
+          "items": {
+            "const": "p1-a16-fixture-v1"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "repository": {
+          "const": "nico59000/eigiib-norm-p1-a16"
+        },
+        "tag": {
+          "const": "p1-a16-fixture-v1"
+        }
+      },
+      "required": [
+        "artifactType",
+        "config",
+        "host",
+        "layers",
+        "manifestDigest",
+        "manifestMediaType",
+        "manifestSize",
+        "publicTagListing",
+        "repository",
+        "tag"
+      ],
+      "type": "object"
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "assets": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "apiDigest": {
+                "pattern": "sha256:[0-9a-f]{64}",
+                "type": "string"
+              },
+              "assetId": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "authenticatedDownloadSha256": {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "publicDownloadSha256": {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              },
+              "sha256": {
+                "pattern": "[0-9a-f]{64}",
+                "type": "string"
+              },
+              "size": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "apiDigest",
+              "assetId",
+              "authenticatedDownloadSha256",
+              "name",
+              "publicDownloadSha256",
+              "sha256",
+              "size"
+            ],
+            "type": "object"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "commit": {
+          "const": "461412075d97d9b8a8202e89fc3a9da3b6743f1b"
+        },
+        "releaseId": {
+          "const": 363652216
+        },
+        "releaseTag": {
+          "const": "eigiib-p1-a15-live-fixture-v2"
+        },
+        "repository": {
+          "const": "Nico59000/EIGIIB-norm"
+        }
+      },
+      "required": [
+        "assets",
+        "commit",
+        "releaseId",
+        "releaseTag",
+        "repository"
+      ],
+      "type": "object"
+    },
+    "standard": {
+      "const": "EIGIIB-P1-A16"
+    }
+  },
+  "required": [
+    "boundary",
+    "capturedAt",
+    "decisions",
+    "registry",
+    "source",
+    "standard"
+  ],
+  "type": "object"
+}
