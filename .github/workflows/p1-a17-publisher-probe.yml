@@ -31,6 +31,25 @@ jobs:
           gh --version
           openssl version
           python tools/eigiib_p1_a17_publish_probe.py
+      - name: Export exact live fixtures
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p exact-live
+          cp tests/fixtures/p1-a17/live-durability-evidence.json exact-live/
+          gh release download eigiib-p1-a17-recovery-v1 \
+            --repo Nico59000/EIGIIB-norm \
+            --pattern eigiib-p1-a17-restore-manifest.json \
+            --dir exact-live
+          sha256sum exact-live/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p1-a17-exact-live-fixtures
+          path: exact-live
+          if-no-files-found: error
+          retention-days: 1
       - name: Persist captured evidence on probe branch
         shell: bash
         run: |
