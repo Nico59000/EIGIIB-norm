@@ -1,0 +1,76 @@
+name: E15-A2 bounded materialization
+
+on:
+  push:
+    branches:
+      - agent/e15-a2-transfer-attempt-external-delivery-evidence-recipient-acknowledgement
+    paths:
+      - 'conformance/.e15-a2-payload.part*'
+      - '.github/workflows/e15-a2-materialize.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: e15-a2-materialize
+  cancel-in-progress: false
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/e15-a2-transfer-attempt-external-delivery-evidence-recipient-acknowledgement
+          fetch-depth: 0
+      - name: Verify exact E15-A1 parent
+        shell: bash
+        run: git merge-base --is-ancestor ca0dfde0efcee975ef4957f604d4954b6de07e01 HEAD
+      - name: Materialize bounded non-workflow payload
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import base64, hashlib, io, tarfile
+
+          expected_parts = [f'.e15-a2-payload.part{i:02d}' for i in range(5)]
+          parts = sorted(Path('conformance').glob('.e15-a2-payload.part*'))
+          if [p.name for p in parts] != expected_parts:
+              raise SystemExit('payload part set mismatch')
+          encoded = ''.join(p.read_text(encoding='ascii') for p in parts)
+          if len(encoded) != 28456:
+              raise SystemExit('payload encoded length mismatch')
+          if hashlib.sha256(encoded.encode('ascii')).hexdigest() != '01bd0aef1e1ce8f8064b9fec5626619bdb77ab0f6aa0c0eadd731be73dabdb6c':
+              raise SystemExit('payload encoded digest mismatch')
+          raw = base64.b64decode(encoded, validate=True)
+          if hashlib.sha256(raw).hexdigest() != '217bd4de0269da632c0090b7b61ccc6a3f11e6c1db36063268e65eac6143cd71':
+              raise SystemExit('payload archive digest mismatch')
+          expected_members = {
+              'EIGIIB.toml',
+              'conformance/e15-a2-authority-freeze.json',
+              'conformance/extension-graph.json',
+              'extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md',
+              'tests/test_eigiib_delivery_evidence.py',
+              'tools/eigiib_delivery_evidence_check.py',
+          }
+          with tarfile.open(fileobj=io.BytesIO(raw), mode='r:gz') as archive:
+              members = archive.getmembers()
+              if {member.name for member in members} != expected_members:
+                  raise SystemExit('payload member set mismatch')
+              for member in members:
+                  path = PurePosixPath(member.name)
+                  if path.is_absolute() or '..' in path.parts or member.issym() or member.islnk():
+                      raise SystemExit(f'unsafe payload member: {member.name}')
+              archive.extractall('.', filter='data')
+          for part in parts:
+              part.unlink()
+          PY
+      - name: Commit bounded E15-A2 authorities
+        shell: bash
+        run: |
+          git config user.name 'eigiib-ci'
+          git config user.email 'eigiib-ci@users.noreply.github.com'
+          git add -A
+          git diff --cached --name-status
+          git commit -m 'E15-A2: transfer evidence and acknowledgement authorities'
+          git push origin HEAD:agent/e15-a2-transfer-attempt-external-delivery-evidence-recipient-acknowledgement
