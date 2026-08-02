@@ -1,0 +1,80 @@
+name: P1-A20 runner admission toolchain succession compatibility and rollback replay
+
+on:
+  pull_request:
+    branches:
+      - agent/p1-a19-f2-draft202012-closed-schema-review-closure
+      - agent/p1-a20-runner-admission-toolchain-succession-compatibility-rollback
+
+permissions:
+  contents: read
+
+concurrency:
+  group: p1-a20-${{ github.event.pull_request.head.sha }}
+  cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  runner-admission-replay:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Capabilities
+        shell: bash
+        run: |
+          python --version
+          python - <<'PY'
+          import platform
+          print(platform.system(), platform.machine())
+          PY
+      - name: Contract and mutation tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_p1_a20_runner_admission.py
+      - name: Exact report replay
+        shell: bash
+        run: |
+          python tools/eigiib_p1_a20_check.py --output actual-report.json
+          python - <<'PY'
+          from pathlib import Path
+          expected = Path('tests/fixtures/p1-a20/expected-report.json').read_bytes()
+          actual = Path('actual-report.json').read_bytes()
+          if expected != actual:
+              raise SystemExit('P1-A20 report differs')
+          PY
+      - name: Runner-image route binding
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, platform
+          from pathlib import Path
+          bundle=json.loads(Path('tests/fixtures/p1-a20/runner-admission-bundle.json').read_text())
+          expected={'Linux':'gha-ubuntu-24.04-x64','Darwin':'gha-macos-15-arm64','Windows':'gha-windows-2025-x64'}[platform.system()]
+          runners={r['runnerId'] for r in bundle['registry']['runners']}
+          if expected not in runners:
+              raise SystemExit('current platform runner is not registered')
+          print(expected)
+          PY
+      - name: No private key in P1-A20 scope
+        shell: bash
+        run: |
+          pattern='BEGIN PRIVATE'' KEY'
+          ! grep -R -n --binary-files=without-match "$pattern" docs/P1-A20-* conformance/P1-A20-* conformance/p1-a20-* tests/fixtures/p1-a20 tests/test_eigiib_p1_a20_* tools/eigiib_p1_a20_*
+      - name: No methodology-specific terminology
+        shell: bash
+        run: |
+          pattern_one="$(printf '\110\124\053\116\124')"
+          pattern_two="$(printf '\110\145\171\164\151\156\147.\102\145\163\164\145\157\144')"
+          pattern_three="$(printf '\116\106/\116\124')"
+          ! grep -R -n -E "${pattern_one}|${pattern_two}|${pattern_three}" docs/P1-A20-* conformance/P1-A20-* conformance/p1-a20-* tests/fixtures/p1-a20 tests/test_eigiib_p1_a20_* tools/eigiib_p1_a20_*
