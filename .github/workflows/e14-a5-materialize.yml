@@ -1,8 +1,7 @@
-# Second push intentionally activates the already registered workflow.
 name: E14-A5 materialize validated closure
 
 on:
-  push:
+  pull_request:
     paths:
       - '.e14-a5-payload/**'
       - '.github/workflows/e14-a5-materialize.yml'
@@ -13,11 +12,12 @@ permissions:
 
 jobs:
   materialize:
-    if: github.ref_name == 'agent/e14-a5-independent-verifier-release-boundary-final-freeze'
+    if: github.head_ref == 'agent/e14-a5-independent-verifier-release-boundary-final-freeze'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
       - name: Verify and extract validated payload
         shell: bash
@@ -40,4 +40,4 @@ jobs:
           git add -A
           git diff --cached --quiet && exit 0
           git commit -m 'E14-A5: materialize final closure slice'
-          git push origin HEAD:"${GITHUB_REF_NAME}"
+          git push origin HEAD:"${{ github.head_ref }}"
