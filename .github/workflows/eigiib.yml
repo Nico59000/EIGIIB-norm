@@ -125,12 +125,17 @@ jobs:
             --output-dir .eigiib-results/components \
             --matrix-output .eigiib-results/e14-a5-matrix.json \
             --json | tee .eigiib-results/e14-history.json
-      - name: EIGIIB E15-A1 delivery-intent conformance
+      - name: Historical E15-A1 authority replay
         if: always()
         run: |
           set -o pipefail
-          python tools/eigiib_delivery_intent_check.py . \
-            --history-report .eigiib-results/e14-history.json \
+          python tools/eigiib_historical_e15_a1_replay.py . --json | tee .eigiib-results/e15-a1-history.json
+      - name: EIGIIB E15-A2 transfer evidence conformance
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_delivery_evidence_check.py . \
+            --history-report .eigiib-results/e15-a1-history.json \
             --json | tee .eigiib-results/components/e15.json
       - name: EIGIIB M0-A2 aggregate conformance
         if: always()
