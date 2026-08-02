@@ -1,10 +1,9 @@
 name: E15-A2 bounded materialization
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
-      - agent/e15-a1-historical-authority-continuity-delivery-intent-endpoint-carrier-binding
+      - agent/e15-a2-transfer-attempt-external-delivery-evidence-recipient-acknowledgement
     paths:
       - 'conformance/.e15-a2-payload.part*'
       - '.github/workflows/e15-a2-materialize.yml'
@@ -18,7 +17,6 @@ concurrency:
 
 jobs:
   materialize:
-    if: github.head_ref == 'agent/e15-a2-transfer-attempt-external-delivery-evidence-recipient-acknowledgement'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
