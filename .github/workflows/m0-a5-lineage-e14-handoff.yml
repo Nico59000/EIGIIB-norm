@@ -1,4 +1,4 @@
-name: M0-A5 canonical P1 lineage authority promotion and E14 handoff
+name: M0-A5-F1 canonical report normalization and authority freeze
 
 on:
   pull_request:
@@ -39,11 +39,26 @@ jobs:
       - name: Unit tests
         shell: bash
         run: python -m unittest -v tests/test_eigiib_m0_a5.py
-      - name: Exact M0-A5 report
+      - name: Exact M0-A5 report bytes
         shell: bash
         run: |
           python tools/eigiib_m0_a5_check.py --output actual-m0-a5-report.json
-          cmp tests/fixtures/m0-a5/expected-report.json actual-m0-a5-report.json
+          python - <<'PY'
+          from pathlib import Path
+          expected = Path("tests/fixtures/m0-a5/expected-report.json").read_bytes()
+          actual = Path("actual-m0-a5-report.json").read_bytes()
+          if actual != expected:
+              raise SystemExit("generated report is not byte-exact")
+          if b"\r" in actual or not actual.endswith(b"\n"):
+              raise SystemExit("generated report is not canonical LF-only UTF-8")
+          PY
+      - name: M0-A5-F1 authority freeze
+        shell: bash
+        run: |
+          python -m json.tool conformance/m0-a5-f1-authority-freeze.json >/dev/null
+          python -m json.tool schemas/eigiib-m0-a5-f1-authority-freeze.schema.json >/dev/null
+          test -f docs/M0-A5-F1-CROSS-PLATFORM-CANONICAL-REPORT-NORMALIZATION-WINDOWS-BYTE-EXACT-REPLAY-AND-FINAL-AUTHORITY-FREEZE.md
+          test -f conformance/M0-A5-F1-MANUAL-REVIEW.md
       - name: Canonical P1 head is an ancestor of the tested head
         shell: bash
         run: git merge-base --is-ancestor c1983e9f2e95879ee16c162075c8d72bc73d88f9 "${{ github.event.pull_request.head.sha }}"
