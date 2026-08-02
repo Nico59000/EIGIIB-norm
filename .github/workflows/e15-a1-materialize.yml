@@ -34,7 +34,8 @@ jobs:
           import base64, io, tarfile
 
           payload = Path('conformance/.e15-a1-payload.b64')
-          raw = base64.b64decode(payload.read_text(encoding='ascii'), validate=True)
+          encoded = payload.read_text(encoding='ascii').strip()
+          raw = base64.b64decode(encoded, validate=True)
           with tarfile.open(fileobj=io.BytesIO(raw), mode='r:gz') as archive:
               members = archive.getmembers()
               for member in members:
