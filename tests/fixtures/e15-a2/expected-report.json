@@ -1,0 +1,25 @@
+{
+  "attestation_policy_count": 0,
+  "attester_profile_count": 0,
+  "authority_freeze_result": "conformant",
+  "delivery_evidence_decision_count": 0,
+  "external_delivery_evidence_count": 0,
+  "findings": [],
+  "historical_continuity_result": "conformant",
+  "lifecycle_state_counts": {
+    "contested": 0,
+    "externally-attested": 0,
+    "held": 0,
+    "in-progress": 0,
+    "not-started": 0,
+    "rejected": 0,
+    "unavailable": 0
+  },
+  "recipient_acknowledgement_count": 0,
+  "standard": "EIGIIB-E15-A2-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-delivery-evidence-check",
+  "tool_version": "0.1.0",
+  "transfer_attempt_count": 0,
+  "transfer_evidence_result": "not-evaluated"
+}
