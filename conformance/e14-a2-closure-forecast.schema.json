@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["as_of", "baseline_commit", "estimate_kind", "remaining_after_a2", "slices"],
+  "properties": {
+    "as_of": {"const": "E14-A2"},
+    "baseline_commit": {"const": "c96d8bd59fe76726f60ff95fa729fec8a9de050e"},
+    "estimate_kind": {"const": "non-normative-planning-forecast"},
+    "remaining_after_a2": {"const": 3},
+    "slices": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title"],
+        "properties": {
+          "id": {"enum": ["E14-A3", "E14-A4", "E14-A5"]},
+          "title": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}
