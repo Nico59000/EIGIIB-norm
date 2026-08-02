@@ -1,0 +1,16 @@
+{
+  "adoption_state": "not-adopted",
+  "authority_continuity_result": "conformant",
+  "e14_frozen_path_result": "conformant",
+  "findings": [],
+  "first_principal_slice": "E15-A1",
+  "methodology_rule_count": 7,
+  "overall_result": "conformant",
+  "planned_slice_count": 5,
+  "required_input_count": 12,
+  "source_head": "472e14fbb3d92205eabf10438e90295e19125ea4",
+  "standard": "EIGIIB-M0-A6-1.0",
+  "target": "E15",
+  "tool": "eigiib-m0-a6-entry-check",
+  "tool_version": "0.1.0"
+}

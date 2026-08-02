@@ -1,0 +1,256 @@
+{
+  "authority_continuity": {
+    "current_tree_byte_equality_required_before_e15_a1": true,
+    "descendant_transition_required": true,
+    "frozen_source_commit": "472e14fbb3d92205eabf10438e90295e19125ea4",
+    "historical_replay_mode": "materialize-and-replay-exact-source-commit",
+    "rule": "historical-source-commit-readback-before-descendant-central-profile-mutation",
+    "silent_retargeting_forbidden": true,
+    "transition_must_verify": [
+      "exact-e14-source-commit",
+      "all-e14-frozen-authority-digests-at-source-commit",
+      "historical-e14-checker-replay-at-source-commit",
+      "additive-e15-adoption",
+      "no-rewrite-of-e14-claims",
+      "new-central-profile-and-workflow-digests",
+      "separate-e15-manual-gate"
+    ]
+  },
+  "decision_vocabulary": {
+    "derived": [
+      "not-started",
+      "in-progress",
+      "externally-attested",
+      "rejected",
+      "held",
+      "contested",
+      "unavailable",
+      "withdrawn",
+      "partially-withdrawn"
+    ],
+    "evidence": [
+      "absent",
+      "pending",
+      "positive",
+      "negative",
+      "contested",
+      "unavailable"
+    ],
+    "gate": [
+      "permit",
+      "deny",
+      "held",
+      "unavailable"
+    ]
+  },
+  "entry_gate": {
+    "authority_continuity_bridge": "required-in-e15-a1",
+    "central_profile_mutation": "forbidden-before-transition-bridge",
+    "e14_final_closure": "complete",
+    "e14_frozen_paths_unchanged": true,
+    "e15_normative_text": "not-created",
+    "e15_schema_and_checker": "not-created",
+    "readiness": "ready-for-e15-a1-design"
+  },
+  "input_contract": {
+    "carrier_profile": "versioned carrier and transport representation accepted for the requested crossing",
+    "delivery_policy": "versioned policy governing destination, purpose, action and required transport properties",
+    "durability_policy": "versioned policy defining bounded persistence observations without claiming infinite retention",
+    "e14_release_event": "exact E14-A5 released event admitted as the source crossing",
+    "e14_release_receipt": "exact committed E14-A5 receipt bound to the released event",
+    "endpoint_identity": "declared external endpoint or registry identity, distinct from recipient identity",
+    "evaluation_context": "fixed purpose, operation, policy revisions and interpretation context",
+    "external_attestation_policy": "trusted attester classes, signature requirements and evidence freshness rules",
+    "idempotency_key": "operation key preventing silent duplicate delivery attempts",
+    "recipient_scope": "named or typed relying-party scope, distinct from proof of possession or human awareness",
+    "released_object_commitment": "exact artifact or projection commitment carried out of E14",
+    "withdrawal_policy": "versioned rules for stopping future distribution, tombstoning and bounded post-withdrawal observation"
+  },
+  "methodology_translation": {
+    "direct_source_republication": false,
+    "mode": "typed-derived-rules-only",
+    "rules": [
+      {
+        "id": "typed-transport-declaration",
+        "statement": "a value changes role only through an explicit source type, target type, interpretation rule and context"
+      },
+      {
+        "id": "role-separated-diagnostics",
+        "statement": "binding, external attestation, acknowledgement, persistence and withdrawal remain independently evaluated coordinates"
+      },
+      {
+        "id": "structural-before-lifecycle-interpretation",
+        "statement": "lineage and commitment binding are established before any delivery or persistence state is interpreted"
+      },
+      {
+        "id": "role-scoped-normalization",
+        "statement": "thresholds and normalizations belong to one declared diagnostic role and cannot be silently reused by another"
+      },
+      {
+        "id": "coincidence-is-not-identity",
+        "statement": "equal values, identifiers or digests do not collapse distinct authority roles without an explicit typed map"
+      },
+      {
+        "id": "local-evidence-is-not-global-state",
+        "statement": "one endpoint observation cannot establish global delivery, durability, withdrawal or erasure"
+      },
+      {
+        "id": "declared-composite-policy",
+        "statement": "no universal weighted aggregate is assumed; any composite decision policy must declare its coefficients and precedence"
+      }
+    ],
+    "source_equations_allowed": false,
+    "source_specific_terminology_allowed": false,
+    "source_status": "external-contextual-methodology-input"
+  },
+  "nonclaims": [
+    "absolute-material-delivery",
+    "recipient-possession",
+    "human-awareness",
+    "universal-availability",
+    "infinite-durability",
+    "global-erasure",
+    "legal-recall",
+    "external-service-honesty",
+    "collusion-resistance",
+    "universal-interoperability"
+  ],
+  "planned_slices": [
+    {
+      "depends_on": [
+        "E14-A5-F1"
+      ],
+      "does_not_reprove": [
+        "E14 release admissibility",
+        "E14 release receipt semantics",
+        "external delivery"
+      ],
+      "id": "E15-A1",
+      "owns": [
+        "historical E14 authority continuity",
+        "delivery intent",
+        "endpoint identity",
+        "carrier binding"
+      ],
+      "status": "planned-not-created",
+      "title": "Historical Authority Continuity, Delivery Intent, Endpoint and Carrier Binding"
+    },
+    {
+      "depends_on": [
+        "E15-A1"
+      ],
+      "does_not_reprove": [
+        "endpoint authorization",
+        "recipient possession",
+        "human awareness"
+      ],
+      "id": "E15-A2",
+      "owns": [
+        "transfer attempts",
+        "external delivery evidence",
+        "recipient acknowledgements"
+      ],
+      "status": "planned-not-created",
+      "title": "Transfer Attempt, External Delivery Evidence and Recipient Acknowledgement"
+    },
+    {
+      "depends_on": [
+        "E15-A2"
+      ],
+      "does_not_reprove": [
+        "delivery evidence",
+        "universal availability",
+        "infinite durability"
+      ],
+      "id": "E15-A3",
+      "owns": [
+        "external publication records",
+        "bounded persistence observations",
+        "independent readback"
+      ],
+      "status": "planned-not-created",
+      "title": "Durable External Publication, Registry Persistence and Independent Readback"
+    },
+    {
+      "depends_on": [
+        "E15-A2",
+        "E15-A3"
+      ],
+      "does_not_reprove": [
+        "global erasure",
+        "recipient-side deletion",
+        "legal recall"
+      ],
+      "id": "E15-A4",
+      "owns": [
+        "withdrawal requests",
+        "registry tombstones",
+        "distribution stops",
+        "post-withdrawal observations"
+      ],
+      "status": "planned-not-created",
+      "title": "Withdrawal, Tombstones and Post-Delivery Governance"
+    },
+    {
+      "depends_on": [
+        "E15-A3",
+        "E15-A4"
+      ],
+      "does_not_reprove": [
+        "external service honesty",
+        "universal correctness",
+        "unbounded persistence"
+      ],
+      "id": "E15-A5",
+      "owns": [
+        "independent external-evidence verifier matrix",
+        "differential replay",
+        "final authority freeze"
+      ],
+      "status": "planned-not-created",
+      "title": "Independent External-Evidence Matrix and Final Authority Freeze"
+    }
+  ],
+  "required_inputs": [
+    "e14_release_event",
+    "e14_release_receipt",
+    "released_object_commitment",
+    "recipient_scope",
+    "endpoint_identity",
+    "carrier_profile",
+    "delivery_policy",
+    "external_attestation_policy",
+    "durability_policy",
+    "withdrawal_policy",
+    "evaluation_context",
+    "idempotency_key"
+  ],
+  "safety_rules": [
+    "release-event-does-not-imply-external-delivery",
+    "local-send-success-does-not-imply-remote-acceptance",
+    "remote-service-acceptance-does-not-imply-recipient-acknowledgement",
+    "recipient-acknowledgement-does-not-prove-possession-or-human-awareness",
+    "publication-does-not-imply-durability",
+    "withdrawal-does-not-imply-erasure",
+    "equal-values-or-identifiers-do-not-collapse-distinct-authority-roles",
+    "missing-external-evidence-cannot-be-promoted-to-positive-attestation",
+    "known-negative-precedes-held-and-unavailable",
+    "structural-binding-precedes-lifecycle-interpretation"
+  ],
+  "source_lineage": {
+    "authority": "conformance/e14-a5-authority-freeze.json",
+    "branch": "agent/e14-a5-f1-portable-authority-rebind-workflow-neutral-publication",
+    "head_commit": "472e14fbb3d92205eabf10438e90295e19125ea4",
+    "profile_revision": "EIGIIB-E14-1.0",
+    "required_terminal_slice": "E14-A5-F1"
+  },
+  "standard": "EIGIIB-M0-A6-E15-ENTRY-1.0",
+  "status": "ready-for-e15-a1-design-not-normatively-adopted",
+  "target": {
+    "adoption_state": "not-adopted",
+    "extension_file": null,
+    "first_principal_slice": "E15-A1",
+    "identifier": "E15",
+    "working_title": "Externally Attested Delivery, Durable Publication, Recipient Acknowledgement and Withdrawal Governance"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a6-e15-entry.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_continuity": {
+      "additionalProperties": false,
+      "properties": {
+        "current_tree_byte_equality_required_before_e15_a1": {"const": true},
+        "descendant_transition_required": {"const": true},
+        "frozen_source_commit": {"const": "472e14fbb3d92205eabf10438e90295e19125ea4"},
+        "historical_replay_mode": {"const": "materialize-and-replay-exact-source-commit"},
+        "rule": {"const": "historical-source-commit-readback-before-descendant-central-profile-mutation"},
+        "silent_retargeting_forbidden": {"const": true},
+        "transition_must_verify": {
+          "items": {"type": "string"},
+          "minItems": 7,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "rule",
+        "frozen_source_commit",
+        "historical_replay_mode",
+        "current_tree_byte_equality_required_before_e15_a1",
+        "descendant_transition_required",
+        "silent_retargeting_forbidden",
+        "transition_must_verify"
+      ],
+      "type": "object"
+    },
+    "decision_vocabulary": {"type": "object"},
+    "entry_gate": {"type": "object"},
+    "input_contract": {"type": "object"},
+    "methodology_translation": {
+      "additionalProperties": false,
+      "properties": {
+        "direct_source_republication": {"const": false},
+        "mode": {"const": "typed-derived-rules-only"},
+        "rules": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string"},
+              "statement": {"type": "string"}
+            },
+            "required": ["id", "statement"],
+            "type": "object"
+          },
+          "maxItems": 7,
+          "minItems": 7,
+          "type": "array"
+        },
+        "source_equations_allowed": {"const": false},
+        "source_specific_terminology_allowed": {"const": false},
+        "source_status": {"const": "external-contextual-methodology-input"}
+      },
+      "required": [
+        "source_status",
+        "mode",
+        "direct_source_republication",
+        "source_specific_terminology_allowed",
+        "source_equations_allowed",
+        "rules"
+      ],
+      "type": "object"
+    },
+    "nonclaims": {
+      "items": {"type": "string"},
+      "minItems": 10,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "planned_slices": {
+      "items": {"type": "object"},
+      "maxItems": 5,
+      "minItems": 5,
+      "type": "array"
+    },
+    "required_inputs": {
+      "items": {"type": "string"},
+      "maxItems": 12,
+      "minItems": 12,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "safety_rules": {
+      "items": {"type": "string"},
+      "minItems": 10,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_lineage": {"type": "object"},
+    "standard": {"const": "EIGIIB-M0-A6-E15-ENTRY-1.0"},
+    "status": {"const": "ready-for-e15-a1-design-not-normatively-adopted"},
+    "target": {"type": "object"}
+  },
+  "required": [
+    "standard",
+    "status",
+    "source_lineage",
+    "target",
+    "entry_gate",
+    "authority_continuity",
+    "required_inputs",
+    "input_contract",
+    "decision_vocabulary",
+    "planned_slices",
+    "methodology_translation",
+    "safety_rules",
+    "nonclaims"
+  ],
+  "title": "EIGIIB M0-A6 E15 entry normalization",
+  "type": "object"
+}
