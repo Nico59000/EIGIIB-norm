@@ -7,6 +7,7 @@ The review confirms that:
 - the correction is limited to authority rebinding, portable report comparison and publication mechanics;
 - the frozen source head is the final corrected E14-A4 head;
 - the corrected A4 checker bytes are refrozen exactly;
+- repository-relative authority paths compare in canonical POSIX form on every supported platform;
 - A5 release semantics and verifier vectors are unchanged;
 - temporary payload and materializer paths are not final authorities;
 - workflow-neutral publication is not an E14 release event or external durability proof;

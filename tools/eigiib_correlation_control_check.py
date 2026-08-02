@@ -67,7 +67,7 @@ class Checker:
   elif (ms[0].get("status"),ms[0].get("authority"),ms[0].get("attestation"))!=exact:self.add("error","E14A3.PROFILE.GATE","E14-A3 manual gate is not exact","EIGIIB.toml")
   else:self.confined(ms[0]["attestation"],"E14A3.PROFILE",True)
  def a1(self,o):
-  p=str(self.projection_registry_path)
+  p=self.projection_registry_path.as_posix()
   if o.get("standard")!=A1_STANDARD:self.add("error","E14A3.A1.STANDARD","unexpected E14-A1 registry standard",p)
   self.records=self.index(o,"records","E14A3.A1.RECORD");self.projections=self.index(o,"projections","E14A3.A1.PROJECTION")
   for ident,x in self.records.items():
@@ -85,9 +85,9 @@ class Checker:
    if not isinstance(c,dict) or c.get("algorithm")!="sha256" or not self.ne(c.get("digest")):self.add("error","E14A3.A1.PROJECTION.COMMITMENT","projection commitment is missing",p)
    self.sl(x.get("correlation_controls"),p,"E14A3.A1.PROJECTION.CONTROLS")
  def a2(self,o):
-  p=str(self.authorization_registry_path)
+  p=self.authorization_registry_path.as_posix()
   if o.get("standard")!=A2_STANDARD:self.add("error","E14A3.A2.STANDARD","unexpected E14-A2 registry standard",p)
-  if o.get("upstream_registry")!=str(self.projection_registry_path):self.add("error","E14A3.A2.UPSTREAM","E14-A2 upstream path mismatch",p)
+  if o.get("upstream_registry")!=self.projection_registry_path.as_posix():self.add("error","E14A3.A2.UPSTREAM","E14-A2 upstream path mismatch",p)
   self.audiences=self.index(o,"audiences","E14A3.A2.AUDIENCE");self.auth_requests=self.index(o,"requests","E14A3.A2.REQUEST");self.auth_decisions=self.index(o,"decisions","E14A3.A2.DECISION")
   for ident,x in self.audiences.items():
    if not self.ne(x.get("revision")):self.add("error","E14A3.A2.AUDIENCE.REVISION","revision must be non-empty",f"audience:{ident}")
@@ -212,10 +212,10 @@ class Checker:
   if a1:self.a1(a1)
   if a2:self.a2(a2)
   if reg:
-   if reg.get("standard")!=STANDARD:self.add("error","E14A3.REGISTRY.STANDARD","unexpected registry standard",str(self.registry_path))
-   if reg.get("status")!="structural-only":self.add("error","E14A3.REGISTRY.STATUS","registry must be structural-only",str(self.registry_path))
-   if reg.get("upstream_projection_registry")!=str(self.projection_registry_path):self.add("error","E14A3.REGISTRY.A1","projection registry path mismatch",str(self.registry_path))
-   if reg.get("upstream_authorization_registry")!=str(self.authorization_registry_path):self.add("error","E14A3.REGISTRY.A2","authorization registry path mismatch",str(self.registry_path))
+   if reg.get("standard")!=STANDARD:self.add("error","E14A3.REGISTRY.STANDARD","unexpected registry standard",self.registry_path.as_posix())
+   if reg.get("status")!="structural-only":self.add("error","E14A3.REGISTRY.STATUS","registry must be structural-only",self.registry_path.as_posix())
+   if reg.get("upstream_projection_registry")!=self.projection_registry_path.as_posix():self.add("error","E14A3.REGISTRY.A1","projection registry path mismatch",self.registry_path.as_posix())
+   if reg.get("upstream_authorization_registry")!=self.authorization_registry_path.as_posix():self.add("error","E14A3.REGISTRY.A2","authorization registry path mismatch",self.registry_path.as_posix())
    self.profiles=self.index(reg,"control_profiles","E14A3.CONTROL");self.budgets=self.index(reg,"budgets","E14A3.BUDGET");self.requests=self.index(reg,"enforcement_requests","E14A3.REQUEST");self.consumptions=self.index(reg,"consumptions","E14A3.CONSUMPTION");self.objects()
    if a1 and a2:self.check_requests();self.check_consumptions()
   errors=any(f.severity=="error" for f in self.findings);up=any(f.severity=="error" and f.code.startswith(("E14A3.A1","E14A3.A2")) for f in self.findings);states=[x.get("state") for x in self.derived.values()];result="not-evaluated" if not self.consumptions else ("conformant" if len(self.valid_consumptions)==len(self.consumptions) and not errors else "non-conformant")

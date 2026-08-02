@@ -224,14 +224,14 @@ class Checker:
         if profile.get("revision") != PROFILE_REVISION:
             self.add("error", "E14A5.PROFILE.REVISION", f"revision must be {PROFILE_REVISION}", "EIGIIB.toml")
         expected = {
-            "confidential_evidence": str(self.a1_path),
-            "disclosure_authorization": str(self.a2_path),
-            "correlation_control": str(self.a3_path),
-            "disclosure_revocation": str(self.a4_path),
+            "confidential_evidence": self.a1_path.as_posix(),
+            "disclosure_authorization": self.a2_path.as_posix(),
+            "correlation_control": self.a3_path.as_posix(),
+            "disclosure_revocation": self.a4_path.as_posix(),
             "e14_a5_contract": "extensions/E14-A5-INDEPENDENT-VERIFIER-MATRIX-RELEASE-BOUNDARY-FINAL-AUTHORITY-FREEZE.md",
-            "e14_release_boundary": str(self.registry_path),
+            "e14_release_boundary": self.registry_path.as_posix(),
             "e14_a5_verifier_matrix": "conformance/e14-a5-verifier-matrix.json",
-            "e14_a5_authority_freeze": str(self.freeze_path),
+            "e14_a5_authority_freeze": self.freeze_path.as_posix(),
             "e14_a5_human_mastery": "docs/E14-A5-HUMAN-MASTERY-GUIDE.md",
             "e14_final_closure_report": "docs/E14-FINAL-CLOSURE-REPORT.md",
             "e14_a5_f1_contract": "extensions/E14-A5-F1-PORTABLE-AUTHORITY-REBIND-WORKFLOW-NEUTRAL-PUBLICATION.md",
@@ -530,7 +530,7 @@ class Checker:
     def validate_freeze(self, freeze: dict[str, Any] | None) -> str:
         if freeze is None:
             return "non-conformant"
-        path = str(self.freeze_path)
+        path = self.freeze_path.as_posix()
         if freeze.get("standard") != STANDARD or freeze.get("status") != "frozen":
             self.add("error", "E14A5.FREEZE.HEADER", "unexpected freeze header", path)
         if freeze.get("source_head") != A4_SOURCE_HEAD:
@@ -575,18 +575,18 @@ class Checker:
         freeze = self.load_json(self.freeze_path, "E14A5.FREEZE")
         if registry:
             if registry.get("standard") != STANDARD:
-                self.add("error", "E14A5.REGISTRY.STANDARD", "unexpected registry standard", str(self.registry_path))
+                self.add("error", "E14A5.REGISTRY.STANDARD", "unexpected registry standard", self.registry_path.as_posix())
             if registry.get("status") != "structural-only":
-                self.add("error", "E14A5.REGISTRY.STATUS", "registry must be structural-only", str(self.registry_path))
+                self.add("error", "E14A5.REGISTRY.STATUS", "registry must be structural-only", self.registry_path.as_posix())
             exact_paths = {
-                "upstream_projection_registry": str(self.a1_path),
-                "upstream_authorization_registry": str(self.a2_path),
-                "upstream_correlation_registry": str(self.a3_path),
-                "upstream_revocation_registry": str(self.a4_path),
+                "upstream_projection_registry": self.a1_path.as_posix(),
+                "upstream_authorization_registry": self.a2_path.as_posix(),
+                "upstream_correlation_registry": self.a3_path.as_posix(),
+                "upstream_revocation_registry": self.a4_path.as_posix(),
             }
             for key, value in exact_paths.items():
                 if registry.get(key) != value:
-                    self.add("error", "E14A5.REGISTRY.UPSTREAM", f"{key} path mismatch", str(self.registry_path))
+                    self.add("error", "E14A5.REGISTRY.UPSTREAM", f"{key} path mismatch", self.registry_path.as_posix())
             self.policies = self.index(registry, "release_policies", "E14A5.POLICY")
             self.requests = self.index(registry, "release_requests", "E14A5.REQUEST")
             self.events = self.index(registry, "release_events", "E14A5.EVENT")

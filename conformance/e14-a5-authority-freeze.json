@@ -16,9 +16,9 @@
       "sha256": "d648e7ed40a161d5f3e05124397208e181289d9332072c17593c1edbcc5f1322"
     },
     {
-      "bytes": 1594,
+      "bytes": 1703,
       "path": ".github/workflows/e14-a4-disclosure-revocation.yml",
-      "sha256": "91f3e8fd2ce764327562d4d28debc146ef18928e59f6a83c1d2b903b183e1663"
+      "sha256": "e2a0b4d9ca60257ae305c382ec19689fa9d1e72e3ffbd43e15122ccd86a95de3"
     },
     {
       "bytes": 2725,
@@ -56,9 +56,9 @@
       "sha256": "ce870bd35f9cdc867a392d6c9672afa52fe3e3fcbca5279f8a4f5376aa25b7c3"
     },
     {
-      "bytes": 556,
+      "bytes": 655,
       "path": "conformance/E14-A5-F1-MANUAL-REVIEW.md",
-      "sha256": "cc52cc858f8686146e99692e357bcc5dbae4e5bfac721283304f82daefd169f8"
+      "sha256": "ff90492826b9ba6933fc382221d2f93da187923df57222a1b0a428b656e105da"
     },
     {
       "bytes": 1016,
@@ -156,9 +156,9 @@
       "sha256": "2910f9bb4c1f706815dd142a5e789c09f4319b9c5e95a9f10041cb1fb64433e8"
     },
     {
-      "bytes": 1893,
+      "bytes": 2000,
       "path": "extensions/E14-A5-F1-PORTABLE-AUTHORITY-REBIND-WORKFLOW-NEUTRAL-PUBLICATION.md",
-      "sha256": "e9b2f8fceb3d628b58f8141d018211172fecc506335b2f239e9d376ef20f8264"
+      "sha256": "6e82a31b251dd27b009de526c48eebc017dcf270fec4653fa0517077ff1e9925"
     },
     {
       "bytes": 6146,
@@ -181,9 +181,9 @@
       "sha256": "3be0b17b4a79dadc78abc100503a2bb39153d10c314cfd33785aa8710d87ab9b"
     },
     {
-      "bytes": 8696,
+      "bytes": 6104,
       "path": "schemas/eigiib-e14-a3-correlation-control.schema.json",
-      "sha256": "a4abd7557e0b893bffeca37f69802ed3bda6d05639966023f1e65fa3d4f3d98f"
+      "sha256": "48b349d9951122b66f7903d1465a2b97c5d1dcbe652534f9cd987ece5d20fb8f"
     },
     {
       "bytes": 7463,
@@ -231,14 +231,14 @@
       "sha256": "ba27df08b7e8e77dc7c3db6c909c17d3d16873212b180343afd43218a84573f6"
     },
     {
-      "bytes": 22331,
+      "bytes": 22385,
       "path": "tools/eigiib_correlation_control_check.py",
-      "sha256": "9c925bc58615d9f9d2390ded8b03656b52480266bb5c6d8961830b98e488e504"
+      "sha256": "64ff2f0364083c1affe9b7289bb3060b3cec7504841b29dfe616940e8b1067a8"
     },
     {
-      "bytes": 20056,
+      "bytes": 20086,
       "path": "tools/eigiib_disclosure_authorization_check.py",
-      "sha256": "2ccee4855e8ef06554bfe2a9c999714180e81426f06626cfbcdefe76a0590b9a"
+      "sha256": "aa85ac06435d5a9f868728edc468f1152d99d5d2afec611f650a9a53547330aa"
     },
     {
       "bytes": 14889,
@@ -246,9 +246,9 @@
       "sha256": "18f71f3405c5277447f001862223e62cdd0c8738a6f8390abfb1d17d5800c832"
     },
     {
-      "bytes": 38583,
+      "bytes": 38667,
       "path": "tools/eigiib_e14_release_check.py",
-      "sha256": "2b9271bcd79d6a68611e00c238982f82f0075136cd79c3240f13ebbf71987d12"
+      "sha256": "14f7925f0fcf1d891738988b74d17a56c83f69e60a105e94d46d74938c5f0315"
     },
     {
       "bytes": 1279,

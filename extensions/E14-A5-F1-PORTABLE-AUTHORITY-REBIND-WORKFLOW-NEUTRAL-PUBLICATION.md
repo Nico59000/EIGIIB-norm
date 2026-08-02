@@ -21,6 +21,7 @@ A5-F1 performs only the following changes:
 - rebinds the A5 source head to the final corrected A4 commit;
 - refreezes the corrected A4 checker bytes and every A5 authority changed by this correction;
 - compares generated JSON reports as decoded objects across platforms;
+- canonicalizes repository-relative authority and upstream-registry paths to POSIX form before comparison;
 - publishes normative files without requiring a workflow mutation from the CI token;
 - records the correction in the E14 graph, profile and manual review.
 
