@@ -54,6 +54,17 @@ func check(o Obj, b []byte) error {
 	}
 	return nil
 }
+func githubHeaders() map[string]string {
+	headers := map[string]string{"Accept": "application/vnd.github+json"}
+	token := os.Getenv("GITHUB_TOKEN")
+	if token == "" {
+		token = os.Getenv("GH_TOKEN")
+	}
+	if token != "" {
+		headers["Authorization"] = "Bearer " + token
+	}
+	return headers
+}
 func Run(root string, live bool) (Result, error) {
 	evb, e := os.ReadFile(filepath.Join(root, "tests/fixtures/p1-a17/live-durability-evidence.json"))
 	if e != nil {
@@ -93,7 +104,7 @@ func Run(root string, live bool) (Result, error) {
 				return Result{}, e
 			}
 		}
-		rb, e := get(c, "https://api.github.com/repos/Nico59000/EIGIIB-norm/releases/tags/eigiib-p1-a17-recovery-v1", nil)
+		rb, e := get(c, "https://api.github.com/repos/Nico59000/EIGIIB-norm/releases/tags/eigiib-p1-a17-recovery-v1", githubHeaders())
 		if e != nil {
 			return Result{}, e
 		}
