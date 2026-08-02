@@ -1,8 +1,11 @@
-name: P1-A19 registered profile interoperability capability negotiation and differential replay
+name: P1-A19 registered profile interoperability and F2 closed-schema replay
 
 on:
   pull_request:
-    branches: [agent/p1-a18-deployed-release-governance-sod-emergency-override]
+    branches:
+      - agent/p1-a18-deployed-release-governance-sod-emergency-override
+      - agent/p1-a19-registered-profile-interoperability-capability-negotiation
+      - agent/p1-a19-f2-draft202012-closed-schema-review-closure
 
 permissions:
   contents: read
@@ -34,6 +37,9 @@ jobs:
         with:
           go-version: '1.26.5'
           cache: false
+      - name: Install locked Draft 2020-12 validator
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-input -r requirements/p1-a19-f2-schema-validation.txt
       - name: Expose macOS OpenSSL 3
         if: runner.os == 'macOS'
         shell: bash
@@ -49,11 +55,16 @@ jobs:
         shell: bash
         run: |
           python --version
+          python - <<'PY'
+          from importlib.metadata import version
+          for package in ('jsonschema', 'jsonschema-specifications', 'referencing', 'rpds-py'):
+              print(package, version(package))
+          PY
           go version
           openssl version
-      - name: Python contract, route and mutation tests
+      - name: Python contract, route, semantic and schema mutation tests
         shell: bash
-        run: python -m unittest -v tests/test_eigiib_p1_a19_interoperability.py
+        run: python -m unittest -v tests/test_eigiib_p1_a19_interoperability.py tests/test_eigiib_p1_a19_f2_schema.py
       - name: Exact reference report
         shell: bash
         run: |
@@ -63,7 +74,7 @@ jobs:
           if Path('tests/fixtures/p1-a19/expected-report.json').read_bytes() != Path('actual-report.json').read_bytes():
               raise SystemExit('report differs')
           PY
-      - name: Closed schema and semantic validation
+      - name: Draft 2020-12 closed schema and semantic validation
         shell: bash
         run: python tools/eigiib_p1_a19_schema_check.py
       - name: Independent Go tests
@@ -92,11 +103,11 @@ jobs:
         shell: bash
         run: |
           pattern='BEGIN PRIVATE'' KEY'
-          ! grep -R -n --binary-files=without-match "$pattern" docs/P1-A19-* conformance/P1-A19-* conformance/p1-a19-* schemas/eigiib-p1-a19-* tests/fixtures/p1-a19 tests/test_eigiib_p1_a19_* tools/eigiib_p1_a19_* independent/p1interoperability independent/cmd/eigiib-p1-interoperability-adapter
+          ! grep -R -n --binary-files=without-match "$pattern" docs/P1-A19-* conformance/P1-A19-* conformance/p1-a19-* schemas/eigiib-p1-a19-* tests/fixtures/p1-a19 tests/test_eigiib_p1_a19_* tools/eigiib_p1_a19_* independent/p1interoperability independent/cmd/eigiib-p1-interoperability-adapter requirements/p1-a19-f2-schema-validation.txt
       - name: No methodology-specific terminology
         shell: bash
         run: |
           pattern_one="$(printf '\110\124\053\116\124')"
           pattern_two="$(printf '\110\145\171\164\151\156\147.\102\145\163\164\145\157\144')"
           pattern_three="$(printf '\116\106/\116\124')"
-          ! grep -R -n -E "${pattern_one}|${pattern_two}|${pattern_three}" docs/P1-A19-* conformance/P1-A19-* conformance/p1-a19-* schemas/eigiib-p1-a19-* tests/fixtures/p1-a19 tests/test_eigiib_p1_a19_* tools/eigiib_p1_a19_* independent/p1interoperability independent/cmd/eigiib-p1-interoperability-adapter
+          ! grep -R -n -E "${pattern_one}|${pattern_two}|${pattern_three}" docs/P1-A19-* conformance/P1-A19-* conformance/p1-a19-* schemas/eigiib-p1-a19-* tests/fixtures/p1-a19 tests/test_eigiib_p1_a19_* tools/eigiib_p1_a19_* independent/p1interoperability independent/cmd/eigiib-p1-interoperability-adapter requirements/p1-a19-f2-schema-validation.txt
