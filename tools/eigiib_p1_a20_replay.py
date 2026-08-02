@@ -5,6 +5,42 @@ from typing import Any
 from eigiib_p1_a20_core import ENVIRONMENT, SOURCE_COMMIT, SOURCE_REPORT_SHA256, sha256_json
 from eigiib_p1_a20_registry import load_registries
 
+_ROUTE_FIELDS = (
+    "routeId",
+    "sequence",
+    "environment",
+    "runnerId",
+    "runnerIdentitySha256",
+    "toolchainVersion",
+    "toolchainArtifactSha256",
+    "mode",
+    "rollbackAuthorizationId",
+)
+
+_CANONICAL_ROUTE_MATRIX = (
+    ("route-01-linux-active-current", 120, ENVIRONMENT, "runner-linux-amd64-g3", "830b6503b71b20cc233e36f02ad0f2b6fdffdc31df4b9754bfd2d92c51a4d0c8", "1.9.0", "d877fc1be3066de1c4d2195ef522913a14753a1b43b3a5275fbbee8d78a9e15e", "normal", None),
+    ("route-02-macos-active-current", 120, ENVIRONMENT, "runner-macos-arm64-g2", "6f9639be17dc0386778cbd7701693f7057c39f78d3f86746866aa5857040e9f0", "1.9.0", "d877fc1be3066de1c4d2195ef522913a14753a1b43b3a5275fbbee8d78a9e15e", "normal", None),
+    ("route-03-windows-active-current", 120, ENVIRONMENT, "runner-windows-amd64-g2", "b50dfced73a1e75c918bae9eb82e2b901696de68f58c31d2a1defd4e39514975", "1.9.0", "d877fc1be3066de1c4d2195ef522913a14753a1b43b3a5275fbbee8d78a9e15e", "normal", None),
+    ("route-04-linux-g2-predecessor-compatible", 120, ENVIRONMENT, "runner-linux-amd64-g2-compat", "2d49c471d669cd7121178789ecf70bceca301ff5d80d18a62aceea1c2fe969e1", "1.8.0", "984a23b0835a4ca9e0b349937031d5881006cf481c3d51efc9cbde4791715dcf", "normal", None),
+    ("route-05-macos-predecessor-window-edge", 130, ENVIRONMENT, "runner-macos-arm64-g2", "6f9639be17dc0386778cbd7701693f7057c39f78d3f86746866aa5857040e9f0", "1.8.0", "984a23b0835a4ca9e0b349937031d5881006cf481c3d51efc9cbde4791715dcf", "normal", None),
+    ("route-06-predecessor-window-expired", 131, ENVIRONMENT, "runner-linux-amd64-g3", "830b6503b71b20cc233e36f02ad0f2b6fdffdc31df4b9754bfd2d92c51a4d0c8", "1.8.0", "984a23b0835a4ca9e0b349937031d5881006cf481c3d51efc9cbde4791715dcf", "normal", None),
+    ("route-07-authorized-rollback", 132, ENVIRONMENT, "runner-linux-amd64-g3", "830b6503b71b20cc233e36f02ad0f2b6fdffdc31df4b9754bfd2d92c51a4d0c8", "1.8.0", "984a23b0835a4ca9e0b349937031d5881006cf481c3d51efc9cbde4791715dcf", "rollback", "rollback-1.9.0-to-1.8.0-prod-v1"),
+    ("route-08-rollback-replay", 133, ENVIRONMENT, "runner-linux-amd64-g3", "830b6503b71b20cc233e36f02ad0f2b6fdffdc31df4b9754bfd2d92c51a4d0c8", "1.8.0", "984a23b0835a4ca9e0b349937031d5881006cf481c3d51efc9cbde4791715dcf", "rollback", "rollback-1.9.0-to-1.8.0-prod-v1"),
+    ("route-09-retired-runner", 120, ENVIRONMENT, "runner-linux-amd64-g2-retired", "3105d26a9d074f97d98bdeec350e9262588c9a25de0708c27550fab1d26fa973", "1.8.0", "984a23b0835a4ca9e0b349937031d5881006cf481c3d51efc9cbde4791715dcf", "normal", None),
+    ("route-10-quarantined-runner", 120, ENVIRONMENT, "runner-linux-arm64-g1-quarantined", "c00fea49bd6d3a32f6c5605376716c7a9cbc983d05a9b6265276f5a11edacbde", "1.8.0", "984a23b0835a4ca9e0b349937031d5881006cf481c3d51efc9cbde4791715dcf", "normal", None),
+    ("route-11-runner-identity-mismatch", 120, ENVIRONMENT, "runner-linux-amd64-g3", "0000000000000000000000000000000000000000000000000000000000000000", "1.9.0", "d877fc1be3066de1c4d2195ef522913a14753a1b43b3a5275fbbee8d78a9e15e", "normal", None),
+    ("route-12-candidate-toolchain", 160, ENVIRONMENT, "runner-linux-amd64-g3", "830b6503b71b20cc233e36f02ad0f2b6fdffdc31df4b9754bfd2d92c51a4d0c8", "2.0.0-rc1", "d0370f30605a938f4aeae473a8f0ebe575c64702b502e2277969c832770be1b4", "normal", None),
+    ("route-13-incompatible-runner-generation", 120, ENVIRONMENT, "runner-linux-amd64-g2-compat", "2d49c471d669cd7121178789ecf70bceca301ff5d80d18a62aceea1c2fe969e1", "1.9.0", "d877fc1be3066de1c4d2195ef522913a14753a1b43b3a5275fbbee8d78a9e15e", "normal", None),
+)
+
+
+def _validate_canonical_route_matrix(routes: Any) -> None:
+    if not isinstance(routes, list):
+        raise ValueError("route matrix must be an array")
+    actual = tuple(tuple(route.get(field) for field in _ROUTE_FIELDS) for route in routes)
+    if actual != _CANONICAL_ROUTE_MATRIX:
+        raise ValueError("route matrix differs from canonical scenarios")
+
 
 def decision_for_route(
     route: dict[str, Any],
@@ -99,6 +135,7 @@ def validate_bundle(bundle: dict[str, Any], verify_signatures: bool = True) -> l
     if bundle.get("environment") != ENVIRONMENT:
         raise ValueError("bundle environment mismatch")
 
+    _validate_canonical_route_matrix(bundle.get("routes"))
     runner_registry, toolchain_registry, authorizations = load_registries(bundle, verify_signatures)
     used_authorizations: set[str] = set()
     seen_routes: set[str] = set()
@@ -111,6 +148,4 @@ def validate_bundle(bundle: dict[str, Any], verify_signatures: bool = True) -> l
         if route["expectedDecision"] != expected:
             raise ValueError("route decision differs from canonical replay")
         decisions.append(expected)
-    if len(decisions) != 13:
-        raise ValueError("route matrix size mismatch")
     return decisions
