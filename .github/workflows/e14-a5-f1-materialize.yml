@@ -1,0 +1,43 @@
+name: E14-A5-F1 materialize bounded correction
+
+on:
+  pull_request:
+    paths:
+      - '.e14-a5-f1-payload/**'
+      - '.github/workflows/e14-a5-f1-materialize.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.head_ref == 'agent/e14-a5-f1-portable-authority-rebind-workflow-neutral-publication'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Verify and extract bounded correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .e14-a5-f1-payload/part* > payload.b64
+          test "$(sha256sum payload.b64 | awk '{print $1}')" = "b932139255a926c408dd19f4781526045d57f7eb4d048169cf6bc149b9253487"
+          base64 -d payload.b64 > payload.tar.gz
+          test "$(sha256sum payload.tar.gz | awk '{print $1}')" = "54cd8471c44fd0842570d273400f2d4555dfd2563421f841bd3a519da7070a71"
+          test "$(tar -tzf payload.tar.gz | wc -l)" -eq 13
+          tar -xzf payload.tar.gz
+          rm -rf .e14-a5-f1-payload payload.b64 payload.tar.gz
+          git checkout HEAD -- .github/workflows/e14-a5-final-closure.yml
+      - name: Publish non-workflow F1 tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'eigiib-closure-bot'
+          git config user.email 'eigiib-closure-bot@users.noreply.github.com'
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m 'E14-A5-F1: materialize bounded correction'
+          git push origin HEAD:"${{ github.head_ref }}"
