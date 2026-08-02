@@ -32,27 +32,24 @@ jobs:
           workflow = Path('.github/workflows/eigiib.yml')
           text = workflow.read_text(encoding='utf-8')
           old = """      - name: EIGIIB E14-A5 independent verifier matrix
-                  if: always()
-                  run: |
-                    set -o pipefail
-                    python tools/eigiib_e14_release_matrix.py . --json | tee .eigiib-results/components/e14-a5-matrix.json
-                - name: EIGIIB M0-A2 aggregate conformance
+                if: always()
+                run: |
+                  set -o pipefail
+                  python tools/eigiib_e14_release_matrix.py . --json | tee .eigiib-results/components/e14-a5-matrix.json
+              - name: EIGIIB M0-A2 aggregate conformance
           """
           new = """      - name: EIGIIB E14-A5-F1 portable authority rebinding conformance
-                  if: always()
-                  run: |
-                    set -o pipefail
-                    python tools/eigiib_e14_release_check.py . --json | tee .eigiib-results/components/e14-a5-f1.json
-                - name: EIGIIB E14-A5 independent verifier matrix
-                  if: always()
-                  run: |
-                    set -o pipefail
-                    python tools/eigiib_e14_release_matrix.py . --json | tee .eigiib-results/e14-a5-matrix.json
-                - name: EIGIIB M0-A2 aggregate conformance
+                if: always()
+                run: |
+                  set -o pipefail
+                  python tools/eigiib_e14_release_check.py . --json | tee .eigiib-results/components/e14-a5-f1.json
+              - name: EIGIIB E14-A5 independent verifier matrix
+                if: always()
+                run: |
+                  set -o pipefail
+                  python tools/eigiib_e14_release_matrix.py . --json | tee .eigiib-results/e14-a5-matrix.json
+              - name: EIGIIB M0-A2 aggregate conformance
           """
-          # Triple-quoted indentation above is normalized explicitly.
-          old = '\n'.join(line[10:] if line.startswith('          ') else line for line in old.splitlines()) + '\n'
-          new = '\n'.join(line[10:] if line.startswith('          ') else line for line in new.splitlines()) + '\n'
           if old not in text:
               if new not in text:
                   raise SystemExit('aggregate ordering block not found')
