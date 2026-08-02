@@ -1,0 +1,31 @@
+{
+  "$id": "https://eigiib.example/schemas/p1-a17-route.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "observed": {
+      "type": "object"
+    },
+    "portable": {
+      "type": "object"
+    },
+    "route": {
+      "enum": [
+        "reference-python-ghcr",
+        "reference-python-github-release",
+        "independent-go-stdlib",
+        "external-oras-gh-cli"
+      ]
+    },
+    "standard": {
+      "const": "EIGIIB-P1-A17-ROUTE-RESULT-1.0"
+    }
+  },
+  "required": [
+    "standard",
+    "route",
+    "observed",
+    "portable"
+  ],
+  "type": "object"
+}
