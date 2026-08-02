@@ -1,0 +1,32 @@
+{
+  "standard": "EIGIIB-P1-A20-BUNDLE-1.0",
+  "captureTime": "2026-08-02T11:51:00Z",
+  "registry": {
+    "registryId": "eigiib-p1-a20-runner-registry-v1",
+    "sequence": 1,
+    "authority": "fixture-release-governance-authority",
+    "runners": [
+      {"runnerId":"gha-ubuntu-24.04-x64","platform":"linux","architecture":"x86_64","image":"ubuntu-24.04","status":"active","admittedToolchains":["python-3.13","go-1.26","openssl-3"],"admissionEpoch":1},
+      {"runnerId":"gha-macos-15-arm64","platform":"darwin","architecture":"arm64","image":"macos-15","status":"active","admittedToolchains":["python-3.13","go-1.26","openssl-3"],"admissionEpoch":1},
+      {"runnerId":"gha-windows-2025-x64","platform":"windows","architecture":"x86_64","image":"windows-2025","status":"active","admittedToolchains":["python-3.13","go-1.26","openssl-3"],"admissionEpoch":1}
+    ],
+    "toolchains": [
+      {"toolchainId":"python-3.13","version":"3.13.14","state":"current","predecessor":null,"compatibilityWindow":{"min":"3.13.14","max":"3.13.14"}},
+      {"toolchainId":"go-1.26","version":"1.26.5","state":"current","predecessor":"go-1.25","compatibilityWindow":{"min":"1.25.0","max":"1.26.5"}},
+      {"toolchainId":"go-1.25","version":"1.25.7","state":"rollback-only","predecessor":null,"compatibilityWindow":{"min":"1.25.0","max":"1.25.7"}},
+      {"toolchainId":"openssl-3","version":"3.x","state":"current","predecessor":null,"compatibilityWindow":{"min":"3.0.0","max":"3.99.99"}}
+    ],
+    "succession": [
+      {"toolchainId":"go-1.26","from":"go-1.25","toVersion":"1.26.5","effectiveEpoch":2,"compatibilityEndsEpoch":4,"rollbackTarget":"go-1.25","rollbackAllowedUntilEpoch":4}
+    ],
+    "currentEpoch": 3
+  },
+  "routes": [
+    {"routeId":"admit-linux-current","runnerId":"gha-ubuntu-24.04-x64","requestedToolchains":{"python-3.13":"3.13.14","go-1.26":"1.26.5","openssl-3":"3.0.13"},"decision":"accept","reason":"registered-runner-current-toolchain"},
+    {"routeId":"admit-macos-compat","runnerId":"gha-macos-15-arm64","requestedToolchains":{"python-3.13":"3.13.14","go-1.26":"1.25.7","openssl-3":"3.4.1"},"decision":"accept","reason":"registered-runner-within-compatibility-window"},
+    {"routeId":"admit-windows-current","runnerId":"gha-windows-2025-x64","requestedToolchains":{"python-3.13":"3.13.14","go-1.26":"1.26.5","openssl-3":"3.2.4"},"decision":"accept","reason":"registered-runner-current-toolchain"},
+    {"routeId":"rollback-go-window","runnerId":"gha-ubuntu-24.04-x64","requestedToolchains":{"python-3.13":"3.13.14","go-1.26":"1.25.7","openssl-3":"3.0.13"},"decision":"accept","reason":"authorized-rollback-within-window","rollback":{"toolchainId":"go-1.26","target":"go-1.25","epoch":3}},
+    {"routeId":"reject-unregistered","runnerId":"gha-ubuntu-22.04-x64","requestedToolchains":{"python-3.13":"3.13.14","go-1.26":"1.26.5","openssl-3":"3.0.13"},"decision":"reject","reason":"runner-not-registered"},
+    {"routeId":"reject-expired-rollback","runnerId":"gha-ubuntu-24.04-x64","requestedToolchains":{"python-3.13":"3.13.14","go-1.26":"1.25.7","openssl-3":"3.0.13"},"decision":"reject","reason":"rollback-window-expired","rollback":{"toolchainId":"go-1.26","target":"go-1.25","epoch":5}}
+  ]
+}
