@@ -1,0 +1,260 @@
+{
+  "boundary": "workflow-executed-fixture-production-governance-sod-and-reviewed-emergency-override-closure",
+  "emergency": {
+    "override": {
+      "payload": {
+        "artifact": {
+          "protectedObjectSetSha256": "29811e4cbd30ff12fef18c12c61068f83de8d3c61a2be93ae8faf37f2f11b466",
+          "sourceP1A17CapsuleSha256": "bd0e55bb7ad0e44ab7adcc7538b7718dd6f7ab938ebb0752accaf40dff379340",
+          "sourceP1A17Commit": "2e2ea29ac61787cb62c22f7db828766257af4c01",
+          "sourceP1A17ReportSha256": "4e8473256a6e857d4826e2c2a1eb484d45d023cd648136a9ff0149a3f5931433"
+        },
+        "bypasses": [
+          "approval-threshold-only"
+        ],
+        "controllerKeyId": "emergency-controller",
+        "environment": "p1-a18-fixture-production",
+        "expiresAt": "2026-08-02T03:45:00Z",
+        "incidentId": "INC-P1-A18-0001",
+        "issuedAt": "2026-08-02T03:15:00Z",
+        "justification": "Restore a time-critical fixture publication path while preserving artifact, environment, signature and publisher controls.",
+        "overrideId": "P1-A18-OVR-0001",
+        "recordType": "emergency-override"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "keyId": "emergency-controller",
+        "payloadSha256": "d89eb7621b6bb7e9148845020b9f0edc618fb7528949debc0e84d8920e9013db",
+        "signatureBase64": "J7d0WSopGCldNl0a2dkkObDJiYkhwqoX0hXhFJnNgn2kTREggqBGvfWuYJgHXO6NTWyOT7cTprVOlZNUAqxLDQ=="
+      }
+    },
+    "promotion": {
+      "payload": {
+        "artifact": {
+          "protectedObjectSetSha256": "29811e4cbd30ff12fef18c12c61068f83de8d3c61a2be93ae8faf37f2f11b466",
+          "sourceP1A17CapsuleSha256": "bd0e55bb7ad0e44ab7adcc7538b7718dd6f7ab938ebb0752accaf40dff379340",
+          "sourceP1A17Commit": "2e2ea29ac61787cb62c22f7db828766257af4c01",
+          "sourceP1A17ReportSha256": "4e8473256a6e857d4826e2c2a1eb484d45d023cd648136a9ff0149a3f5931433"
+        },
+        "environment": "p1-a18-fixture-production",
+        "overrideId": "P1-A18-OVR-0001",
+        "path": "emergency",
+        "promotedAt": "2026-08-02T03:20:00Z",
+        "promotionId": "P1-A18-PROM-EMG-0001",
+        "publisherKeyId": "publisher",
+        "recordType": "promotion"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "keyId": "publisher",
+        "payloadSha256": "5a72576fab9f33d03ae257b01d80742ee27626e496c3883a909d651acbe7cbe4",
+        "signatureBase64": "R7oWk0qFlrRH0nzkYt/sj0HLckKh4TpZEWWYdkpJ+OhDd8GCo3qhe9ZFR1sQgW6OQJdG/+gOa6DBMmfNm8lHAg=="
+      }
+    },
+    "review": {
+      "payload": {
+        "auditorKeyId": "auditor",
+        "outcome": "accepted-without-scope-expansion",
+        "overrideId": "P1-A18-OVR-0001",
+        "promotionId": "P1-A18-PROM-EMG-0001",
+        "recordType": "post-emergency-review",
+        "reviewId": "P1-A18-REVIEW-0001",
+        "reviewedAt": "2026-08-02T03:40:00Z",
+        "scopeExpanded": false
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "keyId": "auditor",
+        "payloadSha256": "79d4b7be1d8122212d474a7960e1f8b68924e3aad4d8e1d75d7d8829f50d6714",
+        "signatureBase64": "he5mndS5ty+FSv+77r3NKk2UgsqwLOgTdyQuI1cnXKuphoZqb3k9ukPeF+FyrrHF3AXWdGuCIhUoPM9KfgqxDQ=="
+      }
+    }
+  },
+  "normal": {
+    "approvals": [
+      {
+        "payload": {
+          "approverKeyId": "approver-a",
+          "artifact": {
+            "protectedObjectSetSha256": "29811e4cbd30ff12fef18c12c61068f83de8d3c61a2be93ae8faf37f2f11b466",
+            "sourceP1A17CapsuleSha256": "bd0e55bb7ad0e44ab7adcc7538b7718dd6f7ab938ebb0752accaf40dff379340",
+            "sourceP1A17Commit": "2e2ea29ac61787cb62c22f7db828766257af4c01",
+            "sourceP1A17ReportSha256": "4e8473256a6e857d4826e2c2a1eb484d45d023cd648136a9ff0149a3f5931433"
+          },
+          "authorizationId": "P1-A18-AUTH-0001",
+          "environment": "p1-a18-fixture-production",
+          "expiresAt": "2026-08-02T03:45:00Z",
+          "issuedAt": "2026-08-02T03:05:00Z",
+          "recordType": "release-approval",
+          "requestId": "P1-A18-REQ-0001"
+        },
+        "signature": {
+          "algorithm": "Ed25519",
+          "keyId": "approver-a",
+          "payloadSha256": "d9a6ab0a39d78082e745f5b5d99c2d8f1c6385d8860e8af32bcf4624854c66a2",
+          "signatureBase64": "AHE8BufcMlD7fjdm0tpzP/k7pmGltL6NTWY0G6HMYtA8PoFwKWuE+WTKx3U882inUIIr4K6u3VXJ1VpwCcXfBw=="
+        }
+      },
+      {
+        "payload": {
+          "approverKeyId": "approver-b",
+          "artifact": {
+            "protectedObjectSetSha256": "29811e4cbd30ff12fef18c12c61068f83de8d3c61a2be93ae8faf37f2f11b466",
+            "sourceP1A17CapsuleSha256": "bd0e55bb7ad0e44ab7adcc7538b7718dd6f7ab938ebb0752accaf40dff379340",
+            "sourceP1A17Commit": "2e2ea29ac61787cb62c22f7db828766257af4c01",
+            "sourceP1A17ReportSha256": "4e8473256a6e857d4826e2c2a1eb484d45d023cd648136a9ff0149a3f5931433"
+          },
+          "authorizationId": "P1-A18-AUTH-0002",
+          "environment": "p1-a18-fixture-production",
+          "expiresAt": "2026-08-02T03:45:00Z",
+          "issuedAt": "2026-08-02T03:06:00Z",
+          "recordType": "release-approval",
+          "requestId": "P1-A18-REQ-0001"
+        },
+        "signature": {
+          "algorithm": "Ed25519",
+          "keyId": "approver-b",
+          "payloadSha256": "e392ef8cee5ec695e476b76a8f3db81abd2e3a45a363006a042c2fd96bbdf2ee",
+          "signatureBase64": "HaDs96VIAROKa/XbaXIo//I+uMbSZujKYzQk2uRB6blhuVmuaXQ2iKMoExnAgdG30YQje2VViRRiyveVlu6mAg=="
+        }
+      }
+    ],
+    "promotion": {
+      "payload": {
+        "artifact": {
+          "protectedObjectSetSha256": "29811e4cbd30ff12fef18c12c61068f83de8d3c61a2be93ae8faf37f2f11b466",
+          "sourceP1A17CapsuleSha256": "bd0e55bb7ad0e44ab7adcc7538b7718dd6f7ab938ebb0752accaf40dff379340",
+          "sourceP1A17Commit": "2e2ea29ac61787cb62c22f7db828766257af4c01",
+          "sourceP1A17ReportSha256": "4e8473256a6e857d4826e2c2a1eb484d45d023cd648136a9ff0149a3f5931433"
+        },
+        "authorizationIds": [
+          "P1-A18-AUTH-0001",
+          "P1-A18-AUTH-0002"
+        ],
+        "environment": "p1-a18-fixture-production",
+        "path": "normal",
+        "promotedAt": "2026-08-02T03:10:00Z",
+        "promotionId": "P1-A18-PROM-0001",
+        "publisherKeyId": "publisher",
+        "recordType": "promotion",
+        "requestId": "P1-A18-REQ-0001"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "keyId": "publisher",
+        "payloadSha256": "a85dcab7a4a566cf2034cc80e4176c4529032d4cf9d40ebd4cba6fda4dbc007d",
+        "signatureBase64": "z3+aAJWMl7vemohV7peUMFovUEhvWLW6BmNsbs+BY1r4dnuT2TU2mACMeEMcQPQ5e1FCBlUTkNIvnQys+K9eBQ=="
+      }
+    },
+    "request": {
+      "payload": {
+        "artifact": {
+          "protectedObjectSetSha256": "29811e4cbd30ff12fef18c12c61068f83de8d3c61a2be93ae8faf37f2f11b466",
+          "sourceP1A17CapsuleSha256": "bd0e55bb7ad0e44ab7adcc7538b7718dd6f7ab938ebb0752accaf40dff379340",
+          "sourceP1A17Commit": "2e2ea29ac61787cb62c22f7db828766257af4c01",
+          "sourceP1A17ReportSha256": "4e8473256a6e857d4826e2c2a1eb484d45d023cd648136a9ff0149a3f5931433"
+        },
+        "environment": "p1-a18-fixture-production",
+        "expiresAt": "2026-08-02T04:02:00Z",
+        "issuedAt": "2026-08-02T03:02:00Z",
+        "recordType": "release-request",
+        "requestId": "P1-A18-REQ-0001",
+        "requesterKeyId": "requester"
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "keyId": "requester",
+        "payloadSha256": "b747fbbdb4523e3a91aaa58cb1498cb1aa21cfa23e0bdc2c159ff994f45a95b6",
+        "signatureBase64": "9RLqFsA7yTcfyCL02wOCPP5e3FUz5ZPKkbr+m9AOAgfvSDrWhmnBPhvexM4MvazUCfsdamimONCABY2AejBZDA=="
+      }
+    }
+  },
+  "policy": {
+    "payload": {
+      "artifact": {
+        "protectedObjectSetSha256": "29811e4cbd30ff12fef18c12c61068f83de8d3c61a2be93ae8faf37f2f11b466",
+        "sourceP1A17CapsuleSha256": "bd0e55bb7ad0e44ab7adcc7538b7718dd6f7ab938ebb0752accaf40dff379340",
+        "sourceP1A17Commit": "2e2ea29ac61787cb62c22f7db828766257af4c01",
+        "sourceP1A17ReportSha256": "4e8473256a6e857d4826e2c2a1eb484d45d023cd648136a9ff0149a3f5931433"
+      },
+      "effectiveUntil": "2026-11-01T03:00:00Z",
+      "emergencyPath": {
+        "allowedBypasses": [
+          "approval-threshold-only"
+        ],
+        "auditorMustBeDistinctFromRequesterPublisherAndController": true,
+        "forbiddenBypasses": [
+          "artifact-integrity",
+          "environment-binding",
+          "publisher-identity",
+          "signature-verification"
+        ],
+        "incidentIdentifierRequired": true,
+        "justificationRequired": true,
+        "maxOverrideSeconds": 1800,
+        "postEmergencyReviewRequired": true,
+        "reviewDeadlineSeconds": 86400
+      },
+      "environment": "p1-a18-fixture-production",
+      "issuedAt": "2026-08-02T03:00:00Z",
+      "normalPath": {
+        "approvalThreshold": 2,
+        "approversMustBeDistinct": true,
+        "artifactAndEnvironmentBindingRequired": true,
+        "authorizationTtlSeconds": 3600,
+        "publisherMayApprove": false,
+        "publisherMustBeDistinctFromRequesterAndApprovers": true,
+        "requesterMayApprove": false
+      },
+      "policyId": "eigiib-p1-a18-fixture-production-governance-v1",
+      "revocation": {
+        "revokedAuthorizationIds": []
+      },
+      "roles": {
+        "approver-a": {
+          "path": "tests/fixtures/p1-a18/approver-a-public-key.pem",
+          "role": "release-approver",
+          "spkiSha256": "07bec896c8214e2ccc657fbfd0b52c0d4f16d4b72348c3dc29901e773159edcf"
+        },
+        "approver-b": {
+          "path": "tests/fixtures/p1-a18/approver-b-public-key.pem",
+          "role": "release-approver",
+          "spkiSha256": "f4daff3888113fcdba5c70df513a7a9295b70c51599ab4d63eec198584e38583"
+        },
+        "auditor": {
+          "path": "tests/fixtures/p1-a18/auditor-public-key.pem",
+          "role": "release-auditor",
+          "spkiSha256": "9d86edb0b390d98df06047009f719e5e9d69e4c7f7fd978021c6305ec8bc1ebb"
+        },
+        "emergency-controller": {
+          "path": "tests/fixtures/p1-a18/emergency-controller-public-key.pem",
+          "role": "emergency-controller",
+          "spkiSha256": "bcf403d289dddc53d814d8b5446c424892a344e2dfb3c38e431c6c57e2601b76"
+        },
+        "publisher": {
+          "path": "tests/fixtures/p1-a18/publisher-public-key.pem",
+          "role": "release-publisher",
+          "spkiSha256": "5a1e3299c80a080e0d905e883780d84e11b2eff2470f05217db1c33cb95f2af3"
+        },
+        "registrar": {
+          "path": "tests/fixtures/p1-a18/registrar-public-key.pem",
+          "role": "governance-registrar",
+          "spkiSha256": "f9fa28f30265958294658b4267a63073cca48c100c66c5b1f254e48d99a9f600"
+        },
+        "requester": {
+          "path": "tests/fixtures/p1-a18/requester-public-key.pem",
+          "role": "release-requester",
+          "spkiSha256": "28027656ea2cc67b7ea6a254135f33b73c889ba79d0b85b9c4c86599baa5813e"
+        }
+      },
+      "standard": "EIGIIB-P1-A18-GOVERNANCE-POLICY-1.0"
+    },
+    "signature": {
+      "algorithm": "Ed25519",
+      "keyId": "registrar",
+      "payloadSha256": "70122a5d2a2ab69aef84d2fc17e45c85a8a32520b24d80faa5317f0c5d384cdc",
+      "signatureBase64": "x2AYjgRD/wzi6R3rNaUgtZqMll1vuL7tS89saz/MIrZyyiw68t6cly9WUAxxXIG4vckAAfqldgRvKpvYrWkJDw=="
+    }
+  },
+  "standard": "EIGIIB-P1-A18-BUNDLE-1.0"
+}
