@@ -1,4 +1,4 @@
-# E14 safe-closure forecast after A1
+# E14 safe-closure forecast through A3 publication
 
 Status: planning authority, non-normative forecast.
 
@@ -32,4 +32,6 @@ The current safe estimate is four slices after E14-A1:
 
 This is a planning estimate, not a promise that four slices are sufficient under every future finding. A newly observed structural gap may require a bounded corrective slice before A5. Conversely, no forecast item may be silently omitted merely because an earlier slice carries a similarly named field.
 
-After completion of A2, the expected remaining count is three slices.
+E14-A2 global conformance has completed successfully on its exact head; its dedicated matrix remained queued at A3 branch creation and is not promoted here to a frozen matrix result.
+
+E14-A3 is the current published slice. After A3, the expected remaining count is two slices: E14-A4 and E14-A5.
