@@ -1,0 +1,42 @@
+name: E14-A5 materialize validated closure
+
+on:
+  push:
+    paths:
+      - '.e14-a5-payload/**'
+      - '.github/workflows/e14-a5-materialize.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.ref_name == 'agent/e14-a5-independent-verifier-release-boundary-final-freeze'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify and extract validated payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .e14-a5-payload/part* > payload.b64
+          test "$(sha256sum payload.b64 | awk '{print $1}')" = "2f06b743e49a35f208f7bfd17e24d759fef1ae38ddf3884c05fd976d13658d5b"
+          base64 -d payload.b64 > payload.tar.gz
+          test "$(sha256sum payload.tar.gz | awk '{print $1}')" = "f004627e55559cdeed24b710cede8d69e471874984555d0e4895f756a5d1360c"
+          test "$(tar -tzf payload.tar.gz | wc -l)" -eq 26
+          tar -xzf payload.tar.gz
+          rm -rf .e14-a5-payload payload.b64 payload.tar.gz
+          rm -f .github/workflows/e14-a5-materialize.yml
+      - name: Publish final A5 tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'eigiib-closure-bot'
+          git config user.email 'eigiib-closure-bot@users.noreply.github.com'
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m 'E14-A5: materialize final closure slice'
+          git push origin HEAD:"${GITHUB_REF_NAME}"
