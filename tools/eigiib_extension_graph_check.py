@@ -2,7 +2,7 @@
 """EIGIIB M0-A1 extension graph manifest checker.
 
 Static only: validates the repository-local functional graph and its artifact
-bindings. Reverse `used_by` edges are derived in the report and are forbidden
+bindings. Reverse ``used_by`` edges are derived in the report and are forbidden
 as stored manifest facts.
 """
 from __future__ import annotations
@@ -15,9 +15,10 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-TOOL_VERSION = "0.1.0"
+TOOL_VERSION = "0.1.1"
 STANDARD = "EIGIIB-M0-A1-1.0"
-REQUIRED_NODES = ["Core"] + [f"E{i}" for i in range(1, 14)]
+BASE_REQUIRED_NODES = ["Core"] + [f"E{i}" for i in range(1, 14)]
+OPTIONAL_ADOPTED_NODES = {"E14-1.0": "E14"}
 ALLOWED_TOP = {
     "standard", "status", "authority", "source_of_truth_for", "derived_fields",
     "functional_layers", "nodes", "hardening_profiles",
@@ -77,6 +78,15 @@ class Checker:
             return False
         return True
 
+    def required_nodes(self) -> list[str]:
+        extensions = self.profile.get("extensions", [])
+        if not isinstance(extensions, list):
+            extensions = []
+        return BASE_REQUIRED_NODES + [
+            node for extension, node in OPTIONAL_ADOPTED_NODES.items()
+            if extension in extensions
+        ]
+
     def check_shape(self) -> None:
         unknown = set(self.obj) - ALLOWED_TOP
         for field in sorted(unknown):
@@ -118,9 +128,10 @@ class Checker:
     def check_nodes(self) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
         nodes = self.index(self.obj.get("nodes"), "NODES", self.add)
         profiles = self.index(self.obj.get("hardening_profiles"), "HARDENING", self.add)
+        required_nodes = self.required_nodes()
 
-        missing = [n for n in REQUIRED_NODES if n not in nodes]
-        extra = [n for n in nodes if n not in REQUIRED_NODES]
+        missing = [n for n in required_nodes if n not in nodes]
+        extra = [n for n in nodes if n not in required_nodes]
         for n in missing:
             self.add("error", "M0.NODES.REQUIRED", f"required node {n} missing", "nodes")
         for n in extra:
@@ -265,14 +276,16 @@ class Checker:
                     self.add("error", "M0.LAYERS.REF", f"layer node {nid} does not resolve", loc)
                     continue
                 if nid in membership:
-                    self.add("error", "M0.LAYERS.MULTIPLE",
-                             f"node {nid} appears in more than one functional layer", loc)
+                    self.add("error", "M0.LAYERS.MULTIPLE", f"node {nid} appears in more than one functional layer", loc)
                 membership[nid] = lid
         for nid in nodes:
             if nid not in membership:
                 self.add("error", "M0.LAYERS.MISSING", f"node {nid} is not assigned to a functional layer", f"node:{nid}")
 
-        layer_order = {layer.get("id"): i for i, layer in enumerate(layers) if isinstance(layer, dict) and isinstance(layer.get("id"), str)}
+        layer_order = {
+            layer.get("id"): i for i, layer in enumerate(layers)
+            if isinstance(layer, dict) and isinstance(layer.get("id"), str)
+        }
         for nid, node in nodes.items():
             here = layer_order.get(membership.get(nid))
             if here is None:
@@ -319,12 +332,11 @@ class Checker:
         required = self.profile.get("required_authorities", [])
         manifest_key = "extension_graph"
         manifest_path = str(self.manifest_path)
-        if authorities.get(manifest_key) != manifest_path:
+        if not isinstance(authorities, dict) or authorities.get(manifest_key) != manifest_path:
             self.add("error", "M0.PROFILE.GRAPH_AUTHORITY",
                      f"EIGIIB.toml must bind {manifest_key} to {manifest_path}", "EIGIIB.toml")
-        if manifest_key not in required:
-            self.add("error", "M0.PROFILE.GRAPH_REQUIRED",
-                     "extension_graph must be a required authority", "EIGIIB.toml")
+        if not isinstance(required, list) or manifest_key not in required:
+            self.add("error", "M0.PROFILE.GRAPH_REQUIRED", "extension_graph must be a required authority", "EIGIIB.toml")
 
     def run(self) -> dict[str, Any]:
         if self.load():
