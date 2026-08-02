@@ -1,0 +1,61 @@
+name: P1-A17 editor materialization
+
+on:
+  pull_request:
+    branches: [agent/p1-a16-external-registry-cross-registry-readback]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.head_ref == 'agent/p1-a17-editor'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Reconstruct and validate editor payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .p1-a17-editor/part-* > payload.b64
+          python - <<'PY'
+          import base64,hashlib,pathlib,zipfile
+          root=pathlib.Path('.')
+          raw=base64.b64decode((root/'payload.b64').read_bytes(),validate=True)
+          expected='20bbe751a26429b702a357fb0f150f579516ad97243eab38ad72008dc19501d3'
+          if hashlib.sha256(raw).hexdigest()!=expected: raise SystemExit('editor payload digest mismatch')
+          (root/'payload.zip').write_bytes(raw)
+          with zipfile.ZipFile(root/'payload.zip') as z:
+              if len(z.namelist()) != 26: raise SystemExit('unexpected P1-A17 file count')
+              z.extractall(root)
+          PY
+          rm -rf .p1-a17-editor payload.b64 payload.zip .github/workflows/p1-a17-editor.yml
+      - name: Validate materialized tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest -v tests/test_eigiib_p1_a17_durable_availability.py
+          python tools/eigiib_p1_a17_check.py --output actual-report.json >/dev/null
+          cmp tests/fixtures/p1-a17/expected-report.json actual-report.json
+          python tools/eigiib_p1_a17_schema_check.py
+          cd independent
+          gofmt -w p1durability/adapter.go p1durability/adapter_test.go cmd/eigiib-p1-durability-adapter/main.go
+          go test ./p1durability ./cmd/eigiib-p1-durability-adapter
+          cd ..
+          rm -f actual-report.json
+      - name: Persist final editor tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'eigiib-p1-a17-editor'
+          git config user.email 'eigiib-p1-a17-editor@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'P1-A17: materialize replication retention restore closure'
+          git push origin HEAD:${{ github.head_ref }}
