@@ -4,7 +4,7 @@ conformance_target = "EIGIIB-C2"
 revision = "EIGIIB-E14-draft-1.0"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state", "p1_sigstore_contract", "p1_sigstore_state", "p1_scitt_contract", "p1_scitt_state", "p1_chain_contract", "p1_chain_state", "p1_verifier_matrix_contract", "p1_verifier_matrix_state", "p1_external_bridge_contract", "p1_external_bridge_state", "m0_a5_p1_lineage", "m0_a5_e14_handoff", "m0_a5_human_mastery", "m0_a5_f1_authority_freeze", "e14", "confidential_evidence", "e14_a1_transition", "e14_a1_human_mastery", "e14_a2_contract", "disclosure_authorization", "e14_a2_human_mastery"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state", "p1_sigstore_contract", "p1_sigstore_state", "p1_scitt_contract", "p1_scitt_state", "p1_chain_contract", "p1_chain_state", "p1_verifier_matrix_contract", "p1_verifier_matrix_state", "p1_external_bridge_contract", "p1_external_bridge_state", "m0_a5_p1_lineage", "m0_a5_e14_handoff", "m0_a5_human_mastery", "m0_a5_f1_authority_freeze", "e14", "confidential_evidence", "e14_a1_transition", "e14_a1_human_mastery", "e14_a2_contract", "disclosure_authorization", "e14_a2_human_mastery", "e14_a3_contract", "correlation_control", "e14_a3_human_mastery"]
 
 [authorities]
 scope = "README.md"
@@ -63,6 +63,9 @@ e14_a1_human_mastery = "docs/E14-A1-HUMAN-MASTERY-GUIDE.md"
 e14_a2_contract = "extensions/E14-A2-DISCLOSURE-AUTHORIZATION-AUDIENCE-ELIGIBILITY-CONTEXT-REVALIDATION.md"
 disclosure_authorization = "conformance/disclosure-authorization.json"
 e14_a2_human_mastery = "docs/E14-A2-HUMAN-MASTERY-GUIDE.md"
+e14_a3_contract = "extensions/E14-A3-CORRELATION-CONTROL-SINGLE-USE-LINKABILITY-REPLAY.md"
+correlation_control = "conformance/correlation-control.json"
+e14_a3_human_mastery = "docs/E14-A3-HUMAN-MASTERY-GUIDE.md"
 
 [checks]
 markdown_links = true
@@ -204,3 +207,9 @@ id = "e14-a2-disclosure-authorization-boundary-review"
 status = "complete"
 authority = "e14_a2_contract"
 attestation = "conformance/E14-A2-MANUAL-REVIEW.md"
+
+[[manual_gates]]
+id = "e14-a3-correlation-control-boundary-review"
+status = "complete"
+authority = "e14_a3_contract"
+attestation = "conformance/E14-A3-MANUAL-REVIEW.md"
