@@ -229,3 +229,11 @@ sealed projection
 ```
 
 Its authority is `extensions/E14-A2-DISCLOSURE-AUTHORIZATION-AUDIENCE-ELIGIBILITY-CONTEXT-REVALIDATION.md`. E14-A2 does not change A1 record or projection commitments and still defines no release or transmission event.
+
+## 16. E14-A3 correlation-control enforcement companion
+
+E14-A3 binds each exact E14-A1 projection and E14-A2 decision to a versioned control profile, scoped budget, enforcement request and ordered consumption record.
+
+Only prior `committed` consumptions reduce operation-nonce, per-projection, per-source-record and scoped-budget capacity. Isolated, pairwise and declared-shared modes are replayed separately.
+
+Its authority is `extensions/E14-A3-CORRELATION-CONTROL-SINGLE-USE-LINKABILITY-REPLAY.md`. A committed A3 result is not a release event, distributed atomic transaction, audience-authentication proof or anonymity/unlinkability proof. Revocation freshness, withdrawal propagation and disclosure anti-rollback remain assigned to E14-A4.
