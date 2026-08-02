@@ -237,3 +237,9 @@ E14-A3 binds each exact E14-A1 projection and E14-A2 decision to a versioned con
 Only prior `committed` consumptions reduce operation-nonce, per-projection, per-source-record and scoped-budget capacity. Isolated, pairwise and declared-shared modes are replayed separately.
 
 Its authority is `extensions/E14-A3-CORRELATION-CONTROL-SINGLE-USE-LINKABILITY-REPLAY.md`. A committed A3 result is not a release event, distributed atomic transaction, audience-authentication proof or anonymity/unlinkability proof. Revocation freshness, withdrawal propagation and disclosure anti-rollback remain assigned to E14-A4.
+
+## 17. E14-A4 revocation and anti-rollback companion
+
+E14-A4 binds an otherwise positive A1/A2/A3 path to current commitment-chained status heads for the source record, projection and distribution channel. It rejects stale, revoked, withdrawn, superseded or rolled-back state while preserving unavailable and held as distinct non-positive results.
+
+Its authority is `extensions/E14-A4-REVOCATION-FRESHNESS-DISTRIBUTION-WITHDRAWAL-DISCLOSURE-ANTI-ROLLBACK-REPLAY.md`. E14-A4 does not establish globally trusted time, global propagation, byte recall, release or external consensus.

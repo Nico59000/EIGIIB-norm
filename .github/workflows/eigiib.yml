@@ -130,6 +130,11 @@ jobs:
         run: |
           set -o pipefail
           python tools/eigiib_correlation_control_check.py . --json | tee .eigiib-results/components/e14-a3.json
+      - name: EIGIIB E14-A4 revocation freshness conformance
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_disclosure_revocation_check.py . --json | tee .eigiib-results/components/e14-a4.json
       - name: EIGIIB M0-A2 aggregate conformance
         if: always()
         run: |
