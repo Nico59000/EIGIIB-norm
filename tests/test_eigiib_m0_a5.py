@@ -23,11 +23,15 @@ class M0A5Test(unittest.TestCase):
             "conformance/m0-a5-p1-lineage.json",
             "conformance/m0-a5-e14-handoff.json",
             "conformance/m0-a5-f1-authority-freeze.json",
-            "tests/fixtures/m0-a5/expected-report.json",
         ):
             target = self.root / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text((source_root / relative).read_text(encoding="utf-8"), encoding="utf-8")
+
+        fixture_relative = "tests/fixtures/m0-a5/expected-report.json"
+        fixture_target = self.root / fixture_relative
+        fixture_target.parent.mkdir(parents=True, exist_ok=True)
+        fixture_target.write_bytes((source_root / fixture_relative).read_bytes())
 
         lineage = json.loads((self.root / "conformance/m0-a5-p1-lineage.json").read_text(encoding="utf-8"))
         paths: set[str] = set()
