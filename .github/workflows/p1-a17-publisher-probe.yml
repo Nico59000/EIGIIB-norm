@@ -23,10 +23,12 @@ jobs:
           python-version: '3.13.14'
       - name: Publish recovery replica and capture evidence
         env:
+          GH_TOKEN: ${{ github.token }}
           GITHUB_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
+          gh --version
           openssl version
           python tools/eigiib_p1_a17_publish_probe.py
       - name: Persist captured evidence on probe branch
