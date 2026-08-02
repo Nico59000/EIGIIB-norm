@@ -10,6 +10,8 @@ permissions:
 env:
   PYTHONDONTWRITEBYTECODE: '1'
   GOTOOLCHAIN: local
+  GITHUB_TOKEN: ${{ github.token }}
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
   durable-availability-replay:
