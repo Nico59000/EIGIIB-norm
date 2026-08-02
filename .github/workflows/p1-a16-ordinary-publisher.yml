@@ -31,7 +31,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cat bootstrap/p1-a16-ordinary.tar.gz.b64.part* | base64 --decode > /tmp/p1-a16-ordinary.tar.gz
+          cat > /tmp/fragment-sha256 <<'EOF'
+          e74e66e8eb9169b091e3f030236eb6500b6ce247ac7f31858fcf8b7eed7b9088  bootstrap/p1-a16-ordinary-v2/part00.b64
+          73363cd4882926ea6985634b5d8d4cd62b560d381bf760638d3be63b960e84a7  bootstrap/p1-a16-ordinary-v2/part01.b64
+          246ce03d43eaef0a641d42ca510815f4b56bc606d243f14838c10602cd87d887  bootstrap/p1-a16-ordinary-v2/part02.b64
+          1f8f8a2f58e38954e496bdbd9e1be8b1450bcf6d8478e8a8c0d753151f8a977a  bootstrap/p1-a16-ordinary-v2/part03.b64
+          632716bb18d39c9c505272b5502963df38f456e9c5001c0859021276c2181aff  bootstrap/p1-a16-ordinary-v2/part04.b64
+          e09a3d9e2790a5bdb3d2f475b162c5bf3372497dfbd6afa8cf85ffd4fbedfa2d  bootstrap/p1-a16-ordinary-v2/part05.b64
+          3929d6f8940754744354f78c75c5d5a09888395e74cf2c782f97efd6563c629f  bootstrap/p1-a16-ordinary-v2/part06.b64
+          EOF
+          sha256sum -c /tmp/fragment-sha256
+          cat bootstrap/p1-a16-ordinary-v2/part*.b64 | base64 --decode > /tmp/p1-a16-ordinary.tar.gz
           echo '5e7dd79e8842e4efc1fe2430728c24a5923a3fba7e6203ad82bae4e5198b5009  /tmp/p1-a16-ordinary.tar.gz' | sha256sum -c -
           cat > /tmp/expected-paths <<'EOF'
           conformance/P1-A16-MANUAL-REVIEW.md
@@ -61,7 +71,11 @@ jobs:
           diff -u /tmp/expected-paths /tmp/actual-paths
           while IFS= read -r path; do test ! -e "$path"; done < /tmp/expected-paths
           tar -xzf /tmp/p1-a16-ordinary.tar.gz
-          rm -f bootstrap/p1-a16-ordinary.tar.gz.b64.part* .github/workflows/p1-a16-ordinary-publisher.yml
+          rm -f \
+            bootstrap/p1-a16-ordinary.tar.gz.b64.part* \
+            bootstrap/p1-a16-ordinary-v2/part*.b64 \
+            .github/workflows/p1-a16-ordinary-publisher.yml
+          rmdir bootstrap/p1-a16-ordinary-v2
       - name: Install locked ORAS CLI
         shell: bash
         run: |
