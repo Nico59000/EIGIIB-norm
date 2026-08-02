@@ -1,6 +1,6 @@
 # EIGIIB-E14 — Confidential Evidence, Selective Disclosure and Information Minimization
 
-Status: draft normative extension 1.0, introduced by E14-A1 after the M0-A5-F1 handoff freeze.
+Status: final normative extension 1.0, closed by E14-A5 after the M0-A5-F1 handoff freeze.
 
 ## 1. Purpose
 
@@ -242,4 +242,19 @@ Its authority is `extensions/E14-A3-CORRELATION-CONTROL-SINGLE-USE-LINKABILITY-R
 
 E14-A4 binds an otherwise positive A1/A2/A3 path to current commitment-chained status heads for the source record, projection and distribution channel. It rejects stale, revoked, withdrawn, superseded or rolled-back state while preserving unavailable and held as distinct non-positive results.
 
-Its authority is `extensions/E14-A4-REVOCATION-FRESHNESS-DISTRIBUTION-WITHDRAWAL-DISCLOSURE-ANTI-ROLLBACK-REPLAY.md`. E14-A4 does not establish globally trusted time, global propagation, byte recall, release or external consensus.
+E14-A4 does not establish globally trusted time, global propagation, byte recall, release or external consensus.
+
+
+## 17. E14-A4 revocation-freshness companion
+
+E14-A4 binds the A1–A3 path to versioned freshness sources, distribution channels, commitment-chained status histories, current heads and minimum generations. It rejects revocation, withdrawal, supersession, stale state and rollback before any release boundary is crossed.
+
+Its authority is `extensions/E14-A4-REVOCATION-FRESHNESS-DISTRIBUTION-WITHDRAWAL-DISCLOSURE-ANTI-ROLLBACK-REPLAY.md`. A4 admissibility remains a replay result, not a release event.
+
+## 18. E14-A5 final closure companion
+
+E14-A5 adds the explicit release-event boundary, receipt commitment, independent decision-verifier matrix and exact final authority freeze.
+
+The final profile revision is `EIGIIB-E14-1.0`. Its authority is `extensions/E14-A5-INDEPENDENT-VERIFIER-MATRIX-RELEASE-BOUNDARY-FINAL-AUTHORITY-FREEZE.md`.
+
+A repository `released` event does not prove remote delivery, recipient possession or external durability. These remain explicit nonclaims after E14 closure.

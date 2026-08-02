@@ -1,0 +1,96 @@
+{
+  "cases": [
+    {
+      "expected_state": "released",
+      "id": "all-positive",
+      "inputs": {
+        "policy_result": "permit",
+        "recipient_result": "authenticated",
+        "replay_result": "current",
+        "transport_result": "protected",
+        "upstream_result": "admissible"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "upstream-negative-precedes-unavailable",
+      "inputs": {
+        "policy_result": "permit",
+        "recipient_result": "authenticated",
+        "replay_result": "current",
+        "transport_result": "unavailable",
+        "upstream_result": "rejected"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "policy-deny",
+      "inputs": {
+        "policy_result": "deny",
+        "recipient_result": "authenticated",
+        "replay_result": "current",
+        "transport_result": "protected",
+        "upstream_result": "admissible"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "recipient-unauthenticated",
+      "inputs": {
+        "policy_result": "permit",
+        "recipient_result": "unauthenticated",
+        "replay_result": "current",
+        "transport_result": "protected",
+        "upstream_result": "admissible"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "transport-unprotected",
+      "inputs": {
+        "policy_result": "permit",
+        "recipient_result": "authenticated",
+        "replay_result": "current",
+        "transport_result": "unprotected",
+        "upstream_result": "admissible"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "release-replay",
+      "inputs": {
+        "policy_result": "permit",
+        "recipient_result": "authenticated",
+        "replay_result": "replay-detected",
+        "transport_result": "protected",
+        "upstream_result": "admissible"
+      }
+    },
+    {
+      "expected_state": "held",
+      "id": "recipient-contested",
+      "inputs": {
+        "policy_result": "permit",
+        "recipient_result": "held",
+        "replay_result": "current",
+        "transport_result": "protected",
+        "upstream_result": "admissible"
+      }
+    },
+    {
+      "expected_state": "unavailable",
+      "id": "transport-unavailable",
+      "inputs": {
+        "policy_result": "permit",
+        "recipient_result": "authenticated",
+        "replay_result": "current",
+        "transport_result": "unavailable",
+        "upstream_result": "admissible"
+      }
+    }
+  ],
+  "independent_verifier": "tools/eigiib_e14_release_independent.py",
+  "reference_verifier": "tools/eigiib_e14_release_check.py",
+  "standard": "EIGIIB-E14-A5-1.0",
+  "status": "frozen-vectors"
+}

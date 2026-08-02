@@ -1,0 +1,108 @@
+{
+  "$id": "https://example.invalid/eigiib/schemas/eigiib-e14-a5-release-boundary.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "release_events": {"items": {"$ref": "#/$defs/event"}, "type": "array"},
+    "release_policies": {"items": {"$ref": "#/$defs/policy"}, "type": "array"},
+    "release_receipts": {"items": {"$ref": "#/$defs/receipt"}, "type": "array"},
+    "release_requests": {"items": {"$ref": "#/$defs/request"}, "type": "array"},
+    "standard": {"const": "EIGIIB-E14-A5-1.0"},
+    "status": {"const": "structural-only"},
+    "upstream_authorization_registry": {"const": "conformance/disclosure-authorization.json"},
+    "upstream_correlation_registry": {"const": "conformance/correlation-control.json"},
+    "upstream_projection_registry": {"const": "conformance/confidential-evidence.json"},
+    "upstream_revocation_registry": {"const": "conformance/disclosure-revocation.json"}
+  },
+  "required": [
+    "standard", "status", "upstream_projection_registry", "upstream_authorization_registry",
+    "upstream_correlation_registry", "upstream_revocation_registry", "release_policies",
+    "release_requests", "release_events", "release_receipts"
+  ],
+  "title": "EIGIIB E14-A5 release-boundary registry",
+  "type": "object",
+  "$defs": {
+    "strings": {"items": {"minLength": 1, "type": "string"}, "type": "array", "uniqueItems": true},
+    "commitment": {
+      "additionalProperties": false,
+      "properties": {"algorithm": {"const": "sha256"}, "digest": {"pattern": "^[0-9a-f]{64}$", "type": "string"}},
+      "required": ["algorithm", "digest"], "type": "object"
+    },
+    "policy": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_audiences": {"$ref": "#/$defs/strings"}, "allowed_endpoints": {"$ref": "#/$defs/strings"},
+        "allowed_purposes": {"$ref": "#/$defs/strings"}, "id": {"minLength": 1, "type": "string"},
+        "max_payload_bytes": {"minimum": 0, "type": "integer"}, "require_recipient_authentication": {"type": "boolean"},
+        "required_transport_properties": {"$ref": "#/$defs/strings"}, "revision": {"minLength": 1, "type": "string"},
+        "state": {"enum": ["active", "retired", "contested", "unavailable"]}
+      },
+      "required": ["id", "revision", "state", "allowed_audiences", "allowed_purposes", "allowed_endpoints", "required_transport_properties", "max_payload_bytes", "require_recipient_authentication"],
+      "type": "object"
+    },
+    "request": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {"const": "eigiib:e14:release-projection"}, "audience": {"minLength": 1, "type": "string"},
+        "audience_revision": {"minLength": 1, "type": "string"}, "authorization_decision": {"minLength": 1, "type": "string"},
+        "authorization_request": {"minLength": 1, "type": "string"}, "authorization_request_revision": {"minLength": 1, "type": "string"},
+        "correlation_consumption": {"minLength": 1, "type": "string"}, "correlation_consumption_revision": {"minLength": 1, "type": "string"},
+        "correlation_enforcement_request": {"minLength": 1, "type": "string"}, "correlation_enforcement_revision": {"minLength": 1, "type": "string"},
+        "distribution": {"minLength": 1, "type": "string"}, "distribution_commitment": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+        "distribution_revision": {"minLength": 1, "type": "string"}, "endpoint": {"minLength": 1, "type": "string"},
+        "id": {"minLength": 1, "type": "string"}, "payload_bytes": {"minimum": 0, "type": "integer"},
+        "payload_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"}, "policy": {"minLength": 1, "type": "string"},
+        "policy_revision": {"minLength": 1, "type": "string"}, "projection": {"minLength": 1, "type": "string"},
+        "projection_commitment": {"pattern": "^[0-9a-f]{64}$", "type": "string"}, "projection_revision": {"minLength": 1, "type": "string"},
+        "purpose": {"minLength": 1, "type": "string"}, "recipient_authentication_evidence": {"$ref": "#/$defs/strings"},
+        "recipient_authentication_state": {"enum": ["authenticated", "unauthenticated", "contested", "unavailable"]},
+        "release_nonce": {"minLength": 1, "type": "string"}, "revocation_attempt": {"minLength": 1, "type": "string"},
+        "revocation_attempt_revision": {"minLength": 1, "type": "string"}, "revocation_decision": {"minLength": 1, "type": "string"},
+        "revision": {"minLength": 1, "type": "string"}, "source_commitment": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+        "source_record": {"minLength": 1, "type": "string"}, "source_revision": {"minLength": 1, "type": "string"},
+        "transport_properties": {"$ref": "#/$defs/strings"}, "transport_security_evidence": {"$ref": "#/$defs/strings"},
+        "transport_state": {"enum": ["protected", "unprotected", "contested", "unavailable"]}
+      },
+      "required": [
+        "id", "revision", "action", "revocation_decision", "revocation_attempt", "revocation_attempt_revision",
+        "source_record", "source_revision", "source_commitment", "projection", "projection_revision", "projection_commitment",
+        "authorization_request", "authorization_request_revision", "authorization_decision", "correlation_enforcement_request",
+        "correlation_enforcement_revision", "correlation_consumption", "correlation_consumption_revision", "distribution",
+        "distribution_revision", "distribution_commitment", "audience", "audience_revision", "purpose", "endpoint", "policy",
+        "policy_revision", "payload_bytes", "payload_sha256", "release_nonce", "recipient_authentication_state",
+        "recipient_authentication_evidence", "transport_state", "transport_properties", "transport_security_evidence"
+      ],
+      "type": "object"
+    },
+    "event": {
+      "additionalProperties": false,
+      "properties": {
+        "evaluator": {"minLength": 1, "type": "string"}, "evidence": {"$ref": "#/$defs/strings"},
+        "id": {"minLength": 1, "type": "string"}, "policy_result": {"enum": ["permit", "deny", "held", "unavailable"]},
+        "recipient_result": {"enum": ["authenticated", "unauthenticated", "held", "unavailable"]},
+        "receipt": {"minLength": 1, "type": ["string", "null"]}, "reasons": {"$ref": "#/$defs/strings"},
+        "replay_result": {"enum": ["current", "replay-detected", "held", "unavailable"]},
+        "request": {"minLength": 1, "type": "string"}, "request_revision": {"minLength": 1, "type": "string"},
+        "sequence": {"minimum": 1, "type": "integer"}, "state": {"enum": ["released", "rejected", "held", "unavailable"]},
+        "transport_result": {"enum": ["protected", "unprotected", "held", "unavailable"]},
+        "upstream_result": {"enum": ["admissible", "rejected", "held", "unavailable"]}
+      },
+      "required": ["id", "request", "request_revision", "sequence", "state", "upstream_result", "policy_result", "recipient_result", "transport_result", "replay_result", "evaluator", "reasons", "evidence", "receipt"],
+      "type": "object"
+    },
+    "receipt": {
+      "additionalProperties": false,
+      "properties": {
+        "audience": {"minLength": 1, "type": "string"}, "commitment": {"$ref": "#/$defs/commitment"},
+        "distribution_commitment": {"pattern": "^[0-9a-f]{64}$", "type": "string"}, "endpoint": {"minLength": 1, "type": "string"},
+        "event": {"minLength": 1, "type": "string"}, "id": {"minLength": 1, "type": "string"},
+        "payload_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"}, "projection_commitment": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+        "release_nonce": {"minLength": 1, "type": "string"}, "request": {"minLength": 1, "type": "string"},
+        "request_revision": {"minLength": 1, "type": "string"}, "revision": {"minLength": 1, "type": "string"},
+        "transport_session": {"minLength": 1, "type": "string"}
+      },
+      "required": ["id", "revision", "event", "request", "request_revision", "release_nonce", "projection_commitment", "distribution_commitment", "audience", "endpoint", "payload_sha256", "transport_session", "commitment"],
+      "type": "object"
+    }
+  }
+}

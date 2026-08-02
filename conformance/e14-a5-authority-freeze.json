@@ -1,0 +1,258 @@
+{
+  "authorities": [
+    {
+      "bytes": 2071,
+      "path": ".github/workflows/e14-a1-confidential-evidence.yml",
+      "sha256": "dfa2c3509589ef53cde3c1ef442cd2e729b3b27357e2e8b52dd08d00b38715c3"
+    },
+    {
+      "bytes": 1509,
+      "path": ".github/workflows/e14-a2-disclosure-authorization.yml",
+      "sha256": "77b20729b21f32ac2b6f2c6fdcadb80350de4e568c6bf990754d56ae9e8bcf34"
+    },
+    {
+      "bytes": 1535,
+      "path": ".github/workflows/e14-a3-correlation-control.yml",
+      "sha256": "d648e7ed40a161d5f3e05124397208e181289d9332072c17593c1edbcc5f1322"
+    },
+    {
+      "bytes": 1594,
+      "path": ".github/workflows/e14-a4-disclosure-revocation.yml",
+      "sha256": "91f3e8fd2ce764327562d4d28debc146ef18928e59f6a83c1d2b903b183e1663"
+    },
+    {
+      "bytes": 2573,
+      "path": ".github/workflows/e14-a5-final-closure.yml",
+      "sha256": "ac478b62bcc7317d02db359698bb8abede41104f4995ae1c7ea87330316c4abd"
+    },
+    {
+      "bytes": 8442,
+      "path": ".github/workflows/eigiib.yml",
+      "sha256": "08ad6f05590ca698a266d07645d369e0a129fd01712951b9b40c9cdaeb669c2b"
+    },
+    {
+      "bytes": 10047,
+      "path": "EIGIIB.toml",
+      "sha256": "8d0167bbeeddf132da92c900b1871881c8ae6107f9caa0d5d127e5e3d0813885"
+    },
+    {
+      "bytes": 892,
+      "path": "conformance/E14-A1-MANUAL-REVIEW.md",
+      "sha256": "e9e8c9c712ea4a7069c2f26595d60e5f7184149ac0edfbbcd52ee95f5e498662"
+    },
+    {
+      "bytes": 714,
+      "path": "conformance/E14-A2-MANUAL-REVIEW.md",
+      "sha256": "14468e1bc2d5fcabcd68d6cd10897b10cb46bafbee376dd7b569d8ae0ee876d7"
+    },
+    {
+      "bytes": 728,
+      "path": "conformance/E14-A3-MANUAL-REVIEW.md",
+      "sha256": "5e2ddc413911a8801513f320de800449bd5832bd3db26954f6b1a5c042ded2e6"
+    },
+    {
+      "bytes": 562,
+      "path": "conformance/E14-A4-MANUAL-REVIEW.md",
+      "sha256": "ce870bd35f9cdc867a392d6c9672afa52fe3e3fcbca5279f8a4f5376aa25b7c3"
+    },
+    {
+      "bytes": 824,
+      "path": "conformance/E14-A5-MANUAL-REVIEW.md",
+      "sha256": "668d53d753a6f73ca37b0387dfaba919a0f83899148d311283d2161e2dd92988"
+    },
+    {
+      "bytes": 241,
+      "path": "conformance/confidential-evidence.json",
+      "sha256": "d48d8ad54b968fb0e2370922459a0484bb53a3ed8ffe6efa2e0ef7b747426b94"
+    },
+    {
+      "bytes": 322,
+      "path": "conformance/correlation-control.json",
+      "sha256": "545ecf16d030ac0929db58ff0d8763fe18f8be1a5948f67aab7bec002f22a392"
+    },
+    {
+      "bytes": 248,
+      "path": "conformance/disclosure-authorization.json",
+      "sha256": "c13a72011c8c008a9a8d8eac49435dda310aabb0a4dd541ffbac326cc8b80817"
+    },
+    {
+      "bytes": 434,
+      "path": "conformance/disclosure-revocation.json",
+      "sha256": "78e69006a32d784fb4bb58f20864ce4674a4d8e90a10d37a93932e1be6031953"
+    },
+    {
+      "bytes": 1303,
+      "path": "conformance/e14-a1-adoption-transition.json",
+      "sha256": "d3b3d01c7a9006da3c56a0e6d64e39947b68e76f1fbbea89acf0465c54cf69a7"
+    },
+    {
+      "bytes": 2682,
+      "path": "conformance/e14-a5-verifier-matrix.json",
+      "sha256": "c58d42d2f0014dc7358732a1536da7b1f8c9c9014b63f04afc08ad3366a2566b"
+    },
+    {
+      "bytes": 480,
+      "path": "conformance/e14-release-boundary.json",
+      "sha256": "7ab8be1828284790f6c835a038f77d23779a5d7b7aed554193b12b2699136f5a"
+    },
+    {
+      "bytes": 14130,
+      "path": "conformance/extension-graph.json",
+      "sha256": "0263f579491bca335bb126fbea9ca4f963c076613f242fa6449bf890ffc390ee"
+    },
+    {
+      "bytes": 1736,
+      "path": "docs/E14-A1-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "8e1f5d930edeba90f32c08dc5c43ceaa49ae9e8c8cc7592d77e336c4d1b24a46"
+    },
+    {
+      "bytes": 1913,
+      "path": "docs/E14-A2-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "63150ba30468e21d843857d7853f8a74c2d9c0cadb9014060ee9d91f7418d732"
+    },
+    {
+      "bytes": 1799,
+      "path": "docs/E14-A3-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "c2d15b4587c0f38ec23a91e61e248eef73832f22105a5dd0661068080e8da4c3"
+    },
+    {
+      "bytes": 1464,
+      "path": "docs/E14-A4-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "0d973eb0e7e6b10233dfc52a35e406707ce4141b7431659d18b1cee9078cb54e"
+    },
+    {
+      "bytes": 1975,
+      "path": "docs/E14-A5-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "4df41723d7ade238fe0780fa55d98dd2829a9080bf2786bda6f2a8ac1b17b114"
+    },
+    {
+      "bytes": 870,
+      "path": "docs/E14-CLOSURE-FORECAST.md",
+      "sha256": "a677cdd3592b2a857778446dd0a9f59e17e15e916686f38cf1273688471acc63"
+    },
+    {
+      "bytes": 1594,
+      "path": "docs/E14-FINAL-CLOSURE-REPORT.md",
+      "sha256": "5eab7b41d1d543529e67353a5566055e1308b7d9771575cb8d7f5f5f76cfb0b0"
+    },
+    {
+      "bytes": 5963,
+      "path": "extensions/E14-A2-DISCLOSURE-AUTHORIZATION-AUDIENCE-ELIGIBILITY-CONTEXT-REVALIDATION.md",
+      "sha256": "01c23662526171b188131c27dbea5e60b57967a47b3c1f1d09931ef4215a7575"
+    },
+    {
+      "bytes": 5382,
+      "path": "extensions/E14-A3-CORRELATION-CONTROL-SINGLE-USE-LINKABILITY-REPLAY.md",
+      "sha256": "a384a7f6f5710bfb7e7c8f05d1a43bc686fe1d497e4dac625854ea5f00330e60"
+    },
+    {
+      "bytes": 4588,
+      "path": "extensions/E14-A4-REVOCATION-FRESHNESS-DISTRIBUTION-WITHDRAWAL-DISCLOSURE-ANTI-ROLLBACK-REPLAY.md",
+      "sha256": "2910f9bb4c1f706815dd142a5e789c09f4319b9c5e95a9f10041cb1fb64433e8"
+    },
+    {
+      "bytes": 5834,
+      "path": "extensions/E14-A5-INDEPENDENT-VERIFIER-MATRIX-RELEASE-BOUNDARY-FINAL-AUTHORITY-FREEZE.md",
+      "sha256": "1a998192b256a1cbb05a873221563e56b255202f6c90d0bb12cd061fc96e4344"
+    },
+    {
+      "bytes": 9527,
+      "path": "extensions/E14-CONFIDENTIAL-EVIDENCE-SELECTIVE-DISCLOSURE-INFORMATION-MINIMIZATION.md",
+      "sha256": "33340302315a95cb4ecfaf26d7c0b2cf54586db24fe114fda42d0b66ecab4e5f"
+    },
+    {
+      "bytes": 661,
+      "path": "schemas/eigiib-e14-a1-adoption-transition.schema.json",
+      "sha256": "fc4d6cbc0fb91d0907bcc6392c98091f245c6e69f9175ac7e81b9de2669cf7a6"
+    },
+    {
+      "bytes": 9853,
+      "path": "schemas/eigiib-e14-a2-disclosure-authorization.schema.json",
+      "sha256": "3be0b17b4a79dadc78abc100503a2bb39153d10c314cfd33785aa8710d87ab9b"
+    },
+    {
+      "bytes": 8696,
+      "path": "schemas/eigiib-e14-a3-correlation-control.schema.json",
+      "sha256": "a4abd7557e0b893bffeca37f69802ed3bda6d05639966023f1e65fa3d4f3d98f"
+    },
+    {
+      "bytes": 7463,
+      "path": "schemas/eigiib-e14-a4-disclosure-revocation.schema.json",
+      "sha256": "02e7ab94167e8f445cd9c1326c18b6768a854f7b3abbdedce81104f99fba9469"
+    },
+    {
+      "bytes": 976,
+      "path": "schemas/eigiib-e14-a5-authority-freeze.schema.json",
+      "sha256": "0a59494ec5a7e958ac662f4fad7fcadeb386a2e6c40845cfffb173bf87d3cdef"
+    },
+    {
+      "bytes": 8211,
+      "path": "schemas/eigiib-e14-a5-release-boundary.schema.json",
+      "sha256": "2cde6e9b3426e5c173783e47f2d7ac88de66e160457b22139648ca7ccd663f1f"
+    },
+    {
+      "bytes": 5315,
+      "path": "schemas/eigiib-e14-confidential-evidence.schema.json",
+      "sha256": "02a02f16436e81750e6e493dd95834981548957b829b4dc2644a8f8e030407b7"
+    },
+    {
+      "bytes": 1424,
+      "path": "tests/fixtures/e14-a5/expected-matrix-report.json",
+      "sha256": "4d2e90e3553c31a808a68c6554ccca1a05d73099c5641c458e41585a44ed56fd"
+    },
+    {
+      "bytes": 514,
+      "path": "tests/fixtures/e14-a5/expected-release-report.json",
+      "sha256": "a28a97124f96b2a1818606987e6e80b4afd8fc977bcc6da97dd025a98bb0bdb8"
+    },
+    {
+      "bytes": 17087,
+      "path": "tests/test_eigiib_e14_release.py",
+      "sha256": "c7d4ed2b2e5ccea1afc46f9d60396021f20b4a01be29da30a6f5943175023196"
+    },
+    {
+      "bytes": 1386,
+      "path": "tests/test_eigiib_e14_release_matrix.py",
+      "sha256": "2298a1ddf3d33180ff736c3f0dbdf76b6640f34ca2b9c8ed91b2a5d025370a44"
+    },
+    {
+      "bytes": 17062,
+      "path": "tools/eigiib_confidential_evidence_check.py",
+      "sha256": "ba27df08b7e8e77dc7c3db6c909c17d3d16873212b180343afd43218a84573f6"
+    },
+    {
+      "bytes": 22331,
+      "path": "tools/eigiib_correlation_control_check.py",
+      "sha256": "9c925bc58615d9f9d2390ded8b03656b52480266bb5c6d8961830b98e488e504"
+    },
+    {
+      "bytes": 20056,
+      "path": "tools/eigiib_disclosure_authorization_check.py",
+      "sha256": "2ccee4855e8ef06554bfe2a9c999714180e81426f06626cfbcdefe76a0590b9a"
+    },
+    {
+      "bytes": 14871,
+      "path": "tools/eigiib_disclosure_revocation_check.py",
+      "sha256": "12620164decbb985472d75171ec2ed763be934ed6a39afb4d998d55204650e3f"
+    },
+    {
+      "bytes": 37494,
+      "path": "tools/eigiib_e14_release_check.py",
+      "sha256": "2f2ea9ce9e9be282d0fc6e708e395ffe900c1e8b5d730e87242be856f6ecabd8"
+    },
+    {
+      "bytes": 1279,
+      "path": "tools/eigiib_e14_release_independent.py",
+      "sha256": "969b0bfdf9d6383a272aef512b02ea95af01185b6c039f74e9dedcd51bd8a87b"
+    },
+    {
+      "bytes": 4651,
+      "path": "tools/eigiib_e14_release_matrix.py",
+      "sha256": "13aa0fa6d9c60ed5d90e4939b3a32dbfd24bb4842ded0a940956d83f368f3095"
+    }
+  ],
+  "profile_revision": "EIGIIB-E14-1.0",
+  "source_head": "82534d603db88ea351c4254ba84d3cdc0bc89e0d",
+  "standard": "EIGIIB-E14-A5-1.0",
+  "status": "frozen"
+}

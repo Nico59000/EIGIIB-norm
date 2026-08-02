@@ -1,0 +1,59 @@
+name: E14-A5 final closure and independent verifier matrix
+
+on:
+  pull_request:
+    paths:
+      - 'extensions/E14-A5-*'
+      - 'extensions/E14-CONFIDENTIAL-*'
+      - 'tools/eigiib_e14_release_*.py'
+      - 'schemas/eigiib-e14-a5-*'
+      - 'conformance/e14-release-boundary.json'
+      - 'conformance/e14-a5-*'
+      - 'tests/test_eigiib_e14_release*.py'
+      - 'tests/fixtures/e14-a5/**'
+      - 'docs/E14-A5-*'
+      - 'docs/E14-FINAL-CLOSURE-REPORT.md'
+      - 'EIGIIB.toml'
+      - '.github/workflows/e14-a5-final-closure.yml'
+      - '.github/workflows/eigiib.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  final-closure:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: E14 unit replay
+        run: python -m unittest tests.test_eigiib_confidential_evidence tests.test_eigiib_disclosure_authorization tests.test_eigiib_correlation_control tests.test_eigiib_disclosure_revocation tests.test_eigiib_e14_release tests.test_eigiib_e14_release_matrix -v
+      - name: Release-boundary and freeze report
+        shell: bash
+        run: |
+          python tools/eigiib_e14_release_check.py . --json > actual-release.json
+          python - <<'PY'
+          from pathlib import Path
+          actual=Path('actual-release.json').read_bytes()
+          expected=Path('tests/fixtures/e14-a5/expected-release-report.json').read_bytes()
+          if actual != expected: raise SystemExit('E14-A5 release report mismatch')
+          PY
+      - name: Independent verifier matrix
+        shell: bash
+        run: |
+          python tools/eigiib_e14_release_matrix.py . --json > actual-matrix.json
+          python - <<'PY'
+          from pathlib import Path
+          actual=Path('actual-matrix.json').read_bytes()
+          expected=Path('tests/fixtures/e14-a5/expected-matrix-report.json').read_bytes()
+          if actual != expected: raise SystemExit('E14-A5 matrix report mismatch')
+          PY
+      - name: Parse final authorities
+        run: python -c "import json,tomllib,pathlib; [json.loads(pathlib.Path(p).read_text()) for p in ['conformance/e14-release-boundary.json','conformance/e14-a5-verifier-matrix.json','conformance/e14-a5-authority-freeze.json','schemas/eigiib-e14-a5-release-boundary.schema.json','schemas/eigiib-e14-a5-authority-freeze.schema.json']]; tomllib.loads(pathlib.Path('EIGIIB.toml').read_text())"
