@@ -1,0 +1,39 @@
+name: P1-A16 live GHCR publication probe
+
+on:
+  pull_request:
+    branches: [agent/p1-a16-external-registry-cross-registry-readback]
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  publish-and-read-back:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/p1-a16-registry-probe
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Publish exact A15 assets to GHCR and replay public readback
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python bootstrap/p1-a16-ghcr-probe.py --output bootstrap/p1-a16-probe-evidence.json
+      - name: Record successful probe evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add bootstrap/p1-a16-probe-evidence.json
+          git diff --cached --check
+          git commit -m 'P1-A16: record live GHCR publication evidence'
+          git push origin HEAD:agent/p1-a16-registry-probe
