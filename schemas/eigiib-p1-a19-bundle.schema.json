@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-p1-a19-bundle.schema.json",
+  "title": "EIGIIB P1-A19 registered-profile interoperability bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "signedRegistry", "routes"],
+  "properties": {
+    "standard": {"const": "EIGIIB-P1-A19-CONFORMANCE-1.0"},
+    "signedRegistry": {"$ref": "#/$defs/signedRegistry"},
+    "routes": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/route"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "canonicalSet": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profileId", "version", "status", "requiredCapabilities", "optionalCapabilities", "claimVocabulary", "criticalExtensions"],
+      "properties": {
+        "profileId": {"type": "string", "pattern": "^[a-z0-9.-]+$"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+        "status": {"enum": ["active", "deprecated"]},
+        "requiredCapabilities": {"$ref": "#/$defs/canonicalSet"},
+        "optionalCapabilities": {"$ref": "#/$defs/canonicalSet"},
+        "claimVocabulary": {"$ref": "#/$defs/canonicalSet"},
+        "criticalExtensions": {"$ref": "#/$defs/canonicalSet"}
+      }
+    },
+    "registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["standard", "registryId", "sourceP1A18Commit", "sourceP1A18ReportSha256", "environment", "canonicalization", "knownCapabilities", "knownCriticalExtensions", "activeVersions", "profiles"],
+      "properties": {
+        "standard": {"const": "EIGIIB-P1-A19-CONFORMANCE-1.0"},
+        "registryId": {"const": "eigiib-p1-a19-registered-profile-matrix-v1"},
+        "sourceP1A18Commit": {"$ref": "#/$defs/commit"},
+        "sourceP1A18ReportSha256": {"$ref": "#/$defs/sha256"},
+        "environment": {"const": "p1-a18-fixture-production"},
+        "canonicalization": {"const": "utf8-json-sort-keys-compact-lf-v1"},
+        "knownCapabilities": {"$ref": "#/$defs/canonicalSet"},
+        "knownCriticalExtensions": {"$ref": "#/$defs/canonicalSet"},
+        "activeVersions": {
+          "type": "object",
+          "additionalProperties": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+          "minProperties": 6,
+          "maxProperties": 6
+        },
+        "profiles": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "items": {"$ref": "#/$defs/profile"}
+        }
+      }
+    },
+    "signedRegistry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload", "payloadSha256", "keyId", "algorithm", "signatureBase64"],
+      "properties": {
+        "payload": {"$ref": "#/$defs/registry"},
+        "payloadSha256": {"$ref": "#/$defs/sha256"},
+        "keyId": {"const": "p1-a19-profile-registrar-v1"},
+        "algorithm": {"const": "Ed25519"},
+        "signatureBase64": {"type": "string", "minLength": 80, "maxLength": 96}
+      }
+    },
+    "transcript": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["routeId", "registrySha256", "sourceP1A18Commit", "sourceP1A18ReportSha256", "environment", "sourceProfile", "targetProfile", "selectedCapabilities", "portableClaims", "droppedOptionalCapabilities", "criticalExtensions", "decision", "transcriptSha256"],
+      "properties": {
+        "routeId": {"type": "string", "pattern": "^P1-A19-ROUTE-[0-9]{2}$"},
+        "registrySha256": {"$ref": "#/$defs/sha256"},
+        "sourceP1A18Commit": {"$ref": "#/$defs/commit"},
+        "sourceP1A18ReportSha256": {"$ref": "#/$defs/sha256"},
+        "environment": {"const": "p1-a18-fixture-production"},
+        "sourceProfile": {"type": "string", "pattern": "^[a-z0-9.-]+@[0-9]+\\.[0-9]+$"},
+        "targetProfile": {"type": "string", "pattern": "^[a-z0-9.-]+@[0-9]+\\.[0-9]+$"},
+        "selectedCapabilities": {"$ref": "#/$defs/canonicalSet"},
+        "portableClaims": {"$ref": "#/$defs/canonicalSet"},
+        "droppedOptionalCapabilities": {"$ref": "#/$defs/canonicalSet"},
+        "criticalExtensions": {"$ref": "#/$defs/canonicalSet"},
+        "decision": {"const": "accepted"},
+        "transcriptSha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["routeId", "sourceProfileId", "sourceVersion", "targetProfileId", "targetVersion", "sourceClaims", "targetClaims", "criticalExtensions", "expectedTranscript"],
+      "properties": {
+        "routeId": {"type": "string", "pattern": "^P1-A19-ROUTE-[0-9]{2}$"},
+        "sourceProfileId": {"type": "string", "pattern": "^[a-z0-9.-]+$"},
+        "sourceVersion": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+        "targetProfileId": {"type": "string", "pattern": "^[a-z0-9.-]+$"},
+        "targetVersion": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+        "sourceClaims": {"$ref": "#/$defs/canonicalSet"},
+        "targetClaims": {"$ref": "#/$defs/canonicalSet"},
+        "criticalExtensions": {"$ref": "#/$defs/canonicalSet"},
+        "expectedTranscript": {"$ref": "#/$defs/transcript"}
+      }
+    }
+  }
+}
