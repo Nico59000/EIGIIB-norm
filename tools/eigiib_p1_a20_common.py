@@ -51,8 +51,8 @@ def validate_registry(registry: dict[str, Any]) -> tuple[dict[str, dict[str, Any
         if runner["status"] != "active" or runner["admissionEpoch"] > registry["currentEpoch"]:
             raise ValueError("inactive or future runner")
         admitted = runner["admittedToolchains"]
-        if admitted != sorted(set(admitted)):
-            raise ValueError("admitted toolchains must be canonical")
+        if not isinstance(admitted, list) or not admitted or len(admitted) != len(set(admitted)):
+            raise ValueError("admitted toolchains must be a unique ordered list")
         if any(item not in toolchains for item in admitted):
             raise ValueError("runner references unknown toolchain")
     for toolchain in toolchains.values():
