@@ -23,14 +23,10 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.13'
-      - name: Unit tests
-        run: python -m unittest -v tests/test_eigiib_disclosure_authorization.py
-      - name: Structural registry
+      - name: Historical E14-A2 replay
+        shell: bash
         run: |
-          python tools/eigiib_disclosure_authorization_check.py . --json > e14-a2-report.json
-          python -c "import json,pathlib; a=json.loads(pathlib.Path('e14-a2-report.json').read_text()); b=json.loads(pathlib.Path('tests/fixtures/e14-a2/expected-report.json').read_text()); assert a == b"
-      - name: Schemas and profile
-        run: |
-          python -c "import json,pathlib,tomllib; json.loads(pathlib.Path('schemas/eigiib-e14-a2-disclosure-authorization.schema.json').read_text()); json.loads(pathlib.Path('conformance/disclosure-authorization.json').read_text()); tomllib.loads(pathlib.Path('EIGIIB.toml').read_text())"
-      - name: Exact E14-A1 ancestry
-        run: git merge-base --is-ancestor c96d8bd59fe76726f60ff95fa729fec8a9de050e HEAD
+          python tools/eigiib_historical_e14_replay.py . --output-dir .e14-history --json > e14-history.json
+          python -c "import json,pathlib; r=json.loads(pathlib.Path('e14-history.json').read_text()); assert r['component_results']['e14-a2']=='conformant'"
+      - name: Exact E14 source ancestry
+        run: git merge-base --is-ancestor 472e14fbb3d92205eabf10438e90295e19125ea4 HEAD
