@@ -1,0 +1,137 @@
+name: P1-A16 ordinary payload publisher
+
+on:
+  pull_request:
+    branches: [agent/p1-a16-editor]
+
+permissions:
+  contents: write
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  GOTOOLCHAIN: local
+
+jobs:
+  publish:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/p1-a16-editor
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.26.5'
+          cache: false
+      - name: Reconstruct exact ordinary payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat bootstrap/p1-a16-ordinary.tar.gz.b64.part* | base64 --decode > /tmp/p1-a16-ordinary.tar.gz
+          echo '5e7dd79e8842e4efc1fe2430728c24a5923a3fba7e6203ad82bae4e5198b5009  /tmp/p1-a16-ordinary.tar.gz' | sha256sum -c -
+          cat > /tmp/expected-paths <<'EOF'
+          conformance/P1-A16-MANUAL-REVIEW.md
+          conformance/p1-a16-external-registry.json
+          docs/P1-A16-EXTERNAL-REGISTRY-PUBLICATION-CROSS-REGISTRY-DIGEST-IDENTITY-AND-READBACK-REPLAY.md
+          independent/cmd/eigiib-p1-registry-adapter/main.go
+          independent/p1registry/adapter.go
+          independent/p1registry/adapter_test.go
+          schemas/eigiib-p1-a16-capsule.schema.json
+          schemas/eigiib-p1-a16-evidence.schema.json
+          schemas/eigiib-p1-a16-route-result.schema.json
+          tests/fixtures/p1-a16/capsule.json
+          tests/fixtures/p1-a16/evidence-registrar-public-key.pem
+          tests/fixtures/p1-a16/expected-replay.json
+          tests/fixtures/p1-a16/expected-report.json
+          tests/fixtures/p1-a16/live-registry-evidence.json
+          tests/fixtures/p1-a16/oci-manifest.json
+          tests/test_eigiib_p1_a16_external_registry.py
+          tools/eigiib_p1_a16_common.py
+          tools/eigiib_p1_a16_external_registry_check.py
+          tools/eigiib_p1_a16_live_readback.py
+          tools/eigiib_p1_a16_oras_route.py
+          tools/eigiib_p1_a16_route_replay.py
+          tools/eigiib_p1_a16_schema_check.py
+          EOF
+          tar -tzf /tmp/p1-a16-ordinary.tar.gz | sort > /tmp/actual-paths
+          diff -u /tmp/expected-paths /tmp/actual-paths
+          while IFS= read -r path; do test ! -e "$path"; done < /tmp/expected-paths
+          tar -xzf /tmp/p1-a16-ordinary.tar.gz
+          rm -f bootstrap/p1-a16-ordinary.tar.gz.b64.part* .github/workflows/p1-a16-ordinary-publisher.yml
+      - name: Install locked ORAS CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          go install oras.land/oras/cmd/oras@v1.3.2
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+      - name: Distribution capabilities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python --version
+          go version
+          openssl version
+          "$(go env GOPATH)/bin/oras" version
+      - name: Python contract and mutation tests
+        run: python -m unittest -v tests/test_eigiib_p1_a16_external_registry.py
+      - name: Exact reference report
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/eigiib_p1_a16_external_registry_check.py --output actual-report.json >/dev/null
+          cmp tests/fixtures/p1-a16/expected-report.json actual-report.json
+      - name: Independent Go contract tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd independent
+          go test ./p1registry ./cmd/eigiib-p1-registry-adapter
+      - name: Reference Python public registry route
+        run: python tools/eigiib_p1_a16_live_readback.py > route-python.json
+      - name: Independent Go public registry route
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd independent
+          go run ./cmd/eigiib-p1-registry-adapter --root .. --live > ../route-go.json
+      - name: External ORAS public registry route
+        run: python tools/eigiib_p1_a16_oras_route.py > route-oras.json
+      - name: Exact three-route replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/eigiib_p1_a16_route_replay.py route-python.json route-go.json route-oras.json --output actual-replay.json >/dev/null
+          cmp tests/fixtures/p1-a16/expected-replay.json actual-replay.json
+      - name: Closed schema validation
+        run: python tools/eigiib_p1_a16_schema_check.py
+      - name: Artifact-scope guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          scope=(
+            conformance/P1-A16-MANUAL-REVIEW.md conformance/p1-a16-external-registry.json
+            docs/P1-A16-EXTERNAL-REGISTRY-PUBLICATION-CROSS-REGISTRY-DIGEST-IDENTITY-AND-READBACK-REPLAY.md
+            schemas/eigiib-p1-a16-*.json tests/fixtures/p1-a16 tests/test_eigiib_p1_a16_external_registry.py
+            tools/eigiib_p1_a16_*.py independent/p1registry independent/cmd/eigiib-p1-registry-adapter
+          )
+          private_pattern='BEGIN PRIVATE'' KEY'
+          ! grep -R -n --binary-files=without-match "$private_pattern" "${scope[@]}"
+          pattern_one="$(printf '\110\124\053\116\124')"
+          pattern_two="$(printf '\110\145\171\164\151\156\147.\102\145\163\164\145\157\144')"
+          pattern_three="$(printf '\116\106/\116\124')"
+          ! grep -R -n -E "${pattern_one}|${pattern_two}|${pattern_three}" "${scope[@]}"
+      - name: Publish validated ordinary tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f actual-report.json actual-replay.json route-python.json route-go.json route-oras.json
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git diff --cached --check
+          git commit -m 'P1-A16: stage validated external registry closure'
+          git push origin HEAD:agent/p1-a16-editor
