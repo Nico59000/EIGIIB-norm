@@ -23,7 +23,7 @@ jobs:
       - name: Verify exact M0-A6 parent
         shell: bash
         run: git merge-base --is-ancestor 9cff4c1e392b6661af4b01e710f10342fe2ad402 HEAD
-      - name: Materialize bounded payload
+      - name: Materialize bounded non-workflow payload
         shell: bash
         run: |
           python - <<'PY'
@@ -42,34 +42,10 @@ jobs:
           raw = base64.b64decode(encoded, validate=True)
           if hashlib.sha256(raw).hexdigest() != 'abf07fc87d0641bdbfffad991f62b6d863c9849d8c166b37f0bd68ff8615037b':
               raise SystemExit('payload archive digest mismatch')
-          expected_members = {
-              '.github/workflows/e14-a2-disclosure-authorization.yml',
-              '.github/workflows/e14-a3-correlation-control.yml',
-              '.github/workflows/e14-a4-disclosure-revocation.yml',
-              '.github/workflows/e14-a5-final-closure.yml',
-              '.github/workflows/e15-a1-delivery-intent.yml',
-              '.github/workflows/eigiib.yml',
-              'EIGIIB.toml',
-              'conformance/E15-A1-MANUAL-REVIEW.md',
-              'conformance/delivery-intent.json',
-              'conformance/e15-a1-adoption-transition.json',
-              'conformance/e15-a1-authority-freeze.json',
-              'conformance/extension-graph.json',
-              'docs/E15-A1-HUMAN-MASTERY-GUIDE.md',
-              'extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md',
-              'schemas/eigiib-e15-a1-adoption-transition.schema.json',
-              'schemas/eigiib-e15-a1-authority-freeze.schema.json',
-              'schemas/eigiib-e15-a1-delivery-intent.schema.json',
-              'tests/fixtures/e15-a1/expected-report.json',
-              'tests/test_eigiib_delivery_intent.py',
-              'tools/eigiib_delivery_intent_check.py',
-              'tools/eigiib_extension_graph_check.py',
-              'tools/eigiib_historical_e14_replay.py',
-          }
           with tarfile.open(fileobj=io.BytesIO(raw), mode='r:gz') as archive:
               members = archive.getmembers()
-              if {member.name for member in members} != expected_members:
-                  raise SystemExit('payload member set mismatch')
+              if len(members) != 22:
+                  raise SystemExit('payload member count mismatch')
               for member in members:
                   path = PurePosixPath(member.name)
                   if path.is_absolute() or '..' in path.parts or member.issym() or member.islnk():
@@ -80,14 +56,23 @@ jobs:
               invalid.unlink()
           for part in parts:
               part.unlink()
-          Path('.github/workflows/e15-a1-materialize.yml').unlink()
           PY
-      - name: Commit bounded E15-A1 tree
+      - name: Exclude workflow paths from token push
+        shell: bash
+        run: |
+          git restore --source=HEAD -- \
+            .github/workflows/e14-a2-disclosure-authorization.yml \
+            .github/workflows/e14-a3-correlation-control.yml \
+            .github/workflows/e14-a4-disclosure-revocation.yml \
+            .github/workflows/e14-a5-final-closure.yml \
+            .github/workflows/eigiib.yml
+          rm -f .github/workflows/e15-a1-delivery-intent.yml
+      - name: Commit bounded non-workflow E15-A1 tree
         shell: bash
         run: |
           git config user.name 'eigiib-ci'
           git config user.email 'eigiib-ci@users.noreply.github.com'
           git add -A
           git diff --cached --name-status
-          git commit -m 'E15-A1: historical continuity and delivery-intent boundary'
+          git commit -m 'E15-A1: historical continuity and delivery-intent authorities'
           git push origin HEAD:agent/e15-a1-historical-authority-continuity-delivery-intent-endpoint-carrier-binding
