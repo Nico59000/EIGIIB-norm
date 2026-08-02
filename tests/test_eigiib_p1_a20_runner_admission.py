@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import copy
-import json
 import sys
 import unittest
 from pathlib import Path
@@ -58,8 +57,8 @@ def _mutations(bundle: dict) -> list[tuple[str, dict]]:
     add("future-admission", mutated)
 
     mutated = copy.deepcopy(bundle)
-    mutated["registry"]["runners"][0]["admittedToolchains"] = ["python-3.13", "openssl-3", "go-1.26"]
-    add("noncanonical-toolchain-set", mutated)
+    mutated["registry"]["runners"][0]["admittedToolchains"].append("go-1.26")
+    add("duplicate-admitted-toolchain", mutated)
 
     mutated = copy.deepcopy(bundle)
     mutated["registry"]["runners"][0]["admittedToolchains"][0] = "unknown"
