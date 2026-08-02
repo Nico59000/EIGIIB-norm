@@ -1,0 +1,103 @@
+{
+  "boundary": "named-ghcr-oci-publication-cross-registry-digest-readback-closure",
+  "capturedAt": "2026-08-02T00:23:59Z",
+  "decisions": {
+    "authenticatedRegistryReadback": "conformant",
+    "crossRegistryDigestIdentity": "conformant-for-closed-three-asset-set",
+    "durableRetention": "not-claimed",
+    "externalRegistryPublication": "conformant-for-named-ghcr-oci-repository-scope",
+    "productionAuthorization": "not-claimed",
+    "publicRegistryReadback": "conformant",
+    "registryAdministrativeImmutability": "not-claimed",
+    "tagToManifestBinding": "conformant-at-capture-time",
+    "universalInteroperability": "not-claimed"
+  },
+  "registry": {
+    "artifactType": "application/vnd.eigiib.cross-registry-release-set.v1",
+    "config": {
+      "digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "mediaType": "application/vnd.oci.empty.v1+json",
+      "size": 2
+    },
+    "host": "ghcr.io",
+    "layers": [
+      {
+        "authenticatedRegistryContentDigest": null,
+        "authenticatedRegistrySha256": "14290ddd91cfcd07ba073424548568d0fc97cf8f0b6993cbc7ff5a3388268682",
+        "digest": "sha256:14290ddd91cfcd07ba073424548568d0fc97cf8f0b6993cbc7ff5a3388268682",
+        "githubReleaseSha256": "14290ddd91cfcd07ba073424548568d0fc97cf8f0b6993cbc7ff5a3388268682",
+        "mediaType": "application/vnd.eigiib.fixed-release.archive.v1+text",
+        "name": "eigiib-p1-a14-fixed-1.1.archive.txt",
+        "publicRegistryContentDigest": null,
+        "publicRegistrySha256": "14290ddd91cfcd07ba073424548568d0fc97cf8f0b6993cbc7ff5a3388268682",
+        "size": 190
+      },
+      {
+        "authenticatedRegistryContentDigest": null,
+        "authenticatedRegistrySha256": "762e8a347512baf53f50fec7e200d30b0ec4e9b77dd4a96a54ae89e57db686e1",
+        "digest": "sha256:762e8a347512baf53f50fec7e200d30b0ec4e9b77dd4a96a54ae89e57db686e1",
+        "githubReleaseSha256": "762e8a347512baf53f50fec7e200d30b0ec4e9b77dd4a96a54ae89e57db686e1",
+        "mediaType": "application/vnd.eigiib.fixed-release.descriptor.v1+json",
+        "name": "eigiib-p1-a14-fixed-1.1.descriptor.json",
+        "publicRegistryContentDigest": null,
+        "publicRegistrySha256": "762e8a347512baf53f50fec7e200d30b0ec4e9b77dd4a96a54ae89e57db686e1",
+        "size": 776
+      },
+      {
+        "authenticatedRegistryContentDigest": null,
+        "authenticatedRegistrySha256": "82e61dcf91be3cac21d93349e22829f27b1bdca057e813e584a1593c5a7d604b",
+        "digest": "sha256:82e61dcf91be3cac21d93349e22829f27b1bdca057e813e584a1593c5a7d604b",
+        "githubReleaseSha256": "82e61dcf91be3cac21d93349e22829f27b1bdca057e813e584a1593c5a7d604b",
+        "mediaType": "application/vnd.eigiib.github-release-manifest.v1+json",
+        "name": "eigiib-p1-a15-live-release-manifest.json",
+        "publicRegistryContentDigest": null,
+        "publicRegistrySha256": "82e61dcf91be3cac21d93349e22829f27b1bdca057e813e584a1593c5a7d604b",
+        "size": 1421
+      }
+    ],
+    "manifestDigest": "sha256:cf0f9735cc1711cd45a242ac3c1c27185b738ae353f491cd58a5746dbf8a66d8",
+    "manifestMediaType": "application/vnd.oci.image.manifest.v1+json",
+    "manifestSize": 1493,
+    "publicTagListing": [
+      "p1-a16-fixture-v1"
+    ],
+    "repository": "nico59000/eigiib-norm-p1-a16",
+    "tag": "p1-a16-fixture-v1"
+  },
+  "source": {
+    "assets": [
+      {
+        "apiDigest": "sha256:14290ddd91cfcd07ba073424548568d0fc97cf8f0b6993cbc7ff5a3388268682",
+        "assetId": 498366947,
+        "authenticatedDownloadSha256": "14290ddd91cfcd07ba073424548568d0fc97cf8f0b6993cbc7ff5a3388268682",
+        "name": "eigiib-p1-a14-fixed-1.1.archive.txt",
+        "publicDownloadSha256": "14290ddd91cfcd07ba073424548568d0fc97cf8f0b6993cbc7ff5a3388268682",
+        "sha256": "14290ddd91cfcd07ba073424548568d0fc97cf8f0b6993cbc7ff5a3388268682",
+        "size": 190
+      },
+      {
+        "apiDigest": "sha256:762e8a347512baf53f50fec7e200d30b0ec4e9b77dd4a96a54ae89e57db686e1",
+        "assetId": 498366952,
+        "authenticatedDownloadSha256": "762e8a347512baf53f50fec7e200d30b0ec4e9b77dd4a96a54ae89e57db686e1",
+        "name": "eigiib-p1-a14-fixed-1.1.descriptor.json",
+        "publicDownloadSha256": "762e8a347512baf53f50fec7e200d30b0ec4e9b77dd4a96a54ae89e57db686e1",
+        "sha256": "762e8a347512baf53f50fec7e200d30b0ec4e9b77dd4a96a54ae89e57db686e1",
+        "size": 776
+      },
+      {
+        "apiDigest": "sha256:82e61dcf91be3cac21d93349e22829f27b1bdca057e813e584a1593c5a7d604b",
+        "assetId": 498366956,
+        "authenticatedDownloadSha256": "82e61dcf91be3cac21d93349e22829f27b1bdca057e813e584a1593c5a7d604b",
+        "name": "eigiib-p1-a15-live-release-manifest.json",
+        "publicDownloadSha256": "82e61dcf91be3cac21d93349e22829f27b1bdca057e813e584a1593c5a7d604b",
+        "sha256": "82e61dcf91be3cac21d93349e22829f27b1bdca057e813e584a1593c5a7d604b",
+        "size": 1421
+      }
+    ],
+    "commit": "461412075d97d9b8a8202e89fc3a9da3b6743f1b",
+    "releaseId": 363652216,
+    "releaseTag": "eigiib-p1-a15-live-fixture-v2",
+    "repository": "Nico59000/EIGIIB-norm"
+  },
+  "standard": "EIGIIB-P1-A16"
+}
