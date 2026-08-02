@@ -1,0 +1,79 @@
+{
+  "artifact": {
+    "protectedObjectSetSha256": "29811e4cbd30ff12fef18c12c61068f83de8d3c61a2be93ae8faf37f2f11b466",
+    "sourceP1A17CapsuleSha256": "bd0e55bb7ad0e44ab7adcc7538b7718dd6f7ab938ebb0752accaf40dff379340",
+    "sourceP1A17Commit": "2e2ea29ac61787cb62c22f7db828766257af4c01",
+    "sourceP1A17ReportSha256": "4e8473256a6e857d4826e2c2a1eb484d45d023cd648136a9ff0149a3f5931433"
+  },
+  "effectiveUntil": "2026-11-01T03:00:00Z",
+  "emergencyPath": {
+    "allowedBypasses": [
+      "approval-threshold-only"
+    ],
+    "auditorMustBeDistinctFromRequesterPublisherAndController": true,
+    "forbiddenBypasses": [
+      "artifact-integrity",
+      "environment-binding",
+      "publisher-identity",
+      "signature-verification"
+    ],
+    "incidentIdentifierRequired": true,
+    "justificationRequired": true,
+    "maxOverrideSeconds": 1800,
+    "postEmergencyReviewRequired": true,
+    "reviewDeadlineSeconds": 86400
+  },
+  "environment": "p1-a18-fixture-production",
+  "issuedAt": "2026-08-02T03:00:00Z",
+  "normalPath": {
+    "approvalThreshold": 2,
+    "approversMustBeDistinct": true,
+    "artifactAndEnvironmentBindingRequired": true,
+    "authorizationTtlSeconds": 3600,
+    "publisherMayApprove": false,
+    "publisherMustBeDistinctFromRequesterAndApprovers": true,
+    "requesterMayApprove": false
+  },
+  "policyId": "eigiib-p1-a18-fixture-production-governance-v1",
+  "revocation": {
+    "revokedAuthorizationIds": []
+  },
+  "roles": {
+    "approver-a": {
+      "path": "tests/fixtures/p1-a18/approver-a-public-key.pem",
+      "role": "release-approver",
+      "spkiSha256": "07bec896c8214e2ccc657fbfd0b52c0d4f16d4b72348c3dc29901e773159edcf"
+    },
+    "approver-b": {
+      "path": "tests/fixtures/p1-a18/approver-b-public-key.pem",
+      "role": "release-approver",
+      "spkiSha256": "f4daff3888113fcdba5c70df513a7a9295b70c51599ab4d63eec198584e38583"
+    },
+    "auditor": {
+      "path": "tests/fixtures/p1-a18/auditor-public-key.pem",
+      "role": "release-auditor",
+      "spkiSha256": "9d86edb0b390d98df06047009f719e5e9d69e4c7f7fd978021c6305ec8bc1ebb"
+    },
+    "emergency-controller": {
+      "path": "tests/fixtures/p1-a18/emergency-controller-public-key.pem",
+      "role": "emergency-controller",
+      "spkiSha256": "bcf403d289dddc53d814d8b5446c424892a344e2dfb3c38e431c6c57e2601b76"
+    },
+    "publisher": {
+      "path": "tests/fixtures/p1-a18/publisher-public-key.pem",
+      "role": "release-publisher",
+      "spkiSha256": "5a1e3299c80a080e0d905e883780d84e11b2eff2470f05217db1c33cb95f2af3"
+    },
+    "registrar": {
+      "path": "tests/fixtures/p1-a18/registrar-public-key.pem",
+      "role": "governance-registrar",
+      "spkiSha256": "f9fa28f30265958294658b4267a63073cca48c100c66c5b1f254e48d99a9f600"
+    },
+    "requester": {
+      "path": "tests/fixtures/p1-a18/requester-public-key.pem",
+      "role": "release-requester",
+      "spkiSha256": "28027656ea2cc67b7ea6a254135f33b73c889ba79d0b85b9c4c86599baa5813e"
+    }
+  },
+  "standard": "EIGIIB-P1-A18-GOVERNANCE-POLICY-1.0"
+}
