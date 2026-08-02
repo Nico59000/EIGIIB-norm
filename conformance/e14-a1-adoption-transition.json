@@ -1,0 +1,32 @@
+{
+  "standard": "EIGIIB-E14-A1-TRANSITION-1.0",
+  "status": "adopted-e14-a1",
+  "source": {
+    "branch": "agent/m0-a5-canonical-p1-lineage-authority-promotion-e14-handoff",
+    "head_commit": "a547e0f94af1b256200c12836a1539c4d5b28716",
+    "handoff_authority": "conformance/m0-a5-e14-handoff.json",
+    "freeze_authority": "conformance/m0-a5-f1-authority-freeze.json"
+  },
+  "target": {
+    "extension": "E14-1.0",
+    "slice": "E14-A1",
+    "adoption_state": "adopted",
+    "extension_authority": "extensions/E14-CONFIDENTIAL-EVIDENCE-SELECTIVE-DISCLOSURE-INFORMATION-MINIMIZATION.md",
+    "registry_authority": "conformance/confidential-evidence.json"
+  },
+  "consumed_inputs": {
+    "authorized_audience": "projection.authorized_audience",
+    "correlation_controls": "projection.correlation_controls",
+    "cryptographic_commitment": "record.commitment and projection.commitment",
+    "disclosable_projection": "projection",
+    "disclosure_policy": "projection.disclosure_policy",
+    "evaluation_context": "projection.evaluation_context",
+    "full_evidence_artifact": "record.artifact",
+    "revocation_state": "record.revocation_state"
+  },
+  "historical_preservation": {
+    "m0_a5_report_rewritten": false,
+    "pre_adoption_finding_preserved": true,
+    "transition_is_additive": true
+  }
+}
