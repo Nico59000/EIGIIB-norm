@@ -1,0 +1,72 @@
+{
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a5-e14-handoff.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "decision_vocabulary": {
+      "const": [
+        "permit",
+        "deny",
+        "held",
+        "unavailable"
+      ]
+    },
+    "entry_gate": {
+      "type": "object"
+    },
+    "input_contract": {
+      "type": "object"
+    },
+    "nonclaims": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 6,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "required_inputs": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8,
+      "minItems": 8,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "safety_rules": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 6,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_lineage": {
+      "type": "object"
+    },
+    "standard": {
+      "const": "EIGIIB-M0-A5-E14-HANDOFF-1.0"
+    },
+    "status": {
+      "const": "ready-for-e14-design-not-normatively-adopted"
+    },
+    "target": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "source_lineage",
+    "target",
+    "required_inputs",
+    "input_contract",
+    "decision_vocabulary",
+    "safety_rules",
+    "nonclaims",
+    "entry_gate"
+  ],
+  "title": "EIGIIB M0-A5 E14 design handoff",
+  "type": "object"
+}
