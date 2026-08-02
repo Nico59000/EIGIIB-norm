@@ -80,8 +80,6 @@ jobs:
         run: cd independent && go run ./cmd/eigiib-p1-durability-adapter --root .. --live > ../route-go.json
       - name: External ORAS and GitHub CLI route
         shell: bash
-        env:
-          PATH: ${{ env.PATH }}
         run: python tools/eigiib_p1_a17_external_route.py > route-cli.json
       - name: Exact four-route replay
         shell: bash
