@@ -1,0 +1,106 @@
+name: P1-A17 replication retention restore and durable availability replay
+
+on:
+  pull_request:
+    branches: [agent/p1-a16-external-registry-cross-registry-readback]
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  GOTOOLCHAIN: local
+
+jobs:
+  durable-availability-replay:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.26.5'
+          cache: false
+      - name: Expose macOS OpenSSL 3
+        if: runner.os == 'macOS'
+        shell: bash
+        run: echo "$(brew --prefix openssl@3)/bin" >> "$GITHUB_PATH"
+      - name: Expose Windows OpenSSL
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $candidate = 'C:\Program Files\Git\usr\bin'
+          if (!(Test-Path "$candidate\openssl.exe")) { throw 'OpenSSL unavailable' }
+          $candidate | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: Install locked ORAS CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          go install oras.land/oras/cmd/oras@v1.3.2
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+      - name: Capabilities
+        shell: bash
+        run: |
+          python --version
+          go version
+          openssl version
+          gh --version
+          "$(go env GOPATH)/bin/oras" version
+      - name: Python contract and mutation tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_p1_a17_durable_availability.py
+      - name: Exact reference report
+        shell: bash
+        run: |
+          python tools/eigiib_p1_a17_check.py --output actual-report.json >/dev/null
+          python - <<'PY'
+          from pathlib import Path
+          if Path('tests/fixtures/p1-a17/expected-report.json').read_text() != Path('actual-report.json').read_text(): raise SystemExit('report differs')
+          PY
+      - name: Independent Go tests
+        shell: bash
+        run: cd independent && go test ./p1durability ./cmd/eigiib-p1-durability-adapter
+      - name: Reference Python primary route
+        shell: bash
+        run: python tools/eigiib_p1_a17_live_primary.py > route-primary.json
+      - name: Reference Python recovery route
+        shell: bash
+        run: python tools/eigiib_p1_a17_live_recovery.py > route-recovery.json
+      - name: Independent Go live route
+        shell: bash
+        run: cd independent && go run ./cmd/eigiib-p1-durability-adapter --root .. --live > ../route-go.json
+      - name: External ORAS and GitHub CLI route
+        shell: bash
+        run: python tools/eigiib_p1_a17_external_route.py > route-cli.json
+      - name: Exact four-route replay
+        shell: bash
+        run: |
+          python tools/eigiib_p1_a17_replay.py route-primary.json route-recovery.json route-go.json route-cli.json --output actual-replay.json >/dev/null
+          python - <<'PY'
+          from pathlib import Path
+          if Path('tests/fixtures/p1-a17/expected-replay.json').read_text() != Path('actual-replay.json').read_text(): raise SystemExit('replay differs')
+          PY
+      - name: Closed schema validation
+        shell: bash
+        run: python tools/eigiib_p1_a17_schema_check.py
+      - name: No private key in P1-A17 scope
+        shell: bash
+        run: |
+          pattern='BEGIN PRIVATE'' KEY'
+          ! grep -R -n --binary-files=without-match "$pattern" docs/P1-A17-* conformance/P1-A17-* conformance/p1-a17-* schemas/eigiib-p1-a17-* tests/fixtures/p1-a17 tests/test_eigiib_p1_a17_* tools/eigiib_p1_a17_* independent/p1durability independent/cmd/eigiib-p1-durability-adapter
+      - name: No methodology-specific terminology
+        shell: bash
+        run: |
+          pattern_one="$(printf '\110\124\053\116\124')"
+          pattern_two="$(printf '\110\145\171\164\151\156\147.\102\145\163\164\145\157\144')"
+          pattern_three="$(printf '\116\106/\116\124')"
+          ! grep -R -n -E "${pattern_one}|${pattern_two}|${pattern_three}" docs/P1-A17-* conformance/P1-A17-* conformance/p1-a17-* schemas/eigiib-p1-a17-* tests/fixtures/p1-a17 tests/test_eigiib_p1_a17_* tools/eigiib_p1_a17_* independent/p1durability independent/cmd/eigiib-p1-durability-adapter
