@@ -33,6 +33,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+      - name: Frozen authority diagnostics
+        shell: bash
+        run: |
+          python - <<'PY'
+          from hashlib import sha256
+          from pathlib import Path
+          for name in [
+              '.github/workflows/e14-a4-disclosure-revocation.yml',
+              'schemas/eigiib-e14-a3-correlation-control.schema.json',
+              '.github/workflows/e14-a5-final-closure.yml',
+              '.github/workflows/eigiib.yml',
+          ]:
+              data = Path(name).read_bytes()
+              print(f'FROZEN_AUTHORITY {name} bytes={len(data)} sha256={sha256(data).hexdigest()}')
+          PY
       - name: E14 unit replay
         run: python -m unittest tests.test_eigiib_confidential_evidence tests.test_eigiib_disclosure_authorization tests.test_eigiib_correlation_control tests.test_eigiib_disclosure_revocation tests.test_eigiib_e14_release tests.test_eigiib_e14_release_matrix -v
       - name: Release-boundary and freeze report
