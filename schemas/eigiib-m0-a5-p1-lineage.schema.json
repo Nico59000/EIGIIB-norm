@@ -1,0 +1,80 @@
+{
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a5-p1-lineage.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "canonical": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "default_branch_relation": {
+          "type": "object"
+        },
+        "head_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "head_slice": {
+          "const": "P1-A20"
+        },
+        "promotion_rule": {
+          "const": "exact-commit-and-path-reference-only"
+        }
+      },
+      "required": [
+        "branch",
+        "head_commit",
+        "head_slice",
+        "promotion_rule",
+        "default_branch_relation"
+      ],
+      "type": "object"
+    },
+    "embedded_staged_closures": {
+      "additionalProperties": false,
+      "required": [
+        "P1-A7"
+      ],
+      "type": "object"
+    },
+    "governance": {
+      "type": "object"
+    },
+    "nonclaims": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "slices": {
+      "items": {
+        "type": "object"
+      },
+      "maxItems": 21,
+      "minItems": 21,
+      "type": "array"
+    },
+    "standard": {
+      "const": "EIGIIB-M0-A5-P1-LINEAGE-1.0"
+    },
+    "status": {
+      "const": "canonical-p1-lineage-promoted"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "canonical",
+    "slices",
+    "embedded_staged_closures",
+    "governance",
+    "nonclaims"
+  ],
+  "title": "EIGIIB M0-A5 canonical P1 lineage registry",
+  "type": "object"
+}
