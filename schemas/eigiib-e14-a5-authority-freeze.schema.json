@@ -1,0 +1,27 @@
+{
+  "$id": "https://example.invalid/eigiib/schemas/eigiib-e14-a5-authority-freeze.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorities": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {"minimum": 0, "type": "integer"},
+          "path": {"minLength": 1, "type": "string"},
+          "sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"}
+        },
+        "required": ["path", "bytes", "sha256"],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "profile_revision": {"const": "EIGIIB-E14-1.0"},
+    "source_head": {"const": "82534d603db88ea351c4254ba84d3cdc0bc89e0d"},
+    "standard": {"const": "EIGIIB-E14-A5-1.0"},
+    "status": {"const": "frozen"}
+  },
+  "required": ["standard", "status", "source_head", "profile_revision", "authorities"],
+  "title": "EIGIIB E14-A5 authority freeze",
+  "type": "object"
+}

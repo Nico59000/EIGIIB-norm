@@ -1,0 +1,12 @@
+{
+  "release_events": [],
+  "release_policies": [],
+  "release_receipts": [],
+  "release_requests": [],
+  "standard": "EIGIIB-E14-A5-1.0",
+  "status": "structural-only",
+  "upstream_authorization_registry": "conformance/disclosure-authorization.json",
+  "upstream_correlation_registry": "conformance/correlation-control.json",
+  "upstream_projection_registry": "conformance/confidential-evidence.json",
+  "upstream_revocation_registry": "conformance/disclosure-revocation.json"
+}

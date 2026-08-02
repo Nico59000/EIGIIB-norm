@@ -56,7 +56,7 @@ class Checker:
   try:o=tomllib.loads((self.root/"EIGIIB.toml").read_text(encoding="utf-8"))
   except Exception as e:self.add("error","E14A3.PROFILE.PARSE",str(e),"EIGIIB.toml");return
   if "E14-1.0" not in o.get("extensions",[]):self.add("error","E14A3.PROFILE.ADOPTION","E14-1.0 must be adopted","EIGIIB.toml")
-  if o.get("revision")!="EIGIIB-E14-draft-1.0":self.add("error","E14A3.PROFILE.REVISION","revision must remain EIGIIB-E14-draft-1.0","EIGIIB.toml")
+  if o.get("revision") not in {"EIGIIB-E14-draft-1.0","EIGIIB-E14-1.0"}:self.add("error","E14A3.PROFILE.REVISION","revision must be an E14 1.0 draft or final revision","EIGIIB.toml")
   exp={"confidential_evidence":"conformance/confidential-evidence.json","disclosure_authorization":"conformance/disclosure-authorization.json","e14_a3_contract":"extensions/E14-A3-CORRELATION-CONTROL-SINGLE-USE-LINKABILITY-REPLAY.md","correlation_control":"conformance/correlation-control.json","e14_a3_human_mastery":"docs/E14-A3-HUMAN-MASTERY-GUIDE.md"};auth=o.get("authorities",{});req=o.get("required_authorities",[])
   for k,v in exp.items():
    if not isinstance(auth,dict) or auth.get(k)!=v:self.add("error","E14A3.PROFILE.AUTHORITY",f"authority {k} must bind {v}","EIGIIB.toml")

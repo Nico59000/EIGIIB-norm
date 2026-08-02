@@ -1,0 +1,61 @@
+{
+  "case_count": 8,
+  "findings": [],
+  "matched_case_count": 8,
+  "outcomes": [
+    {
+      "expected": "released",
+      "id": "all-positive",
+      "independent": "released",
+      "reference": "released"
+    },
+    {
+      "expected": "rejected",
+      "id": "upstream-negative-precedes-unavailable",
+      "independent": "rejected",
+      "reference": "rejected"
+    },
+    {
+      "expected": "rejected",
+      "id": "policy-deny",
+      "independent": "rejected",
+      "reference": "rejected"
+    },
+    {
+      "expected": "rejected",
+      "id": "recipient-unauthenticated",
+      "independent": "rejected",
+      "reference": "rejected"
+    },
+    {
+      "expected": "rejected",
+      "id": "transport-unprotected",
+      "independent": "rejected",
+      "reference": "rejected"
+    },
+    {
+      "expected": "rejected",
+      "id": "release-replay",
+      "independent": "rejected",
+      "reference": "rejected"
+    },
+    {
+      "expected": "held",
+      "id": "recipient-contested",
+      "independent": "held",
+      "reference": "held"
+    },
+    {
+      "expected": "unavailable",
+      "id": "transport-unavailable",
+      "independent": "unavailable",
+      "reference": "unavailable"
+    }
+  ],
+  "standard": "EIGIIB-E14-A5-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-e14-release-matrix",
+  "tool_version": "0.1.0",
+  "verifier_count": 2,
+  "verifier_matrix_result": "conformant"
+}

@@ -1,0 +1,20 @@
+{
+  "authority_freeze_result": "conformant",
+  "findings": [],
+  "release_boundary_result": "not-evaluated",
+  "release_event_count": 0,
+  "release_event_counts": {
+    "held": 0,
+    "rejected": 0,
+    "released": 0,
+    "unavailable": 0
+  },
+  "release_policy_count": 0,
+  "release_receipt_count": 0,
+  "release_request_count": 0,
+  "standard": "EIGIIB-E14-A5-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-e14-release-check",
+  "tool_version": "0.1.0",
+  "upstream_binding_result": "conformant"
+}

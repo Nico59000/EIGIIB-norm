@@ -49,7 +49,7 @@ class Checker:
  def profile(self):
   try:x=tomllib.loads((self.root/"EIGIIB.toml").read_text())
   except Exception as e:self.add("E14A4.PROFILE.PARSE",str(e),"EIGIIB.toml");return
-  if "E14-1.0" not in x.get("extensions",[]) or x.get("revision")!="EIGIIB-E14-draft-1.0":self.add("E14A4.PROFILE.ADOPTION","E14 adoption/revision mismatch","EIGIIB.toml")
+  if "E14-1.0" not in x.get("extensions",[]) or x.get("revision") not in {"EIGIIB-E14-draft-1.0","EIGIIB-E14-1.0"}:self.add("E14A4.PROFILE.ADOPTION","E14 adoption/revision mismatch","EIGIIB.toml")
   e={"confidential_evidence":"conformance/confidential-evidence.json","disclosure_authorization":"conformance/disclosure-authorization.json","correlation_control":"conformance/correlation-control.json","e14_a4_contract":"extensions/E14-A4-REVOCATION-FRESHNESS-DISTRIBUTION-WITHDRAWAL-DISCLOSURE-ANTI-ROLLBACK-REPLAY.md","disclosure_revocation":"conformance/disclosure-revocation.json","e14_a4_human_mastery":"docs/E14-A4-HUMAN-MASTERY-GUIDE.md"};a=x.get("authorities",{});r=x.get("required_authorities",[])
   for k,v in e.items():
    if a.get(k)!=v or k not in r:self.add("E14A4.PROFILE.AUTHORITY",k+" authority missing","EIGIIB.toml")

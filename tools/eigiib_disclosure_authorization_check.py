@@ -59,7 +59,7 @@ class Checker:
         try:p=tomllib.loads((self.root/"EIGIIB.toml").read_text(encoding="utf-8"))
         except Exception as e:self.add("error","E14A2.PROFILE.PARSE",str(e),"EIGIIB.toml");return
         if "E14-1.0" not in p.get("extensions",[]):self.add("error","E14A2.PROFILE.ADOPTION","E14-1.0 must be adopted","EIGIIB.toml")
-        if p.get("revision")!="EIGIIB-E14-draft-1.0":self.add("error","E14A2.PROFILE.REVISION","revision must remain EIGIIB-E14-draft-1.0","EIGIIB.toml")
+        if p.get("revision") not in {"EIGIIB-E14-draft-1.0","EIGIIB-E14-1.0"}:self.add("error","E14A2.PROFILE.REVISION","revision must be an E14 1.0 draft or final revision","EIGIIB.toml")
         exp={"confidential_evidence":"conformance/confidential-evidence.json","e14_a2_contract":"extensions/E14-A2-DISCLOSURE-AUTHORIZATION-AUDIENCE-ELIGIBILITY-CONTEXT-REVALIDATION.md","disclosure_authorization":"conformance/disclosure-authorization.json","e14_a2_human_mastery":"docs/E14-A2-HUMAN-MASTERY-GUIDE.md"}
         auth=p.get("authorities",{}); req=p.get("required_authorities",[])
         for k,v in exp.items():
