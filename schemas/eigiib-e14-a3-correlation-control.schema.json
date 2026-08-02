@@ -1,0 +1,106 @@
+{
+  "$defs": {
+    "budget": {
+      "additionalProperties": false,
+      "properties": {
+        "audience": {"minLength": 1, "type": "string"},
+        "audience_revision": {"minLength": 1, "type": "string"},
+        "id": {"minLength": 1, "type": "string"},
+        "linkability_domain": {"minLength": 1, "type": "string"},
+        "max_uses": {"minimum": 1, "type": "integer"},
+        "profile": {"minLength": 1, "type": "string"},
+        "profile_revision": {"minLength": 1, "type": "string"},
+        "purpose": {"minLength": 1, "type": "string"},
+        "revision": {"minLength": 1, "type": "string"},
+        "source_commitment": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+        "source_record": {"minLength": 1, "type": "string"},
+        "source_revision": {"minLength": 1, "type": "string"},
+        "state": {"enum": ["active", "exhausted", "contested", "unavailable"]}
+      },
+      "required": ["id", "revision", "state", "profile", "profile_revision", "source_record", "source_revision", "source_commitment", "audience", "audience_revision", "purpose", "linkability_domain", "max_uses"],
+      "type": "object"
+    },
+    "consumption": {
+      "additionalProperties": false,
+      "properties": {
+        "enforcement_request": {"minLength": 1, "type": "string"},
+        "enforcement_request_revision": {"minLength": 1, "type": "string"},
+        "evidence": {"$ref": "#/$defs/strings"},
+        "id": {"minLength": 1, "type": "string"},
+        "reasons": {"allOf": [{"$ref": "#/$defs/strings"}, {"minItems": 1}]},
+        "revision": {"minLength": 1, "type": "string"},
+        "sequence": {"minimum": 1, "type": "integer"},
+        "state": {"enum": ["committed", "rejected", "held", "unavailable"]}
+      },
+      "required": ["id", "revision", "enforcement_request", "enforcement_request_revision", "state", "sequence", "reasons", "evidence"],
+      "type": "object"
+    },
+    "profile": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_cross_audience_linkage": {"type": "boolean"},
+        "allow_cross_purpose_linkage": {"type": "boolean"},
+        "allowed_shared_domains": {"$ref": "#/$defs/strings"},
+        "id": {"minLength": 1, "type": "string"},
+        "linkability_mode": {"enum": ["isolated", "pairwise", "declared-shared"]},
+        "max_uses_per_projection": {"minimum": 1, "type": "integer"},
+        "max_uses_per_source_record": {"minimum": 1, "type": "integer"},
+        "require_distinct_operation_nonce": {"type": "boolean"},
+        "required_controls": {"allOf": [{"$ref": "#/$defs/strings"}, {"minItems": 1}]},
+        "revision": {"minLength": 1, "type": "string"},
+        "state": {"enum": ["active", "revoked", "contested", "unavailable"]}
+      },
+      "required": ["id", "revision", "state", "required_controls", "linkability_mode", "max_uses_per_projection", "max_uses_per_source_record", "require_distinct_operation_nonce", "allow_cross_audience_linkage", "allow_cross_purpose_linkage", "allowed_shared_domains"],
+      "type": "object"
+    },
+    "request": {
+      "additionalProperties": false,
+      "properties": {
+        "audience": {"minLength": 1, "type": "string"},
+        "audience_revision": {"minLength": 1, "type": "string"},
+        "authorization_decision": {"minLength": 1, "type": "string"},
+        "authorization_request": {"minLength": 1, "type": "string"},
+        "authorization_request_revision": {"minLength": 1, "type": "string"},
+        "budget": {"minLength": 1, "type": "string"},
+        "budget_revision": {"minLength": 1, "type": "string"},
+        "control_profile": {"minLength": 1, "type": "string"},
+        "control_profile_revision": {"minLength": 1, "type": "string"},
+        "id": {"minLength": 1, "type": "string"},
+        "linkability_domain": {"minLength": 1, "type": "string"},
+        "operation": {"minLength": 1, "type": "string"},
+        "operation_nonce": {"minLength": 1, "type": "string"},
+        "projection": {"minLength": 1, "type": "string"},
+        "projection_commitment": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+        "projection_revision": {"minLength": 1, "type": "string"},
+        "purpose": {"minLength": 1, "type": "string"},
+        "revision": {"minLength": 1, "type": "string"},
+        "source_commitment": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+        "source_record": {"minLength": 1, "type": "string"},
+        "source_revision": {"minLength": 1, "type": "string"}
+      },
+      "required": ["id", "revision", "authorization_decision", "authorization_request", "authorization_request_revision", "projection", "projection_revision", "projection_commitment", "source_record", "source_revision", "source_commitment", "audience", "audience_revision", "purpose", "operation", "control_profile", "control_profile_revision", "budget", "budget_revision", "linkability_domain", "operation_nonce"],
+      "type": "object"
+    },
+    "strings": {
+      "items": {"minLength": 1, "type": "string"},
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://example.invalid/eigiib/schemas/eigiib-e14-a3-correlation-control.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "budgets": {"items": {"$ref": "#/$defs/budget"}, "type": "array"},
+    "consumptions": {"items": {"$ref": "#/$defs/consumption"}, "type": "array"},
+    "control_profiles": {"items": {"$ref": "#/$defs/profile"}, "type": "array"},
+    "enforcement_requests": {"items": {"$ref": "#/$defs/request"}, "type": "array"},
+    "standard": {"const": "EIGIIB-E14-A3-1.0"},
+    "status": {"const": "structural-only"},
+    "upstream_authorization_registry": {"const": "conformance/disclosure-authorization.json"},
+    "upstream_projection_registry": {"const": "conformance/confidential-evidence.json"}
+  },
+  "required": ["standard", "status", "upstream_projection_registry", "upstream_authorization_registry", "control_profiles", "budgets", "enforcement_requests", "consumptions"],
+  "title": "EIGIIB E14-A3 correlation-control registry",
+  "type": "object"
+}

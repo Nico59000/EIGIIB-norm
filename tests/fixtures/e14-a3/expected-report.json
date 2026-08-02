@@ -1,0 +1,21 @@
+{
+  "budget_count": 0,
+  "consumption_count": 0,
+  "consumption_counts": {
+    "committed": 0,
+    "held": 0,
+    "rejected": 0,
+    "unavailable": 0
+  },
+  "control_profile_count": 0,
+  "correlation_control_result": "not-evaluated",
+  "cross_projection_linkability_result": "not-evaluated",
+  "enforcement_request_count": 0,
+  "findings": [],
+  "single_use_result": "not-evaluated",
+  "standard": "EIGIIB-E14-A3-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-correlation-control-check",
+  "tool_version": "0.1.0",
+  "upstream_binding_result": "conformant"
+}
