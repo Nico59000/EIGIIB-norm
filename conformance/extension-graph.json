@@ -464,13 +464,13 @@
       "id": "E15",
       "kind": "extension",
       "title": "Externally Attested Delivery, Durable Publication, Recipient Acknowledgement and Withdrawal Governance",
-      "theme": "external delivery + publication + withdrawal governance",
+      "theme": "external transfer attempts + delivery evidence + recipient acknowledgement",
       "authority_key": "e15",
       "authority": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
-      "schema": "schemas/eigiib-e15-a1-delivery-intent.schema.json",
-      "checker": "tools/eigiib_delivery_intent_check.py",
-      "registry_authority_key": "delivery_intent",
-      "registry": "conformance/delivery-intent.json",
+      "schema": "schemas/eigiib-e15-a2-delivery-evidence.schema.json",
+      "checker": "tools/eigiib_delivery_evidence_check.py",
+      "registry_authority_key": "delivery_evidence",
+      "registry": "conformance/delivery-evidence.json",
       "depends_on": [
         "E4",
         "E11",
@@ -486,7 +486,10 @@
         "e14_release_boundary",
         "e14_a5_authority_freeze",
         "m0_a6_e15_entry",
-        "e15_a1_transition"
+        "delivery_intent",
+        "e15_a1_transition",
+        "e15_a1_authority_freeze",
+        "e15_a2_transition"
       ],
       "does_not_reprove": [
         "E4 authentication",
@@ -494,8 +497,10 @@
         "E12 commit safety",
         "E13 policy composition",
         "E14 release admissibility",
-        "external delivery",
+        "E15-A1 intent admissibility",
+        "endpoint authorization",
         "recipient possession",
+        "human awareness",
         "publication durability",
         "global withdrawal"
       ]

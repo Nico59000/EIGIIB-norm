@@ -1,0 +1,110 @@
+{
+  "authorities": [
+    {
+      "bytes": 1900,
+      "path": ".github/workflows/e15-a1-delivery-intent.yml",
+      "sha256": "86a45e5b20b7126d2f07d829680a9a301b5790bfd8d98747dd9315ab4c8b514f"
+    },
+    {
+      "bytes": 3958,
+      "path": ".github/workflows/e15-a2-delivery-evidence.yml",
+      "sha256": "2c4c91945c1f569ce9b78ab2d80daa39416e62559f64a9355f60898a70814f17"
+    },
+    {
+      "bytes": 7927,
+      "path": ".github/workflows/eigiib.yml",
+      "sha256": "d1b59da0c52a5acd9015376559853dcd1ba407fe3a63952018b6bec820557083"
+    },
+    {
+      "bytes": 11811,
+      "path": "EIGIIB.toml",
+      "sha256": "3f546b198b4c82987952e2d1cf5af119118d1a8f16aa5ade44c100654b84b222"
+    },
+    {
+      "bytes": 885,
+      "path": "conformance/E15-A2-MANUAL-REVIEW.md",
+      "sha256": "94ef89502732fa1ac179bdde8f7705a3a42bd1e918efd7fe4378772f375d2659"
+    },
+    {
+      "bytes": 341,
+      "path": "conformance/delivery-evidence.json",
+      "sha256": "c28e6ba19c4bdb6083dab4723c1d04986673d159613e19cceb7cf9a317394e7c"
+    },
+    {
+      "bytes": 411,
+      "path": "conformance/delivery-intent.json",
+      "sha256": "9952ed53a10070da75bbd2057be2d265a70fae4825f7c4d6bc20fedf44385927"
+    },
+    {
+      "bytes": 2240,
+      "path": "conformance/e15-a1-adoption-transition.json",
+      "sha256": "7e6cf358664ba84fc9ec05b020f61f42e3ea6feb0428257501ea871b0a320172"
+    },
+    {
+      "bytes": 4034,
+      "path": "conformance/e15-a1-authority-freeze.json",
+      "sha256": "fe0b494fe939a0dc4fb5b4daae593adbfea0470e3ddb4b0b9fd740e9bb76bbe0"
+    },
+    {
+      "bytes": 2005,
+      "path": "conformance/e15-a2-adoption-transition.json",
+      "sha256": "a2c420982ec569b91b7190250c7680886f7120432e0653c5612f5998b19dea49"
+    },
+    {
+      "bytes": 19720,
+      "path": "conformance/extension-graph.json",
+      "sha256": "0065b08959de62bf778d5e436d8b1221fb608b7e9f12ad6bc4d737acc96df8e3"
+    },
+    {
+      "bytes": 2085,
+      "path": "docs/E15-A2-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "81b4b68c58ce8961ab4428f9316ce23d9844bdbc19da48e22232b324d72cd856"
+    },
+    {
+      "bytes": 9422,
+      "path": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
+      "sha256": "16b70436ace3fd998c8d523c37302eae90e79888e00d51a5311f1c05362e8167"
+    },
+    {
+      "bytes": 737,
+      "path": "schemas/eigiib-e15-a2-adoption-transition.schema.json",
+      "sha256": "d2002d3e22393bc1e47f428f036fe61a9fab2e18c2448b8999451d727522a2d8"
+    },
+    {
+      "bytes": 1300,
+      "path": "schemas/eigiib-e15-a2-authority-freeze.schema.json",
+      "sha256": "a39a4a68ee16a89eb11b77e52788fbcf3e46aac955dec128314ac420a635247a"
+    },
+    {
+      "bytes": 16797,
+      "path": "schemas/eigiib-e15-a2-delivery-evidence.schema.json",
+      "sha256": "1295b027c92313a569381bee0781ccc30d4a67c3b932e1d3c4c06b01af5f3a98"
+    },
+    {
+      "bytes": 703,
+      "path": "tests/fixtures/e15-a2/expected-report.json",
+      "sha256": "ce4fd33890b3f7bbaae2ad18093db55655343e47fb1a646289324ada22df126a"
+    },
+    {
+      "bytes": 15236,
+      "path": "tests/test_eigiib_delivery_evidence.py",
+      "sha256": "9a6f5809b81fdfebcae041dcbf8977264ce8b6f269b566f804fa0c0cf9127a0a"
+    },
+    {
+      "bytes": 41190,
+      "path": "tools/eigiib_delivery_evidence_check.py",
+      "sha256": "573b87707a543c5d032a21ab7c873355e22c384d4a9cfb0874fe9c082e625dd5"
+    },
+    {
+      "bytes": 6449,
+      "path": "tools/eigiib_historical_e15_a1_replay.py",
+      "sha256": "b6621ed58489ea8f4ff51ef724f35fd5025ad0d136c5fa2e74fa0ac5500f02aa"
+    }
+  ],
+  "profile_revision": "EIGIIB-E15-draft-1.1",
+  "source": {
+    "e15_a1_head_commit": "ca0dfde0efcee975ef4957f604d4954b6de07e01"
+  },
+  "standard": "EIGIIB-E15-A2-FREEZE-1.0",
+  "status": "frozen"
+}

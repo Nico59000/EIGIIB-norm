@@ -1,0 +1,48 @@
+{
+  "consumed_inputs": {
+    "admissible_delivery_intent": "delivery_evidence.transfer_attempt.intent",
+    "endpoint_and_carrier_binding": "delivery_evidence.transfer_attempt",
+    "evaluation_time": "delivery_evidence.delivery_evidence_decision.evaluated_at",
+    "external_attestation_policy": "delivery_evidence.external_attestation_policy",
+    "external_delivery_evidence": "delivery_evidence.external_delivery_evidence",
+    "recipient_acknowledgement": "delivery_evidence.recipient_acknowledgement",
+    "transfer_attempt": "delivery_evidence.transfer_attempt"
+  },
+  "historical_preservation": {
+    "descendant_profile_frozen_separately": true,
+    "e15_a1_claims_rewritten": false,
+    "source_freeze_mutated": false,
+    "transition_is_additive": true
+  },
+  "historical_replay": {
+    "current_tree_substitution_forbidden": true,
+    "historical_tree_isolated": true,
+    "mode": "materialize-and-replay-exact-source-commit",
+    "required_results": [
+      "historical-e14-conformant",
+      "e15-a1-conformant",
+      "e15-a1-tests-conformant"
+    ],
+    "source_commit_must_be_ancestor": true,
+    "tool": "tools/eigiib_historical_e15_a1_replay.py"
+  },
+  "source": {
+    "authority_freeze": "conformance/e15-a1-authority-freeze.json",
+    "branch": "agent/e15-a1-historical-authority-continuity-delivery-intent-endpoint-carrier-binding",
+    "checker": "tools/eigiib_delivery_intent_check.py",
+    "head_commit": "ca0dfde0efcee975ef4957f604d4954b6de07e01",
+    "profile_revision": "EIGIIB-E15-draft-1.0",
+    "registry_authority": "conformance/delivery-intent.json"
+  },
+  "standard": "EIGIIB-E15-A2-TRANSITION-1.0",
+  "status": "adopted-e15-a2",
+  "target": {
+    "adoption_state": "adopted",
+    "authority_freeze": "conformance/e15-a2-authority-freeze.json",
+    "checker": "tools/eigiib_delivery_evidence_check.py",
+    "extension": "E15-1.0",
+    "profile_revision": "EIGIIB-E15-draft-1.1",
+    "registry_authority": "conformance/delivery-evidence.json",
+    "slice": "E15-A2"
+  }
+}

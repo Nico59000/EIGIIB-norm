@@ -1,0 +1,738 @@
+{
+  "$defs": {
+    "acknowledgement": {
+      "additionalProperties": false,
+      "properties": {
+        "acknowledged_event": {
+          "enum": [
+            "received",
+            "accepted",
+            "processed",
+            "rejected",
+            "unknown"
+          ]
+        },
+        "attempt": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "attempt_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "attester": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "attester_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "authentication": {
+          "$ref": "#/$defs/authentication"
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "delivery_evidence": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "delivery_evidence_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "endpoint": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "evidence_state": {
+          "enum": [
+            "positive",
+            "negative",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "issued_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "payload_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "policy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policy_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "recipient_scope": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "service-generated",
+            "recipient-interface-generated",
+            "recipient-principal-signed"
+          ]
+        },
+        "valid_until": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "attempt",
+        "attempt_revision",
+        "delivery_evidence",
+        "delivery_evidence_revision",
+        "type",
+        "attester",
+        "attester_revision",
+        "policy",
+        "policy_revision",
+        "evidence_state",
+        "acknowledged_event",
+        "endpoint",
+        "recipient_scope",
+        "payload_sha256",
+        "issued_at",
+        "valid_until",
+        "authentication",
+        "source_reference",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "attempt": {
+      "additionalProperties": false,
+      "properties": {
+        "attempt_idempotency_key": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "attempt_sequence": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "attestation_policy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "attestation_policy_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "carrier": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "carrier_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "endpoint": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "endpoint_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "intent": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "intent_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "local_result": {
+          "enum": [
+            "prepared",
+            "submitted",
+            "locally-completed",
+            "failed",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "payload_bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "payload_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "recipient_scope": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "started_at": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "intent",
+        "intent_revision",
+        "attempt_sequence",
+        "attempt_idempotency_key",
+        "endpoint",
+        "endpoint_revision",
+        "carrier",
+        "carrier_revision",
+        "recipient_scope",
+        "payload_sha256",
+        "payload_bytes",
+        "attestation_policy",
+        "attestation_policy_revision",
+        "started_at",
+        "local_result",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "attester": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted_endpoints": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "accepted_evidence_types": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "authentication_algorithms": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_authority": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_state": {
+          "enum": [
+            "verified",
+            "rejected",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "service",
+            "recipient-interface",
+            "independent-observer"
+          ]
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "kind",
+        "identity_authority",
+        "identity_state",
+        "accepted_evidence_types",
+        "accepted_endpoints",
+        "authentication_algorithms",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "authentication": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "key_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "signature_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "algorithm",
+        "key_id",
+        "signature_sha256"
+      ],
+      "type": "object"
+    },
+    "commitment": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "algorithm",
+        "digest"
+      ],
+      "type": "object"
+    },
+    "decision": {
+      "additionalProperties": false,
+      "properties": {
+        "acknowledgement_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "acknowledgements": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "attempt": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "attempt_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "attester_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "binding_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "delivery_evidence": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "delivery_evidence_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "evaluated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "freshness_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "lifecycle_state": {
+          "enum": [
+            "not-started",
+            "in-progress",
+            "externally-attested",
+            "rejected",
+            "held",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "reasons": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "sequence": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "attempt",
+        "attempt_revision",
+        "sequence",
+        "delivery_evidence",
+        "acknowledgements",
+        "binding_result",
+        "attester_result",
+        "freshness_result",
+        "delivery_evidence_result",
+        "acknowledgement_result",
+        "lifecycle_state",
+        "evaluated_at",
+        "reasons",
+        "evidence_refs",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "attempt": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "attempt_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "attester": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "attester_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "authentication": {
+          "$ref": "#/$defs/authentication"
+        },
+        "carrier": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "endpoint": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "evidence_state": {
+          "enum": [
+            "positive",
+            "negative",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "issued_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "observed_event": {
+          "enum": [
+            "accepted",
+            "delivered",
+            "rejected",
+            "failed",
+            "unknown"
+          ]
+        },
+        "payload_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "policy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policy_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "recipient_scope": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "service-acceptance",
+            "delivery-receipt",
+            "recipient-interface-acceptance",
+            "non-delivery",
+            "transport-failure"
+          ]
+        },
+        "valid_until": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "attempt",
+        "attempt_revision",
+        "type",
+        "attester",
+        "attester_revision",
+        "policy",
+        "policy_revision",
+        "evidence_state",
+        "observed_event",
+        "endpoint",
+        "carrier",
+        "recipient_scope",
+        "payload_sha256",
+        "issued_at",
+        "valid_until",
+        "authentication",
+        "source_reference",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "policy": {
+      "additionalProperties": false,
+      "properties": {
+        "acknowledgement_requirement": {
+          "enum": [
+            "required",
+            "optional"
+          ]
+        },
+        "allowed_acknowledgement_types": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_attesters": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_evidence_types": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "max_acknowledgement_age_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_evidence_age_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "required_authentication_algorithms": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "active",
+            "retired",
+            "contested",
+            "unavailable"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "state",
+        "allowed_attesters",
+        "allowed_evidence_types",
+        "required_authentication_algorithms",
+        "max_evidence_age_seconds",
+        "acknowledgement_requirement",
+        "allowed_acknowledgement_types",
+        "max_acknowledgement_age_seconds",
+        "commitment"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://eigiib.example/schemas/eigiib-e15-a2-delivery-evidence.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attester_profiles": {
+      "items": {
+        "$ref": "#/$defs/attester"
+      },
+      "type": "array"
+    },
+    "delivery_evidence_decisions": {
+      "items": {
+        "$ref": "#/$defs/decision"
+      },
+      "type": "array"
+    },
+    "external_attestation_policies": {
+      "items": {
+        "$ref": "#/$defs/policy"
+      },
+      "type": "array"
+    },
+    "external_delivery_evidence": {
+      "items": {
+        "$ref": "#/$defs/evidence"
+      },
+      "type": "array"
+    },
+    "recipient_acknowledgements": {
+      "items": {
+        "$ref": "#/$defs/acknowledgement"
+      },
+      "type": "array"
+    },
+    "source_e15_a1_commit": {
+      "const": "ca0dfde0efcee975ef4957f604d4954b6de07e01"
+    },
+    "standard": {
+      "const": "EIGIIB-E15-A2-1.0"
+    },
+    "status": {
+      "const": "structural-only"
+    },
+    "transfer_attempts": {
+      "items": {
+        "$ref": "#/$defs/attempt"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "source_e15_a1_commit",
+    "attester_profiles",
+    "external_attestation_policies",
+    "transfer_attempts",
+    "external_delivery_evidence",
+    "recipient_acknowledgements",
+    "delivery_evidence_decisions"
+  ],
+  "title": "EIGIIB E15-A2 transfer and external delivery evidence registry",
+  "type": "object"
+}
