@@ -1,0 +1,64 @@
+name: M0-A5 canonical P1 lineage authority promotion and E14 handoff
+
+on:
+  pull_request:
+    branches:
+      - agent/p1-a20-registered-runner-admission-toolchain-succession-compatibility-rollback
+      - agent/m0-a5-canonical-p1-lineage-authority-promotion-e14-handoff
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m0-a5-${{ github.event.pull_request.head.sha }}
+  cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  lineage-and-handoff:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Capabilities
+        shell: bash
+        run: |
+          python --version
+          git --version
+      - name: Unit tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_m0_a5.py
+      - name: Exact M0-A5 report
+        shell: bash
+        run: |
+          python tools/eigiib_m0_a5_check.py --output actual-m0-a5-report.json
+          cmp tests/fixtures/m0-a5/expected-report.json actual-m0-a5-report.json
+      - name: Canonical P1 head is an ancestor of the tested head
+        shell: bash
+        run: git merge-base --is-ancestor c1983e9f2e95879ee16c162075c8d72bc73d88f9 "${{ github.event.pull_request.head.sha }}"
+      - name: No premature E14 extension
+        shell: bash
+        run: |
+          test ! -e extensions/E14-CONFIDENTIAL-EVIDENCE-SELECTIVE-DISCLOSURE-INFORMATION-MINIMIZATION.md
+          ! grep -n 'E14-1.0' EIGIIB.toml
+      - name: No methodology-specific terminology
+        shell: bash
+        run: |
+          pattern_one="$(printf '\110\124\053\116\124')"
+          pattern_two="$(printf '\110\145\171\164\151\156\147.\102\145\163\164\145\157\144')"
+          pattern_three="$(printf '\116\106/\116\124')"
+          ! grep -R -n -E "${pattern_one}|${pattern_two}|${pattern_three}" \
+            docs/M0-A5-* conformance/M0-A5-* conformance/m0-a5-* \
+            schemas/eigiib-m0-a5-* tools/eigiib_m0_a5_check.py \
+            tests/test_eigiib_m0_a5.py tests/fixtures/m0-a5
