@@ -35,16 +35,27 @@ jobs:
           from pathlib import Path, PurePosixPath
           import base64, hashlib, io, tarfile
 
-          expected_parts = [f'.e15-a2-payload.part{i:02d}' for i in range(5)]
+          expected = {
+              '.e15-a2-payload.part00': (6000, '91a31f3169a79c62228b62a4acf31ab4c2e472d4f93b37b39aaf8ed432a747b4'),
+              '.e15-a2-payload.part01': (6000, 'd48a62836d2ba3970c4b949247559c2b5bc3887c0ca09fd1c9ea6927b900caa1'),
+              '.e15-a2-payload.part02': (6000, '182489125e56136567c8afd8e435ab899e6b6a7b654f1c2701ac8b5f443f722c'),
+              '.e15-a2-payload.part03': (6000, 'e2613fdb493e4a7a664263a85cc0234fe4d2cae307ec6b26d4e7378900ff3590'),
+              '.e15-a2-payload.part04': (4456, 'a71f60acda0b76429a5f7b980d384b4107485464e237676568268664da1a36fe'),
+          }
           parts = sorted(Path('conformance').glob('.e15-a2-payload.part*'))
-          if [p.name for p in parts] != expected_parts:
+          if [p.name for p in parts] != list(expected):
               raise SystemExit('payload part set mismatch')
+          for part in parts:
+              raw_part = part.read_bytes()
+              size, digest = expected[part.name]
+              actual = hashlib.sha256(raw_part).hexdigest()
+              print(part.name, len(raw_part), actual)
+              if len(raw_part) != size or actual != digest:
+                  raise SystemExit(f'payload part mismatch: {part.name}')
           encoded = ''.join(p.read_text(encoding='ascii') for p in parts)
-          if len(encoded) != 28456:
-              raise SystemExit('payload encoded length mismatch')
-          if hashlib.sha256(encoded.encode('ascii')).hexdigest() != '01bd0aef1e1ce8f8064b9fec5626619bdb77ab0f6aa0c0eadd731be73dabdb6c':
-              raise SystemExit('payload encoded digest mismatch')
           raw = base64.b64decode(encoded, validate=True)
+          if len(encoded) != 28456 or hashlib.sha256(encoded.encode('ascii')).hexdigest() != '01bd0aef1e1ce8f8064b9fec5626619bdb77ab0f6aa0c0eadd731be73dabdb6c':
+              raise SystemExit('payload encoded identity mismatch')
           if hashlib.sha256(raw).hexdigest() != '217bd4de0269da632c0090b7b61ccc6a3f11e6c1db36063268e65eac6143cd71':
               raise SystemExit('payload archive digest mismatch')
           expected_members = {
