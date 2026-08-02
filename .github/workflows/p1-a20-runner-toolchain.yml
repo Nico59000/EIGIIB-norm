@@ -1,0 +1,103 @@
+name: P1-A20 registered runner admission toolchain succession compatibility and rollback replay
+
+on:
+  pull_request:
+    branches:
+      - agent/p1-a19-f2-draft202012-closed-schema-review-closure
+      - agent/p1-a20-registered-runner-admission-toolchain-succession-compatibility-rollback
+      - agent/p1-a20-final-promotion
+
+permissions:
+  contents: read
+
+concurrency:
+  group: p1-a20-${{ github.event.pull_request.head.sha }}
+  cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  GOTOOLCHAIN: local
+
+jobs:
+  runner-toolchain-replay:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.26.5'
+          cache: false
+      - name: Install locked Draft 2020-12 validator
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-input -r requirements/p1-a20-schema-validation.txt
+      - name: Expose macOS OpenSSL 3
+        if: runner.os == 'macOS'
+        shell: bash
+        run: echo "$(brew --prefix openssl@3)/bin" >> "$GITHUB_PATH"
+      - name: Expose Windows OpenSSL
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $candidate = 'C:\Program Files\Git\usr\bin'
+          if (!(Test-Path "$candidate\openssl.exe")) { throw 'OpenSSL unavailable' }
+          $candidate | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: Capabilities
+        shell: bash
+        run: |
+          python --version
+          python - <<'PY'
+          from importlib.metadata import version
+          for package in ('jsonschema', 'jsonschema-specifications', 'referencing', 'rpds-py'):
+              print(package, version(package))
+          PY
+          go version
+          openssl version
+      - name: Python admission succession compatibility rollback and schema tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_p1_a20_runner_toolchain.py
+      - name: Exact Python report
+        shell: bash
+        run: |
+          python tools/eigiib_p1_a20_check.py --output actual-report.json
+          cmp tests/fixtures/p1-a20/expected-report.json actual-report.json
+      - name: Draft 2020-12 closed schema and semantic replay
+        shell: bash
+        run: python tools/eigiib_p1_a20_schema_check.py
+      - name: Independent Go tests
+        shell: bash
+        run: cd independent && go test ./p1runner ./cmd/eigiib-p1-runner-adapter
+      - name: Independent Go report
+        shell: bash
+        run: cd independent && go run ./cmd/eigiib-p1-runner-adapter --root .. > ../go-report.json
+      - name: Python and Go byte-exact convergence
+        shell: bash
+        run: cmp tests/fixtures/p1-a20/expected-report.json go-report.json
+      - name: External OpenSSL signature routes
+        shell: bash
+        run: |
+          python tools/eigiib_p1_a20_external_route.py --output-dir external-p1-a20
+          openssl pkeyutl -verify -pubin -inkey tests/fixtures/p1-a20/runner-registrar-public-key.pem -rawin -in external-p1-a20/runner-registry.json -sigfile external-p1-a20/runner-registry.sig
+          openssl pkeyutl -verify -pubin -inkey tests/fixtures/p1-a20/toolchain-registrar-public-key.pem -rawin -in external-p1-a20/toolchain-registry.json -sigfile external-p1-a20/toolchain-registry.sig
+          openssl pkeyutl -verify -pubin -inkey tests/fixtures/p1-a20/rollback-authority-public-key.pem -rawin -in external-p1-a20/rollback-authorization.json -sigfile external-p1-a20/rollback-authorization.sig
+      - name: No private key in P1-A20 scope
+        shell: bash
+        run: |
+          pattern='BEGIN PRIVATE'' KEY'
+          ! grep -R -n --binary-files=without-match "$pattern" docs/P1-A20-* conformance/P1-A20-* conformance/p1-a20-* schemas/eigiib-p1-a20-* requirements/p1-a20-* tests/fixtures/p1-a20 tests/test_eigiib_p1_a20_* tools/eigiib_p1_a20_* independent/p1runner independent/cmd/eigiib-p1-runner-adapter
+      - name: No methodology-specific terminology
+        shell: bash
+        run: |
+          pattern_one="$(printf '\110\124\053\116\124')"
+          pattern_two="$(printf '\110\145\171\164\151\156\147.\102\145\163\164\145\157\144')"
+          pattern_three="$(printf '\116\106/\116\124')"
+          ! grep -R -n -E "${pattern_one}|${pattern_two}|${pattern_three}" docs/P1-A20-* conformance/P1-A20-* conformance/p1-a20-* schemas/eigiib-p1-a20-* requirements/p1-a20-* tests/fixtures/p1-a20 tests/test_eigiib_p1_a20_* tools/eigiib_p1_a20_* independent/p1runner independent/cmd/eigiib-p1-runner-adapter

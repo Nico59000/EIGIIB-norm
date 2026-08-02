@@ -1,0 +1,23 @@
+# P1-A20 manual review
+
+- [x] Exact parent is P1-A19-F2 commit `66b25d4f27ded3e273922f9fdcf80b9c88c8c808`.
+- [x] The source P1-A19 report SHA-256 is `8008f0eb90328a4ff01f1bd4a594f1f7417ecbd3f5c68efdcf07bf801be62c2a`.
+- [x] Runner, toolchain and rollback authorities use distinct Ed25519 public keys.
+- [x] No private key is committed.
+- [x] Six runners include four active, one retired and one quarantined record.
+- [x] Runner admission binds identifier, identity digest, state and sequence window.
+- [x] Toolchain succession binds predecessor `1.8.0`, active `1.9.0` and candidate `2.0.0-rc1`.
+- [x] Compatibility is explicit by platform, runner generation and sequence window.
+- [x] Candidate, unknown, digest-substituted and incompatible toolchains are rejected.
+- [x] Retired, quarantined, unknown, expired and identity-substituted runners are rejected.
+- [x] Ordinary predecessor compatibility closes after sequence 130.
+- [x] Rollback requires exact active-to-predecessor lineage and a signed runner-bound authorization.
+- [x] Rollback authorization is time-bounded and single-use.
+- [x] The second use of the authorization is rejected.
+- [x] Thirteen canonical routes produce six acceptances and seven rejections.
+- [x] Thirty semantic mutations are rejected.
+- [x] Nine Draft 2020-12 closed-schema mutations are rejected through local references.
+- [x] Python and independent Go reports are byte-identical.
+- [x] External OpenSSL verifies all three signatures.
+- [x] Hardware identity, external attestation, provider isolation and universal compatibility remain unclaimed.
+- [x] Boundary: `signed-runner-admission-toolchain-succession-declared-compatibility-window-single-use-rollback-replay-closure`.
