@@ -1,0 +1,10 @@
+{
+  "budgets": [],
+  "consumptions": [],
+  "control_profiles": [],
+  "enforcement_requests": [],
+  "standard": "EIGIIB-E14-A3-1.0",
+  "status": "structural-only",
+  "upstream_authorization_registry": "conformance/disclosure-authorization.json",
+  "upstream_projection_registry": "conformance/confidential-evidence.json"
+}
