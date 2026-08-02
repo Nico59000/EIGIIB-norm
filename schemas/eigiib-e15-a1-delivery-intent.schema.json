@@ -1,0 +1,548 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-e15-a1-delivery-intent.schema.json",
+  "title": "EIGIIB E15-A1 delivery intent registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "upstream_release_registry",
+    "upstream_e14_freeze",
+    "source_e14_commit",
+    "endpoint_profiles",
+    "carrier_profiles",
+    "delivery_policies",
+    "delivery_intents",
+    "delivery_decisions"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E15-A1-1.0"
+    },
+    "status": {
+      "const": "structural-only"
+    },
+    "upstream_release_registry": {
+      "const": "conformance/e14-release-boundary.json"
+    },
+    "upstream_e14_freeze": {
+      "const": "conformance/e14-a5-authority-freeze.json"
+    },
+    "source_e14_commit": {
+      "const": "472e14fbb3d92205eabf10438e90295e19125ea4"
+    },
+    "endpoint_profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/endpoint"
+      }
+    },
+    "carrier_profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/carrier"
+      }
+    },
+    "delivery_policies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/policy"
+      }
+    },
+    "delivery_intents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/intent"
+      }
+    },
+    "delivery_decisions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/decision"
+      }
+    }
+  },
+  "$defs": {
+    "commitment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "digest"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "kind",
+        "locator",
+        "identity_authority",
+        "identity_state",
+        "accepted_carriers",
+        "accepted_recipient_scopes",
+        "commitment"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "registry",
+            "service",
+            "recipient-interface"
+          ]
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity_authority": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity_state": {
+          "enum": [
+            "verified",
+            "rejected",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "accepted_carriers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "accepted_recipient_scopes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        }
+      }
+    },
+    "carrier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "media_type",
+        "protocol",
+        "integrity_algorithms",
+        "authentication_properties",
+        "confidentiality_properties",
+        "transport_properties",
+        "state",
+        "commitment"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "media_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "protocol": {
+          "type": "string",
+          "minLength": 1
+        },
+        "integrity_algorithms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "authentication_properties": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "confidentiality_properties": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "transport_properties": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "state": {
+          "enum": [
+            "active",
+            "retired",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "state",
+        "allowed_endpoints",
+        "allowed_carriers",
+        "allowed_recipient_scopes",
+        "allowed_purposes",
+        "allowed_actions",
+        "required_transport_properties",
+        "max_payload_bytes",
+        "commitment"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "enum": [
+            "active",
+            "retired",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "allowed_endpoints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "allowed_carriers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "allowed_recipient_scopes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "allowed_purposes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "allowed_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "required_transport_properties": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "max_payload_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        }
+      }
+    },
+    "intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "release_event",
+        "release_receipt",
+        "released_object_commitment",
+        "recipient_scope",
+        "endpoint",
+        "endpoint_revision",
+        "carrier",
+        "carrier_revision",
+        "policy",
+        "policy_revision",
+        "purpose",
+        "action",
+        "evaluation_context",
+        "idempotency_key",
+        "payload_sha256",
+        "payload_bytes",
+        "requested_transport_properties",
+        "commitment"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "release_event": {
+          "type": "string",
+          "minLength": 1
+        },
+        "release_receipt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "released_object_commitment": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "recipient_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "endpoint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "endpoint_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "carrier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "carrier_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action": {
+          "const": "eigiib:e15:deliver"
+        },
+        "evaluation_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "revision"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "revision": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "payload_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "requested_transport_properties": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "intent",
+        "intent_revision",
+        "sequence",
+        "binding_result",
+        "endpoint_result",
+        "carrier_result",
+        "policy_result",
+        "idempotency_result",
+        "state",
+        "reasons",
+        "evidence",
+        "commitment"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "binding_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "endpoint_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "carrier_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "policy_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "idempotency_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "state": {
+          "enum": [
+            "admissible",
+            "rejected",
+            "held",
+            "unavailable"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        }
+      }
+    }
+  }
+}

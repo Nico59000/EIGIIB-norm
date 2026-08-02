@@ -1,0 +1,116 @@
+{
+  "authorities": [
+    {
+      "bytes": 1100,
+      "path": ".github/workflows/e14-a2-disclosure-authorization.yml",
+      "sha256": "eb1c55db35c9ee3d97ffb0978eb1cb406696f7e4c07275b4084e46c17ee29dc2"
+    },
+    {
+      "bytes": 1012,
+      "path": ".github/workflows/e14-a3-correlation-control.yml",
+      "sha256": "001f2a2d028615a102cd06091fd621456f27d80cbcf0639594afb118e2856269"
+    },
+    {
+      "bytes": 1358,
+      "path": ".github/workflows/e14-a4-disclosure-revocation.yml",
+      "sha256": "6f4ede4fce6cea71086601a9db00722ae136e471bf66d1a151fa798215dee40f"
+    },
+    {
+      "bytes": 1666,
+      "path": ".github/workflows/e14-a5-final-closure.yml",
+      "sha256": "64a30a2da3182d5b265754997add6364a461da87a984e68543053293fa51d2f3"
+    },
+    {
+      "bytes": 4019,
+      "path": ".github/workflows/e15-a1-delivery-intent.yml",
+      "sha256": "a747144888de5f210a74c98cb0095e445c9c4c69e95997706c8394f8b861dbbd"
+    },
+    {
+      "bytes": 7700,
+      "path": ".github/workflows/eigiib.yml",
+      "sha256": "4f2d65af356a629b622c2582b3483af2fcb5bc66bbf4764c61c1c5ad574f561f"
+    },
+    {
+      "bytes": 11303,
+      "path": "EIGIIB.toml",
+      "sha256": "a9fe60b2eb49fea2411ba3f4dcc5b5723799d7a836c8b8ae06383057b7d14419"
+    },
+    {
+      "bytes": 953,
+      "path": "conformance/E15-A1-MANUAL-REVIEW.md",
+      "sha256": "5b69811b4f29c84155a185544359257dd567ecd040343ae62c807bce3716bde6"
+    },
+    {
+      "bytes": 411,
+      "path": "conformance/delivery-intent.json",
+      "sha256": "9952ed53a10070da75bbd2057be2d265a70fae4825f7c4d6bc20fedf44385927"
+    },
+    {
+      "bytes": 2240,
+      "path": "conformance/e15-a1-adoption-transition.json",
+      "sha256": "7e6cf358664ba84fc9ec05b020f61f42e3ea6feb0428257501ea871b0a320172"
+    },
+    {
+      "bytes": 19531,
+      "path": "conformance/extension-graph.json",
+      "sha256": "bea57bada3195ca8d31cd6cec019c26320b55271e0d4eb8f7ff285126dc52fb5"
+    },
+    {
+      "bytes": 1753,
+      "path": "docs/E15-A1-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "9c8d6e1c41431ae965c7dcde541d2f036505bd2a0efb97bbc6b6da8d7c928e5e"
+    },
+    {
+      "bytes": 6162,
+      "path": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
+      "sha256": "11a7bc3f7ea2a6347f5a3659e371a7fef7cd23e7210248281937285a2adb6562"
+    },
+    {
+      "bytes": 880,
+      "path": "schemas/eigiib-e15-a1-adoption-transition.schema.json",
+      "sha256": "f96d384c6241bdaaa9bea6c4c147d8f20338fccfb563418ddc68b15f5454fbd6"
+    },
+    {
+      "bytes": 1156,
+      "path": "schemas/eigiib-e15-a1-authority-freeze.schema.json",
+      "sha256": "edf7648f5018c804c9e41be7051686fcea97f586699012e82d428c2e824d473d"
+    },
+    {
+      "bytes": 12259,
+      "path": "schemas/eigiib-e15-a1-delivery-intent.schema.json",
+      "sha256": "dfcc98970705264655807dd169075838e2155a2df77cb0b17d003a66b6ac16a7"
+    },
+    {
+      "bytes": 564,
+      "path": "tests/fixtures/e15-a1/expected-report.json",
+      "sha256": "3920d8e444fa9096748043f8e6895fca5010bf583e4d3a473d704e89d6617efc"
+    },
+    {
+      "bytes": 12591,
+      "path": "tests/test_eigiib_delivery_intent.py",
+      "sha256": "ee30ba27b59f7bc6225bc8b85833c2d6bf3735ad1c54d4cc8d77c163d85a938a"
+    },
+    {
+      "bytes": 34007,
+      "path": "tools/eigiib_delivery_intent_check.py",
+      "sha256": "103114a25532c91d1e0ed84d0073b86cb8017769c3bd003a50c4cec4ff05086a"
+    },
+    {
+      "bytes": 17373,
+      "path": "tools/eigiib_extension_graph_check.py",
+      "sha256": "842836f164891648f27ae593a7a835283e1c84c44248f1fcc07b77cb0f6c0e2c"
+    },
+    {
+      "bytes": 7362,
+      "path": "tools/eigiib_historical_e14_replay.py",
+      "sha256": "9a3e35129a891163e5acec1b12b26b9eeae5abf4d2351599fdea3a3996e50f0b"
+    }
+  ],
+  "profile_revision": "EIGIIB-E15-draft-1.0",
+  "source": {
+    "e14_head_commit": "472e14fbb3d92205eabf10438e90295e19125ea4",
+    "m0_a6_head_commit": "9cff4c1e392b6661af4b01e710f10342fe2ad402"
+  },
+  "standard": "EIGIIB-E15-A1-FREEZE-1.0",
+  "status": "frozen"
+}

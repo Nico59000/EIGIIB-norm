@@ -1,0 +1,56 @@
+{
+  "standard": "EIGIIB-E15-A1-TRANSITION-1.0",
+  "status": "adopted-e15-a1",
+  "source": {
+    "branch": "agent/e14-a5-f1-portable-authority-rebind-workflow-neutral-publication",
+    "head_commit": "472e14fbb3d92205eabf10438e90295e19125ea4",
+    "profile_revision": "EIGIIB-E14-1.0",
+    "m0_a6_head_commit": "9cff4c1e392b6661af4b01e710f10342fe2ad402",
+    "m0_a6_entry_authority": "conformance/m0-a6-e15-entry.json",
+    "e14_freeze_authority": "conformance/e14-a5-authority-freeze.json"
+  },
+  "historical_replay": {
+    "mode": "materialize-and-replay-exact-source-commit",
+    "tool": "tools/eigiib_historical_e14_replay.py",
+    "required_components": [
+      "E14",
+      "E14-A2",
+      "E14-A3",
+      "E14-A4",
+      "E14-A5",
+      "E14-A5-F1"
+    ],
+    "source_commit_must_be_ancestor": true,
+    "historical_tree_isolated": true,
+    "current_tree_substitution_forbidden": true
+  },
+  "target": {
+    "extension": "E15-1.0",
+    "slice": "E15-A1",
+    "adoption_state": "adopted",
+    "extension_authority": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
+    "registry_authority": "conformance/delivery-intent.json",
+    "checker": "tools/eigiib_delivery_intent_check.py",
+    "authority_freeze": "conformance/e15-a1-authority-freeze.json"
+  },
+  "consumed_inputs": {
+    "e14_release_event": "delivery_intent.release_event",
+    "e14_release_receipt": "delivery_intent.release_receipt",
+    "released_object_commitment": "delivery_intent.released_object_commitment",
+    "recipient_scope": "delivery_intent.recipient_scope",
+    "endpoint_identity": "delivery_intent.endpoint",
+    "carrier_profile": "delivery_intent.carrier",
+    "delivery_policy": "delivery_intent.policy",
+    "external_attestation_policy": "reserved-for-e15-a2",
+    "durability_policy": "reserved-for-e15-a3",
+    "withdrawal_policy": "reserved-for-e15-a4",
+    "evaluation_context": "delivery_intent.evaluation_context",
+    "idempotency_key": "delivery_intent.idempotency_key"
+  },
+  "historical_preservation": {
+    "e14_claims_rewritten": false,
+    "e14_source_freeze_mutated": false,
+    "transition_is_additive": true,
+    "descendant_profile_frozen_separately": true
+  }
+}

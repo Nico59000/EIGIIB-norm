@@ -1,0 +1,12 @@
+{
+  "standard": "EIGIIB-E15-A1-1.0",
+  "status": "structural-only",
+  "upstream_release_registry": "conformance/e14-release-boundary.json",
+  "upstream_e14_freeze": "conformance/e14-a5-authority-freeze.json",
+  "source_e14_commit": "472e14fbb3d92205eabf10438e90295e19125ea4",
+  "endpoint_profiles": [],
+  "carrier_profiles": [],
+  "delivery_policies": [],
+  "delivery_intents": [],
+  "delivery_decisions": []
+}
