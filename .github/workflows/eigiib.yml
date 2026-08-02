@@ -120,6 +120,11 @@ jobs:
         run: |
           set -o pipefail
           python tools/eigiib_confidential_evidence_check.py . --json | tee .eigiib-results/components/e14.json
+      - name: EIGIIB E14-A2 disclosure authorization conformance
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_disclosure_authorization_check.py . --json | tee .eigiib-results/components/e14-a2.json
       - name: EIGIIB M0-A2 aggregate conformance
         if: always()
         run: |

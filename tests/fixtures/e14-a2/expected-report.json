@@ -1,0 +1,20 @@
+{
+  "audience_eligibility_result": "not-evaluated",
+  "authorization_result": "not-evaluated",
+  "context_revalidation_result": "not-evaluated",
+  "decision_count": 0,
+  "decision_counts": {
+    "deny": 0,
+    "held": 0,
+    "permit": 0,
+    "unavailable": 0
+  },
+  "findings": [],
+  "policy_evaluation_result": "not-evaluated",
+  "request_count": 0,
+  "standard": "EIGIIB-E14-A2-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-disclosure-authorization-check",
+  "tool_version": "0.1.0",
+  "upstream_binding_result": "conformant"
+}

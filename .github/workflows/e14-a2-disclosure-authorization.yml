@@ -1,0 +1,34 @@
+name: E14-A2 disclosure authorization and context revalidation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - agent/e14-a2-disclosure-authorization-audience-policy-context-revalidation
+
+permissions:
+  contents: read
+
+jobs:
+  disclosure-authorization:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13'
+      - name: Unit tests
+        run: python -m unittest -v tests/test_eigiib_disclosure_authorization.py
+      - name: Structural registry
+        run: |
+          python tools/eigiib_disclosure_authorization_check.py . --json > e14-a2-report.json
+          python -c "import json,pathlib; a=json.loads(pathlib.Path('e14-a2-report.json').read_text()); b=json.loads(pathlib.Path('tests/fixtures/e14-a2/expected-report.json').read_text()); assert a == b"
+      - name: Schemas and profile
+        run: |
+          python -c "import json,pathlib,tomllib; json.loads(pathlib.Path('schemas/eigiib-e14-a2-disclosure-authorization.schema.json').read_text()); json.loads(pathlib.Path('conformance/disclosure-authorization.json').read_text()); tomllib.loads(pathlib.Path('EIGIIB.toml').read_text())"
+      - name: Exact E14-A1 ancestry
+        run: git merge-base --is-ancestor c96d8bd59fe76726f60ff95fa729fec8a9de050e HEAD

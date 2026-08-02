@@ -1,0 +1,10 @@
+{
+  "audiences": [],
+  "decisions": [],
+  "disclosure_policies": [],
+  "evaluation_contexts": [],
+  "requests": [],
+  "standard": "EIGIIB-E14-A2-1.0",
+  "status": "structural-only",
+  "upstream_registry": "conformance/confidential-evidence.json"
+}

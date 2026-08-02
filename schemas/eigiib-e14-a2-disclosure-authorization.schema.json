@@ -1,0 +1,451 @@
+{
+  "$defs": {
+    "audience": {
+      "additionalProperties": false,
+      "properties": {
+        "classifications": {
+          "items": {
+            "enum": [
+              "restricted",
+              "confidential",
+              "highly-confidential"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "purposes": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "required_authentication": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "active",
+            "retired",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "subjects": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "state",
+        "subjects",
+        "classifications",
+        "purposes",
+        "required_authentication"
+      ],
+      "type": "object"
+    },
+    "context": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "eigiib:e14:disclose-projection"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "operation": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "purpose": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "active",
+            "closed",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "subject": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "state",
+        "purpose",
+        "action",
+        "operation",
+        "subject"
+      ],
+      "type": "object"
+    },
+    "decision": {
+      "additionalProperties": false,
+      "properties": {
+        "audience_result": {
+          "enum": [
+            "eligible",
+            "ineligible",
+            "held",
+            "unavailable"
+          ]
+        },
+        "context_result": {
+          "enum": [
+            "admissible",
+            "inadmissible",
+            "held",
+            "unavailable"
+          ]
+        },
+        "evaluator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/strings"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policy_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "projection_result": {
+          "enum": [
+            "admissible",
+            "denied",
+            "held",
+            "unavailable"
+          ]
+        },
+        "reasons": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "request": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "request_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "request",
+        "request_revision",
+        "state",
+        "projection_result",
+        "audience_result",
+        "policy_result",
+        "context_result",
+        "evaluator",
+        "reasons",
+        "evidence"
+      ],
+      "type": "object"
+    },
+    "policy": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_empty_projection": {
+          "type": "boolean"
+        },
+        "allowed_audiences": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_claim_types": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_classifications": {
+          "items": {
+            "enum": [
+              "restricted",
+              "confidential",
+              "highly-confidential"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_predicates": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_purposes": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "max_assurance": {
+          "maximum": 4,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_claims": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "required_correlation_controls": {
+          "$ref": "#/$defs/strings"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "active",
+            "revoked",
+            "contested",
+            "unavailable"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "state",
+        "allowed_audiences",
+        "allowed_classifications",
+        "allowed_purposes",
+        "allowed_claim_types",
+        "allowed_predicates",
+        "max_assurance",
+        "max_claims",
+        "required_correlation_controls",
+        "allow_empty_projection"
+      ],
+      "type": "object"
+    },
+    "request": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "eigiib:e14:disclose-projection"
+        },
+        "audience": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "audience_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "context": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "context_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "operation": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policy_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "projection": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "projection_commitment": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "projection_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "purpose": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_commitment": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "source_record": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_revision": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "projection",
+        "projection_revision",
+        "projection_commitment",
+        "source_record",
+        "source_revision",
+        "source_commitment",
+        "audience",
+        "audience_revision",
+        "policy",
+        "policy_revision",
+        "context",
+        "context_revision",
+        "purpose",
+        "action",
+        "operation"
+      ],
+      "type": "object"
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://example.invalid/eigiib/schemas/eigiib-e14-a2-disclosure-authorization.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "audiences": {
+      "items": {
+        "$ref": "#/$defs/audience"
+      },
+      "type": "array"
+    },
+    "decisions": {
+      "items": {
+        "$ref": "#/$defs/decision"
+      },
+      "type": "array"
+    },
+    "disclosure_policies": {
+      "items": {
+        "$ref": "#/$defs/policy"
+      },
+      "type": "array"
+    },
+    "evaluation_contexts": {
+      "items": {
+        "$ref": "#/$defs/context"
+      },
+      "type": "array"
+    },
+    "requests": {
+      "items": {
+        "$ref": "#/$defs/request"
+      },
+      "type": "array"
+    },
+    "standard": {
+      "const": "EIGIIB-E14-A2-1.0"
+    },
+    "status": {
+      "const": "structural-only"
+    },
+    "upstream_registry": {
+      "const": "conformance/confidential-evidence.json"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "upstream_registry",
+    "audiences",
+    "disclosure_policies",
+    "evaluation_contexts",
+    "requests",
+    "decisions"
+  ],
+  "title": "EIGIIB E14-A2 disclosure authorization registry",
+  "type": "object"
+}

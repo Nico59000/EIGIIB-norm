@@ -215,3 +215,17 @@ tools/eigiib_confidential_evidence_check.py
 ```
 
 It uses repository-local JSON and the Python standard library only.
+
+## 15. E14-A2 disclosure authorization companion
+
+E14-A2 adds the independent authorization crossing after projection validity:
+
+```text
+sealed projection
++ audience eligibility
++ disclosure policy evaluation
++ evaluation-context revalidation
+= bounded disclosure decision
+```
+
+Its authority is `extensions/E14-A2-DISCLOSURE-AUTHORIZATION-AUDIENCE-ELIGIBILITY-CONTEXT-REVALIDATION.md`. E14-A2 does not change A1 record or projection commitments and still defines no release or transmission event.
