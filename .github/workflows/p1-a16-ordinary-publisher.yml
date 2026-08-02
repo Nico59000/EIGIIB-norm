@@ -71,6 +71,8 @@ jobs:
           diff -u /tmp/expected-paths /tmp/actual-paths
           while IFS= read -r path; do test ! -e "$path"; done < /tmp/expected-paths
           tar -xzf /tmp/p1-a16-ordinary.tar.gz
+          python bootstrap/p1-a16-go-tags-patch.py
+          gofmt -w independent/p1registry/adapter.go
           rm -f \
             bootstrap/p1-a16-ordinary.tar.gz.b64.part* \
             bootstrap/p1-a16-ordinary-v2/part*.b64 \
