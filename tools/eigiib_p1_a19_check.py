@@ -14,7 +14,7 @@ def main() -> None:
     result = report(load_json(FIXTURE / "interoperability-bundle.json"))
     encoded = json.dumps(result, sort_keys=True, separators=(",", ":")) + "\n"
     if args.output:
-        Path(args.output).write_text(encoded, encoding="utf-8")
+        Path(args.output).write_bytes(encoded.encode("utf-8"))
     print(encoded, end="")
 
 
