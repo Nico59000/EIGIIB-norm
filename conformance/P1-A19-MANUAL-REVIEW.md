@@ -1,0 +1,21 @@
+# P1-A19 manual review
+
+- [x] Exact P1-A18 commit and canonical report digest are bound.
+- [x] The registered matrix contains six active profiles and two deprecated historical versions.
+- [x] Every active profile has an explicit identifier, version, capability sets, claim vocabulary and critical-extension set.
+- [x] The registry is canonically encoded and signed with Ed25519.
+- [x] Negotiation uses the exact intersection of supported capabilities.
+- [x] Mandatory capabilities cannot be silently dropped.
+- [x] Deprecated versions are rejected when an active version is registered.
+- [x] Unknown profiles and unknown critical extensions are rejected.
+- [x] Target claims cannot exceed source claims.
+- [x] Artifact commit, report digest, environment, registry digest and profile versions are transcript-bound.
+- [x] Six registered positive routes converge.
+- [x] Twenty-five negative mutations are rejected.
+- [x] Python and independent Go implementations produce one exact report.
+- [x] External OpenSSL verifies the frozen registry signature.
+- [x] No private key is included.
+- [x] Semantic equivalence of all carrier formats is not claimed.
+- [x] Future unregistered profiles and runners remain outside the boundary.
+- [x] Universal interoperability remains unclaimed.
+- [x] Boundary: `registered-active-profile-matrix-canonical-capability-negotiation-claim-boundary-preserving-differential-replay-closure`.
