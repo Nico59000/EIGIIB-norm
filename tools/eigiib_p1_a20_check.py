@@ -17,11 +17,11 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     report = build_report(load_json(args.bundle))
-    rendered = json.dumps(report, sort_keys=True, separators=(",", ":")) + "\n"
+    rendered = (json.dumps(report, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
     if args.output:
-        args.output.write_text(rendered, encoding="utf-8")
+        args.output.write_bytes(rendered)
     else:
-        print(rendered, end="")
+        print(rendered.decode("utf-8"), end="")
 
 
 if __name__ == "__main__":
