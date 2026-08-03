@@ -1,0 +1,53 @@
+name: M0-A7 bounded checker publisher
+
+on:
+  push:
+    branches:
+      - agent/m0-a7-e16-entry-normalization-e15-authority-continuity
+    paths:
+      - '.m0a7-payload/**'
+      - '.github/workflows/m0-a7-publish-checker.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: m0-a7-checker-publisher
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/m0-a7-e16-entry-normalization-e15-authority-continuity
+          fetch-depth: 0
+      - name: Materialize exact checker
+        shell: bash
+        run: |
+          if ! compgen -G '.m0a7-payload/checker.b64.*' >/dev/null; then
+            echo 'payload already consumed'
+            exit 0
+          fi
+          python - <<'PY'
+          import base64, hashlib
+          from pathlib import Path
+          parts = sorted(Path('.m0a7-payload').glob('checker.b64.*'))
+          encoded = ''.join(path.read_text(encoding='ascii') for path in parts)
+          data = base64.b64decode(encoded, validate=True)
+          expected = 'dc8fa96912d322c30617f5315dcb69347f4021f14ed69b6f545f854f57e83c8b'
+          if len(data) != 20192:
+              raise SystemExit(f'unexpected checker byte count: {len(data)}')
+          if hashlib.sha256(data).hexdigest() != expected:
+              raise SystemExit('checker digest mismatch')
+          target = Path('tools/eigiib_m0_a7_check.py')
+          target.parent.mkdir(parents=True, exist_ok=True)
+          target.write_bytes(data)
+          PY
+          git rm -r .m0a7-payload
+          git add tools/eigiib_m0_a7_check.py
+          git config user.name 'EIGIIB bounded publisher'
+          git config user.email 'actions@users.noreply.github.com'
+          git commit -m 'M0-A7: publish exact entry checker'
+          git push origin HEAD:agent/m0-a7-e16-entry-normalization-e15-authority-continuity
