@@ -68,9 +68,10 @@ jobs:
           set -euo pipefail
           python tools/eigiib_m0_a10_check.py . --output m0-a10-report.json
           python - <<'PY'
+          import json
           from pathlib import Path
-          expected = Path("tests/fixtures/m0-a10/expected-report.json").read_bytes()
-          actual = Path("m0-a10-report.json").read_bytes()
+          expected = json.loads(Path("tests/fixtures/m0-a10/expected-report.json").read_text(encoding="utf-8"))
+          actual = json.loads(Path("m0-a10-report.json").read_text(encoding="utf-8"))
           if actual != expected:
               raise SystemExit("M0-A10 canonical report mismatch")
           PY
