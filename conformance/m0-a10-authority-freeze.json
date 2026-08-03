@@ -1,0 +1,93 @@
+{
+  "standard": "EIGIIB-M0-A10-AUTHORITY-FREEZE-1.0",
+  "status": "self-excluding-authority-freeze",
+  "source_head": "af028b4b99c216cffb7764571e3e97db29d76635",
+  "event_rebind": {
+    "reason": "connector-authenticated-workflow-event",
+    "superseded_action_required_head": "22b927dcd8b949aff528dadadf1862c974ab397f"
+  },
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a10-dual-channel-publication.yml",
+      "bytes": 4677,
+      "sha256": "a3ab2ab3cc9f2942e35c57d2163dc5b676c40539f93eb61ae02e6210ea94d15c"
+    },
+    {
+      "path": "conformance/M0-A10-MANUAL-REVIEW.md",
+      "bytes": 1126,
+      "sha256": "17af6c395fd077e6ce1391c4f4a4a3791737fd0c98bfa844033223c92d1b3d81"
+    },
+    {
+      "path": "conformance/m0-a10-dual-channel-publication.json",
+      "bytes": 2999,
+      "sha256": "025d2bc5f6eb4d1da47305903a8845a9cade5322cd646123339cd40ac7c007b6"
+    },
+    {
+      "path": "conformance/m0-a10-live-publication-evidence.json",
+      "bytes": 5252,
+      "sha256": "c7ea85848bf19beeffa84b585586cf4ad3bc18332af326eea2049dee7d520a46"
+    },
+    {
+      "path": "conformance/m0-a10-oci-manifest.json",
+      "bytes": 1557,
+      "sha256": "8d3fba5d596d668ea000a768d524e35003e08f95162b633d8af7922449b13c88"
+    },
+    {
+      "path": "conformance/m0-a10-ops-cleanup-record.json",
+      "bytes": 1208,
+      "sha256": "eafb123279307db431cbdb0249c4d6e345379a9a803a33b01d0adcc960f876ee"
+    },
+    {
+      "path": "conformance/m0-a10-publisher-public-key.pem",
+      "bytes": 113,
+      "sha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e"
+    },
+    {
+      "path": "conformance/m0-a10-stable-bundle-manifest.json",
+      "bytes": 1058,
+      "sha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9"
+    },
+    {
+      "path": "conformance/m0-a10-stable-bundle-manifest.sig",
+      "bytes": 64,
+      "sha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4"
+    },
+    {
+      "path": "docs/M0-A10-STABLE-E16-NORMATIVE-BUNDLE-DUAL-CHANNEL-PUBLICATION-AND-EXACT-EXTERNAL-READBACK.md",
+      "bytes": 5488,
+      "sha256": "b5b4c529ee232d949cb8a94e763ab18f94e00be26c5f2a85a19e09d1dafe586b"
+    },
+    {
+      "path": "docs/M0-A10-HUMAN-MASTERY-GUIDE.md",
+      "bytes": 1564,
+      "sha256": "fe17af3e8e590f5eca289ef2f419a3dfef3418214889fbf441e3d714c49d1740"
+    },
+    {
+      "path": "schemas/eigiib-m0-a10-dual-channel-publication.schema.json",
+      "bytes": 2037,
+      "sha256": "12e39e25279fb4621f317d3f56b05721fef0f943e0a49132501d3d3d1a65bd13"
+    },
+    {
+      "path": "tests/fixtures/m0-a10/expected-report.json",
+      "bytes": 800,
+      "sha256": "c510da562e3fae42781efd6288a2e356f82b195a89aa7d5232b333e43997eba1"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a10.py",
+      "bytes": 6441,
+      "sha256": "084f61072fad5182118850265f121885639236df2254d5f94d8643e51d89e1ac"
+    },
+    {
+      "path": "tools/eigiib_m0_a10_check.py",
+      "bytes": 21181,
+      "sha256": "5909b7eb1774cd1d9194e0da745577f91242eb9d1613d9f462387e1d20d4999e"
+    },
+    {
+      "path": "tools/eigiib_m0_a10_live_replay.py",
+      "bytes": 10078,
+      "sha256": "48e6ffe429ff5526ba77328fff31e8e11639f1058a781b9cb9b42ce77ff01673"
+    }
+  ],
+  "authority_count": 16,
+  "excluded_path": "conformance/m0-a10-authority-freeze.json"
+}

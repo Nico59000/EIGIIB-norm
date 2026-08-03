@@ -1,0 +1,116 @@
+name: M0-A10 stable E16 dual-channel publication replay
+run-name: M0-A10 / ${{ github.event.pull_request.head.ref || github.ref_name }} / ${{ github.sha }}
+
+on:
+  pull_request:
+    branches:
+      - agent/m0-a9-cross-lineage-capability-reconciliation-claim-boundary-index-promotion-readiness
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/m0-a10-dual-channel-publication.yml"
+      - "conformance/M0-A10-MANUAL-REVIEW.md"
+      - "conformance/m0-a10-*"
+      - "docs/M0-A10-*.md"
+      - "schemas/eigiib-m0-a10-dual-channel-publication.schema.json"
+      - "tests/fixtures/m0-a10/expected-report.json"
+      - "tests/test_eigiib_m0_a10.py"
+      - "tools/eigiib_m0_a10_*.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: m0-a10-${{ github.event.pull_request.head.ref || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  validate:
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.13.14"
+      - name: Expose macOS OpenSSL 3
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          candidate="$(brew --prefix openssl@3)/bin"
+          test -x "$candidate/openssl"
+          echo "$candidate" >> "$GITHUB_PATH"
+      - name: Expose Windows OpenSSL
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $candidate = 'C:\Program Files\Git\usr\bin'
+          if (!(Test-Path "$candidate\openssl.exe")) { throw 'Git for Windows OpenSSL is unavailable' }
+          $candidate | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: M0-A10 mutation suite
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_m0_a10.py
+      - name: Structural and cryptographic closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/eigiib_m0_a10_check.py . --output m0-a10-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path("tests/fixtures/m0-a10/expected-report.json").read_text(encoding="utf-8"))
+          actual = json.loads(Path("m0-a10-report.json").read_text(encoding="utf-8"))
+          if actual != expected:
+              raise SystemExit("M0-A10 canonical report mismatch")
+          PY
+      - name: Live authenticated and public restore replay
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python tools/eigiib_m0_a10_live_replay.py . --json
+      - name: Closed schema and authority parse
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in [
+              "conformance/m0-a10-dual-channel-publication.json",
+              "conformance/m0-a10-live-publication-evidence.json",
+              "conformance/m0-a10-oci-manifest.json",
+              "conformance/m0-a10-ops-cleanup-record.json",
+              "conformance/m0-a10-stable-bundle-manifest.json",
+              "conformance/m0-a10-authority-freeze.json",
+              "schemas/eigiib-m0-a10-dual-channel-publication.schema.json",
+          ]:
+              json.loads(Path(path).read_text(encoding="utf-8"))
+          PY
+      - name: No private key or methodology-specific terminology
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! find conformance docs schemas tests tools -type f -iname '*private*key*' -print -quit | grep .
+          pattern='BEGIN PRIVATE'' KEY'
+          ! grep -R -n --binary-files=without-match "$pattern" \
+            conformance/M0-A10-* conformance/m0-a10-* docs/M0-A10-* \
+            schemas/eigiib-m0-a10-* tests/fixtures/m0-a10 tests/test_eigiib_m0_a10.py \
+            tools/eigiib_m0_a10_*.py
+          pattern_one="$(printf '\110\124\053\116\124')"
+          pattern_two="$(printf '\110\145\171\164\151\156\147.\102\145\163\164\145\157\144')"
+          pattern_three="$(printf '\116\106/\116\124')"
+          ! grep -R -n -E "${pattern_one}|${pattern_two}|${pattern_three}" \
+            conformance/M0-A10-* conformance/m0-a10-* docs/M0-A10-* \
+            schemas/eigiib-m0-a10-* tests/fixtures/m0-a10 tests/test_eigiib_m0_a10.py \
+            tools/eigiib_m0_a10_*.py

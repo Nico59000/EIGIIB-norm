@@ -1,0 +1,21 @@
+{
+  "authority_count": 16,
+  "bundle": {
+    "bytes": 985664,
+    "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+  },
+  "cleanup_deleted_run_count": 2,
+  "findings": [],
+  "github_release_id": 364532554,
+  "observation_workflow_run_id": 30860027176,
+  "oci_manifest_digest": "sha256:8d3fba5d596d668ea000a768d524e35003e08f95162b633d8af7922449b13c88",
+  "readback_route_count": 4,
+  "restored_object_observation_count": 16,
+  "source_m0_a9_head": "af028b4b99c216cffb7764571e3e97db29d76635",
+  "source_stable_e16_head": "fc3f8402bfbe447227f5777bad92b620c7bcb350",
+  "standard": "EIGIIB-M0-A10-REPORT-1.0",
+  "status": "bounded-external-publication-and-readback-verified",
+  "structural_result": "conformant",
+  "tool": "eigiib_m0_a10_check.py",
+  "tool_version": "0.1.0"
+}

@@ -1,0 +1,139 @@
+{
+  "bundle": {
+    "bytes": 985664,
+    "name": "eigiib-e16-1.0-stable-bundle.tar.gz",
+    "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+  },
+  "claims": {
+    "currentAuthenticatedAndPublicReadback": "established",
+    "currentExactRestore": "established",
+    "currentNamedChannelPublication": "established",
+    "futureAvailability": "not-claimed",
+    "indefiniteDurability": "not-claimed",
+    "productionReleaseAuthorization": "not-claimed",
+    "providerIndependence": "not-claimed"
+  },
+  "crossChannel": {
+    "bundleByteIdentity": "conformant",
+    "manifestByteIdentity": "conformant",
+    "publicKeyByteIdentity": "conformant",
+    "signatureByteIdentity": "conformant"
+  },
+  "githubRelease": {
+    "assetCount": 4,
+    "authenticatedReadback": "conformant",
+    "draft": false,
+    "exactRestore": "conformant",
+    "id": 364532554,
+    "immutable": false,
+    "name": "EIGIIB M0-A10 stable E16 dual-channel fixture",
+    "prerelease": true,
+    "publicReadback": "conformant",
+    "tag": "eigiib-m0-a10-e16-stable-v1"
+  },
+  "observation": {
+    "capturedAt": "2026-08-03T22:49:53Z",
+    "workflowRunId": 30860027176
+  },
+  "ociRegistry": {
+    "authenticatedReadback": "conformant",
+    "exactRestore": "conformant",
+    "manifestBytes": 1557,
+    "manifestDigest": "sha256:8d3fba5d596d668ea000a768d524e35003e08f95162b633d8af7922449b13c88",
+    "manifestMediaType": "application/vnd.oci.image.manifest.v1+json",
+    "publicReadback": "conformant",
+    "repository": "ghcr.io/nico59000/eigiib-norm-p1-a16",
+    "tag": "m0-a10-e16-stable-v1"
+  },
+  "routes": {
+    "oci-auth": {
+      "eigiib-e16-1.0-stable-bundle-manifest.json": {
+        "bytes": 1058,
+        "sha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9"
+      },
+      "eigiib-e16-1.0-stable-bundle-manifest.sig": {
+        "bytes": 64,
+        "sha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4"
+      },
+      "eigiib-e16-1.0-stable-bundle.tar.gz": {
+        "bytes": 985664,
+        "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+      },
+      "eigiib-m0-a10-publisher-ed25519-public.pem": {
+        "bytes": 113,
+        "sha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e"
+      }
+    },
+    "oci-public": {
+      "eigiib-e16-1.0-stable-bundle-manifest.json": {
+        "bytes": 1058,
+        "sha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9"
+      },
+      "eigiib-e16-1.0-stable-bundle-manifest.sig": {
+        "bytes": 64,
+        "sha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4"
+      },
+      "eigiib-e16-1.0-stable-bundle.tar.gz": {
+        "bytes": 985664,
+        "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+      },
+      "eigiib-m0-a10-publisher-ed25519-public.pem": {
+        "bytes": 113,
+        "sha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e"
+      }
+    },
+    "release-auth": {
+      "eigiib-e16-1.0-stable-bundle-manifest.json": {
+        "bytes": 1058,
+        "sha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9"
+      },
+      "eigiib-e16-1.0-stable-bundle-manifest.sig": {
+        "bytes": 64,
+        "sha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4"
+      },
+      "eigiib-e16-1.0-stable-bundle.tar.gz": {
+        "bytes": 985664,
+        "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+      },
+      "eigiib-m0-a10-publisher-ed25519-public.pem": {
+        "bytes": 113,
+        "sha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e"
+      }
+    },
+    "release-public": {
+      "eigiib-e16-1.0-stable-bundle-manifest.json": {
+        "bytes": 1058,
+        "sha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9"
+      },
+      "eigiib-e16-1.0-stable-bundle-manifest.sig": {
+        "bytes": 64,
+        "sha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4"
+      },
+      "eigiib-e16-1.0-stable-bundle.tar.gz": {
+        "bytes": 985664,
+        "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+      },
+      "eigiib-m0-a10-publisher-ed25519-public.pem": {
+        "bytes": 113,
+        "sha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e"
+      }
+    }
+  },
+  "signedManifest": {
+    "bytes": 1058,
+    "name": "eigiib-e16-1.0-stable-bundle-manifest.json",
+    "publicKeyName": "eigiib-m0-a10-publisher-ed25519-public.pem",
+    "publicKeySha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e",
+    "sha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9",
+    "signatureName": "eigiib-e16-1.0-stable-bundle-manifest.sig",
+    "signatureSha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4"
+  },
+  "source": {
+    "commit": "fc3f8402bfbe447227f5777bad92b620c7bcb350",
+    "profileRevision": "EIGIIB-E16-1.0",
+    "repository": "Nico59000/EIGIIB-norm",
+    "stableBranch": "stable/eigiib-e16-1.0"
+  },
+  "standard": "EIGIIB-M0-A10-LIVE-PUBLICATION-EVIDENCE-1.0",
+  "status": "bounded-external-publication-and-readback-verified"
+}
