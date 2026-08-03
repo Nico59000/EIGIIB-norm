@@ -1,0 +1,63 @@
+name: E16-A2 replica placement, custody acceptance and failure-domain evidence
+
+on:
+  pull_request:
+    paths:
+      - 'extensions/E16-*'
+      - 'tools/eigiib_replica_placement_check.py'
+      - 'tools/eigiib_historical_e16_a1_replay.py'
+      - 'schemas/eigiib-e16-a2-*'
+      - 'conformance/replica-placement.json'
+      - 'conformance/e16-a2-*'
+      - 'conformance/E16-A2-*'
+      - 'tests/test_eigiib_replica_placement.py'
+      - 'tests/fixtures/e16-a2/**'
+      - 'docs/E16-A2-*'
+      - '.github/workflows/e16-a2-replica-placement.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replica-placement:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13'
+      - name: Historical E16-A1 replay
+        shell: bash
+        run: python tools/eigiib_historical_e16_a1_replay.py . --json > historical-e16-a1-report.json
+      - name: E16-A2 unit tests
+        run: python -m unittest -v tests/test_eigiib_replica_placement.py
+      - name: Replica-placement report
+        shell: bash
+        run: |
+          python tools/eigiib_replica_placement_check.py . \
+            --history-report historical-e16-a1-report.json \
+            --json > actual-e16-a2-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = json.loads(Path('actual-e16-a2-report.json').read_text(encoding='utf-8'))
+          expected = json.loads(Path('tests/fixtures/e16-a2/expected-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('E16-A2 report mismatch')
+          PY
+      - name: Parse authorities
+        run: |
+          python -c "import json,pathlib; [json.loads(pathlib.Path(p).read_text(encoding='utf-8')) for p in ['conformance/replica-placement.json','conformance/e16-a2-authority-manifest.json','conformance/e16-a2-adoption-transition.json','conformance/e16-a2-authority-freeze.json','schemas/eigiib-e16-a2-replica-placement.schema.json','schemas/eigiib-e16-a2-authority-manifest.schema.json','schemas/eigiib-e16-a2-adoption-transition.schema.json','schemas/eigiib-e16-a2-authority-freeze.schema.json','conformance/extension-graph.json']]"
+      - name: Extension graph
+        shell: bash
+        run: python tools/eigiib_extension_graph_check.py . --json
+      - name: Exact E16-A1 ancestry
+        shell: bash
+        run: git merge-base --is-ancestor 7fd50a2009c6a437c7fe0b680407cf337b55cf4f HEAD

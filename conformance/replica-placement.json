@@ -1,0 +1,13 @@
+{
+  "standard": "EIGIIB-E16-A2-1.0",
+  "status": "structural-only",
+  "source_e16_a1_commit": "7fd50a2009c6a437c7fe0b680407cf337b55cf4f",
+  "upstream_preservation_registry": "conformance/preservation-intent.json",
+  "upstream_e16_a1_freeze": "conformance/e16-a1-authority-freeze.json",
+  "authority_manifest": "conformance/e16-a2-authority-manifest.json",
+  "placement_requests": [],
+  "custody_acceptances": [],
+  "failure_domain_declarations": [],
+  "placement_observations": [],
+  "placement_decisions": []
+}

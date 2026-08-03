@@ -1,0 +1,21 @@
+{
+  "authority_freeze_result": "conformant",
+  "custody_acceptance_count": 0,
+  "decision_state_counts": {
+    "held": 0,
+    "placement-observed": 0,
+    "rejected": 0,
+    "unavailable": 0
+  },
+  "failure_domain_declaration_count": 0,
+  "findings": [],
+  "historical_continuity_result": "conformant",
+  "placement_decision_count": 0,
+  "placement_observation_count": 0,
+  "placement_request_count": 0,
+  "placement_result": "not-evaluated",
+  "standard": "EIGIIB-E16-A2-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-replica-placement-check",
+  "tool_version": "0.1.0"
+}

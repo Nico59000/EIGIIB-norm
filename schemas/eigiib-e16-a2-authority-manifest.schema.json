@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-e16-a2-authority-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "profile_revision",
+    "source_e16_a1_commit",
+    "required_authorities",
+    "authorities"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E16-A2-AUTHORITY-MANIFEST-1.0"
+    },
+    "status": {
+      "const": "authoritative-slice-overlay"
+    },
+    "profile_revision": {
+      "const": "EIGIIB-E16-draft-1.0"
+    },
+    "source_e16_a1_commit": {
+      "const": "7fd50a2009c6a437c7fe0b680407cf337b55cf4f"
+    },
+    "required_authorities": {
+      "const": [
+        "contract",
+        "authority_manifest",
+        "registry",
+        "transition",
+        "authority_freeze",
+        "human_mastery",
+        "manual_review",
+        "registry_schema",
+        "manifest_schema",
+        "transition_schema",
+        "freeze_schema",
+        "checker",
+        "historical_replay",
+        "tests",
+        "expected_report",
+        "workflow"
+      ]
+    },
+    "authorities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract",
+        "authority_manifest",
+        "registry",
+        "transition",
+        "authority_freeze",
+        "human_mastery",
+        "manual_review",
+        "registry_schema",
+        "manifest_schema",
+        "transition_schema",
+        "freeze_schema",
+        "checker",
+        "historical_replay",
+        "tests",
+        "expected_report",
+        "workflow"
+      ],
+      "properties": {
+        "contract": {
+          "const": "extensions/E16-A2-REPLICA-PLACEMENT-CUSTODY-ACCEPTANCE-FAILURE-DOMAIN-EVIDENCE.md"
+        },
+        "authority_manifest": {
+          "const": "conformance/e16-a2-authority-manifest.json"
+        },
+        "registry": {
+          "const": "conformance/replica-placement.json"
+        },
+        "transition": {
+          "const": "conformance/e16-a2-adoption-transition.json"
+        },
+        "authority_freeze": {
+          "const": "conformance/e16-a2-authority-freeze.json"
+        },
+        "human_mastery": {
+          "const": "docs/E16-A2-HUMAN-MASTERY-GUIDE.md"
+        },
+        "manual_review": {
+          "const": "conformance/E16-A2-MANUAL-REVIEW.md"
+        },
+        "registry_schema": {
+          "const": "schemas/eigiib-e16-a2-replica-placement.schema.json"
+        },
+        "manifest_schema": {
+          "const": "schemas/eigiib-e16-a2-authority-manifest.schema.json"
+        },
+        "transition_schema": {
+          "const": "schemas/eigiib-e16-a2-adoption-transition.schema.json"
+        },
+        "freeze_schema": {
+          "const": "schemas/eigiib-e16-a2-authority-freeze.schema.json"
+        },
+        "checker": {
+          "const": "tools/eigiib_replica_placement_check.py"
+        },
+        "historical_replay": {
+          "const": "tools/eigiib_historical_e16_a1_replay.py"
+        },
+        "tests": {
+          "const": "tests/test_eigiib_replica_placement.py"
+        },
+        "expected_report": {
+          "const": "tests/fixtures/e16-a2/expected-report.json"
+        },
+        "workflow": {
+          "const": ".github/workflows/e16-a2-replica-placement.yml"
+        }
+      }
+    }
+  }
+}

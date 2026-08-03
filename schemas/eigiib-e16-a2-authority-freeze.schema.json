@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-e16-a2-authority-freeze.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "profile_revision",
+    "source_e16_a1_commit",
+    "authorities"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E16-A2-FREEZE-1.0"
+    },
+    "status": {
+      "const": "frozen"
+    },
+    "profile_revision": {
+      "const": "EIGIIB-E16-draft-1.0"
+    },
+    "source_e16_a1_commit": {
+      "const": "7fd50a2009c6a437c7fe0b680407cf337b55cf4f"
+    },
+    "authorities": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "bytes",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    }
+  }
+}

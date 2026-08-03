@@ -1,0 +1,743 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-e16-a2-replica-placement.schema.json",
+  "title": "EIGIIB E16-A2 replica placement registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "source_e16_a1_commit",
+    "upstream_preservation_registry",
+    "upstream_e16_a1_freeze",
+    "authority_manifest",
+    "placement_requests",
+    "custody_acceptances",
+    "failure_domain_declarations",
+    "placement_observations",
+    "placement_decisions"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E16-A2-1.0"
+    },
+    "status": {
+      "const": "structural-only"
+    },
+    "source_e16_a1_commit": {
+      "const": "7fd50a2009c6a437c7fe0b680407cf337b55cf4f"
+    },
+    "upstream_preservation_registry": {
+      "const": "conformance/preservation-intent.json"
+    },
+    "upstream_e16_a1_freeze": {
+      "const": "conformance/e16-a1-authority-freeze.json"
+    },
+    "authority_manifest": {
+      "const": "conformance/e16-a2-authority-manifest.json"
+    },
+    "placement_requests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "source_binding",
+          "source_binding_revision",
+          "source_binding_commitment",
+          "source_intent",
+          "source_intent_revision",
+          "custodian",
+          "custodian_revision",
+          "replica",
+          "replica_revision",
+          "content_sha256",
+          "content_bytes",
+          "requested_failure_domain_dimensions",
+          "placement_purpose",
+          "action",
+          "evaluation_context",
+          "idempotency_key",
+          "commitment"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_binding": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_binding_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_binding_commitment": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_intent": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_intent_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "custodian": {
+            "type": "string",
+            "minLength": 1
+          },
+          "custodian_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "content_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "requested_failure_domain_dimensions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "provider",
+                "account",
+                "region",
+                "facility",
+                "administrative",
+                "control-plane",
+                "storage-implementation",
+                "network",
+                "power",
+                "encryption-key"
+              ]
+            }
+          },
+          "placement_purpose": {
+            "type": "string",
+            "minLength": 1
+          },
+          "action": {
+            "const": "eigiib:e16:place"
+          },
+          "evaluation_context": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "revision"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "revision": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "custody_acceptances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "request",
+          "request_revision",
+          "request_commitment",
+          "custodian",
+          "custodian_revision",
+          "replica",
+          "replica_revision",
+          "content_sha256",
+          "content_bytes",
+          "acceptance_state",
+          "accepted_scope",
+          "evidence_refs",
+          "commitment"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "request": {
+            "type": "string",
+            "minLength": 1
+          },
+          "request_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "request_commitment": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "custodian": {
+            "type": "string",
+            "minLength": 1
+          },
+          "custodian_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "content_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "acceptance_state": {
+            "enum": [
+              "accepted",
+              "held",
+              "rejected",
+              "unavailable"
+            ]
+          },
+          "accepted_scope": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "failure_domain_declarations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "replica",
+          "replica_revision",
+          "declared_by",
+          "dimensions",
+          "state",
+          "evidence_refs",
+          "commitment"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "declared_by": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dimensions": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "provider",
+              "account",
+              "region",
+              "administrative",
+              "control_plane",
+              "storage_implementation"
+            ],
+            "properties": {
+              "provider": {
+                "type": "string",
+                "minLength": 1
+              },
+              "account": {
+                "type": "string",
+                "minLength": 1
+              },
+              "region": {
+                "type": "string",
+                "minLength": 1
+              },
+              "facility": {
+                "type": "string",
+                "minLength": 1
+              },
+              "administrative": {
+                "type": "string",
+                "minLength": 1
+              },
+              "control_plane": {
+                "type": "string",
+                "minLength": 1
+              },
+              "storage_implementation": {
+                "type": "string",
+                "minLength": 1
+              },
+              "network": {
+                "type": "string",
+                "minLength": 1
+              },
+              "power": {
+                "type": "string",
+                "minLength": 1
+              },
+              "encryption_key": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "state": {
+            "enum": [
+              "active",
+              "contested",
+              "retired",
+              "unavailable"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "placement_observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "request",
+          "request_revision",
+          "request_commitment",
+          "acceptance",
+          "acceptance_revision",
+          "acceptance_commitment",
+          "failure_domain_declaration",
+          "failure_domain_declaration_revision",
+          "failure_domain_declaration_commitment",
+          "observer",
+          "method",
+          "observed_content_sha256",
+          "observed_content_bytes",
+          "observation_state",
+          "evidence_refs",
+          "commitment"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "request": {
+            "type": "string",
+            "minLength": 1
+          },
+          "request_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "request_commitment": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "acceptance": {
+            "type": "string",
+            "minLength": 1
+          },
+          "acceptance_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "acceptance_commitment": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "failure_domain_declaration": {
+            "type": "string",
+            "minLength": 1
+          },
+          "failure_domain_declaration_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "failure_domain_declaration_commitment": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "observer": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "revision"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "revision": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "method": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "implementation"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "repository-witness",
+                  "custodian-receipt",
+                  "provider-api",
+                  "content-readback"
+                ]
+              },
+              "implementation": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "observed_content_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "observed_content_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "observation_state": {
+            "enum": [
+              "inconclusive",
+              "negative",
+              "positive",
+              "unavailable"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "placement_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "request",
+          "request_revision",
+          "request_commitment",
+          "observation",
+          "observation_revision",
+          "observation_commitment",
+          "gates",
+          "state",
+          "reasons",
+          "evidence_refs",
+          "commitment"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "request": {
+            "type": "string",
+            "minLength": 1
+          },
+          "request_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "request_commitment": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "observation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observation_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observation_commitment": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "gates": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "a1_binding",
+              "request",
+              "custody_acceptance",
+              "content_identity",
+              "failure_domain_declaration",
+              "placement_observation"
+            ],
+            "properties": {
+              "a1_binding": {
+                "enum": [
+                  "deny",
+                  "held",
+                  "permit",
+                  "unavailable"
+                ]
+              },
+              "request": {
+                "enum": [
+                  "deny",
+                  "held",
+                  "permit",
+                  "unavailable"
+                ]
+              },
+              "custody_acceptance": {
+                "enum": [
+                  "deny",
+                  "held",
+                  "permit",
+                  "unavailable"
+                ]
+              },
+              "content_identity": {
+                "enum": [
+                  "deny",
+                  "held",
+                  "permit",
+                  "unavailable"
+                ]
+              },
+              "failure_domain_declaration": {
+                "enum": [
+                  "deny",
+                  "held",
+                  "permit",
+                  "unavailable"
+                ]
+              },
+              "placement_observation": {
+                "enum": [
+                  "deny",
+                  "held",
+                  "permit",
+                  "unavailable"
+                ]
+              }
+            }
+          },
+          "state": {
+            "enum": [
+              "held",
+              "placement-observed",
+              "rejected",
+              "unavailable"
+            ]
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

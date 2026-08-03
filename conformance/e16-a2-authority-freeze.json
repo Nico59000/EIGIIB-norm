@@ -1,0 +1,88 @@
+{
+  "standard": "EIGIIB-E16-A2-FREEZE-1.0",
+  "status": "frozen",
+  "profile_revision": "EIGIIB-E16-draft-1.0",
+  "source_e16_a1_commit": "7fd50a2009c6a437c7fe0b680407cf337b55cf4f",
+  "authorities": [
+    {
+      "path": ".github/workflows/e16-a2-replica-placement.yml",
+      "bytes": 2747,
+      "sha256": "c73e35361fccde3576a0701bd83e8c836b087d88778b9f1b62f0aedb6da92780"
+    },
+    {
+      "path": "conformance/E16-A2-MANUAL-REVIEW.md",
+      "bytes": 812,
+      "sha256": "1ee5551e6a7368974540c906f28803c5d8cbaba66e60f4e4e41efc72ec684858"
+    },
+    {
+      "path": "conformance/e16-a2-adoption-transition.json",
+      "bytes": 1027,
+      "sha256": "c1edba52e06cdc584e93066b2dbb8381c194fa846435949f9cfec25ff2c17235"
+    },
+    {
+      "path": "conformance/e16-a2-authority-manifest.json",
+      "bytes": 1707,
+      "sha256": "13501d76c022323f0cc988f530dae35de9bc2b4d175fc080477074849dd84c78"
+    },
+    {
+      "path": "conformance/replica-placement.json",
+      "bytes": 512,
+      "sha256": "fe87e59b8da2e369918a2f8ce22c2f250cab6b6e9407645218b284e8f2090866"
+    },
+    {
+      "path": "docs/E16-A2-HUMAN-MASTERY-GUIDE.md",
+      "bytes": 1730,
+      "sha256": "74e7872d549e68587ba6188d789be43d5633634d14f127b8abdbb6dbf0cfb175"
+    },
+    {
+      "path": "extensions/E16-A2-REPLICA-PLACEMENT-CUSTODY-ACCEPTANCE-FAILURE-DOMAIN-EVIDENCE.md",
+      "bytes": 4562,
+      "sha256": "cec13e213bde0f0ce12f34a0f09679743bdc19eb5746bc555ef640cbc0f00771"
+    },
+    {
+      "path": "extensions/E16-EXTERNAL-CUSTODY-REPLICATION-RETENTION-RECOVERY-GOVERNANCE.md",
+      "bytes": 2109,
+      "sha256": "b599a3987f1a3b24c462b672111fc70e503df598f97f09b50c55da8d00ac2ade"
+    },
+    {
+      "path": "schemas/eigiib-e16-a2-adoption-transition.schema.json",
+      "bytes": 2147,
+      "sha256": "81c232a8bc84c1161299aa3cbb0815c00cc6e4cf1019ac4f4de5ff4ad3bc8dff"
+    },
+    {
+      "path": "schemas/eigiib-e16-a2-authority-freeze.schema.json",
+      "bytes": 1218,
+      "sha256": "e3783cb3bcba873ee9629ad76d7f6575072e6193ab5b5be1397eaa94544b5522"
+    },
+    {
+      "path": "schemas/eigiib-e16-a2-authority-manifest.schema.json",
+      "bytes": 3346,
+      "sha256": "f394b7dac41edd1690a0b8e663b54f12d59d9d04cf7632f4283deec742e5bbf6"
+    },
+    {
+      "path": "schemas/eigiib-e16-a2-replica-placement.schema.json",
+      "bytes": 19100,
+      "sha256": "c5262f109b15521450b7eb054d47d719a8934dd2fc24457e23104dac1a44866e"
+    },
+    {
+      "path": "tests/fixtures/e16-a2/expected-report.json",
+      "bytes": 587,
+      "sha256": "5c4c42aa8522620fb3cb0dd36809b8a9f03141d2e52afd30188852e4352c731a"
+    },
+    {
+      "path": "tests/test_eigiib_replica_placement.py",
+      "bytes": 12486,
+      "sha256": "3da0830581471214bc6437b05b78e3b8028160b9a9ba29a541fd1f16c2d0ba33"
+    },
+    {
+      "path": "tools/eigiib_historical_e16_a1_replay.py",
+      "bytes": 6340,
+      "sha256": "3ae3686303b2f9ddc6e4b8dcb8b5468aa84f206179a161ba7aed88887af39c93"
+    },
+    {
+      "path": "tools/eigiib_replica_placement_check.py",
+      "bytes": 32900,
+      "sha256": "f5fa6d6b988444c2f91f18086fcd1b035745d924cc24a8ea6da98ca9a265d27f"
+    }
+  ]
+}
