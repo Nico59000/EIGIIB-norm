@@ -1,0 +1,125 @@
+name: E16-A3 bounded publisher
+
+on:
+  pull_request:
+    paths:
+      - '.e16a3-payload/**'
+      - '.github/workflows/e16-a3-bounded-publisher.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/e16-a3-retention-windows-bounded-preservation-independent-readback-restore-verification
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13'
+      - name: Materialize bounded payload
+        shell: bash
+        run: |
+          python - <<'PY'
+          import base64
+          import hashlib
+          import zipfile
+          from pathlib import Path
+
+          payload_dir = Path('.e16a3-payload')
+          parts = sorted(payload_dir.glob('part*.b64'))
+          expected_parts = [f'part{i:02d}.b64' for i in range(4)]
+          if [p.name for p in parts] != expected_parts:
+              raise SystemExit('unexpected E16-A3 payload fragment set')
+
+          encoded = ''.join(p.read_text(encoding='utf-8').strip() for p in parts)
+          raw = base64.b64decode(encoded, validate=True)
+          expected_digest = '9491db8570d07ab4514437310b70180a724434c3b12b5cbdf5bdfd837509c278'
+          if hashlib.sha256(raw).hexdigest() != expected_digest:
+              raise SystemExit('E16-A3 payload SHA-256 mismatch')
+          if len(raw) != 27154:
+              raise SystemExit('E16-A3 payload byte-count mismatch')
+
+          archive = payload_dir / 'payload.zip'
+          archive.write_bytes(raw)
+          expected_members = [
+              '.github/workflows/e16-a3-retention-readback-restore.yml',
+              'conformance/E16-A3-MANUAL-REVIEW.md',
+              'conformance/e16-a3-adoption-transition.json',
+              'conformance/e16-a3-authority-freeze.json',
+              'conformance/e16-a3-authority-manifest.json',
+              'conformance/retention-readback-restore.json',
+              'docs/E16-A3-HUMAN-MASTERY-GUIDE.md',
+              'extensions/E16-A3-RETENTION-WINDOWS-BOUNDED-PRESERVATION-INDEPENDENT-READBACK-RESTORE-VERIFICATION.md',
+              'schemas/eigiib-e16-a3-adoption-transition.schema.json',
+              'schemas/eigiib-e16-a3-authority-freeze.schema.json',
+              'schemas/eigiib-e16-a3-authority-manifest.schema.json',
+              'schemas/eigiib-e16-a3-retention-readback-restore.schema.json',
+              'tests/fixtures/e16-a3/expected-report.json',
+              'tests/test_eigiib_retention_readback_restore.py',
+              'tools/eigiib_historical_e16_a2_replay.py',
+              'tools/eigiib_retention_readback_restore_check.py',
+          ]
+          with zipfile.ZipFile(archive) as zf:
+              names = zf.namelist()
+              if names != expected_members:
+                  raise SystemExit('unexpected E16-A3 archive member set or order')
+              for name in names:
+                  path = Path(name)
+                  if path.is_absolute() or '..' in path.parts:
+                      raise SystemExit(f'unsafe E16-A3 archive member: {name}')
+              zf.extractall('.')
+          PY
+      - name: Validate E16-A3 closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            tools/eigiib_historical_e16_a2_replay.py \
+            tools/eigiib_retention_readback_restore_check.py
+          python -m unittest -v tests/test_eigiib_retention_readback_restore.py
+          python tools/eigiib_historical_e16_a2_replay.py . --json > historical-e16-a2-report.json
+          python tools/eigiib_retention_readback_restore_check.py . \
+            --history-report historical-e16-a2-report.json \
+            --json > actual-e16-a3-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = json.loads(Path('actual-e16-a3-report.json').read_text(encoding='utf-8'))
+          expected = json.loads(Path('tests/fixtures/e16-a3/expected-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('E16-A3 report mismatch')
+          for rel in [
+              'conformance/retention-readback-restore.json',
+              'conformance/e16-a3-authority-manifest.json',
+              'conformance/e16-a3-adoption-transition.json',
+              'conformance/e16-a3-authority-freeze.json',
+              'schemas/eigiib-e16-a3-retention-readback-restore.schema.json',
+              'schemas/eigiib-e16-a3-authority-manifest.schema.json',
+              'schemas/eigiib-e16-a3-adoption-transition.schema.json',
+              'schemas/eigiib-e16-a3-authority-freeze.schema.json',
+              'conformance/extension-graph.json',
+          ]:
+              json.loads(Path(rel).read_text(encoding='utf-8'))
+          PY
+          python tools/eigiib_extension_graph_check.py . --json > extension-graph-report.json
+          git merge-base --is-ancestor 1bd5929a5a4415df8758b220765925ac80a797bc HEAD
+      - name: Publish non-workflow E16-A3 authorities
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .e16a3-payload
+          rm -f historical-e16-a2-report.json actual-e16-a3-report.json extension-graph-report.json
+          rm -f .github/workflows/e16-a3-retention-readback-restore.yml
+          find tests tools -type d -name __pycache__ -prune -exec rm -rf {} +
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'E16-A3 materialize non-workflow authorities'
+          git push origin HEAD:agent/e16-a3-retention-windows-bounded-preservation-independent-readback-restore-verification
