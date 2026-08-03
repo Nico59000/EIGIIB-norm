@@ -1,0 +1,78 @@
+{
+  "bundle": {
+    "bytes": 985664,
+    "manifestPath": "conformance/m0-a10-stable-bundle-manifest.json",
+    "manifestSha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9",
+    "name": "eigiib-e16-1.0-stable-bundle.tar.gz",
+    "publicKeyPath": "conformance/m0-a10-publisher-public-key.pem",
+    "publicKeySha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e",
+    "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+    "signaturePath": "conformance/m0-a10-stable-bundle-manifest.sig",
+    "signatureSha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4",
+    "signerBoundary": "ephemeral-publication-integrity-key-not-production-release-authority"
+  },
+  "channels": {
+    "githubRelease": {
+      "assetCount": 4,
+      "draft": false,
+      "id": 364532554,
+      "immutable": false,
+      "prerelease": true,
+      "repository": "Nico59000/EIGIIB-norm",
+      "tag": "eigiib-m0-a10-e16-stable-v1"
+    },
+    "ociRegistry": {
+      "manifestBytes": 1557,
+      "manifestDigest": "sha256:8d3fba5d596d668ea000a768d524e35003e08f95162b633d8af7922449b13c88",
+      "manifestPath": "conformance/m0-a10-oci-manifest.json",
+      "repository": "ghcr.io/nico59000/eigiib-norm-p1-a16",
+      "tag": "m0-a10-e16-stable-v1"
+    }
+  },
+  "claims": {
+    "crossChannelContentIdentity": "established",
+    "currentAuthenticatedAndPublicReadback": "established",
+    "currentExactRestore": "established",
+    "currentNamedChannelPublication": "established"
+  },
+  "cleanupRecordPath": "conformance/m0-a10-ops-cleanup-record.json",
+  "evidencePath": "conformance/m0-a10-live-publication-evidence.json",
+  "naturalSuccessor": {
+    "decision": "not-ready-for-adoption",
+    "id": "E17",
+    "requiredAction": "obtain-new-external-evidence-before-entry-normalization"
+  },
+  "nonclaims": [
+    "production-release-authorization",
+    "future-availability",
+    "continuous-retention",
+    "indefinite-durability",
+    "provider-independence",
+    "correlated-failure-resistance",
+    "administrative-deletion-prevention",
+    "universal-interoperability",
+    "e17-adoption"
+  ],
+  "readbackRoutes": [
+    "github-release-authenticated",
+    "github-release-public",
+    "oci-registry-authenticated",
+    "oci-registry-public"
+  ],
+  "requiredOperations": [
+    "construct-deterministic-bundle-from-exact-stable-e16-head",
+    "bind-signed-manifest-to-exact-bundle-and-source-head",
+    "publish-exact-bundle-through-github-release",
+    "publish-exact-bundle-through-oci-registry",
+    "capture-authenticated-and-public-readback",
+    "restore-and-compare-from-each-named-channel"
+  ],
+  "source": {
+    "m0A9Head": "af028b4b99c216cffb7764571e3e97db29d76635",
+    "profileRevision": "EIGIIB-E16-1.0",
+    "stableE16Branch": "stable/eigiib-e16-1.0",
+    "stableE16Head": "fc3f8402bfbe447227f5777bad92b620c7bcb350"
+  },
+  "standard": "EIGIIB-M0-A10-1.0",
+  "status": "bounded-external-publication-and-readback-verified"
+}
