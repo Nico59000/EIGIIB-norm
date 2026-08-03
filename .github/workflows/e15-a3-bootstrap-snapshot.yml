@@ -18,10 +18,10 @@ jobs:
           fetch-depth: 0
       - name: Archive exact checkout
         shell: bash
-        run: tar -czf eigiib-a2-exact-checkout.tar.gz --exclude=eigiib-a2-exact-checkout.tar.gz .
+        run: tar -czf "$RUNNER_TEMP/eigiib-a2-exact-checkout.tar.gz" .
       - uses: actions/upload-artifact@v4
         with:
           name: eigiib-a2-exact-checkout
-          path: eigiib-a2-exact-checkout.tar.gz
+          path: ${{ runner.temp }}/eigiib-a2-exact-checkout.tar.gz
           if-no-files-found: error
           retention-days: 1
