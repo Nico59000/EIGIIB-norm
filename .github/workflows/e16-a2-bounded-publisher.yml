@@ -1,6 +1,10 @@
 name: E16-A2 bounded publisher
 
 on:
+  pull_request:
+    paths:
+      - '.e16a2-payload/**'
+      - '.github/workflows/e16-a2-bounded-publisher.yml'
   push:
     branches:
       - agent/e16-a2-replica-placement-custody-acceptance-failure-domain-evidence
@@ -107,4 +111,4 @@ jobs:
           git commit -m 'E16-A2 replica placement and custody evidence'
           git push origin HEAD:agent/e16-a2-replica-placement-custody-acceptance-failure-domain-evidence
 
-# synchronized publisher trigger
+# pull-request synchronized publisher trigger
