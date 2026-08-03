@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-e16-a3-authority-freeze.schema.json",
+  "title": "EIGIIB E16-A3 authority freeze",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "profile_revision",
+    "source_e16_a2_commit",
+    "authorities"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E16-A3-FREEZE-1.0"
+    },
+    "status": {
+      "const": "frozen"
+    },
+    "profile_revision": {
+      "const": "EIGIIB-E16-draft-1.0"
+    },
+    "source_e16_a2_commit": {
+      "const": "1bd5929a5a4415df8758b220765925ac80a797bc"
+    },
+    "authorities": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "bytes",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "enum": [
+              ".github/workflows/e16-a3-retention-readback-restore.yml",
+              "conformance/E16-A3-MANUAL-REVIEW.md",
+              "conformance/e16-a3-adoption-transition.json",
+              "conformance/e16-a3-authority-manifest.json",
+              "conformance/retention-readback-restore.json",
+              "docs/E16-A3-HUMAN-MASTERY-GUIDE.md",
+              "extensions/E16-A3-RETENTION-WINDOWS-BOUNDED-PRESERVATION-INDEPENDENT-READBACK-RESTORE-VERIFICATION.md",
+              "schemas/eigiib-e16-a3-adoption-transition.schema.json",
+              "schemas/eigiib-e16-a3-authority-freeze.schema.json",
+              "schemas/eigiib-e16-a3-authority-manifest.schema.json",
+              "schemas/eigiib-e16-a3-retention-readback-restore.schema.json",
+              "tests/fixtures/e16-a3/expected-report.json",
+              "tests/test_eigiib_retention_readback_restore.py",
+              "tools/eigiib_historical_e16_a2_replay.py",
+              "tools/eigiib_retention_readback_restore_check.py"
+            ]
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    }
+  }
+}

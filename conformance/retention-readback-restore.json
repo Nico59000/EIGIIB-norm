@@ -1,0 +1,14 @@
+{
+  "standard": "EIGIIB-E16-A3-1.0",
+  "status": "structural-only",
+  "source_e16_a2_commit": "1bd5929a5a4415df8758b220765925ac80a797bc",
+  "upstream_placement_registry": "conformance/replica-placement.json",
+  "upstream_e16_a2_freeze": "conformance/e16-a2-authority-freeze.json",
+  "authority_manifest": "conformance/e16-a3-authority-manifest.json",
+  "retention_windows": [],
+  "preservation_observations": [],
+  "independent_readbacks": [],
+  "restore_attempts": [],
+  "restore_verifications": [],
+  "preservation_verification_decisions": []
+}

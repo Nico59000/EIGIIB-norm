@@ -1,0 +1,42 @@
+{
+  "standard": "EIGIIB-E16-A3-AUTHORITY-MANIFEST-1.0",
+  "status": "authoritative-slice-overlay",
+  "profile_revision": "EIGIIB-E16-draft-1.0",
+  "source_e16_a2_commit": "1bd5929a5a4415df8758b220765925ac80a797bc",
+  "required_authorities": [
+    "contract",
+    "authority_manifest",
+    "registry",
+    "transition",
+    "authority_freeze",
+    "human_mastery",
+    "manual_review",
+    "registry_schema",
+    "manifest_schema",
+    "transition_schema",
+    "freeze_schema",
+    "checker",
+    "historical_replay",
+    "tests",
+    "expected_report",
+    "workflow"
+  ],
+  "authorities": {
+    "contract": "extensions/E16-A3-RETENTION-WINDOWS-BOUNDED-PRESERVATION-INDEPENDENT-READBACK-RESTORE-VERIFICATION.md",
+    "authority_manifest": "conformance/e16-a3-authority-manifest.json",
+    "registry": "conformance/retention-readback-restore.json",
+    "transition": "conformance/e16-a3-adoption-transition.json",
+    "authority_freeze": "conformance/e16-a3-authority-freeze.json",
+    "human_mastery": "docs/E16-A3-HUMAN-MASTERY-GUIDE.md",
+    "manual_review": "conformance/E16-A3-MANUAL-REVIEW.md",
+    "registry_schema": "schemas/eigiib-e16-a3-retention-readback-restore.schema.json",
+    "manifest_schema": "schemas/eigiib-e16-a3-authority-manifest.schema.json",
+    "transition_schema": "schemas/eigiib-e16-a3-adoption-transition.schema.json",
+    "freeze_schema": "schemas/eigiib-e16-a3-authority-freeze.schema.json",
+    "checker": "tools/eigiib_retention_readback_restore_check.py",
+    "historical_replay": "tools/eigiib_historical_e16_a2_replay.py",
+    "tests": "tests/test_eigiib_retention_readback_restore.py",
+    "expected_report": "tests/fixtures/e16-a3/expected-report.json",
+    "workflow": ".github/workflows/e16-a3-retention-readback-restore.yml"
+  }
+}
