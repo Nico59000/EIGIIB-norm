@@ -2,6 +2,10 @@
   "standard": "EIGIIB-M0-A10-AUTHORITY-FREEZE-1.0",
   "status": "self-excluding-authority-freeze",
   "source_head": "af028b4b99c216cffb7764571e3e97db29d76635",
+  "event_rebind": {
+    "reason": "connector-authenticated-workflow-event",
+    "superseded_action_required_head": "22b927dcd8b949aff528dadadf1862c974ab397f"
+  },
   "authorities": [
     {
       "path": ".github/workflows/m0-a10-dual-channel-publication.yml",
