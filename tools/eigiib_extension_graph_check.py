@@ -18,7 +18,7 @@ from typing import Any
 TOOL_VERSION = "0.1.2"
 STANDARD = "EIGIIB-M0-A1-1.0"
 BASE_REQUIRED_NODES = ["Core"] + [f"E{i}" for i in range(1, 14)]
-OPTIONAL_ADOPTED_NODES = {"E14-1.0": "E14", "E15-1.0": "E15"}
+OPTIONAL_ADOPTED_NODES = {"E14-1.0": "E14", "E15-1.0": "E15", "E16-1.0": "E16"}
 ALLOWED_TOP = {
     "standard", "status", "authority", "source_of_truth_for", "derived_fields",
     "functional_layers", "nodes", "hardening_profiles",

@@ -1,0 +1,15 @@
+{
+  "standard": "EIGIIB-E16-A1-1.0",
+  "status": "structural-only",
+  "source_e15_commit": "036b81c3c128524858d66d096a1eb87e23cc5dad",
+  "source_m0_a7_commit": "ae189e1c478c523789f11e4424395be154e8521d",
+  "upstream_e15_final_closure": "conformance/e15-final-closure.json",
+  "upstream_e15_publication_registry": "conformance/publication-readback.json",
+  "upstream_e15_freeze": "conformance/e15-a5-authority-freeze.json",
+  "custodian_profiles": [],
+  "replica_profiles": [],
+  "preservation_policies": [],
+  "preservation_intents": [],
+  "replica_bindings": [],
+  "preservation_decisions": []
+}

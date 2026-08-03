@@ -1,0 +1,57 @@
+{
+  "standard": "EIGIIB-E16-A1-TRANSITION-1.0",
+  "status": "adopted-e16-a1",
+  "source": {
+    "branch": "agent/m0-a7-e16-entry-normalization-e15-authority-continuity",
+    "head_commit": "ae189e1c478c523789f11e4424395be154e8521d",
+    "profile_revision": "EIGIIB-E15-1.0",
+    "e15_final_head_commit": "036b81c3c128524858d66d096a1eb87e23cc5dad",
+    "m0_a7_entry_authority": "conformance/m0-a7-e16-entry.json",
+    "e15_freeze_authority": "conformance/e15-a5-authority-freeze.json"
+  },
+  "historical_replay": {
+    "mode": "materialize-and-replay-exact-source-commit",
+    "tool": "tools/eigiib_historical_m0_a7_replay.py",
+    "required_components": [
+      "E15-A1",
+      "E15-A2",
+      "E15-A3",
+      "E15-A4",
+      "E15-A5",
+      "M0-A7"
+    ],
+    "source_commit_must_be_ancestor": true,
+    "historical_tree_isolated": true,
+    "current_tree_substitution_forbidden": true
+  },
+  "target": {
+    "extension": "E16-1.0",
+    "slice": "E16-A1",
+    "adoption_state": "adopted",
+    "extension_authority": "extensions/E16-EXTERNAL-CUSTODY-REPLICATION-RETENTION-RECOVERY-GOVERNANCE.md",
+    "registry_authority": "conformance/preservation-intent.json",
+    "checker": "tools/eigiib_preservation_intent_check.py",
+    "authority_freeze": "conformance/e16-a1-authority-freeze.json"
+  },
+  "consumed_inputs": {
+    "e15_final_closure_report": "preservation_intent.source_closure",
+    "e15_external_object_commitment": "preservation_intent.source_publication_commitment",
+    "custodian_profile": "preservation_intent.custodian",
+    "replica_profile": "preservation_intent.replica",
+    "custody_policy": "preservation_intent.policy",
+    "placement_policy": "reserved-for-e16-a2",
+    "retention_policy": "reserved-for-e16-a3",
+    "observation_policy": "reserved-for-e16-a3",
+    "restoration_policy": "reserved-for-e16-a3",
+    "succession_policy": "reserved-for-e16-a4",
+    "evaluation_context": "preservation_intent.evaluation_context",
+    "idempotency_key": "preservation_intent.idempotency_key"
+  },
+  "historical_preservation": {
+    "e15_claims_rewritten": false,
+    "e15_source_freeze_mutated": false,
+    "m0_a7_source_mutated": false,
+    "transition_is_additive": true,
+    "descendant_profile_frozen_separately": true
+  }
+}

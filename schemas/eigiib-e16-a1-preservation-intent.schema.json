@@ -1,0 +1,750 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-e16-a1-preservation-intent.schema.json",
+  "title": "EIGIIB E16-A1 preservation intent registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "source_e15_commit",
+    "source_m0_a7_commit",
+    "upstream_e15_final_closure",
+    "upstream_e15_publication_registry",
+    "upstream_e15_freeze",
+    "custodian_profiles",
+    "replica_profiles",
+    "preservation_policies",
+    "preservation_intents",
+    "replica_bindings",
+    "preservation_decisions"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E16-A1-1.0"
+    },
+    "status": {
+      "const": "structural-only"
+    },
+    "source_e15_commit": {
+      "const": "036b81c3c128524858d66d096a1eb87e23cc5dad"
+    },
+    "source_m0_a7_commit": {
+      "const": "ae189e1c478c523789f11e4424395be154e8521d"
+    },
+    "upstream_e15_final_closure": {
+      "const": "conformance/e15-final-closure.json"
+    },
+    "upstream_e15_publication_registry": {
+      "const": "conformance/publication-readback.json"
+    },
+    "upstream_e15_freeze": {
+      "const": "conformance/e15-a5-authority-freeze.json"
+    },
+    "custodian_profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "principal_id",
+          "authority_scope",
+          "service_boundary",
+          "allowed_replica_kinds",
+          "state",
+          "commitment"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "principal_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority_scope": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "service_boundary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "allowed_replica_kinds": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "state": {
+            "enum": [
+              "active",
+              "retired",
+              "contested",
+              "unavailable"
+            ]
+          }
+        }
+      }
+    },
+    "replica_profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "custodian",
+          "custodian_revision",
+          "kind",
+          "locator_class",
+          "provider_id",
+          "account_id",
+          "region_id",
+          "implementation_id",
+          "storage_class",
+          "content_algorithms",
+          "properties",
+          "state",
+          "commitment"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "custodian": {
+            "type": "string",
+            "minLength": 1
+          },
+          "custodian_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "locator_class": {
+            "type": "string",
+            "minLength": 1
+          },
+          "provider_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "account_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "region_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "implementation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "storage_class": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content_algorithms": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "properties": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "state": {
+            "enum": [
+              "active",
+              "retired",
+              "contested",
+              "unavailable"
+            ]
+          }
+        }
+      }
+    },
+    "preservation_policies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "state",
+          "allowed_custodians",
+          "allowed_replicas",
+          "allowed_purposes",
+          "allowed_actions",
+          "required_replica_properties",
+          "max_payload_bytes",
+          "commitment"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "state": {
+            "enum": [
+              "active",
+              "retired",
+              "contested",
+              "unavailable"
+            ]
+          },
+          "allowed_custodians": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "allowed_replicas": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "allowed_purposes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "allowed_actions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required_replica_properties": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "max_payload_bytes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "preservation_intents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "commitment",
+          "source_publication",
+          "source_publication_revision",
+          "source_publication_commitment",
+          "source_lifecycle_decision",
+          "source_lifecycle_decision_revision",
+          "source_lifecycle_decision_commitment",
+          "source_closure",
+          "source_closure_revision",
+          "custodian",
+          "custodian_revision",
+          "replica",
+          "replica_revision",
+          "policy",
+          "policy_revision",
+          "purpose",
+          "action",
+          "idempotency_key",
+          "content_sha256",
+          "content_bytes",
+          "evaluation_context",
+          "requested_replica_properties"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "source_publication": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_publication_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_publication_commitment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_lifecycle_decision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_lifecycle_decision_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_lifecycle_decision_commitment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_closure": {
+            "const": "conformance/e15-final-closure.json"
+          },
+          "source_closure_revision": {
+            "const": "EIGIIB-E15-1.0"
+          },
+          "custodian": {
+            "type": "string",
+            "minLength": 1
+          },
+          "custodian_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "policy": {
+            "type": "string",
+            "minLength": 1
+          },
+          "policy_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content_sha256": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "evaluation_context": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "revision"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "revision": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "requested_replica_properties": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "replica_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "commitment",
+          "intent",
+          "intent_revision",
+          "custodian",
+          "custodian_revision",
+          "replica",
+          "replica_revision",
+          "content_sha256",
+          "content_bytes",
+          "sequence",
+          "state",
+          "evidence_refs"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "intent": {
+            "type": "string",
+            "minLength": 1
+          },
+          "intent_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "custodian": {
+            "type": "string",
+            "minLength": 1
+          },
+          "custodian_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica": {
+            "type": "string",
+            "minLength": 1
+          },
+          "replica_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content_sha256": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "state": {
+            "enum": [
+              "bound",
+              "rejected",
+              "held",
+              "unavailable"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "preservation_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "revision",
+          "commitment",
+          "intent",
+          "intent_revision",
+          "binding",
+          "binding_revision",
+          "sequence",
+          "source_result",
+          "custodian_result",
+          "replica_result",
+          "policy_result",
+          "idempotency_result",
+          "content_identity_result",
+          "state",
+          "reasons",
+          "evidence_refs"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commitment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "algorithm",
+              "digest"
+            ],
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "intent": {
+            "type": "string",
+            "minLength": 1
+          },
+          "intent_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "binding": {
+            "type": "string",
+            "minLength": 1
+          },
+          "binding_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "source_result": {
+            "enum": [
+              "permit",
+              "deny",
+              "held",
+              "unavailable"
+            ]
+          },
+          "custodian_result": {
+            "enum": [
+              "permit",
+              "deny",
+              "held",
+              "unavailable"
+            ]
+          },
+          "replica_result": {
+            "enum": [
+              "permit",
+              "deny",
+              "held",
+              "unavailable"
+            ]
+          },
+          "policy_result": {
+            "enum": [
+              "permit",
+              "deny",
+              "held",
+              "unavailable"
+            ]
+          },
+          "idempotency_result": {
+            "enum": [
+              "permit",
+              "deny",
+              "held",
+              "unavailable"
+            ]
+          },
+          "content_identity_result": {
+            "enum": [
+              "permit",
+              "deny",
+              "held",
+              "unavailable"
+            ]
+          },
+          "state": {
+            "enum": [
+              "admissible",
+              "rejected",
+              "held",
+              "unavailable"
+            ]
+          },
+          "reasons": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

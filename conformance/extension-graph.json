@@ -82,6 +82,14 @@
       "nodes": [
         "E15"
       ]
+    },
+    {
+      "id": "external-custody-replication-recovery",
+      "label": "external custody + preservation recovery",
+      "description": "historically anchored custody intent, replica binding and staged preservation governance",
+      "nodes": [
+        "E16"
+      ]
     }
   ],
   "nodes": [
@@ -529,6 +537,53 @@
       "hardening_profiles": [
         "E15-A5"
       ]
+    },
+    {
+      "id": "E16",
+      "kind": "extension",
+      "title": "External Custody, Replication, Retention and Recovery Governance",
+      "theme": "historical E15 continuity + preservation intent + custodian and replica binding",
+      "authority_key": "e16",
+      "authority": "extensions/E16-EXTERNAL-CUSTODY-REPLICATION-RETENTION-RECOVERY-GOVERNANCE.md",
+      "schema": "schemas/eigiib-e16-a1-preservation-intent.schema.json",
+      "checker": "tools/eigiib_preservation_intent_check.py",
+      "registry_authority_key": "preservation_intent",
+      "registry": "conformance/preservation-intent.json",
+      "depends_on": [
+        "E4",
+        "E7",
+        "E8",
+        "E9",
+        "E11",
+        "E12",
+        "E13",
+        "E15"
+      ],
+      "consumes_authorities": [
+        "trust",
+        "recovery",
+        "convergence",
+        "degraded",
+        "temporal",
+        "commit",
+        "policy_composition",
+        "e15_final_closure",
+        "e15_a5_authority_freeze",
+        "m0_a7_e16_entry",
+        "e16_a1_transition"
+      ],
+      "does_not_reprove": [
+        "E15 delivery or publication evidence",
+        "E15 withdrawal semantics",
+        "physical replica placement",
+        "custodian legal authority",
+        "failure-domain independence",
+        "future retention",
+        "future restorability",
+        "indefinite durability",
+        "universal availability"
+      ],
+      "hardening_profiles": []
     }
   ],
   "hardening_profiles": [

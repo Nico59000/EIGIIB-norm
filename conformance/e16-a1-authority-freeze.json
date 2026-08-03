@@ -1,0 +1,146 @@
+{
+  "authorities": [
+    {
+      "bytes": 2765,
+      "path": ".github/workflows/e16-a1-preservation-intent.yml",
+      "sha256": "c534d6028d4cae19e23f1381bedbb7828022f74ebb1398cf4849e5b4f8cc77a7"
+    },
+    {
+      "bytes": 8179,
+      "path": ".github/workflows/eigiib.yml",
+      "sha256": "36bc70093ad64691dfa841f3ba173565f96261ea0db7e731b7d56f0d4cddecf1"
+    },
+    {
+      "bytes": 14588,
+      "path": "EIGIIB.toml",
+      "sha256": "4c8dd7aad4e9b1bf5db72352093faf1fecbedd3eea240cde52711f0e56c47cf2"
+    },
+    {
+      "bytes": 859,
+      "path": "conformance/E16-A1-MANUAL-REVIEW.md",
+      "sha256": "0537ecbe2b509d3775cc684ac1ce8bba4338607c45979b122be3e191da40e639"
+    },
+    {
+      "bytes": 1058,
+      "path": "conformance/M0-A7-MANUAL-REVIEW.md",
+      "sha256": "6ac0ed9592f7b1f4470576907e1e8434384e852aef1e68e64e947448f5b913c5"
+    },
+    {
+      "bytes": 2249,
+      "path": "conformance/e16-a1-adoption-transition.json",
+      "sha256": "1d106c4e3469f0c08d3e31563e7345a030d621bfdf751650baf790d6a1b1cafb"
+    },
+    {
+      "bytes": 22707,
+      "path": "conformance/extension-graph.json",
+      "sha256": "f58584fbad6c04579df7440eaeffd1bcbee588e24bada00157f9c40fe077b71c"
+    },
+    {
+      "bytes": 9881,
+      "path": "conformance/m0-a7-e16-entry.json",
+      "sha256": "1bf2e0632a93d1828b50b4d5615e876020ebf1891db6da53a62d7cf17851141a"
+    },
+    {
+      "bytes": 597,
+      "path": "conformance/preservation-intent.json",
+      "sha256": "6fa2cd8ee97851829c157da71eafed3f9acc74a6aa559aae3d5734c04168eaac"
+    },
+    {
+      "bytes": 1197,
+      "path": "docs/E16-A1-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "2cedd87165e334542c308e75e75b5f251d459f9f6978c3074c8b8e303bacee6f"
+    },
+    {
+      "bytes": 5475,
+      "path": "docs/M0-A7-E16-NORMATIVE-ENTRY-NORMALIZATION-AND-E15-AUTHORITY-CONTINUITY.md",
+      "sha256": "d44e71301edf7e50609b5c521b8a161ffcdce746e88a37cd24c4baaea46b4e60"
+    },
+    {
+      "bytes": 1464,
+      "path": "docs/M0-A7-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "3ae47c0a0b092b0b40b7f60109b0c4f4fefb76bbea3b7b483627a6f4cee2fa20"
+    },
+    {
+      "bytes": 2109,
+      "path": "extensions/E16-EXTERNAL-CUSTODY-REPLICATION-RETENTION-RECOVERY-GOVERNANCE.md",
+      "sha256": "b599a3987f1a3b24c462b672111fc70e503df598f97f09b50c55da8d00ac2ade"
+    },
+    {
+      "bytes": 549,
+      "path": "schemas/eigiib-e16-a1-adoption-transition.schema.json",
+      "sha256": "7b1fb93ee461af755e85285ebf739011937befb89125215919b30a7398c4fa14"
+    },
+    {
+      "bytes": 1025,
+      "path": "schemas/eigiib-e16-a1-authority-freeze.schema.json",
+      "sha256": "1ea5ccea85d2750322f8d95665754982add9a9faa3594bef8bb7bf55bdb944ca"
+    },
+    {
+      "bytes": 18539,
+      "path": "schemas/eigiib-e16-a1-preservation-intent.schema.json",
+      "sha256": "114210742998d8f74bab84d18b2a548063b526bfcf250a1a77a2a8a14bb9e8c2"
+    },
+    {
+      "bytes": 11863,
+      "path": "schemas/eigiib-m0-a7-e16-entry.schema.json",
+      "sha256": "443756edc71d54ac319279293a26c56d61f71db4e0d5026b91791c4b732276d3"
+    },
+    {
+      "bytes": 612,
+      "path": "tests/fixtures/e16-a1/expected-report.json",
+      "sha256": "f5025effc01f91a9bf6857d071985e3b9fb73fcfde4c344819650b7ed4adb1f6"
+    },
+    {
+      "bytes": 3158,
+      "path": "tests/test_eigiib_e15_final_closure.py",
+      "sha256": "c961cfba818496bbedff4527e95f9e76681186b2e91da6d6a5693736ae1daf9d"
+    },
+    {
+      "bytes": 5313,
+      "path": "tests/test_eigiib_m0_a7.py",
+      "sha256": "a082ab336a508e4e145158a9cd79506317f9c6b0e926f6add99161f537c7f231"
+    },
+    {
+      "bytes": 7990,
+      "path": "tests/test_eigiib_preservation_intent.py",
+      "sha256": "ab89f99725a274d0606d70a136d605f22a3745f277d0d836c9d6bd614ec61b24"
+    },
+    {
+      "bytes": 18362,
+      "path": "tests/test_eigiib_publication_readback.py",
+      "sha256": "f2a5115f1a4a78730bdb20ca211c9c0b231d5c697facfa767800f20b20f290f9"
+    },
+    {
+      "bytes": 28104,
+      "path": "tests/test_eigiib_withdrawal_governance.py",
+      "sha256": "c86fb9cdf1b020acbd0421a64c3a1f0fd66fd04095f9c9d71ebd9cc240b598b7"
+    },
+    {
+      "bytes": 17391,
+      "path": "tools/eigiib_extension_graph_check.py",
+      "sha256": "cced633f8999a300ab1b61801c1a06c1d825e4a599fb2173b2b1c894712e41d7"
+    },
+    {
+      "bytes": 5425,
+      "path": "tools/eigiib_historical_m0_a7_replay.py",
+      "sha256": "373a6e12ffdadba773f68ff95bfe131a0fc580920bfa4a5943ba5040a1a33b67"
+    },
+    {
+      "bytes": 20192,
+      "path": "tools/eigiib_m0_a7_check.py",
+      "sha256": "dc8fa96912d322c30617f5315dcb69347f4021f14ed69b6f545f854f57e83c8b"
+    },
+    {
+      "bytes": 22177,
+      "path": "tools/eigiib_preservation_intent_check.py",
+      "sha256": "171aef665aaf9bff4dc0f2817427205a01befe9906a7b3b25263f7e7c88d868e"
+    }
+  ],
+  "profile_revision": "EIGIIB-E16-draft-1.0",
+  "source": {
+    "e15_head_commit": "036b81c3c128524858d66d096a1eb87e23cc5dad",
+    "m0_a7_head_commit": "ae189e1c478c523789f11e4424395be154e8521d"
+  },
+  "standard": "EIGIIB-E16-A1-FREEZE-1.0",
+  "status": "frozen"
+}
