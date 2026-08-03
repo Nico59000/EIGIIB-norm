@@ -1,0 +1,122 @@
+name: M0-A7 E16 entry normalization and E15 authority continuity
+
+on:
+  pull_request:
+    branches:
+      - agent/e15-a5-independent-external-evidence-verifier-final-freeze
+    paths:
+      - '.github/workflows/m0-a7-e16-entry-normalization.yml'
+      - 'conformance/M0-A7-*'
+      - 'conformance/m0-a7-*'
+      - 'docs/M0-A7-*'
+      - 'schemas/eigiib-m0-a7-*'
+      - 'tests/fixtures/m0-a7/**'
+      - 'tests/test_eigiib_m0_a7.py'
+      - 'tools/eigiib_m0_a7_check.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m0-a7-${{ github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  e16-entry-normalization:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: M0-A7 unit tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_m0_a7.py
+      - name: Normalized entry report
+        shell: bash
+        run: |
+          python tools/eigiib_m0_a7_check.py . --json > actual-m0-a7-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = json.loads(Path('actual-m0-a7-report.json').read_text(encoding='utf-8'))
+          expected = json.loads(Path('tests/fixtures/m0-a7/expected-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('M0-A7 report differs from the normalized fixture')
+          PY
+      - name: Parse M0-A7 authorities
+        shell: bash
+        run: |
+          python -m json.tool conformance/m0-a7-e16-entry.json >/dev/null
+          python -m json.tool schemas/eigiib-m0-a7-e16-entry.schema.json >/dev/null
+      - name: Preserve E15 final freeze in the current tree
+        shell: bash
+        run: |
+          python tools/eigiib_m0_a7_check.py . --json > inherited-e15-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('inherited-e15-report.json').read_text(encoding='utf-8'))
+          if report.get('authority_freeze_result') != 'conformant':
+              raise SystemExit('inherited E15 authority freeze is no longer conformant')
+          if report.get('multiplatform_closure_result') != 'conformant':
+              raise SystemExit('E15 multiplatform closure is no longer recorded as conformant')
+          PY
+      - name: Exact E15-A5 ancestry
+        shell: bash
+        run: git merge-base --is-ancestor 036b81c3c128524858d66d096a1eb87e23cc5dad HEAD
+      - name: Additive-only M0-A7 surface
+        shell: bash
+        run: |
+          python - <<'PY'
+          import subprocess
+          allowed = {
+              '.github/workflows/m0-a7-e16-entry-normalization.yml',
+              'conformance/M0-A7-MANUAL-REVIEW.md',
+              'conformance/m0-a7-e16-entry.json',
+              'docs/M0-A7-E16-NORMATIVE-ENTRY-NORMALIZATION-AND-E15-AUTHORITY-CONTINUITY.md',
+              'docs/M0-A7-HUMAN-MASTERY-GUIDE.md',
+              'schemas/eigiib-m0-a7-e16-entry.schema.json',
+              'tests/fixtures/m0-a7/expected-report.json',
+              'tests/test_eigiib_m0_a7.py',
+              'tools/eigiib_m0_a7_check.py',
+          }
+          actual = set(subprocess.check_output([
+              'git', 'diff', '--name-only',
+              '036b81c3c128524858d66d096a1eb87e23cc5dad...HEAD'
+          ], text=True).splitlines())
+          if actual != allowed:
+              raise SystemExit(f'non-additive or incomplete M0-A7 surface: {sorted(actual ^ allowed)}')
+          PY
+      - name: No premature E16 adoption
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib, tomllib
+          root = pathlib.Path('.')
+          profile = tomllib.loads((root / 'EIGIIB.toml').read_text(encoding='utf-8'))
+          if 'E16-1.0' in profile.get('extensions', []):
+              raise SystemExit('E16 was adopted before the E16-A1 transition bridge')
+          graph = json.loads((root / 'conformance/extension-graph.json').read_text(encoding='utf-8'))
+          if any(node.get('id') == 'E16' for node in graph.get('nodes', [])):
+              raise SystemExit('E16 graph node was created before E16-A1')
+          forbidden = [
+              *root.glob('extensions/E16-*'),
+              *root.glob('schemas/eigiib-e16-*'),
+              *root.glob('tools/eigiib_e16_*'),
+              *root.glob('conformance/e16-*'),
+          ]
+          if any(path.is_file() for path in forbidden):
+              raise SystemExit('premature E16 implementation artifact detected')
+          PY
