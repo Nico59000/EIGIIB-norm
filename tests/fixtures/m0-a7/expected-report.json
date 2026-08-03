@@ -1,0 +1,14 @@
+{
+  "authority_count": 86,
+  "authority_freeze_result": "conformant",
+  "entry_normalization_result": "conformant",
+  "findings": [],
+  "historical_continuity_result": "conformant",
+  "multiplatform_closure_result": "conformant",
+  "planned_slice_count": 5,
+  "standard": "EIGIIB-M0-A7-E16-ENTRY-1.0",
+  "structural_result": "conformant",
+  "target": "E16",
+  "tool": "eigiib-m0-a7-check",
+  "tool_version": "0.1.0"
+}
