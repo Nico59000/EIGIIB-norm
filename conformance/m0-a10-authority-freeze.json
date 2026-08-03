@@ -5,8 +5,8 @@
   "authorities": [
     {
       "path": ".github/workflows/m0-a10-dual-channel-publication.yml",
-      "bytes": 4589,
-      "sha256": "5076ea3a7cacca74c2fb1cb45a192262d97cbc680af204ddfa0aded507928598"
+      "bytes": 4601,
+      "sha256": "e1038569681fa54d401dcbc466d3851a0b5785752f049fdf16d94ad76d0dde7c"
     },
     {
       "path": "conformance/M0-A10-MANUAL-REVIEW.md",
@@ -80,8 +80,8 @@
     },
     {
       "path": "tools/eigiib_m0_a10_live_replay.py",
-      "bytes": 9610,
-      "sha256": "2c3e01e554f95caf9ab9ac84ecbd73b2d3c0797c9fbe1f2b5e3aca4fcc98ca4b"
+      "bytes": 9597,
+      "sha256": "c5e65de764f347b6df0cd5699a6c344ee6985c07faab8b355a034b8293556abc"
     }
   ],
   "authority_count": 16,
