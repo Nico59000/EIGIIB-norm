@@ -12,8 +12,8 @@
     },
     {
       "path": ".github/workflows/e16-a2-replica-placement.yml",
-      "bytes": 2747,
-      "sha256": "c73e35361fccde3576a0701bd83e8c836b087d88778b9f1b62f0aedb6da92780"
+      "bytes": 2786,
+      "sha256": "988f553bc2dbac70ae62a18b52e4047d0e9c8e866fe97a8ffb2b92ae7e3d9562"
     },
     {
       "path": ".github/workflows/e16-a3-retention-readback-restore.yml",
