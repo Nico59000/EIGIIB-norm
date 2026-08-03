@@ -70,8 +70,8 @@
     },
     {
       "path": "tests/test_eigiib_m0_a10.py",
-      "bytes": 6421,
-      "sha256": "32fd83f38e2c811c36c586db19f9257c714537c3bde1a0592faf832848646733"
+      "bytes": 6441,
+      "sha256": "084f61072fad5182118850265f121885639236df2254d5f94d8643e51d89e1ac"
     },
     {
       "path": "tools/eigiib_m0_a10_check.py",
