@@ -1,4 +1,4 @@
-name: E15-A4 bounded authority publisher
+name: E15-A4 bounded non-workflow authority publisher
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
       - name: Verify exact A3 ancestry
         shell: bash
         run: git merge-base --is-ancestor f403e93dd6d1dcb058474d67f2cc7e73b8ad13bd HEAD
-      - name: Verify, apply and remove bounded A4 payload
+      - name: Verify and apply bounded non-workflow A4 payload
         shell: bash
         run: |
           set -euo pipefail
@@ -46,11 +46,10 @@ jobs:
           printf '%s  %s\n' \
             '7751b0ea1fbd43b048c298647f25d1adc098c750d1efd148870e6689b83805d1' \
             "$RUNNER_TEMP/e15-a4.patch" | sha256sum --check --strict
-          git apply --binary --check "$RUNNER_TEMP/e15-a4.patch"
-          git apply --binary "$RUNNER_TEMP/e15-a4.patch"
+          git apply --binary --check --exclude='.github/workflows/*' "$RUNNER_TEMP/e15-a4.patch"
+          git apply --binary --exclude='.github/workflows/*' "$RUNNER_TEMP/e15-a4.patch"
           rm -rf .eigiib-payload
-          rm -f .github/workflows/e15-a4-bootstrap-publisher.yml
-      - name: Commit and push exact A4 authority surface
+      - name: Commit and push non-workflow A4 authorities
         shell: bash
         run: |
           set -euo pipefail
@@ -58,5 +57,9 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
           git diff --cached --check
-          git commit -m 'Implement E15-A4 withdrawal governance'
+          if git diff --cached --name-only | grep -q '^\.github/workflows/'; then
+            echo 'Workflow mutation entered the non-workflow publisher' >&2
+            exit 1
+          fi
+          git commit -m 'Implement E15-A4 non-workflow authorities'
           git push origin "HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}"
