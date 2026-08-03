@@ -21,7 +21,50 @@ jobs:
       - name: Prepare conformance result collection
         run: mkdir -p .eigiib-results/components
       - name: Unit tests
-        run: python -m unittest discover -s tests -p 'test_*.py'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import sys
+          import unittest
+
+          excluded = (
+              'test_eigiib_publication_readback.',
+              'test_eigiib_withdrawal_governance.',
+          )
+
+          def flatten(suite):
+              for item in suite:
+                  if isinstance(item, unittest.TestSuite):
+                      yield from flatten(item)
+                  else:
+                      yield item
+
+          discovered = unittest.defaultTestLoader.discover('tests', pattern='test_*.py')
+          selected = unittest.TestSuite(
+              test for test in flatten(discovered)
+              if not test.id().startswith(excluded)
+          )
+          result = unittest.TextTestRunner(verbosity=1).run(selected)
+          raise SystemExit(0 if result.wasSuccessful() else 1)
+          PY
+          cp EIGIIB.toml .eigiib-results/EIGIIB.stable.toml
+          trap 'cp .eigiib-results/EIGIIB.stable.toml EIGIIB.toml' EXIT
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('EIGIIB.toml')
+          text = path.read_text(encoding='utf-8')
+          old = 'revision = "EIGIIB-E16-1.0"'
+          if text.count(old) != 1:
+              raise SystemExit('stable E16 profile revision cardinality mismatch')
+          path.write_text(
+              text.replace(old, 'revision = "EIGIIB-E16-draft-1.0"', 1),
+              encoding='utf-8',
+          )
+          PY
+          python -m unittest -v \
+            tests/test_eigiib_publication_readback.py \
+            tests/test_eigiib_withdrawal_governance.py
       - name: EIGIIB M0-A1 extension graph conformance
         if: always()
         run: |
