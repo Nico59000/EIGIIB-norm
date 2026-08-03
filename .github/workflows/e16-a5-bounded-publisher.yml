@@ -1,0 +1,95 @@
+name: E16-A5 bounded final publisher
+
+on:
+  pull_request:
+    paths:
+      - '.e16a5-payload/**'
+      - '.github/workflows/e16-a5-bounded-publisher.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  publish:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/e16-a5-independent-preservation-verifier-matrix-differential-restore-replay-final-freeze
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Materialize bounded E16-A5 payload
+        shell: bash
+        run: |
+          python - <<'PY2'
+          import base64, hashlib, json, zipfile
+          from pathlib import Path
+          meta={"payload_bytes":29632,"payload_sha256":"c9fd6ab73af1b82bb4c2774525b80638e63f6126d42ed9ddd8d792c6abf3f2f8","encoded_length":39512,"chunk_count":10,"chunk_lengths":[4000,4000,4000,4000,4000,4000,4000,4000,4000,3512],"chunk_sha256":["c0bdad8da11de1b73069b440af222c726add561ed00895995a0af02b99c19d1b","7cda69eecadaee3bf39b29202c0e8bf1a8854b89751d1f61e55be6f20b2338ca","40f4126d389c6b05bfb3ad643952877b69a0aa2f57caf1c1f6f874062dfeb446","2a5eea20191ea1e3f4173183746bec5869279b01215281551261fe122ffc7bf5","2d568642813ccae9ea4832e19adb1140785da3fc7964ac845b63a96f8daacecb","dea808121c58a5a9b86fefdc277d864abb74025ca934fa2362657ad42aa56b5b","75ddd7c7254bcc06e4092ef861e2bfc8dc316b4c67e66752efac40b6e60917d8","3489d97d9279c2ee1f26023fd35533db33ce02c1ccdb632d2865e489d41b140d","cb0f687a0cf542e7e9b9c58c1cc946832e7075ce4b38f1ee8e995dcb27344d44","9bd330632875831d7f8872ff6dd79cc95c9fb13bbbc310bf07aa9bb2400eb382"],"members":[".github/workflows/e16-a5-final-closure.yml","conformance/E16-A5-MANUAL-REVIEW.md","conformance/e16-a5-adoption-transition.json","conformance/e16-a5-authority-manifest.json","conformance/e16-a5-verifier-matrix.json","conformance/e16-final-closure.json","docs/E16-A5-HUMAN-MASTERY-GUIDE.md","docs/E16-FINAL-CLOSURE-REPORT.md","extensions/E16-A5-INDEPENDENT-PRESERVATION-VERIFIER-MATRIX-DIFFERENTIAL-RESTORE-REPLAY-FINAL-FREEZE.md","schemas/eigiib-e16-a5-adoption-transition.schema.json","schemas/eigiib-e16-a5-authority-manifest.schema.json","schemas/eigiib-e16-a5-authority-freeze.schema.json","schemas/eigiib-e16-a5-verifier-matrix.schema.json","schemas/eigiib-e16-a5-final-closure.schema.json","tests/fixtures/e16-a5/expected-matrix-report.json","tests/fixtures/e16-a5/expected-closure-report.json","tests/test_eigiib_e16_verifier_matrix.py","tests/test_eigiib_e16_final_closure.py","tools/eigiib_e16_preservation_reference.py","tools/eigiib_e16_preservation_independent.py","tools/eigiib_e16_verifier_matrix.py","tools/eigiib_historical_e16_a4_replay.py","tools/eigiib_e16_final_closure_check.py"]}
+          directory=Path('.e16a5-payload')
+          values=[]
+          for index,(length,digest) in enumerate(zip(meta['chunk_lengths'],meta['chunk_sha256'])):
+              path=directory/f'chunk{index:02d}.b64'
+              value=path.read_text(encoding='utf-8').strip()
+              if len(value)!=length or hashlib.sha256(value.encode()).hexdigest()!=digest:
+                  raise SystemExit(f'chunk identity mismatch: {index}')
+              values.append(value)
+          raw=base64.b64decode(''.join(values),validate=True)
+          if len(raw)!=meta['payload_bytes'] or hashlib.sha256(raw).hexdigest()!=meta['payload_sha256']:
+              raise SystemExit('payload identity mismatch')
+          archive=directory/'payload.zip';archive.write_bytes(raw)
+          with zipfile.ZipFile(archive) as zf:
+              if zf.namelist()!=meta['members']:
+                  raise SystemExit('payload member set or order mismatch')
+              for name in zf.namelist():
+                  path=Path(name)
+                  if path.is_absolute() or '..' in path.parts:
+                      raise SystemExit(f'unsafe member: {name}')
+              zf.extractall('.')
+          PY2
+      - name: Promote stable profile and generate final freeze
+        shell: bash
+        run: python .e16a5-payload/patch_e16a5.py
+      - name: Validate E16-A5 final closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/eigiib_e16_preservation_reference.py tools/eigiib_e16_preservation_independent.py tools/eigiib_e16_verifier_matrix.py tools/eigiib_historical_e16_a4_replay.py tools/eigiib_e16_final_closure_check.py tests/test_eigiib_e16_verifier_matrix.py tests/test_eigiib_e16_final_closure.py
+          python -m unittest -v tests/test_eigiib_preservation_intent.py tests/test_eigiib_replica_placement.py tests/test_eigiib_retention_readback_restore.py tests/test_eigiib_custodian_succession_recovery.py tests/test_eigiib_e16_verifier_matrix.py tests/test_eigiib_e16_final_closure.py
+          python tools/eigiib_historical_e16_a4_replay.py . --json > historical-e16-a4-report.json
+          python tools/eigiib_e16_verifier_matrix.py . --json > actual-e16-a5-matrix.json
+          python tools/eigiib_e16_final_closure_check.py . --history-report historical-e16-a4-report.json --matrix-report actual-e16-a5-matrix.json --json > actual-e16-a5-closure.json
+          python - <<'PY2'
+          import json
+          from pathlib import Path
+          for actual,expected in [('actual-e16-a5-matrix.json','tests/fixtures/e16-a5/expected-matrix-report.json'),('actual-e16-a5-closure.json','tests/fixtures/e16-a5/expected-closure-report.json')]:
+              if json.loads(Path(actual).read_text()) != json.loads(Path(expected).read_text()):
+                  raise SystemExit(f'fixture mismatch: {actual}')
+          for rel in ["conformance/e16-a5-adoption-transition.json", "conformance/e16-a5-authority-manifest.json", "conformance/e16-a5-verifier-matrix.json", "conformance/e16-final-closure.json", "schemas/eigiib-e16-a5-adoption-transition.schema.json", "schemas/eigiib-e16-a5-authority-manifest.schema.json", "schemas/eigiib-e16-a5-authority-freeze.schema.json", "schemas/eigiib-e16-a5-verifier-matrix.schema.json", "schemas/eigiib-e16-a5-final-closure.schema.json", "tests/fixtures/e16-a5/expected-matrix-report.json", "tests/fixtures/e16-a5/expected-closure-report.json"] + ['conformance/e16-a5-authority-freeze.json','conformance/extension-graph.json']:
+              json.loads(Path(rel).read_text(encoding='utf-8'))
+          PY2
+          python -c "import tomllib,pathlib; tomllib.loads(pathlib.Path('EIGIIB.toml').read_text(encoding='utf-8'))"
+          python tools/eigiib_extension_graph_check.py . --json > extension-graph-report.json
+          python tools/eigiib_check.py . --json > e2-report.json
+          git merge-base --is-ancestor b28fe74f829141232770155724620617bfb1241c HEAD
+      - name: Publish non-workflow E16-A5 authorities
+        shell: bash
+        run: |
+          set -euo pipefail
+          git checkout HEAD -- .github/workflows/e16-a1-preservation-intent.yml .github/workflows/eigiib.yml
+          rm -f .github/workflows/e16-a5-final-closure.yml
+          rm -rf .e16a5-payload
+          rm -f historical-e16-a4-report.json actual-e16-a5-matrix.json actual-e16-a5-closure.json extension-graph-report.json e2-report.json
+          find tests tools -type d -name __pycache__ -prune -exec rm -rf {} +
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'E16-A5 materialize final non-workflow authorities'
+          git push origin HEAD:agent/e16-a5-independent-preservation-verifier-matrix-differential-restore-replay-final-freeze
