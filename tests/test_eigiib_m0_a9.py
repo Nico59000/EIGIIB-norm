@@ -19,8 +19,17 @@ class M0A9Tests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
         for rel in [
+            ".github/workflows/m0-a9-cross-lineage-reconciliation.yml",
+            "conformance/M0-A9-MANUAL-REVIEW.md",
             "conformance/m0-a9-cross-lineage-capabilities.json",
             "conformance/m0-a9-promotion-readiness.json",
+            "conformance/m0-a9-authority-freeze.json",
+            "docs/M0-A9-CROSS-LINEAGE-CAPABILITY-RECONCILIATION-CLAIM-BOUNDARY-INDEX-AND-PROMOTION-READINESS.md",
+            "docs/M0-A9-HUMAN-MASTERY-GUIDE.md",
+            "schemas/eigiib-m0-a9-cross-lineage-reconciliation.schema.json",
+            "tests/fixtures/m0-a9/expected-report.json",
+            "tests/test_eigiib_m0_a9.py",
+            "tools/eigiib_m0_a9_check.py",
             "conformance/m0-a8-lineage-publication.json",
             "conformance/m0-a5-p1-lineage.json",
             "conformance/p1-a15-live-release.json",
@@ -92,6 +101,11 @@ class M0A9Tests(unittest.TestCase):
     def test_rejects_incomplete_m0_a10_operation_set(self) -> None:
         self.mutate("conformance/m0-a9-promotion-readiness.json",
                     lambda x: next(i for i in x["candidates"] if i["id"] == "M0-A10")["required_new_operations"].pop())
+        self.assert_rejected()
+
+    def test_rejects_freeze_digest_substitution(self) -> None:
+        self.mutate("conformance/m0-a9-authority-freeze.json",
+                    lambda x: x["authorities"][0].__setitem__("sha256", "0" * 64))
         self.assert_rejected()
 
 
