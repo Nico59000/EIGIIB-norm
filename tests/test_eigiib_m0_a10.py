@@ -46,7 +46,7 @@ class M0A10Test(unittest.TestCase):
         holder, target = self._copy_authority()
         self.addCleanup(holder.cleanup)
         report = self._evaluate(target)
-        self.assertEqual("conformant", report["structural_result"])
+        self.assertEqual("conformant", report["structural_result"], report["findings"])
         expected = json.loads((ROOT / "tests/fixtures/m0-a10/expected-report.json").read_text())
         self.assertEqual(expected, report)
 
