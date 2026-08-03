@@ -7,6 +7,12 @@ on:
     paths:
       - '.m0a7-payload/**'
       - '.github/workflows/m0-a7-publish-checker.yml'
+  pull_request:
+    branches:
+      - agent/e15-a5-independent-external-evidence-verifier-final-freeze
+    paths:
+      - '.m0a7-payload/**'
+      - '.github/workflows/m0-a7-publish-checker.yml'
 
 permissions:
   contents: write
