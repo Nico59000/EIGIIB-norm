@@ -1,0 +1,16 @@
+diff --git a/conformance/e15-a5-authority-freeze.json b/conformance/e15-a5-authority-freeze.json
+index 7c2bb5d..070de32 100644
+--- a/conformance/e15-a5-authority-freeze.json
++++ b/conformance/e15-a5-authority-freeze.json
+@@ -26,9 +26,9 @@
+       "sha256": "5c19d046171c94fb25d3826ab80705942d36596037691de01c74898bcbea8cc4"
+     },
+     {
+-      "bytes": 7923,
++      "bytes": 8094,
+       "path": ".github/workflows/eigiib.yml",
+-      "sha256": "ad64a1fd4f7efe2e0843310c2c104f975058c75a6f4e44e7d4d0125c24546e68"
++      "sha256": "13fd00beb13d293dcdac328fc452cc79a3b18cbe9982986b5197ac8b8c9d17ed"
+     },
+     {
+       "bytes": 4698,
