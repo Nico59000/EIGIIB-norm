@@ -1,0 +1,48 @@
+name: E15-A5 bounded freeze-carrier publisher
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/e15-a5-freeze-carrier-publisher.yml'
+      - '.eigiib-payload/e15-a5-freeze-carrier.patch'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          fetch-depth: 0
+      - name: Verify exact E15-A4 ancestry
+        shell: bash
+        run: git merge-base --is-ancestor fce0ba52930e32069b54ab8f5634501a130222a7 HEAD
+      - name: Apply bounded freeze-carrier correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          patch='.eigiib-payload/e15-a5-freeze-carrier.patch'
+          printf '%s  %s\n' \
+            '9aa0d3c77905e206ad5c4523d504512833ef6b971b1fd430445c5f117a28d58c' \
+            "$patch" | sha256sum --check --strict
+          git apply --check "$patch"
+          git apply "$patch"
+          rm -rf .eigiib-payload
+      - name: Commit and push corrected freeze
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          if git diff --cached --name-only | grep -q '^\.github/workflows/'; then
+            echo 'Workflow mutation entered the bounded freeze publisher' >&2
+            exit 1
+          fi
+          git commit -m 'Bind E15-A5 aggregate carrier in final freeze'
+          git push origin "HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}"
