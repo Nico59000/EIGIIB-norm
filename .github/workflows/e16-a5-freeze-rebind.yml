@@ -118,7 +118,7 @@ jobs:
           find tests tools -type d -name __pycache__ -prune -exec rm -rf {} +
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add conformance/e16-a5-authority-freeze.json .e16a5-freeze-rebind.trigger
+          git add -A conformance/e16-a5-authority-freeze.json .e16a5-freeze-rebind.trigger
           git diff --cached --check
           git commit -m 'E16-A5 rebind global workflow in final freeze'
           git push origin HEAD:agent/e16-a5-independent-preservation-verifier-matrix-differential-restore-replay-final-freeze
