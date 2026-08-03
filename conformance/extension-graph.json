@@ -464,13 +464,13 @@
       "id": "E15",
       "kind": "extension",
       "title": "Externally Attested Delivery, Durable Publication, Recipient Acknowledgement and Withdrawal Governance",
-      "theme": "withdrawal requests + registry tombstones + distribution stops + bounded post-withdrawal observations",
+      "theme": "independent external-evidence verification + final E15 authority freeze",
       "authority_key": "e15",
       "authority": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
-      "schema": "schemas/eigiib-e15-a4-withdrawal-governance.schema.json",
-      "checker": "tools/eigiib_withdrawal_governance_check.py",
-      "registry_authority_key": "withdrawal_governance",
-      "registry": "conformance/withdrawal-governance.json",
+      "schema": "schemas/eigiib-e15-a5-final-closure.schema.json",
+      "checker": "tools/eigiib_e15_final_closure_check.py",
+      "registry_authority_key": "e15_final_closure",
+      "registry": "conformance/e15-final-closure.json",
       "depends_on": [
         "E4",
         "E11",
@@ -495,7 +495,12 @@
         "e15_a3_transition",
         "e15_a3_authority_freeze",
         "withdrawal_governance",
-        "e15_a4_transition"
+        "e15_a4_transition",
+        "e15_a4_authority_freeze",
+        "e15_a5_contract",
+        "e15_final_closure",
+        "e15_a5_verifier_matrix",
+        "e15_a5_transition"
       ],
       "does_not_reprove": [
         "E4 authentication",
@@ -517,7 +522,12 @@
         "legal recall",
         "instantaneous withdrawal propagation",
         "unregistered-mirror closure",
-        "future unavailability"
+        "future unavailability",
+        "universal verifier correctness",
+        "external durability of the final freeze"
+      ],
+      "hardening_profiles": [
+        "E15-A5"
       ]
     }
   ],
@@ -633,6 +643,17 @@
       "tests": [
         "tests/test_eigiib_e14_release.py",
         "tests/test_eigiib_e14_release_matrix.py"
+      ]
+    },
+    {
+      "id": "E15-A5",
+      "applies_to": "E15",
+      "authority": "extensions/E15-A5-INDEPENDENT-EXTERNAL-EVIDENCE-VERIFIER-MATRIX-FINAL-AUTHORITY-FREEZE.md",
+      "schema": "schemas/eigiib-e15-a5-final-closure.schema.json",
+      "checker": "tools/eigiib_e15_final_closure_check.py",
+      "tests": [
+        "tests/test_eigiib_e15_final_closure.py",
+        "tests/test_eigiib_e15_verifier_matrix.py"
       ]
     }
   ]

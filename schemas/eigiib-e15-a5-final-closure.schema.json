@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "final_state": {
+      "const": "closed"
+    },
+    "historical_replay_tool": {
+      "const": "tools/eigiib_historical_e15_a4_replay.py"
+    },
+    "independent_verifier": {
+      "const": "tools/eigiib_e15_external_evidence_independent.py"
+    },
+    "matrix_catalog": {
+      "const": "conformance/e15-a5-verifier-matrix.json"
+    },
+    "matrix_runner": {
+      "const": "tools/eigiib_e15_verifier_matrix.py"
+    },
+    "nonclaims": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "profile_revision": {
+      "const": "EIGIIB-E15-1.0"
+    },
+    "reference_verifier": {
+      "const": "tools/eigiib_e15_external_evidence_reference.py"
+    },
+    "source_e15_a4_commit": {
+      "const": "fce0ba52930e32069b54ab8f5634501a130222a7"
+    },
+    "standard": {
+      "const": "EIGIIB-E15-A5-CLOSURE-1.0"
+    },
+    "status": {
+      "const": "final-frozen-closure"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "source_e15_a4_commit",
+    "profile_revision",
+    "historical_replay_tool",
+    "reference_verifier",
+    "independent_verifier",
+    "matrix_runner",
+    "matrix_catalog",
+    "final_state",
+    "nonclaims"
+  ],
+  "title": "EIGIIB E15 final closure authority",
+  "type": "object"
+}

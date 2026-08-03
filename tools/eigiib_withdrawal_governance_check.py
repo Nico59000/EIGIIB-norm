@@ -18,6 +18,7 @@ TRANSITION_STANDARD = "EIGIIB-E15-A4-TRANSITION-1.0"
 FREEZE_STANDARD = "EIGIIB-E15-A4-FREEZE-1.0"
 HISTORY_STANDARD = "EIGIIB-E15-A4-HISTORICAL-E15-A3-REPLAY-1.0"
 PROFILE_REVISION = "EIGIIB-E15-draft-1.3"
+FINAL_PROFILE_REVISION = "EIGIIB-E15-1.0"
 SOURCE_E15_A3_HEAD = "f403e93dd6d1dcb058474d67f2cc7e73b8ad13bd"
 SOURCE_E15_A2_HEAD = "25988d80571f0f8d3587d976810a2dd8e0ce2328"
 WITHDRAWAL_ACTION = "eigiib:e15:withdraw"
@@ -262,8 +263,8 @@ class Checker:
             return
         if "E15-1.0" not in profile.get("extensions", []):
             self.add("error", "E15A4.PROFILE.ADOPTION", "E15-1.0 must remain adopted", "EIGIIB.toml")
-        if profile.get("revision") != PROFILE_REVISION:
-            self.add("error", "E15A4.PROFILE.REVISION", f"revision must be {PROFILE_REVISION}", "EIGIIB.toml")
+        if profile.get("revision") not in {PROFILE_REVISION, FINAL_PROFILE_REVISION}:
+            self.add("error", "E15A4.PROFILE.REVISION", f"revision must be {PROFILE_REVISION} or {FINAL_PROFILE_REVISION}", "EIGIIB.toml")
         expected = {
             "e15": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
             "publication_readback": self.parent_registry_path.as_posix(),

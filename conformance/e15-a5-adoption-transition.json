@@ -1,0 +1,50 @@
+{
+  "differential_verification": {
+    "frozen_expected_states_required": true,
+    "implementations_import_each_other": false,
+    "known_negative_precedence_required": true,
+    "verifier_count": 2
+  },
+  "historical_preservation": {
+    "descendant_profile_compatibility_isolated": true,
+    "e15_a4_claims_rewritten": false,
+    "final_freeze_separate": true,
+    "source_freeze_mutated": false,
+    "transition_is_additive": true
+  },
+  "historical_replay": {
+    "current_tree_substitution_forbidden": true,
+    "historical_tree_isolated": true,
+    "mode": "materialize-and-replay-exact-source-commit",
+    "required_results": [
+      "historical-e14-conformant",
+      "e15-a1-conformant",
+      "e15-a2-conformant",
+      "e15-a3-conformant",
+      "e15-a4-conformant",
+      "e15-a4-tests-conformant"
+    ],
+    "source_commit_must_be_ancestor": true,
+    "tool": "tools/eigiib_historical_e15_a4_replay.py"
+  },
+  "source": {
+    "authority_freeze": "conformance/e15-a4-authority-freeze.json",
+    "branch": "agent/e15-a4-withdrawal-tombstones-post-delivery-governance",
+    "checker": "tools/eigiib_withdrawal_governance_check.py",
+    "head_commit": "fce0ba52930e32069b54ab8f5634501a130222a7",
+    "profile_revision": "EIGIIB-E15-draft-1.3",
+    "registry_authority": "conformance/withdrawal-governance.json"
+  },
+  "standard": "EIGIIB-E15-A5-TRANSITION-1.0",
+  "status": "adopted-final-e15",
+  "target": {
+    "adoption_state": "final",
+    "authority_freeze": "conformance/e15-a5-authority-freeze.json",
+    "checker": "tools/eigiib_e15_final_closure_check.py",
+    "closure_authority": "conformance/e15-final-closure.json",
+    "extension": "E15-1.0",
+    "matrix_authority": "conformance/e15-a5-verifier-matrix.json",
+    "profile_revision": "EIGIIB-E15-1.0",
+    "slice": "E15-A5"
+  }
+}

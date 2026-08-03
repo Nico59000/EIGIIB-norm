@@ -1,0 +1,14 @@
+{
+  "authority_freeze_result": "conformant",
+  "case_count": 16,
+  "final_closure_result": "conformant",
+  "findings": [],
+  "historical_continuity_result": "conformant",
+  "matched_case_count": 16,
+  "standard": "EIGIIB-E15-A5-CLOSURE-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-e15-final-closure-check",
+  "tool_version": "0.1.0",
+  "verifier_count": 2,
+  "verifier_matrix_result": "conformant"
+}

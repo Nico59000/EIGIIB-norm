@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cases": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_state": {
+            "enum": [
+              "delivery-evidence-bounded",
+              "acknowledgement-evidence-bounded",
+              "publication-evidence-bounded",
+              "persistence-evidence-bounded",
+              "independent-readback-bounded",
+              "withdrawal-request-bounded",
+              "tombstone-bounded",
+              "distribution-stop-bounded",
+              "withdrawal-evidence-bounded",
+              "rejected",
+              "held",
+              "unavailable"
+            ]
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "inputs": {
+            "additionalProperties": false,
+            "properties": {
+              "anti_rollback_result": {
+                "enum": [
+                  "current",
+                  "rollback-detected",
+                  "held",
+                  "unavailable"
+                ]
+              },
+              "content_identity_result": {
+                "enum": [
+                  "verified",
+                  "rejected",
+                  "held",
+                  "unavailable"
+                ]
+              },
+              "delivery_result": {
+                "enum": [
+                  "not-evaluated",
+                  "externally-attested",
+                  "acknowledged",
+                  "rejected",
+                  "held",
+                  "unavailable"
+                ]
+              },
+              "lineage_result": {
+                "enum": [
+                  "current",
+                  "replay-detected",
+                  "held",
+                  "unavailable"
+                ]
+              },
+              "observer_independence_result": {
+                "enum": [
+                  "not-required",
+                  "independent",
+                  "insufficient",
+                  "held",
+                  "unavailable"
+                ]
+              },
+              "publication_result": {
+                "enum": [
+                  "not-evaluated",
+                  "publication-observed",
+                  "persistence-observed",
+                  "independently-read-back",
+                  "rejected",
+                  "held",
+                  "unavailable"
+                ]
+              },
+              "withdrawal_result": {
+                "enum": [
+                  "not-evaluated",
+                  "withdrawal-requested",
+                  "tombstoned",
+                  "distribution-stopped",
+                  "post-withdrawal-observed",
+                  "rejected",
+                  "contested",
+                  "held",
+                  "unavailable"
+                ]
+              }
+            },
+            "required": [
+              "lineage_result",
+              "delivery_result",
+              "publication_result",
+              "withdrawal_result",
+              "content_identity_result",
+              "observer_independence_result",
+              "anti_rollback_result"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "expected_state",
+          "inputs"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "independent_verifier": {
+      "const": "tools/eigiib_e15_external_evidence_independent.py"
+    },
+    "reference_verifier": {
+      "const": "tools/eigiib_e15_external_evidence_reference.py"
+    },
+    "standard": {
+      "const": "EIGIIB-E15-A5-1.0"
+    },
+    "status": {
+      "const": "frozen-vectors"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "reference_verifier",
+    "independent_verifier",
+    "cases"
+  ],
+  "title": "EIGIIB E15-A5 verifier matrix",
+  "type": "object"
+}
