@@ -1,0 +1,27 @@
+name: E15-A3 bootstrap exact source snapshot
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/e15-a3-bootstrap-snapshot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+      - name: Archive exact checkout
+        shell: bash
+        run: tar -czf eigiib-a2-exact-checkout.tar.gz --exclude=eigiib-a2-exact-checkout.tar.gz .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eigiib-a2-exact-checkout
+          path: eigiib-a2-exact-checkout.tar.gz
+          if-no-files-found: error
+          retention-days: 1
