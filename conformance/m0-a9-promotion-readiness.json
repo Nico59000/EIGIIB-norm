@@ -1,0 +1,46 @@
+{
+  "standard": "EIGIIB-M0-A9-PROMOTION-READINESS-1.0",
+  "status": "bounded-promotion-readiness-classified",
+  "source_authority": "conformance/m0-a9-cross-lineage-capabilities.json",
+  "candidates": [
+    {
+      "id": "M0-A10",
+      "title": "Stable E16 Normative Bundle, Dual-Channel Publication and Exact External Readback",
+      "decision": "ready-for-bounded-implementation",
+      "basis": [
+        "P1-A15",
+        "P1-A16",
+        "P1-A17",
+        "P1-A18",
+        "P1-A19",
+        "P1-A19-F2",
+        "P1-A20"
+      ],
+      "required_new_operations": [
+        "construct-deterministic-bundle-from-exact-stable-e16-head",
+        "bind-signed-manifest-to-exact-bundle-and-source-head",
+        "publish-exact-bundle-through-github-release",
+        "publish-exact-bundle-through-oci-registry",
+        "capture-authenticated-and-public-readback",
+        "restore-and-compare-from-each-named-channel"
+      ],
+      "permitted_result": "bounded-external-publication-and-readback-verified",
+      "forbidden_result": "future-or-indefinite-durability-established"
+    },
+    {
+      "id": "E17",
+      "title": "Operational Independence, Correlated-Failure Resistance and Long-Horizon Preservation Governance",
+      "decision": "not-ready-for-adoption",
+      "missing_evidence": [
+        "real-external-authority-and-control-domain-attestation",
+        "correlated-failure-model-and-diversity-evidence",
+        "long-horizon-periodic-observation-with-lapse-detection",
+        "multi-authority-deletion-quarantine-and-hold-evidence",
+        "independent-live-evidence-matrix"
+      ],
+      "required_action": "obtain-new-external-evidence-before-entry-normalization"
+    }
+  ],
+  "automatic_adoption": false,
+  "profile_revision": "EIGIIB-E16-1.0"
+}
