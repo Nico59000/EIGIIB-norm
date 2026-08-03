@@ -41,8 +41,8 @@
     },
     {
       "path": "extensions/E16-EXTERNAL-CUSTODY-REPLICATION-RETENTION-RECOVERY-GOVERNANCE.md",
-      "bytes": 2822,
-      "sha256": "31e67ed13c4968b3bad72d9448c601fae374a7afd59389928f69f1a65e06463e"
+      "bytes": 2109,
+      "sha256": "b599a3987f1a3b24c462b672111fc70e503df598f97f09b50c55da8d00ac2ade"
     },
     {
       "path": "schemas/eigiib-e16-a2-adoption-transition.schema.json",
