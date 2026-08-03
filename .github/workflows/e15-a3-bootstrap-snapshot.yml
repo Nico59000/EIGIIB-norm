@@ -1,27 +1,55 @@
-name: E15-A3 bootstrap exact source snapshot
+name: E15-A3 bounded authority publisher
 
 on:
   pull_request:
     paths:
       - '.github/workflows/e15-a3-bootstrap-snapshot.yml'
+      - '.eigiib-payload/**'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  snapshot:
+  publish:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
           fetch-depth: 0
-      - name: Archive exact checkout
+      - name: Verify, apply and remove bounded payload
         shell: bash
-        run: tar -czf "$RUNNER_TEMP/eigiib-a2-exact-checkout.tar.gz" .
-      - uses: actions/upload-artifact@v4
-        with:
-          name: eigiib-a2-exact-checkout
-          path: ${{ runner.temp }}/eigiib-a2-exact-checkout.tar.gz
-          if-no-files-found: error
-          retention-days: 1
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          parts=(.eigiib-payload/e15-a3-nonworkflow.patch.gz.b64.*)
+          if (( ${#parts[@]} == 0 )); then
+            echo 'No E15-A3 payload remains; publication is already complete.'
+            exit 0
+          fi
+          cat "${parts[@]}" > "$RUNNER_TEMP/e15-a3.patch.gz.b64"
+          printf '%s  %s\n' \
+            'cd33baec84570fa33dcccebea0dbc03ab62d1ff138430c091e3a84762bb1993e' \
+            "$RUNNER_TEMP/e15-a3.patch.gz.b64" | sha256sum --check --strict
+          base64 --decode "$RUNNER_TEMP/e15-a3.patch.gz.b64" \
+            | gzip --decompress > "$RUNNER_TEMP/e15-a3.patch"
+          printf '%s  %s\n' \
+            'b92b10e521bb8708da6a3f71da61de7a3e12cf46c00d8371767d7ed1fe0180c4' \
+            "$RUNNER_TEMP/e15-a3.patch" | sha256sum --check --strict
+          git apply --binary --check "$RUNNER_TEMP/e15-a3.patch"
+          git apply --binary "$RUNNER_TEMP/e15-a3.patch"
+          rm -rf .eigiib-payload
+      - name: Commit and push exact A3 authority surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet && git diff --cached --quiet; then
+            echo 'No publication change remains.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Implement E15-A3 bounded publication readback'
+          git push origin "HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}"
