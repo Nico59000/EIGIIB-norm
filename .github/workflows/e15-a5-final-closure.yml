@@ -7,6 +7,7 @@ on:
       - 'extensions/E15-EXTERNALLY-*'
       - 'tools/eigiib_e15_*.py'
       - 'tools/eigiib_historical_e15_a4_replay.py'
+      - 'tools/eigiib_historical_m0_a7_replay.py'
       - 'tools/eigiib_*delivery*_check.py'
       - 'tools/eigiib_publication_readback_check.py'
       - 'tools/eigiib_withdrawal_governance_check.py'
@@ -61,17 +62,24 @@ jobs:
           if actual != expected:
               raise SystemExit('E15-A5 matrix report mismatch')
           PY
-      - name: Final E15 closure report
+      - name: Historical final E15 closure report
         shell: bash
         run: |
-          python tools/eigiib_e15_final_closure_check.py . --history-report historical-e15-a4-report.json --json > actual-e15-a5-closure.json
+          python tools/eigiib_historical_m0_a7_replay.py . \
+            --e15-output actual-e15-a5-closure.json \
+            --json > historical-m0-a7-report.json
           python - <<'PY'
           import json
           from pathlib import Path
+          replay=json.loads(Path('historical-m0-a7-report.json').read_text(encoding='utf-8'))
+          if replay.get('overall_result') != 'conformant':
+              raise SystemExit('historical M0-A7 and E15 replay is non-conformant')
+          if replay.get('e15_final_closure_result') != 'conformant':
+              raise SystemExit('historical E15 final closure is non-conformant')
           actual=json.loads(Path('actual-e15-a5-closure.json').read_text(encoding='utf-8'))
           expected=json.loads(Path('tests/fixtures/e15-a5/expected-closure-report.json').read_text(encoding='utf-8'))
           if actual != expected:
-              raise SystemExit('E15-A5 closure report mismatch')
+              raise SystemExit('historical E15-A5 closure report mismatch')
           PY
       - name: Parse final authorities
         run: |

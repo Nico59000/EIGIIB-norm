@@ -38,7 +38,7 @@ class E15A3Test(unittest.TestCase):
                 target.write_text(f"fixture:{rel}\n", encoding="utf-8")
         profile_path = self.root / "EIGIIB.toml"
         profile = profile_path.read_text(encoding="utf-8")
-        profile = profile.replace('revision = "EIGIIB-E15-1.0"', 'revision = "EIGIIB-E15-draft-1.2"').replace('revision = "EIGIIB-E15-draft-1.3"', 'revision = "EIGIIB-E15-draft-1.2"')
+        profile = profile.replace('revision = "EIGIIB-E16-draft-1.0"', 'revision = "EIGIIB-E15-draft-1.2"').replace('revision = "EIGIIB-E15-1.0"', 'revision = "EIGIIB-E15-draft-1.2"').replace('revision = "EIGIIB-E15-draft-1.3"', 'revision = "EIGIIB-E15-draft-1.2"')
         profile_path.write_text(profile, encoding="utf-8")
         parent = json.loads((self.root / "conformance/delivery-evidence.json").read_text(encoding="utf-8"))
         for field in ("attester_profiles", "external_attestation_policies", "transfer_attempts", "external_delivery_evidence", "recipient_acknowledgements", "delivery_evidence_decisions"):

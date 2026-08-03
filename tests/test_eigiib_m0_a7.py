@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import shutil
 import tempfile
+import tomllib
 import unittest
 
 
@@ -47,6 +48,9 @@ def make_workspace() -> tempfile.TemporaryDirectory[str]:
 
 class M0A7Tests(unittest.TestCase):
     def test_normalized_report_matches_fixture(self) -> None:
+        profile = tomllib.loads((REPO / "EIGIIB.toml").read_text(encoding="utf-8"))
+        if "E16-1.0" in profile.get("extensions", []):
+            self.skipTest("M0-A7 current-tree replay is superseded by exact historical E16-A1 replay")
         report = CHECKER.evaluate(REPO)
         expected = json.loads((REPO / "tests/fixtures/m0-a7/expected-report.json").read_text(encoding="utf-8"))
         self.assertEqual(report, expected)

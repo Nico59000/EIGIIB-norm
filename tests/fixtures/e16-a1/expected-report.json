@@ -1,0 +1,22 @@
+{
+  "authority_freeze_result": "conformant",
+  "custodian_profile_count": 0,
+  "decision_state_counts": {
+    "admissible": 0,
+    "held": 0,
+    "rejected": 0,
+    "unavailable": 0
+  },
+  "findings": [],
+  "historical_continuity_result": "conformant",
+  "preservation_decision_count": 0,
+  "preservation_intent_count": 0,
+  "preservation_intent_result": "not-evaluated",
+  "preservation_policy_count": 0,
+  "replica_binding_count": 0,
+  "replica_profile_count": 0,
+  "standard": "EIGIIB-E16-A1-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-preservation-intent-check",
+  "tool_version": "0.1.0"
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "source",
+    "historical_replay",
+    "target",
+    "consumed_inputs",
+    "historical_preservation"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E16-A1-TRANSITION-1.0"
+    },
+    "status": {
+      "const": "adopted-e16-a1"
+    },
+    "source": {},
+    "historical_replay": {},
+    "target": {},
+    "consumed_inputs": {},
+    "historical_preservation": {}
+  }
+}

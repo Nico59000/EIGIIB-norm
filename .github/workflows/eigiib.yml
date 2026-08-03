@@ -125,21 +125,23 @@ jobs:
             --output-dir .eigiib-results/components \
             --matrix-output .eigiib-results/e14-a5-matrix.json \
             --json | tee .eigiib-results/e14-history.json
-      - name: Historical E15-A4 authority replay
+      - name: Historical M0-A7 and E15 final replay
         if: always()
         run: |
           set -o pipefail
-          python tools/eigiib_historical_e15_a4_replay.py . --json | tee .eigiib-results/e15-a4-history.json
-      - name: EIGIIB E15-A5 final closure conformance
-        if: always()
-        run: |
-          set -o pipefail
-          python tools/eigiib_e15_final_closure_check.py . \
-            --history-report .eigiib-results/e15-a4-history.json \
-            --json | tee .eigiib-results/components/e15.json
+          python tools/eigiib_historical_m0_a7_replay.py . \
+            --e15-output .eigiib-results/components/e15.json \
+            --json | tee .eigiib-results/m0-a7-history.json
       - name: Bind E15-A5 hardening-profile report carrier
         if: always()
         run: cp .eigiib-results/components/e15.json .eigiib-results/components/e15-a5.json
+      - name: EIGIIB E16-A1 preservation-intent conformance
+        if: always()
+        run: |
+          set -o pipefail
+          python tools/eigiib_preservation_intent_check.py . \
+            --history-report .eigiib-results/m0-a7-history.json \
+            --json | tee .eigiib-results/components/e16.json
       - name: EIGIIB M0-A2 aggregate conformance
         if: always()
         run: |
