@@ -1,0 +1,63 @@
+name: E16-A4 custodian succession, migration, quarantine and anti-rollback recovery
+
+on:
+  pull_request:
+    paths:
+      - 'extensions/E16-A4-*'
+      - 'tools/eigiib_custodian_succession_recovery_check.py'
+      - 'tools/eigiib_historical_e16_a3_replay.py'
+      - 'schemas/eigiib-e16-a4-*'
+      - 'conformance/custodian-succession-recovery.json'
+      - 'conformance/e16-a4-*'
+      - 'conformance/E16-A4-*'
+      - 'tests/test_eigiib_custodian_succession_recovery.py'
+      - 'tests/fixtures/e16-a4/**'
+      - 'docs/E16-A4-*'
+      - '.github/workflows/e16-a4-custodian-succession-recovery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  custodian-succession-recovery:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13'
+      - name: Historical E16-A3 replay
+        shell: bash
+        run: python tools/eigiib_historical_e16_a3_replay.py . --json > historical-e16-a3-report.json
+      - name: E16-A4 unit tests
+        run: python -m unittest -v tests/test_eigiib_custodian_succession_recovery.py
+      - name: Custodian succession and recovery report
+        shell: bash
+        run: |
+          python tools/eigiib_custodian_succession_recovery_check.py . \
+            --history-report historical-e16-a3-report.json \
+            --json > actual-e16-a4-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = json.loads(Path('actual-e16-a4-report.json').read_text(encoding='utf-8'))
+          expected = json.loads(Path('tests/fixtures/e16-a4/expected-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('E16-A4 report mismatch')
+          PY
+      - name: Parse authorities
+        run: |
+          python -c "import json,pathlib; [json.loads(pathlib.Path(p).read_text(encoding='utf-8')) for p in ['conformance/custodian-succession-recovery.json','conformance/e16-a4-authority-manifest.json','conformance/e16-a4-adoption-transition.json','conformance/e16-a4-authority-freeze.json','schemas/eigiib-e16-a4-custodian-succession-recovery.schema.json','schemas/eigiib-e16-a4-authority-manifest.schema.json','schemas/eigiib-e16-a4-adoption-transition.schema.json','schemas/eigiib-e16-a4-authority-freeze.schema.json','conformance/extension-graph.json']]"
+      - name: Extension graph
+        shell: bash
+        run: python tools/eigiib_extension_graph_check.py . --json
+      - name: Exact E16-A3 ancestry
+        shell: bash
+        run: git merge-base --is-ancestor 74cb64ebcb1b51b0a035e755be413dbd2a7e9e3e HEAD
