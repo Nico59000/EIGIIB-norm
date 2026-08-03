@@ -7,6 +7,10 @@ on:
     paths:
       - '.github/workflows/e15-a4-bootstrap-publisher.yml'
       - '.eigiib-payload/**'
+  pull_request:
+    paths:
+      - '.github/workflows/e15-a4-bootstrap-publisher.yml'
+      - '.eigiib-payload/**'
   workflow_dispatch:
 
 permissions:
@@ -18,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
           fetch-depth: 0
       - name: Verify exact A3 ancestry
         shell: bash
@@ -55,4 +59,4 @@ jobs:
           git add -A
           git diff --cached --check
           git commit -m 'Implement E15-A4 withdrawal governance'
-          git push origin "HEAD:${{ github.ref_name }}"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}"
