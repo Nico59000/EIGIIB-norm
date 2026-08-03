@@ -1,0 +1,119 @@
+name: M0-A8 PR 155 topology rebind
+
+on:
+  pull_request:
+    paths:
+      - '.m0a8-pr155-rebind.trigger'
+      - '.github/workflows/m0-a8-pr155-rebind.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  rebind:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/m0-a8-authoritative-lineage-publication-default-branch-reconciliation-pr-topology-closure
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Rebind exact closed PR topology
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          authority_path = Path('conformance/m0-a8-lineage-publication.json')
+          authority = json.loads(authority_path.read_text(encoding='utf-8'))
+          if authority.get('closed_non_authoritative_prs') != [141, 145, 147]:
+              raise SystemExit('unexpected pre-rebind closed PR set')
+          authority['closed_non_authoritative_prs'] = [141, 145, 147, 155]
+          authority_path.write_text(json.dumps(authority, indent=2) + '\n', encoding='utf-8')
+
+          checker_path = Path('tools/eigiib_m0_a8_check.py')
+          checker = checker_path.read_text(encoding='utf-8')
+          old = 'EXPECTED_CLOSED_PRS = [141, 145, 147]'
+          new = 'EXPECTED_CLOSED_PRS = [141, 145, 147, 155]'
+          if checker.count(old) != 1:
+              raise SystemExit('checker closed PR constant mismatch')
+          checker_path.write_text(checker.replace(old, new), encoding='utf-8')
+
+          fixture_path = Path('tests/fixtures/m0-a8/expected-report.json')
+          fixture = json.loads(fixture_path.read_text(encoding='utf-8'))
+          if fixture.get('closed_non_authoritative_prs') != [141, 145, 147]:
+              raise SystemExit('fixture closed PR set mismatch')
+          fixture['closed_non_authoritative_prs'] = [141, 145, 147, 155]
+          fixture_path.write_text(json.dumps(fixture, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+
+          replacements = {
+              Path('docs/M0-A8-AUTHORITATIVE-LINEAGE-PUBLICATION-DEFAULT-BRANCH-RECONCILIATION-AND-PR-TOPOLOGY-CLOSURE.md'): (
+                  'Direct cumulative PRs #141, #145 and #147 targeted `main` and were closed unmerged.',
+                  'Direct cumulative PRs #141, #145, #147 and the automatically opened stable-publication PR #155 targeted `main` and were closed unmerged.'
+              ),
+              Path('conformance/M0-A8-MANUAL-REVIEW.md'): (
+                  '- PRs #141, #145 and #147 were closed unmerged as non-authoritative direct-to-main surfaces;',
+                  '- PRs #141, #145, #147 and #155 were closed unmerged as non-authoritative direct-to-main surfaces;'
+              ),
+          }
+          for path, (before, after) in replacements.items():
+              text = path.read_text(encoding='utf-8')
+              if text.count(before) != 1:
+                  raise SystemExit(f'document rebind source mismatch: {path}')
+              path.write_text(text.replace(before, after), encoding='utf-8')
+
+          freeze_path = Path('conformance/m0-a8-authority-freeze.json')
+          freeze = json.loads(freeze_path.read_text(encoding='utf-8'))
+          authorities = freeze.get('authorities')
+          if freeze.get('authority_count') != 9 or not isinstance(authorities, list) or len(authorities) != 9:
+              raise SystemExit('M0-A8 freeze cardinality mismatch')
+          for item in authorities:
+              path = Path(item['path'])
+              raw = path.read_bytes()
+              item['bytes'] = len(raw)
+              item['sha256'] = hashlib.sha256(raw).hexdigest()
+          freeze_path.write_text(json.dumps(freeze, indent=2) + '\n', encoding='utf-8')
+          PY
+      - name: Validate rebound authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/eigiib_m0_a8_check.py tests/test_eigiib_m0_a8.py
+          python -m unittest -v tests/test_eigiib_m0_a8.py
+          python tools/eigiib_m0_a8_check.py . --json > actual-m0-a8-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = json.loads(Path('actual-m0-a8-report.json').read_text(encoding='utf-8'))
+          expected = json.loads(Path('tests/fixtures/m0-a8/expected-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('rebound M0-A8 report fixture mismatch')
+          PY
+      - name: Publish rebound non-workflow authorities
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f actual-m0-a8-report.json
+          find tests tools -type d -name __pycache__ -prune -exec rm -rf {} +
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            conformance/M0-A8-MANUAL-REVIEW.md \
+            conformance/m0-a8-authority-freeze.json \
+            conformance/m0-a8-lineage-publication.json \
+            docs/M0-A8-AUTHORITATIVE-LINEAGE-PUBLICATION-DEFAULT-BRANCH-RECONCILIATION-AND-PR-TOPOLOGY-CLOSURE.md \
+            tests/fixtures/m0-a8/expected-report.json \
+            tools/eigiib_m0_a8_check.py
+          git diff --cached --check
+          git commit -m 'M0-A8 bind stable publication PR topology closure'
+          git push origin HEAD:agent/m0-a8-authoritative-lineage-publication-default-branch-reconciliation-pr-topology-closure
