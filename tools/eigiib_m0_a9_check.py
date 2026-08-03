@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -13,16 +14,15 @@ AUTHORITY = ROOT / "conformance/m0-a9-cross-lineage-capabilities.json"
 READINESS = ROOT / "conformance/m0-a9-promotion-readiness.json"
 M0_A8 = ROOT / "conformance/m0-a8-lineage-publication.json"
 M0_A5 = ROOT / "conformance/m0-a5-p1-lineage.json"
+FREEZE = ROOT / "conformance/m0-a9-authority-freeze.json"
 
 EXPECTED_M0_A8_HEAD = "232e8574f23fb2162a6fdf7fa24338e7aaf987d6"
 EXPECTED_STABLE_E16_HEAD = "fc3f8402bfbe447227f5777bad92b620c7bcb350"
 EXPECTED_PROFILE = "EIGIIB-E16-1.0"
 EXPECTED_IDS = ["P1-A15", "P1-A16", "P1-A17", "P1-A18", "P1-A19", "P1-A19-F2", "P1-A20"]
 
-
 class ConformanceError(RuntimeError):
     pass
-
 
 def load(path: Path) -> dict[str, Any]:
     try:
@@ -33,17 +33,16 @@ def load(path: Path) -> dict[str, Any]:
         raise ConformanceError(f"{path} must contain one object")
     return value
 
-
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise ConformanceError(message)
-
 
 def validate(root: Path = ROOT) -> dict[str, Any]:
     authority = load(root / AUTHORITY.relative_to(ROOT))
     readiness = load(root / READINESS.relative_to(ROOT))
     m0_a8 = load(root / M0_A8.relative_to(ROOT))
     m0_a5 = load(root / M0_A5.relative_to(ROOT))
+    freeze = load(root / FREEZE.relative_to(ROOT))
 
     require(authority.get("standard") == "EIGIIB-M0-A9-CROSS-LINEAGE-RECONCILIATION-1.0", "wrong M0-A9 standard")
     require(authority.get("status") == "cross-lineage-capability-boundaries-reconciled", "wrong M0-A9 status")
@@ -106,6 +105,29 @@ def validate(root: Path = ROOT) -> dict[str, Any]:
     require(candidates.get("E17", {}).get("decision") == "not-ready-for-adoption", "premature E17 adoption")
     require(len(candidates["E17"].get("missing_evidence", [])) == 5, "E17 missing-evidence set incomplete")
 
+    expected_freeze_paths = [
+        ".github/workflows/m0-a9-cross-lineage-reconciliation.yml",
+        "conformance/M0-A9-MANUAL-REVIEW.md",
+        "conformance/m0-a9-cross-lineage-capabilities.json",
+        "conformance/m0-a9-promotion-readiness.json",
+        "docs/M0-A9-CROSS-LINEAGE-CAPABILITY-RECONCILIATION-CLAIM-BOUNDARY-INDEX-AND-PROMOTION-READINESS.md",
+        "docs/M0-A9-HUMAN-MASTERY-GUIDE.md",
+        "schemas/eigiib-m0-a9-cross-lineage-reconciliation.schema.json",
+        "tests/fixtures/m0-a9/expected-report.json",
+        "tests/test_eigiib_m0_a9.py",
+        "tools/eigiib_m0_a9_check.py",
+    ]
+    require(freeze.get("standard") == "EIGIIB-M0-A9-AUTHORITY-FREEZE-1.0", "wrong freeze standard")
+    require(freeze.get("status") == "self-excluding-authority-freeze", "wrong freeze status")
+    require(freeze.get("excluded_path") == "conformance/m0-a9-authority-freeze.json", "freeze must exclude itself")
+    require(freeze.get("authority_count") == len(expected_freeze_paths), "freeze authority count mismatch")
+    entries = freeze.get("authorities", [])
+    require([entry.get("path") for entry in entries] == expected_freeze_paths, "freeze path set or order changed")
+    for entry in entries:
+        payload = (root / entry["path"]).read_bytes()
+        require(len(payload) == entry.get("bytes"), f"freeze byte count mismatch: {entry['path']}")
+        require(hashlib.sha256(payload).hexdigest() == entry.get("sha256"), f"freeze digest mismatch: {entry['path']}")
+
     return {
         "standard": "EIGIIB-M0-A9-REPORT-1.0",
         "result": "cross-lineage-capability-boundaries-reconciled",
@@ -120,10 +142,8 @@ def validate(root: Path = ROOT) -> dict[str, Any]:
         "e17_adopted": False
     }
 
-
 def canonical_bytes(report: dict[str, Any]) -> bytes:
     return (json.dumps(report, sort_keys=True, separators=(",", ":"), ensure_ascii=True) + "\n").encode("utf-8")
-
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -141,7 +161,6 @@ def main() -> int:
         args.output.write_bytes(payload)
     print(payload.decode("utf-8"), end="")
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
