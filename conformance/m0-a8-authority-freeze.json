@@ -6,8 +6,8 @@
   "authorities": [
     {
       "path": ".github/workflows/m0-a8-lineage-publication.yml",
-      "bytes": 3157,
-      "sha256": "dcc673cde5ee03e7a0c4e36fbc9fcc7504dc9042ca772271886712cbfb0167b2"
+      "bytes": 3473,
+      "sha256": "b8a0b7e62e704b4707229eb2e1f8bc076ce55711650a7ae063f0eb03226aa536"
     },
     {
       "path": "conformance/M0-A8-MANUAL-REVIEW.md",
