@@ -5,8 +5,8 @@
   "authorities": [
     {
       "path": ".github/workflows/m0-a9-cross-lineage-reconciliation.yml",
-      "bytes": 1930,
-      "sha256": "20e28f5fd909672f9ecd29fdc0fce1781af65955016f662ccc56eb554161d855"
+      "bytes": 2348,
+      "sha256": "6cff011a14217b02f435ab581114eb0de7498e4f41748630e15ff25ed4937d60"
     },
     {
       "path": "conformance/M0-A9-MANUAL-REVIEW.md",
