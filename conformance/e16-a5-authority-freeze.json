@@ -32,8 +32,8 @@
     },
     {
       "path": ".github/workflows/eigiib.yml",
-      "bytes": 8805,
-      "sha256": "04b6206f8669ac892d1a081aca129214259daa0c1bd3434852d753674535e77b"
+      "bytes": 10380,
+      "sha256": "38ca8bac4db92ffc27f23052d05a1cabb4a4dc643f8d6aa96f7eb021497f4873"
     },
     {
       "path": "EIGIIB.toml",
