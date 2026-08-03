@@ -34,7 +34,7 @@ The stable branch points exactly to the E16-A5 closure head. `main` is not moved
 
 The machine authority records the contiguous stacked route from M0-A5-F1 through E16-A5. Each slice consumes the exact preceding head.
 
-Direct cumulative PRs #141, #145 and #147 targeted `main` and were closed unmerged. Their branch heads remain unchanged; only the non-authoritative review surfaces were closed.
+Direct cumulative PRs #141, #145, #147 and the automatically opened stable-publication PR #155 targeted `main` and were closed unmerged. Their branch heads remain unchanged; only the non-authoritative review surfaces were closed.
 
 The policy rejects an `agent/` branch targeting `main` unless a future authority explicitly admits that exact head. Unknown direct-to-default state is negative, not permissive.
 

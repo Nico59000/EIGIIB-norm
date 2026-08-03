@@ -11,18 +11,18 @@
     },
     {
       "path": "conformance/M0-A8-MANUAL-REVIEW.md",
-      "bytes": 820,
-      "sha256": "5d4f6941f99cf88c0aede01638c54d8cd38c8790817131177464a0f066150577"
+      "bytes": 826,
+      "sha256": "def358c0343c74e86f869d8d648ac21d669370d66d4f59e562af77d45d26cdc0"
     },
     {
       "path": "conformance/m0-a8-lineage-publication.json",
-      "bytes": 6766,
-      "sha256": "6cdbc174cd0124874cef696ee4219611d868a24ecf0840e81ffe8e3966b9042b"
+      "bytes": 6775,
+      "sha256": "59826ceb516da095b230f96afe9a6b2858eb4649349f7da83c7cc87e5f5da1b1"
     },
     {
       "path": "docs/M0-A8-AUTHORITATIVE-LINEAGE-PUBLICATION-DEFAULT-BRANCH-RECONCILIATION-AND-PR-TOPOLOGY-CLOSURE.md",
-      "bytes": 2520,
-      "sha256": "484485df8ff89035ef41ad863d3e868face527c347dc9c7952e3edb7883075ce"
+      "bytes": 2573,
+      "sha256": "287e1c82a758ecfa9caa9b6dc214068b374e226591a2969bf66dc2000d8717f5"
     },
     {
       "path": "docs/M0-A8-HUMAN-MASTERY-GUIDE.md",
@@ -36,8 +36,8 @@
     },
     {
       "path": "tests/fixtures/m0-a8/expected-report.json",
-      "bytes": 390,
-      "sha256": "7c9b41b9626f27ca346549ce6355a40fb37ed55cb59c6b9ff2c9d2f0f68540b5"
+      "bytes": 399,
+      "sha256": "8e82e9d40fa8eced11265687cf655c8557eabddc04cb22da459b24c167a4ed7c"
     },
     {
       "path": "tests/test_eigiib_m0_a8.py",
@@ -46,8 +46,8 @@
     },
     {
       "path": "tools/eigiib_m0_a8_check.py",
-      "bytes": 17698,
-      "sha256": "65472730c6ba01eb63cb2341d35e197c095491327aef183a2c04ee6727acead0"
+      "bytes": 17703,
+      "sha256": "8e10f60161f416c3b1a66f13a4e3ed21b75a19b654eb70d4004b075d7786a343"
     }
   ]
 }

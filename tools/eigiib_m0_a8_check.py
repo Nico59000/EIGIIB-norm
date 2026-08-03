@@ -22,7 +22,7 @@ STABLE_BRANCH = "stable/eigiib-e16-1.0"
 M0_A8_BRANCH = "agent/m0-a8-authoritative-lineage-publication-default-branch-reconciliation-pr-topology-closure"
 DEFAULT_BRANCH = "main"
 DEFAULT_HEAD = "b0f4ec77000c0d4dd49915d78d0ab23946da4031"
-EXPECTED_CLOSED_PRS = [141, 145, 147]
+EXPECTED_CLOSED_PRS = [141, 145, 147, 155]
 EXPECTED_LINEAGE_IDS = [
     "M0-A5-F1", "E14-A1", "E14-A2", "E14-A3", "E14-A4", "E14-A5",
     "E14-A5-F1", "M0-A6", "E15-A1", "E15-A2", "E15-A3", "E15-A4",

@@ -2,7 +2,8 @@
   "closed_non_authoritative_prs": [
     141,
     145,
-    147
+    147,
+    155
   ],
   "default_branch": "main",
   "finding_count": 0,

@@ -156,7 +156,8 @@
   "closed_non_authoritative_prs": [
     141,
     145,
-    147
+    147,
+    155
   ],
   "pr_topology_policy": {
     "default_branch": "main",
