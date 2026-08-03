@@ -1,0 +1,104 @@
+name: E16-A5 historical A2 workflow rebind
+
+on:
+  pull_request:
+    paths:
+      - '.e16a5-a2-workflow-rebind.trigger'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  rebind:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/e16-a5-independent-preservation-verifier-matrix-differential-restore-replay-final-freeze
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Rebind exact historical A2 workflow identity
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          freeze_path = Path('conformance/e16-a5-authority-freeze.json')
+          freeze = json.loads(freeze_path.read_text(encoding='utf-8'))
+          authorities = freeze.get('authorities')
+          if freeze.get('authority_count') != 95 or not isinstance(authorities, list) or len(authorities) != 95:
+              raise SystemExit('E16-A5 freeze cardinality mismatch')
+          target = '.github/workflows/e16-a2-replica-placement.yml'
+          matches = [item for item in authorities if item.get('path') == target]
+          if len(matches) != 1:
+              raise SystemExit('E16-A2 workflow freeze entry cardinality mismatch')
+          raw = Path(target).read_bytes()
+          matches[0]['bytes'] = len(raw)
+          matches[0]['sha256'] = hashlib.sha256(raw).hexdigest()
+          freeze_path.write_text(json.dumps(freeze, indent=2) + '\n', encoding='utf-8')
+
+          paths = [item.get('path') for item in authorities]
+          if len(paths) != len(set(paths)) or freeze_path.as_posix() in paths:
+              raise SystemExit('invalid E16-A5 freeze path set')
+          for item in authorities:
+              path = Path(item['path'])
+              if not path.is_file():
+                  raise SystemExit(f'missing frozen authority: {path}')
+              value = path.read_bytes()
+              if len(value) != item['bytes'] or hashlib.sha256(value).hexdigest() != item['sha256']:
+                  raise SystemExit(f'frozen authority mismatch: {path}')
+          PY
+      - name: Replay exact historical E16-A2 authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/eigiib_historical_e16_a2_replay.py . --json > historical-e16-a2-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('historical-e16-a2-report.json').read_text(encoding='utf-8'))
+          if report.get('overall_result') != 'conformant':
+              raise SystemExit('historical E16-A2 replay is non-conformant')
+          if report.get('e16_a2_result') != 'conformant' or report.get('e16_a2_tests_result') != 'conformant':
+              raise SystemExit('historical E16-A2 authority is incomplete')
+          PY
+      - name: Replay final E16 closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/eigiib_historical_e16_a4_replay.py . --json > historical-e16-a4-report.json
+          python tools/eigiib_e16_verifier_matrix.py . --json > actual-e16-a5-matrix.json
+          python tools/eigiib_e16_final_closure_check.py . --history-report historical-e16-a4-report.json --matrix-report actual-e16-a5-matrix.json --json > actual-e16-a5-closure.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for actual, expected in [
+              ('actual-e16-a5-matrix.json', 'tests/fixtures/e16-a5/expected-matrix-report.json'),
+              ('actual-e16-a5-closure.json', 'tests/fixtures/e16-a5/expected-closure-report.json'),
+          ]:
+              if json.loads(Path(actual).read_text(encoding='utf-8')) != json.loads(Path(expected).read_text(encoding='utf-8')):
+                  raise SystemExit(f'fixture mismatch: {actual}')
+          PY
+          python tools/eigiib_extension_graph_check.py . --json
+          git merge-base --is-ancestor b28fe74f829141232770155724620617bfb1241c HEAD
+      - name: Publish exact A2 workflow freeze rebind
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .e16a5-a2-workflow-rebind.trigger historical-e16-a2-report.json historical-e16-a4-report.json actual-e16-a5-matrix.json actual-e16-a5-closure.json
+          find tests tools -type d -name __pycache__ -prune -exec rm -rf {} +
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'E16-A5 rebind historical A2 workflow in final freeze'
+          git push origin HEAD:agent/e16-a5-independent-preservation-verifier-matrix-differential-restore-replay-final-freeze
