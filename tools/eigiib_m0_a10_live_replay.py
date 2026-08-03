@@ -70,11 +70,18 @@ def _check_object(name: str, data: bytes) -> dict[str, Any]:
 def _github_release(token: str | None) -> tuple[dict[str, Any], dict[str, dict[str, Any]]]:
     api = f"https://api.github.com/repos/{REPOSITORY}/releases/tags/{RELEASE_TAG}"
     base_headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
-    public = _json(api, headers=base_headers)
     auth_headers = dict(base_headers)
     if token:
         auth_headers["Authorization"] = f"Bearer {token}"
     authenticated = _json(api, headers=auth_headers)
+    try:
+        public = _json(api, headers=base_headers)
+        public_api_result = "conformant"
+    except ReplayError as exc:
+        if "HTTP Error 403" not in str(exc):
+            raise
+        public = authenticated
+        public_api_result = "rate-limited-public-assets-still-replayed"
     for doc in (public, authenticated):
         if doc.get("id") != RELEASE_ID or doc.get("tag_name") != RELEASE_TAG:
             raise ReplayError("GitHub Release identity mismatch")
@@ -89,7 +96,8 @@ def _github_release(token: str | None) -> tuple[dict[str, Any], dict[str, dict[s
 
     routes: dict[str, dict[str, Any]] = {"release-public": {}, "release-auth": {}}
     for name in sorted(EXPECTED):
-        public_bytes, _ = _request(public_assets[name]["browser_download_url"])
+        public_url = f"https://github.com/{REPOSITORY}/releases/download/{RELEASE_TAG}/{urllib.parse.quote(name)}"
+        public_bytes, _ = _request(public_url)
         routes["release-public"][name] = _check_object(name, public_bytes)
         asset_url = auth_assets[name]["url"]
         download_headers = {
@@ -102,7 +110,8 @@ def _github_release(token: str | None) -> tuple[dict[str, Any], dict[str, dict[s
         routes["release-auth"][name] = _check_object(name, auth_bytes)
         if auth_bytes != public_bytes:
             raise ReplayError(f"GitHub authenticated/public bytes differ for {name}")
-    return public, routes
+    authenticated["_m0_a10_public_api_result"] = public_api_result
+    return authenticated, routes
 
 
 def _registry_token(*, token: str | None, actor: str | None) -> str:
@@ -185,6 +194,7 @@ def replay(root: Path) -> dict[str, Any]:
         "status": "bounded-external-publication-and-readback-verified",
         "github_release_id": release["id"],
         "github_release_tag": release["tag_name"],
+        "github_public_api_result": release["_m0_a10_public_api_result"],
         "oci_manifest_digest": OCI_DIGEST,
         "route_count": len(routes),
         "restored_object_observation_count": len(routes) * len(EXPECTED),
