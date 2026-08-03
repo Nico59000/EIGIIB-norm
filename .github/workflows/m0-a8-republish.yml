@@ -66,10 +66,6 @@ jobs:
                   if posix.is_absolute() or '..' in posix.parts or '\\' in name:
                       raise SystemExit(f'unsafe payload path: {name}')
               archive.extractall(Path('.'))
-          staging = Path('staging/m0-a8-lineage-publication.yml')
-          staging.parent.mkdir(parents=True, exist_ok=True)
-          staging.write_bytes(Path('.github/workflows/m0-a8-lineage-publication.yml').read_bytes())
-          Path('.github/workflows/m0-a8-lineage-publication.yml').unlink()
           PY
       - name: Revalidate exact authority surface
         shell: bash
@@ -90,7 +86,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -f actual-m0-a8-report.json
+          mkdir -p staging
+          cp .github/workflows/m0-a8-lineage-publication.yml staging/m0-a8-lineage-publication.yml
+          rm -f .github/workflows/m0-a8-lineage-publication.yml actual-m0-a8-report.json
           find tests tools -type d -name __pycache__ -prune -exec rm -rf {} +
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
