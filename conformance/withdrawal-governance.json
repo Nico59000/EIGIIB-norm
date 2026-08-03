@@ -1,0 +1,14 @@
+{
+  "distribution_operator_profiles": [],
+  "distribution_stop_records": [],
+  "distribution_target_profiles": [],
+  "post_withdrawal_observations": [],
+  "registry_tombstones": [],
+  "source_e15_a3_commit": "f403e93dd6d1dcb058474d67f2cc7e73b8ad13bd",
+  "standard": "EIGIIB-E15-A4-1.0",
+  "status": "structural-only",
+  "withdrawal_authority_profiles": [],
+  "withdrawal_lifecycle_decisions": [],
+  "withdrawal_policies": [],
+  "withdrawal_requests": []
+}

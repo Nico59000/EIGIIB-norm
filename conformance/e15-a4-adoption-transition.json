@@ -1,0 +1,53 @@
+{
+  "consumed_inputs": {
+    "distribution_stop_record": "withdrawal_governance.distribution_stop_record",
+    "distribution_target_profile": "withdrawal_governance.distribution_target_profile",
+    "evaluation_time": "withdrawal_governance.withdrawal_lifecycle_decision.evaluated_at",
+    "post_withdrawal_observation": "withdrawal_governance.post_withdrawal_observation",
+    "registry_tombstone": "withdrawal_governance.registry_tombstone",
+    "source_external_publication_record": "publication_readback.external_publication_record",
+    "source_publication_lifecycle_decision": "publication_readback.publication_lifecycle_decision",
+    "withdrawal_policy": "withdrawal_governance.withdrawal_policy",
+    "withdrawal_request": "withdrawal_governance.withdrawal_request"
+  },
+  "historical_preservation": {
+    "descendant_a3_test_profile_isolated": true,
+    "descendant_profile_frozen_separately": true,
+    "e15_a3_claims_rewritten": false,
+    "source_freeze_mutated": false,
+    "transition_is_additive": true
+  },
+  "historical_replay": {
+    "current_tree_substitution_forbidden": true,
+    "historical_tree_isolated": true,
+    "mode": "materialize-and-replay-exact-source-commit",
+    "required_results": [
+      "historical-e14-conformant",
+      "e15-a1-conformant",
+      "e15-a2-conformant",
+      "e15-a3-conformant",
+      "e15-a3-tests-conformant"
+    ],
+    "source_commit_must_be_ancestor": true,
+    "tool": "tools/eigiib_historical_e15_a3_replay.py"
+  },
+  "source": {
+    "authority_freeze": "conformance/e15-a3-authority-freeze.json",
+    "branch": "agent/e15-a3-external-publication-bounded-persistence-independent-readback",
+    "checker": "tools/eigiib_publication_readback_check.py",
+    "head_commit": "f403e93dd6d1dcb058474d67f2cc7e73b8ad13bd",
+    "profile_revision": "EIGIIB-E15-draft-1.2",
+    "registry_authority": "conformance/publication-readback.json"
+  },
+  "standard": "EIGIIB-E15-A4-TRANSITION-1.0",
+  "status": "adopted-e15-a4",
+  "target": {
+    "adoption_state": "adopted",
+    "authority_freeze": "conformance/e15-a4-authority-freeze.json",
+    "checker": "tools/eigiib_withdrawal_governance_check.py",
+    "extension": "E15-1.0",
+    "profile_revision": "EIGIIB-E15-draft-1.3",
+    "registry_authority": "conformance/withdrawal-governance.json",
+    "slice": "E15-A4"
+  }
+}
