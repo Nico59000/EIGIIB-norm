@@ -33,14 +33,20 @@ jobs:
           from pathlib import Path
           meta={"payload_bytes":29632,"payload_sha256":"c9fd6ab73af1b82bb4c2774525b80638e63f6126d42ed9ddd8d792c6abf3f2f8","encoded_length":39512,"chunk_count":10,"chunk_lengths":[4000,4000,4000,4000,4000,4000,4000,4000,4000,3512],"chunk_sha256":["c0bdad8da11de1b73069b440af222c726add561ed00895995a0af02b99c19d1b","7cda69eecadaee3bf39b29202c0e8bf1a8854b89751d1f61e55be6f20b2338ca","40f4126d389c6b05bfb3ad643952877b69a0aa2f57caf1c1f6f874062dfeb446","2a5eea20191ea1e3f4173183746bec5869279b01215281551261fe122ffc7bf5","2d568642813ccae9ea4832e19adb1140785da3fc7964ac845b63a96f8daacecb","dea808121c58a5a9b86fefdc277d864abb74025ca934fa2362657ad42aa56b5b","75ddd7c7254bcc06e4092ef861e2bfc8dc316b4c67e66752efac40b6e60917d8","3489d97d9279c2ee1f26023fd35533db33ce02c1ccdb632d2865e489d41b140d","cb0f687a0cf542e7e9b9c58c1cc946832e7075ce4b38f1ee8e995dcb27344d44","9bd330632875831d7f8872ff6dd79cc95c9fb13bbbc310bf07aa9bb2400eb382"],"members":[".github/workflows/e16-a5-final-closure.yml","conformance/E16-A5-MANUAL-REVIEW.md","conformance/e16-a5-adoption-transition.json","conformance/e16-a5-authority-manifest.json","conformance/e16-a5-verifier-matrix.json","conformance/e16-final-closure.json","docs/E16-A5-HUMAN-MASTERY-GUIDE.md","docs/E16-FINAL-CLOSURE-REPORT.md","extensions/E16-A5-INDEPENDENT-PRESERVATION-VERIFIER-MATRIX-DIFFERENTIAL-RESTORE-REPLAY-FINAL-FREEZE.md","schemas/eigiib-e16-a5-adoption-transition.schema.json","schemas/eigiib-e16-a5-authority-manifest.schema.json","schemas/eigiib-e16-a5-authority-freeze.schema.json","schemas/eigiib-e16-a5-verifier-matrix.schema.json","schemas/eigiib-e16-a5-final-closure.schema.json","tests/fixtures/e16-a5/expected-matrix-report.json","tests/fixtures/e16-a5/expected-closure-report.json","tests/test_eigiib_e16_verifier_matrix.py","tests/test_eigiib_e16_final_closure.py","tools/eigiib_e16_preservation_reference.py","tools/eigiib_e16_preservation_independent.py","tools/eigiib_e16_verifier_matrix.py","tools/eigiib_historical_e16_a4_replay.py","tools/eigiib_e16_final_closure_check.py"]}
           directory=Path('.e16a5-payload')
+          split_specs={
+              5:[(2000,'0686ab666bda2f2785501f00971ce503b6b24c2d18c8cc5cbcf2a8d2a15699c9'),(2000,'ac1633f36c13ff8e6cb4033d0454060d6a4b1011256483a1462f79d8d5716b31')],
+              7:[(2000,'4a87b3c6b41a9c2ed834d5dca3d952ab21c3cc24612b8eba41d5473eaa17a766'),(2000,'20bf62cc1ba9ed657137bf354271e74a049e593224d26cf93702997cb0bc3a60')],
+              8:[(2000,'66035ea5fb7c1144ee9c9a20410ae76d6114ec6d6b02082017f4eefa90956904'),(2000,'ac8bb0685e0bbd7d1dad3250a75a4055e5c47bb552b54057a502e81cb4de7165')],
+              9:[(1756,'faa0a8a9b8324bda28aad86e89d1b25ecedd8b2f5739bb95b7322ec2ac99b689'),(1756,'7a137b0408c6c7dc9d29e3071845e21b74201c79d61566d5e6c9b10edfa095a7')],
+          }
           values=[]
           for index,(length,digest) in enumerate(zip(meta['chunk_lengths'],meta['chunk_sha256'])):
-              if index == 5:
+              if index in split_specs:
                   halves=[]
-                  for suffix,half_digest in [('a','0686ab666bda2f2785501f00971ce503b6b24c2d18c8cc5cbcf2a8d2a15699c9'),('b','ac1633f36c13ff8e6cb4033d0454060d6a4b1011256483a1462f79d8d5716b31')]:
-                      half=(directory/f'chunk05{suffix}.b64').read_text(encoding='utf-8').strip()
-                      if len(half)!=2000 or hashlib.sha256(half.encode()).hexdigest()!=half_digest:
-                          raise SystemExit(f'chunk 05{suffix} identity mismatch')
+                  for suffix,(half_length,half_digest) in zip(('a','b'),split_specs[index]):
+                      half=(directory/f'chunk{index:02d}{suffix}.b64').read_text(encoding='utf-8').strip()
+                      if len(half)!=half_length or hashlib.sha256(half.encode()).hexdigest()!=half_digest:
+                          raise SystemExit(f'chunk {index:02d}{suffix} identity mismatch')
                       halves.append(half)
                   value=''.join(halves)
               else:
