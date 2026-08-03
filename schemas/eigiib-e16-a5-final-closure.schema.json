@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/e16-a5-final-closure.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "final_state",
+    "profile_revision",
+    "source_e16_a4_commit",
+    "historical_replay_tool",
+    "matrix_catalog",
+    "matrix_runner",
+    "reference_verifier",
+    "independent_verifier",
+    "authority_manifest",
+    "authority_freeze",
+    "expected_case_count",
+    "expected_verifier_count",
+    "expected_authority_count",
+    "nonclaims"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E16-A5-CLOSURE-1.0"
+    },
+    "status": {
+      "const": "final-frozen-closure"
+    },
+    "final_state": {
+      "const": "closed"
+    },
+    "profile_revision": {
+      "const": "EIGIIB-E16-1.0"
+    },
+    "source_e16_a4_commit": {
+      "const": "b28fe74f829141232770155724620617bfb1241c"
+    },
+    "historical_replay_tool": {
+      "const": "tools/eigiib_historical_e16_a4_replay.py"
+    },
+    "matrix_catalog": {
+      "const": "conformance/e16-a5-verifier-matrix.json"
+    },
+    "matrix_runner": {
+      "const": "tools/eigiib_e16_verifier_matrix.py"
+    },
+    "reference_verifier": {
+      "const": "tools/eigiib_e16_preservation_reference.py"
+    },
+    "independent_verifier": {
+      "const": "tools/eigiib_e16_preservation_independent.py"
+    },
+    "authority_manifest": {
+      "const": "conformance/e16-a5-authority-manifest.json"
+    },
+    "authority_freeze": {
+      "const": "conformance/e16-a5-authority-freeze.json"
+    },
+    "expected_case_count": {
+      "const": 20
+    },
+    "expected_verifier_count": {
+      "const": 2
+    },
+    "expected_authority_count": {
+      "const": 95
+    },
+    "nonclaims": {
+      "type": "array",
+      "minItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "tool": "eigiib-e16-final-closure-check",
+  "tool_version": "0.1.0",
+  "standard": "EIGIIB-E16-A5-CLOSURE-REPORT-1.0",
+  "profile_revision": "EIGIIB-E16-1.0",
+  "source_e16_a4_commit": "b28fe74f829141232770155724620617bfb1241c",
+  "historical_continuity_result": "conformant",
+  "matrix_result": "conformant",
+  "matrix_case_count": 20,
+  "matched_case_count": 20,
+  "verifier_count": 2,
+  "differential_restore_result": "conformant",
+  "authority_count": 95,
+  "authority_freeze_result": "conformant",
+  "structural_result": "conformant",
+  "final_state": "closed",
+  "findings": []
+}

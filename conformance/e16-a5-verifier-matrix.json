@@ -1,0 +1,809 @@
+{
+  "cases": [
+    {
+      "expected_state": "e16-preservation-closure-verified",
+      "id": "baseline-positive",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "e16-preservation-closure-verified",
+      "id": "source-loss-contained-positive",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "source-loss-contained",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "e16-preservation-closure-verified",
+      "id": "source-quarantine-contained-positive",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "source-quarantine-contained",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "e16-preservation-closure-verified",
+      "id": "four-route-positive",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "portable",
+            "result": "verified",
+            "verifier_domain": "domain-portable"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "negative-precedes-unavailable",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "rejected",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "unavailable"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "stale-lineage",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "stale",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "a4-rejected",
+      "inputs": {
+        "a4_recovery_result": "rejected",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "insufficient-independence",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "insufficient"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "incomplete-route-coverage",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          }
+        ],
+        "route_coverage_result": "incomplete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "rollback-detected",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "rollback-detected",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "target-loss-confirmed",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "target-loss-confirmed",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "target-quarantine-active",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "target-quarantine-active",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "freeze-nonconformant",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "non-conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "route-result-mismatch",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "mismatch",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "route-content-mismatch",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "route-generation-mismatch",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 4,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "duplicate-route-id",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "duplicate-verifier-domain",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    },
+    {
+      "expected_state": "held",
+      "id": "held-verifier",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "verified",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "held"
+      }
+    },
+    {
+      "expected_state": "unavailable",
+      "id": "unavailable-route",
+      "inputs": {
+        "a4_recovery_result": "successor-replica-recovered",
+        "accepted_generation": 5,
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "expected_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "final_freeze_result": "conformant",
+        "lineage_result": "current",
+        "loss_result": "clear",
+        "quarantine_result": "clear",
+        "restore_routes": [
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "reference",
+            "result": "verified",
+            "verifier_domain": "domain-reference"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "independent",
+            "result": "unavailable",
+            "verifier_domain": "domain-independent"
+          },
+          {
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation": 5,
+            "id": "differential",
+            "result": "verified",
+            "verifier_domain": "domain-differential"
+          }
+        ],
+        "route_coverage_result": "complete",
+        "verifier_independence_result": "independent"
+      }
+    }
+  ],
+  "independent_verifier": "tools/eigiib_e16_preservation_independent.py",
+  "reference_verifier": "tools/eigiib_e16_preservation_reference.py",
+  "source_e16_a4_commit": "b28fe74f829141232770155724620617bfb1241c",
+  "standard": "EIGIIB-E16-A5-MATRIX-1.0",
+  "status": "frozen-vectors"
+}

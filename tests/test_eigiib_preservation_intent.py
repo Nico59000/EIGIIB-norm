@@ -1,5 +1,5 @@
 from __future__ import annotations
-import copy, hashlib, importlib.util, json, shutil, sys, tempfile, unittest
+import copy, hashlib, importlib.util, json, shutil, subprocess, sys, tempfile, unittest
 from pathlib import Path
 SOURCE=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location("e16check",SOURCE/"tools/eigiib_preservation_intent_check.py"); CHECK=importlib.util.module_from_spec(spec); sys.modules[spec.name]=CHECK; spec.loader.exec_module(CHECK)
@@ -12,6 +12,10 @@ class PreservationIntentTests(unittest.TestCase):
    src=SOURCE/rel;dst=self.root/rel;dst.parent.mkdir(parents=True,exist_ok=True)
    if src.is_file():shutil.copyfile(src,dst)
    else:dst.write_text("fixture\n")
+  for rel in ("EIGIIB.toml","conformance/extension-graph.json"):
+   proc=subprocess.run(["git","show",f"7fd50a2009c6a437c7fe0b680407cf337b55cf4f:{rel}"],cwd=SOURCE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=False)
+   if proc.returncode: raise RuntimeError(proc.stderr.decode(errors="replace"))
+   dst=self.root/rel;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes(proc.stdout)
   self.history=self.root/"history.json";self.history.write_text(json.dumps({"standard":CHECK.HISTORY_STANDARD,"source_commit":CHECK.SOURCE_M0_A7_HEAD,"overall_result":"conformant","e15_history_result":"conformant","e15_final_closure_result":"conformant","m0_a7_result":"conformant","m0_a7_tests_result":"conformant"}))
   self.refresh()
  def tearDown(self):self.t.cleanup()

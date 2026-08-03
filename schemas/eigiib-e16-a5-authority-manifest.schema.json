@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/e16-a5-authority-manifest.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "profile_revision",
+    "source_e16_a4_commit",
+    "required_authorities",
+    "authorities"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E16-A5-AUTHORITY-MANIFEST-1.0"
+    },
+    "status": {
+      "const": "final-authority-manifest"
+    },
+    "profile_revision": {
+      "const": "EIGIIB-E16-1.0"
+    },
+    "source_e16_a4_commit": {
+      "const": "b28fe74f829141232770155724620617bfb1241c"
+    },
+    "required_authorities": {
+      "type": "array",
+      "minItems": 24,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "authorities": {
+      "type": "object",
+      "minProperties": 24,
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/e16-a5-adoption-transition.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "source",
+    "target",
+    "historical_preservation",
+    "finalization"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E16-A5-TRANSITION-1.0"
+    },
+    "status": {
+      "const": "adopted-e16-a5-final"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slice",
+        "head_commit",
+        "profile_revision",
+        "authority_freeze"
+      ],
+      "properties": {
+        "slice": {
+          "const": "E16-A4"
+        },
+        "head_commit": {
+          "const": "b28fe74f829141232770155724620617bfb1241c"
+        },
+        "profile_revision": {
+          "const": "EIGIIB-E16-draft-1.0"
+        },
+        "authority_freeze": {
+          "const": "conformance/e16-a4-authority-freeze.json"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "extension",
+        "slice",
+        "profile_revision",
+        "authority_manifest",
+        "verifier_matrix",
+        "final_closure"
+      ],
+      "properties": {
+        "extension": {
+          "const": "E16-1.0"
+        },
+        "slice": {
+          "const": "E16-A5"
+        },
+        "profile_revision": {
+          "const": "EIGIIB-E16-1.0"
+        },
+        "authority_manifest": {
+          "const": "conformance/e16-a5-authority-manifest.json"
+        },
+        "verifier_matrix": {
+          "const": "conformance/e16-a5-verifier-matrix.json"
+        },
+        "final_closure": {
+          "const": "conformance/e16-final-closure.json"
+        }
+      }
+    },
+    "historical_preservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "e16_a1_through_a4_claims_rewritten",
+        "e16_a4_source_freeze_mutated",
+        "transition_is_additive",
+        "historical_slices_replayed_in_isolated_trees",
+        "final_authority_frozen_separately"
+      ],
+      "properties": {
+        "e16_a1_through_a4_claims_rewritten": {
+          "const": false
+        },
+        "e16_a4_source_freeze_mutated": {
+          "const": false
+        },
+        "transition_is_additive": {
+          "const": true
+        },
+        "historical_slices_replayed_in_isolated_trees": {
+          "const": true
+        },
+        "final_authority_frozen_separately": {
+          "const": true
+        }
+      }
+    },
+    "finalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "independent_verifier_matrix_required",
+        "differential_restore_replay_required",
+        "stable_profile_required",
+        "final_freeze_required"
+      ],
+      "properties": {
+        "independent_verifier_matrix_required": {
+          "const": true
+        },
+        "differential_restore_replay_required": {
+          "const": true
+        },
+        "stable_profile_required": {
+          "const": true
+        },
+        "final_freeze_required": {
+          "const": true
+        }
+      }
+    }
+  }
+}
