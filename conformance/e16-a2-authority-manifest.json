@@ -1,0 +1,42 @@
+{
+  "standard": "EIGIIB-E16-A2-AUTHORITY-MANIFEST-1.0",
+  "status": "authoritative-slice-overlay",
+  "profile_revision": "EIGIIB-E16-draft-1.0",
+  "source_e16_a1_commit": "7fd50a2009c6a437c7fe0b680407cf337b55cf4f",
+  "required_authorities": [
+    "contract",
+    "authority_manifest",
+    "registry",
+    "transition",
+    "authority_freeze",
+    "human_mastery",
+    "manual_review",
+    "registry_schema",
+    "manifest_schema",
+    "transition_schema",
+    "freeze_schema",
+    "checker",
+    "historical_replay",
+    "tests",
+    "expected_report",
+    "workflow"
+  ],
+  "authorities": {
+    "contract": "extensions/E16-A2-REPLICA-PLACEMENT-CUSTODY-ACCEPTANCE-FAILURE-DOMAIN-EVIDENCE.md",
+    "authority_manifest": "conformance/e16-a2-authority-manifest.json",
+    "registry": "conformance/replica-placement.json",
+    "transition": "conformance/e16-a2-adoption-transition.json",
+    "authority_freeze": "conformance/e16-a2-authority-freeze.json",
+    "human_mastery": "docs/E16-A2-HUMAN-MASTERY-GUIDE.md",
+    "manual_review": "conformance/E16-A2-MANUAL-REVIEW.md",
+    "registry_schema": "schemas/eigiib-e16-a2-replica-placement.schema.json",
+    "manifest_schema": "schemas/eigiib-e16-a2-authority-manifest.schema.json",
+    "transition_schema": "schemas/eigiib-e16-a2-adoption-transition.schema.json",
+    "freeze_schema": "schemas/eigiib-e16-a2-authority-freeze.schema.json",
+    "checker": "tools/eigiib_replica_placement_check.py",
+    "historical_replay": "tools/eigiib_historical_e16_a1_replay.py",
+    "tests": "tests/test_eigiib_replica_placement.py",
+    "expected_report": "tests/fixtures/e16-a2/expected-report.json",
+    "workflow": ".github/workflows/e16-a2-replica-placement.yml"
+  }
+}
