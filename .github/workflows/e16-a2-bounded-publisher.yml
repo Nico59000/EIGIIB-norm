@@ -106,3 +106,5 @@ jobs:
           git diff --cached --check
           git commit -m 'E16-A2 replica placement and custody evidence'
           git push origin HEAD:agent/e16-a2-replica-placement-custody-acceptance-failure-domain-evidence
+
+# synchronized publisher trigger
