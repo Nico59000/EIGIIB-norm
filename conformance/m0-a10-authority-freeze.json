@@ -9,8 +9,8 @@
   "authorities": [
     {
       "path": ".github/workflows/m0-a10-dual-channel-publication.yml",
-      "bytes": 4601,
-      "sha256": "e1038569681fa54d401dcbc466d3851a0b5785752f049fdf16d94ad76d0dde7c"
+      "bytes": 4677,
+      "sha256": "a3ab2ab3cc9f2942e35c57d2163dc5b676c40539f93eb61ae02e6210ea94d15c"
     },
     {
       "path": "conformance/M0-A10-MANUAL-REVIEW.md",
