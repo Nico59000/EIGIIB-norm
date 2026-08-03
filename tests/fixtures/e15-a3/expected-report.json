@@ -1,0 +1,27 @@
+{
+  "authority_freeze_result": "conformant",
+  "bounded_persistence_observation_count": 0,
+  "external_publication_record_count": 0,
+  "findings": [],
+  "historical_continuity_result": "conformant",
+  "independent_readback_count": 0,
+  "lifecycle_state_counts": {
+    "contested": 0,
+    "held": 0,
+    "independently-read-back": 0,
+    "not-published": 0,
+    "persistence-observed": 0,
+    "publication-observed": 0,
+    "rejected": 0,
+    "unavailable": 0
+  },
+  "publication_lifecycle_decision_count": 0,
+  "publication_policy_count": 0,
+  "publication_readback_result": "not-evaluated",
+  "publisher_profile_count": 0,
+  "readback_observer_profile_count": 0,
+  "standard": "EIGIIB-E15-A3-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-publication-readback-check",
+  "tool_version": "0.1.0"
+}

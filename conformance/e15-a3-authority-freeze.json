@@ -1,0 +1,115 @@
+{
+  "authorities": [
+    {
+      "bytes": 1933,
+      "path": ".github/workflows/e15-a2-delivery-evidence.yml",
+      "sha256": "f8ed7d4d6f67333ec2de37d7247eded6a9aa703c5a3a07c7a9093cd2230d0c5c"
+    },
+    {
+      "bytes": 4583,
+      "path": ".github/workflows/e15-a3-publication-readback.yml",
+      "sha256": "a0fa1eeaa1cea37e7f2c093df4c505f4995506847d49c0aaa803c1ceca5cce56"
+    },
+    {
+      "bytes": 7937,
+      "path": ".github/workflows/eigiib.yml",
+      "sha256": "2112a6307055845a9040efc26c6edfa2d6e3f35ea4d07308e2f7c6e20028c222"
+    },
+    {
+      "bytes": 12328,
+      "path": "EIGIIB.toml",
+      "sha256": "b89ad543f1d0d3a6e6e7cc6cd358e54bffcf5f06bdd2e6fe42b3b50b6936b2a2"
+    },
+    {
+      "bytes": 1365,
+      "path": "conformance/E15-A3-MANUAL-REVIEW.md",
+      "sha256": "1ef9d5da3184f77a76be27de900eb3b4fafd9238f959869619d64e541c887988"
+    },
+    {
+      "bytes": 341,
+      "path": "conformance/delivery-evidence.json",
+      "sha256": "c28e6ba19c4bdb6083dab4723c1d04986673d159613e19cceb7cf9a317394e7c"
+    },
+    {
+      "bytes": 2005,
+      "path": "conformance/e15-a2-adoption-transition.json",
+      "sha256": "a2c420982ec569b91b7190250c7680886f7120432e0653c5612f5998b19dea49"
+    },
+    {
+      "bytes": 3773,
+      "path": "conformance/e15-a2-authority-freeze.json",
+      "sha256": "a0571d28bd25ee8cbada519f51a8cc31c587a8d7749e7ec74b10a2e19ee2245a"
+    },
+    {
+      "bytes": 2118,
+      "path": "conformance/e15-a3-adoption-transition.json",
+      "sha256": "3b483baee497f3c832a871c85e20d5a419b23188a0f388bbb1629dd3f38e1ec4"
+    },
+    {
+      "bytes": 20028,
+      "path": "conformance/extension-graph.json",
+      "sha256": "681ea2fd6477bfccc21649238395f04f624b00926b174b16f38be4ccc55fc177"
+    },
+    {
+      "bytes": 385,
+      "path": "conformance/publication-readback.json",
+      "sha256": "14c6975b8f250947d659b3c3fad5c9e0c709c97e817997d96941ff2698d60e02"
+    },
+    {
+      "bytes": 2608,
+      "path": "docs/E15-A3-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "533303f5b37a307a9363b06af24d3cb0bbbe271defe62235a0fae1f2182ead6b"
+    },
+    {
+      "bytes": 12856,
+      "path": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
+      "sha256": "63ec47e0748c0b113c8b5cef2bf87120b938cee88fde68acfc7e569dc5199ed9"
+    },
+    {
+      "bytes": 737,
+      "path": "schemas/eigiib-e15-a3-adoption-transition.schema.json",
+      "sha256": "cc2a0a78a208b80be535e9c1dcbb0d71cea7d80d33ac3112693e84004083d7b9"
+    },
+    {
+      "bytes": 1300,
+      "path": "schemas/eigiib-e15-a3-authority-freeze.schema.json",
+      "sha256": "0c327f8143582884ad9850fa5a1d9b35786dbdffd9b105ca84d7f605e52631d2"
+    },
+    {
+      "bytes": 21466,
+      "path": "schemas/eigiib-e15-a3-publication-readback.schema.json",
+      "sha256": "e6b2f82ae523d15c68cb54f01b53e924bd756342ea64b14f0583d2fa55d5426d"
+    },
+    {
+      "bytes": 811,
+      "path": "tests/fixtures/e15-a3/expected-report.json",
+      "sha256": "84e50412e9471712b25b86b26f7cbd07fb0c09fb058c5d51c1cf9e259938b113"
+    },
+    {
+      "bytes": 16351,
+      "path": "tests/test_eigiib_delivery_evidence.py",
+      "sha256": "8622d058b1b760169ae09809ef09d9ebda8a61233f4d4e2c0c944598b0718684"
+    },
+    {
+      "bytes": 17929,
+      "path": "tests/test_eigiib_publication_readback.py",
+      "sha256": "2fec05d75f79697fd2727785563f5dc47eff198c5e83d6c2a30e59beae697a41"
+    },
+    {
+      "bytes": 6808,
+      "path": "tools/eigiib_historical_e15_a2_replay.py",
+      "sha256": "ac1abf84f4891558280b521162a6fb02460fd875bd84fc0856d18d8fc9da5bfa"
+    },
+    {
+      "bytes": 50337,
+      "path": "tools/eigiib_publication_readback_check.py",
+      "sha256": "94e6287914322dc5a6dfb435f89f3c195d5b002f712036008fef390cfe702f62"
+    }
+  ],
+  "profile_revision": "EIGIIB-E15-draft-1.2",
+  "source": {
+    "e15_a2_head_commit": "25988d80571f0f8d3587d976810a2dd8e0ce2328"
+  },
+  "standard": "EIGIIB-E15-A3-FREEZE-1.0",
+  "status": "frozen"
+}

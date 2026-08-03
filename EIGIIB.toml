@@ -1,10 +1,10 @@
 standard = "EIGIIB-1.0"
 extensions = ["E1-1.0", "E2-1.0", "E3-1.0", "E4-1.0", "E5-1.0", "E6-1.0", "E7-1.0", "E8-1.0", "E9-1.0", "E10-1.0", "E11-1.0", "E12-1.0", "E13-1.0", "E14-1.0", "E15-1.0"]
 conformance_target = "EIGIIB-C2"
-revision = "EIGIIB-E15-draft-1.1"
+revision = "EIGIIB-E15-draft-1.2"
 registry = "conformance/e1-registry.json"
 ownership_registry = "conformance/ownership.json"
-required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state", "p1_sigstore_contract", "p1_sigstore_state", "p1_scitt_contract", "p1_scitt_state", "p1_chain_contract", "p1_chain_state", "p1_verifier_matrix_contract", "p1_verifier_matrix_state", "p1_external_bridge_contract", "p1_external_bridge_state", "m0_a5_p1_lineage", "m0_a5_e14_handoff", "m0_a5_human_mastery", "m0_a5_f1_authority_freeze", "e14", "confidential_evidence", "e14_a1_transition", "e14_a1_human_mastery", "e14_a2_contract", "disclosure_authorization", "e14_a2_human_mastery", "e14_a3_contract", "correlation_control", "e14_a3_human_mastery", "e14_a4_contract", "disclosure_revocation", "e14_a4_human_mastery", "e14_a5_contract", "e14_release_boundary", "e14_a5_verifier_matrix", "e14_a5_authority_freeze", "e14_a5_human_mastery", "e14_final_closure_report", "e14_a5_f1_contract", "m0_a6_e15_entry", "m0_a6_human_mastery", "e15", "delivery_intent", "e15_a1_transition", "e15_a1_authority_freeze", "e15_a1_human_mastery", "delivery_evidence", "e15_a2_transition", "e15_a2_authority_freeze", "e15_a2_human_mastery"]
+required_authorities = ["scope", "standard", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "e11", "e12", "e13", "evidence", "provenance", "trust", "transparency", "gossip", "recovery", "convergence", "degraded", "automation", "temporal", "commit", "policy_composition", "extension_graph", "aggregate_conformance", "interop_profile_contract", "interop_profiles", "conformance_vector_contract", "conformance_vectors", "p1_in_toto_contract", "p1_in_toto_state", "p1_sigstore_contract", "p1_sigstore_state", "p1_scitt_contract", "p1_scitt_state", "p1_chain_contract", "p1_chain_state", "p1_verifier_matrix_contract", "p1_verifier_matrix_state", "p1_external_bridge_contract", "p1_external_bridge_state", "m0_a5_p1_lineage", "m0_a5_e14_handoff", "m0_a5_human_mastery", "m0_a5_f1_authority_freeze", "e14", "confidential_evidence", "e14_a1_transition", "e14_a1_human_mastery", "e14_a2_contract", "disclosure_authorization", "e14_a2_human_mastery", "e14_a3_contract", "correlation_control", "e14_a3_human_mastery", "e14_a4_contract", "disclosure_revocation", "e14_a4_human_mastery", "e14_a5_contract", "e14_release_boundary", "e14_a5_verifier_matrix", "e14_a5_authority_freeze", "e14_a5_human_mastery", "e14_final_closure_report", "e14_a5_f1_contract", "m0_a6_e15_entry", "m0_a6_human_mastery", "e15", "delivery_intent", "e15_a1_transition", "e15_a1_authority_freeze", "e15_a1_human_mastery", "delivery_evidence", "e15_a2_transition", "e15_a2_authority_freeze", "e15_a2_human_mastery", "publication_readback", "e15_a3_transition", "e15_a3_authority_freeze", "e15_a3_human_mastery"]
 
 [authorities]
 scope = "README.md"
@@ -87,6 +87,10 @@ delivery_evidence = "conformance/delivery-evidence.json"
 e15_a2_transition = "conformance/e15-a2-adoption-transition.json"
 e15_a2_authority_freeze = "conformance/e15-a2-authority-freeze.json"
 e15_a2_human_mastery = "docs/E15-A2-HUMAN-MASTERY-GUIDE.md"
+publication_readback = "conformance/publication-readback.json"
+e15_a3_transition = "conformance/e15-a3-adoption-transition.json"
+e15_a3_authority_freeze = "conformance/e15-a3-authority-freeze.json"
+e15_a3_human_mastery = "docs/E15-A3-HUMAN-MASTERY-GUIDE.md"
 
 [checks]
 markdown_links = true
@@ -270,3 +274,10 @@ id = "e15-a2-transfer-evidence-acknowledgement-review"
 status = "complete"
 authority = "e15"
 attestation = "conformance/E15-A2-MANUAL-REVIEW.md"
+
+
+[[manual_gates]]
+id = "e15-a3-publication-persistence-readback-review"
+status = "complete"
+authority = "e15"
+attestation = "conformance/E15-A3-MANUAL-REVIEW.md"

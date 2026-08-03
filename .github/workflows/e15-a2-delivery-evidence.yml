@@ -1,22 +1,22 @@
-name: E15-A2 transfer evidence and recipient acknowledgement
+name: E15-A2 historical authority replay
 
 on:
   pull_request:
     paths:
       - 'extensions/E15-*'
-      - 'tools/eigiib_delivery_evidence_check.py'
-      - 'tools/eigiib_historical_e15_a1_replay.py'
-      - 'schemas/eigiib-e15-a2-*'
-      - 'conformance/delivery-evidence.json'
-      - 'conformance/e15-a2-*'
-      - 'conformance/E15-A2-*'
-      - 'tests/test_eigiib_delivery_evidence.py'
-      - 'tests/fixtures/e15-a2/**'
-      - 'docs/E15-A2-*'
+      - 'tools/eigiib_historical_e15_a2_replay.py'
+      - 'tools/eigiib_publication_readback_check.py'
+      - 'schemas/eigiib-e15-a3-*'
+      - 'conformance/publication-readback.json'
+      - 'conformance/e15-a3-*'
+      - 'conformance/E15-A3-*'
+      - 'tests/test_eigiib_publication_readback.py'
+      - 'tests/fixtures/e15-a3/**'
+      - 'docs/E15-A3-*'
       - 'EIGIIB.toml'
       - 'conformance/extension-graph.json'
-      - '.github/workflows/e15-a1-delivery-intent.yml'
       - '.github/workflows/e15-a2-delivery-evidence.yml'
+      - '.github/workflows/e15-a3-publication-readback.yml'
       - '.github/workflows/eigiib.yml'
   workflow_dispatch:
 
@@ -24,7 +24,7 @@ permissions:
   contents: read
 
 jobs:
-  transfer-evidence:
+  historical-e15-a2:
     strategy:
       fail-fast: false
       matrix:
@@ -37,52 +37,18 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.13'
-      - name: Historical E15-A1 authority replay
-        shell: bash
-        run: python tools/eigiib_historical_e15_a1_replay.py . --json > historical-e15-a1-report.json
-      - name: E15-A2 unit tests
-        run: python -m unittest -v tests/test_eigiib_delivery_evidence.py
-      - name: Transfer evidence report
+      - name: Exact E15-A2 historical replay
         shell: bash
         run: |
-          python tools/eigiib_delivery_evidence_check.py . \
-            --history-report historical-e15-a1-report.json \
-            --json > actual-e15-a2-report.json
+          python tools/eigiib_historical_e15_a2_replay.py . --json > historical-e15-a2-report.json
           python - <<'PY'
           import json
           from pathlib import Path
-          actual=json.loads(Path('actual-e15-a2-report.json').read_text(encoding='utf-8'))
-          expected=json.loads(Path('tests/fixtures/e15-a2/expected-report.json').read_text(encoding='utf-8'))
-          if actual != expected:
-              raise SystemExit('E15-A2 report mismatch')
+          report=json.loads(Path('historical-e15-a2-report.json').read_text(encoding='utf-8'))
+          required=('ancestry_result','historical_e14_result','e15_a1_result','e15_a2_result','e15_a2_tests_result','overall_result')
+          if any(report.get(key) != 'conformant' for key in required):
+              raise SystemExit('historical E15-A2 replay is not conformant')
           PY
-      - name: Parse E15-A2 authorities
-        run: |
-          python -c "import json,tomllib,pathlib; [json.loads(pathlib.Path(p).read_text(encoding='utf-8')) for p in ['conformance/delivery-evidence.json','conformance/e15-a2-adoption-transition.json','conformance/e15-a2-authority-freeze.json','schemas/eigiib-e15-a2-delivery-evidence.schema.json','schemas/eigiib-e15-a2-adoption-transition.schema.json','schemas/eigiib-e15-a2-authority-freeze.schema.json','conformance/extension-graph.json']]; tomllib.loads(pathlib.Path('EIGIIB.toml').read_text(encoding='utf-8'))"
-      - name: Exact E15-A1 ancestry
+      - name: Exact E15-A2 ancestry
         shell: bash
-        run: git merge-base --is-ancestor ca0dfde0efcee975ef4957f604d4954b6de07e01 HEAD
-      - name: E15-A1 slice-specific authorities remain unmodified
-        shell: bash
-        run: |
-          python - <<'PY'
-          import subprocess
-          exact = {
-            'conformance/delivery-intent.json',
-            'conformance/e15-a1-adoption-transition.json',
-            'conformance/e15-a1-authority-freeze.json',
-            'conformance/E15-A1-MANUAL-REVIEW.md',
-            'docs/E15-A1-HUMAN-MASTERY-GUIDE.md',
-            'schemas/eigiib-e15-a1-adoption-transition.schema.json',
-            'schemas/eigiib-e15-a1-authority-freeze.schema.json',
-            'schemas/eigiib-e15-a1-delivery-intent.schema.json',
-            'tests/test_eigiib_delivery_intent.py',
-            'tools/eigiib_delivery_intent_check.py',
-            'tools/eigiib_historical_e14_replay.py',
-          }
-          changed=set(subprocess.check_output(['git','diff','--name-only','ca0dfde0efcee975ef4957f604d4954b6de07e01','HEAD'], text=True).splitlines())
-          bad=sorted(exact & changed)
-          bad += sorted(p for p in changed if p.startswith('tests/fixtures/e15-a1/'))
-          if bad:
-              raise SystemExit('E15-A1 authority mutation: ' + ', '.join(bad))
-          PY
+        run: git merge-base --is-ancestor 25988d80571f0f8d3587d976810a2dd8e0ce2328 HEAD
