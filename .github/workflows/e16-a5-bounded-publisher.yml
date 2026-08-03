@@ -35,8 +35,16 @@ jobs:
           directory=Path('.e16a5-payload')
           values=[]
           for index,(length,digest) in enumerate(zip(meta['chunk_lengths'],meta['chunk_sha256'])):
-              path=directory/f'chunk{index:02d}.b64'
-              value=path.read_text(encoding='utf-8').strip()
+              if index == 5:
+                  halves=[]
+                  for suffix,half_digest in [('a','0686ab666bda2f2785501f00971ce503b6b24c2d18c8cc5cbcf2a8d2a15699c9'),('b','ac1633f36c13ff8e6cb4033d0454060d6a4b1011256483a1462f79d8d5716b31')]:
+                      half=(directory/f'chunk05{suffix}.b64').read_text(encoding='utf-8').strip()
+                      if len(half)!=2000 or hashlib.sha256(half.encode()).hexdigest()!=half_digest:
+                          raise SystemExit(f'chunk 05{suffix} identity mismatch')
+                      halves.append(half)
+                  value=''.join(halves)
+              else:
+                  value=(directory/f'chunk{index:02d}.b64').read_text(encoding='utf-8').strip()
               if len(value)!=length or hashlib.sha256(value.encode()).hexdigest()!=digest:
                   raise SystemExit(f'chunk identity mismatch: {index}')
               values.append(value)
