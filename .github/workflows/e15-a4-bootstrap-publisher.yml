@@ -1,0 +1,58 @@
+name: E15-A4 bounded authority publisher
+
+on:
+  push:
+    branches:
+      - agent/e15-a4-withdrawal-tombstones-post-delivery-governance
+    paths:
+      - '.github/workflows/e15-a4-bootstrap-publisher.yml'
+      - '.eigiib-payload/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - name: Verify exact A3 ancestry
+        shell: bash
+        run: git merge-base --is-ancestor f403e93dd6d1dcb058474d67f2cc7e73b8ad13bd HEAD
+      - name: Verify, apply and remove bounded A4 payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          parts=(.eigiib-payload/e15-a4.patch.gz.b64.*)
+          if (( ${#parts[@]} != 7 )); then
+            echo "Expected seven payload fragments, found ${#parts[@]}" >&2
+            exit 1
+          fi
+          cat "${parts[@]}" > "$RUNNER_TEMP/e15-a4.patch.gz.b64"
+          printf '%s  %s\n' \
+            'f07940ae4bbdad8a0d8d5d22bbbcf0447f7bf942631d1557c135ba271e5a725a' \
+            "$RUNNER_TEMP/e15-a4.patch.gz.b64" | sha256sum --check --strict
+          base64 --decode "$RUNNER_TEMP/e15-a4.patch.gz.b64" \
+            | gzip --decompress > "$RUNNER_TEMP/e15-a4.patch"
+          printf '%s  %s\n' \
+            '7751b0ea1fbd43b048c298647f25d1adc098c750d1efd148870e6689b83805d1' \
+            "$RUNNER_TEMP/e15-a4.patch" | sha256sum --check --strict
+          git apply --binary --check "$RUNNER_TEMP/e15-a4.patch"
+          git apply --binary "$RUNNER_TEMP/e15-a4.patch"
+          rm -rf .eigiib-payload
+          rm -f .github/workflows/e15-a4-bootstrap-publisher.yml
+      - name: Commit and push exact A4 authority surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'Implement E15-A4 withdrawal governance'
+          git push origin "HEAD:${{ github.ref_name }}"
