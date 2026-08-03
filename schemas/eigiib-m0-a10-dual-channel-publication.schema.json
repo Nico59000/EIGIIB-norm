@@ -1,0 +1,97 @@
+{
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a10-dual-channel-publication.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bundle": {
+      "type": "object"
+    },
+    "channels": {
+      "type": "object"
+    },
+    "claims": {
+      "type": "object"
+    },
+    "cleanupRecordPath": {
+      "type": "string"
+    },
+    "evidencePath": {
+      "type": "string"
+    },
+    "naturalSuccessor": {
+      "type": "object"
+    },
+    "nonclaims": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 9,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "readbackRoutes": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "requiredOperations": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "m0A9Head": {
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "profileRevision": {
+          "const": "EIGIIB-E16-1.0"
+        },
+        "stableE16Branch": {
+          "const": "stable/eigiib-e16-1.0"
+        },
+        "stableE16Head": {
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      },
+      "required": [
+        "m0A9Head",
+        "stableE16Branch",
+        "stableE16Head",
+        "profileRevision"
+      ],
+      "type": "object"
+    },
+    "standard": {
+      "const": "EIGIIB-M0-A10-1.0"
+    },
+    "status": {
+      "const": "bounded-external-publication-and-readback-verified"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "source",
+    "requiredOperations",
+    "bundle",
+    "channels",
+    "readbackRoutes",
+    "evidencePath",
+    "cleanupRecordPath",
+    "claims",
+    "nonclaims",
+    "naturalSuccessor"
+  ],
+  "title": "EIGIIB M0-A10 dual-channel publication authority",
+  "type": "object"
+}
