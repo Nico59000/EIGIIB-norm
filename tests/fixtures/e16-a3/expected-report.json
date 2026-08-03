@@ -1,0 +1,22 @@
+{
+  "authority_freeze_result": "conformant",
+  "decision_state_counts": {
+    "bounded-preservation-and-restore-verified": 0,
+    "held": 0,
+    "rejected": 0,
+    "unavailable": 0
+  },
+  "findings": [],
+  "historical_continuity_result": "conformant",
+  "independent_readback_count": 0,
+  "preservation_observation_count": 0,
+  "preservation_verification_decision_count": 0,
+  "restore_attempt_count": 0,
+  "restore_verification_count": 0,
+  "retention_window_count": 0,
+  "standard": "EIGIIB-E16-A3-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-retention-readback-restore-check",
+  "tool_version": "0.1.0",
+  "verification_result": "not-evaluated"
+}

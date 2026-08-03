@@ -1,0 +1,83 @@
+{
+  "standard": "EIGIIB-E16-A3-FREEZE-1.0",
+  "status": "frozen",
+  "profile_revision": "EIGIIB-E16-draft-1.0",
+  "source_e16_a2_commit": "1bd5929a5a4415df8758b220765925ac80a797bc",
+  "authorities": [
+    {
+      "path": ".github/workflows/e16-a3-retention-readback-restore.yml",
+      "bytes": 2854,
+      "sha256": "d86a17476866c0b7e0b785617485414e89d6d4f4922100f43118c418d699d701"
+    },
+    {
+      "path": "conformance/E16-A3-MANUAL-REVIEW.md",
+      "bytes": 970,
+      "sha256": "6e4d68cc13c013a5fb472f298e472996b081bc91da4f5e7608064b718ceb26b9"
+    },
+    {
+      "path": "conformance/e16-a3-adoption-transition.json",
+      "bytes": 978,
+      "sha256": "f92ceda152297ddd713de212a9bd28a4ee0ff28d7fe8f465e447e6680ac1ba96"
+    },
+    {
+      "path": "conformance/e16-a3-authority-manifest.json",
+      "bytes": 1772,
+      "sha256": "bbf0ab21796489965751761e330ce37bfe82938adc94def2f316a14c033cd010"
+    },
+    {
+      "path": "conformance/retention-readback-restore.json",
+      "bytes": 547,
+      "sha256": "10ff287dd1f672f9cfebc3c55506a31fcb04192f866b00293bea873ae97e3b9c"
+    },
+    {
+      "path": "docs/E16-A3-HUMAN-MASTERY-GUIDE.md",
+      "bytes": 2146,
+      "sha256": "1cad737376e0c7ce6cb66c9cfe85f409f7188c38b4531d2e4c98f8a2c805393b"
+    },
+    {
+      "path": "extensions/E16-A3-RETENTION-WINDOWS-BOUNDED-PRESERVATION-INDEPENDENT-READBACK-RESTORE-VERIFICATION.md",
+      "bytes": 5602,
+      "sha256": "50fb9586a951a497eb084404dff378426c2e1e7ded476d5ab8f9308b25b76fc9"
+    },
+    {
+      "path": "schemas/eigiib-e16-a3-adoption-transition.schema.json",
+      "bytes": 2691,
+      "sha256": "dee42ec3d4ad6798a4758f1ef30522074af77be6ef78fd43f2a38aa5b80a03cb"
+    },
+    {
+      "path": "schemas/eigiib-e16-a3-authority-freeze.schema.json",
+      "bytes": 2283,
+      "sha256": "818f081acadefefef883a2f82904172c084fcef286d3adffd7ff1fb2633450e5"
+    },
+    {
+      "path": "schemas/eigiib-e16-a3-authority-manifest.schema.json",
+      "bytes": 3458,
+      "sha256": "0fe7a6ddeda9081ab89124e746378fed2d342bd784e852661940b24ad07b9574"
+    },
+    {
+      "path": "schemas/eigiib-e16-a3-retention-readback-restore.schema.json",
+      "bytes": 27339,
+      "sha256": "10c2435cd870b2516b3ec9d2cf85281de8325a3053e6ad756b58a28f1cd46862"
+    },
+    {
+      "path": "tests/fixtures/e16-a3/expected-report.json",
+      "bytes": 666,
+      "sha256": "7a5fd25568ae19f0c16770a614e4dff3f8a70a2607eb201ddd52b81cc24a7864"
+    },
+    {
+      "path": "tests/test_eigiib_retention_readback_restore.py",
+      "bytes": 22316,
+      "sha256": "0292094baa715189f4ecd314e2d921b34186e86adce759dee8bdd3360b059e5b"
+    },
+    {
+      "path": "tools/eigiib_historical_e16_a2_replay.py",
+      "bytes": 8338,
+      "sha256": "21b1096acca8b3a6ae2a32a2939ddbd6d1992e990f5691cbdbaf918e943aac23"
+    },
+    {
+      "path": "tools/eigiib_retention_readback_restore_check.py",
+      "bytes": 39440,
+      "sha256": "1f413fc2e08d853501cab309c12e5605ef2968cfcdd9a2d09c63de6c70031be3"
+    }
+  ]
+}
