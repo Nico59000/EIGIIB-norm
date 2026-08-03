@@ -1,0 +1,214 @@
+{
+  "tool": "eigiib-e16-verifier-matrix",
+  "tool_version": "0.1.0",
+  "standard": "EIGIIB-E16-A5-MATRIX-REPORT-1.0",
+  "matrix_standard": "EIGIIB-E16-A5-MATRIX-1.0",
+  "case_count": 20,
+  "matched_case_count": 20,
+  "verifier_count": 2,
+  "verifier_source_distinct": true,
+  "reports_byte_identical": true,
+  "differential_restore_result": "conformant",
+  "state_counts": {
+    "e16-preservation-closure-verified": 4,
+    "rejected": 14,
+    "held": 1,
+    "unavailable": 1
+  },
+  "case_reports": [
+    {
+      "id": "baseline-positive",
+      "expected_state": "e16-preservation-closure-verified",
+      "state": "e16-preservation-closure-verified",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "source-loss-contained-positive",
+      "expected_state": "e16-preservation-closure-verified",
+      "state": "e16-preservation-closure-verified",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "source-quarantine-contained-positive",
+      "expected_state": "e16-preservation-closure-verified",
+      "state": "e16-preservation-closure-verified",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "four-route-positive",
+      "expected_state": "e16-preservation-closure-verified",
+      "state": "e16-preservation-closure-verified",
+      "reports_byte_identical": true,
+      "route_count": 4,
+      "verified_route_count": 4,
+      "findings": []
+    },
+    {
+      "id": "negative-precedes-unavailable",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "stale-lineage",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "a4-rejected",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "insufficient-independence",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "incomplete-route-coverage",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 2,
+      "verified_route_count": 2,
+      "findings": [
+        "route-count-insufficient"
+      ]
+    },
+    {
+      "id": "rollback-detected",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "target-loss-confirmed",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "target-quarantine-active",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "freeze-nonconformant",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "route-result-mismatch",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 2,
+      "findings": [
+        "route-1-negative"
+      ]
+    },
+    {
+      "id": "route-content-mismatch",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": [
+        "route-1-content-mismatch"
+      ]
+    },
+    {
+      "id": "route-generation-mismatch",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": [
+        "route-1-generation-mismatch"
+      ]
+    },
+    {
+      "id": "duplicate-route-id",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": [
+        "route-id-duplicate"
+      ]
+    },
+    {
+      "id": "duplicate-verifier-domain",
+      "expected_state": "rejected",
+      "state": "rejected",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": [
+        "verifier-domain-duplicate"
+      ]
+    },
+    {
+      "id": "held-verifier",
+      "expected_state": "held",
+      "state": "held",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 3,
+      "findings": []
+    },
+    {
+      "id": "unavailable-route",
+      "expected_state": "unavailable",
+      "state": "unavailable",
+      "reports_byte_identical": true,
+      "route_count": 3,
+      "verified_route_count": 2,
+      "findings": []
+    }
+  ],
+  "findings": [],
+  "overall_result": "conformant"
+}

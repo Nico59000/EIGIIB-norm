@@ -1,0 +1,77 @@
+name: E16-A5 independent preservation verifier matrix and final freeze
+
+on:
+  pull_request:
+    paths:
+      - 'extensions/E16-A5-*'
+      - 'tools/eigiib_e16_*'
+      - 'tools/eigiib_historical_e16_a4_replay.py'
+      - 'schemas/eigiib-e16-a5-*'
+      - 'conformance/e16-a5-*'
+      - 'conformance/e16-final-closure.json'
+      - 'conformance/E16-A5-*'
+      - 'tests/test_eigiib_e16_*'
+      - 'tests/fixtures/e16-a5/**'
+      - 'docs/E16-A5-*'
+      - 'docs/E16-FINAL-*'
+      - 'EIGIIB.toml'
+      - 'conformance/extension-graph.json'
+      - '.github/workflows/e16-a5-final-closure.yml'
+      - '.github/workflows/eigiib.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  final-closure:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Historical E16-A4 replay
+        shell: bash
+        run: python tools/eigiib_historical_e16_a4_replay.py . --json > historical-e16-a4-report.json
+      - name: E16-A5 targeted tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_e16_verifier_matrix.py tests/test_eigiib_e16_final_closure.py
+      - name: Independent verifier matrix
+        shell: bash
+        run: |
+          python tools/eigiib_e16_verifier_matrix.py . --json > actual-e16-a5-matrix.json
+          python - <<'PY2'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('actual-e16-a5-matrix.json').read_text());e=json.loads(Path('tests/fixtures/e16-a5/expected-matrix-report.json').read_text())
+          if a!=e: raise SystemExit('E16-A5 matrix report differs from frozen fixture')
+          PY2
+      - name: Final E16 closure
+        shell: bash
+        run: |
+          python tools/eigiib_e16_final_closure_check.py . --history-report historical-e16-a4-report.json --matrix-report actual-e16-a5-matrix.json --json > actual-e16-a5-closure.json
+          python - <<'PY2'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('actual-e16-a5-closure.json').read_text());e=json.loads(Path('tests/fixtures/e16-a5/expected-closure-report.json').read_text())
+          if a!=e: raise SystemExit('E16-A5 final closure report differs from frozen fixture')
+          PY2
+      - name: Parse final authorities
+        shell: bash
+        run: python -c "import json,pathlib,tomllib; [json.loads(pathlib.Path(p).read_text(encoding='utf-8')) for p in ['conformance/e16-a5-verifier-matrix.json','conformance/e16-final-closure.json','conformance/e16-a5-adoption-transition.json','conformance/e16-a5-authority-manifest.json','conformance/e16-a5-authority-freeze.json','schemas/eigiib-e16-a5-verifier-matrix.schema.json','schemas/eigiib-e16-a5-final-closure.schema.json','schemas/eigiib-e16-a5-adoption-transition.schema.json','schemas/eigiib-e16-a5-authority-manifest.schema.json','schemas/eigiib-e16-a5-authority-freeze.schema.json','conformance/extension-graph.json']]; tomllib.loads(pathlib.Path('EIGIIB.toml').read_text(encoding='utf-8'))"
+      - name: Extension graph
+        shell: bash
+        run: python tools/eigiib_extension_graph_check.py . --json
+      - name: Exact E16-A4 ancestry
+        shell: bash
+        run: git merge-base --is-ancestor b28fe74f829141232770155724620617bfb1241c HEAD

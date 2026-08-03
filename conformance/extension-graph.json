@@ -542,13 +542,13 @@
       "id": "E16",
       "kind": "extension",
       "title": "External Custody, Replication, Retention and Recovery Governance",
-      "theme": "historical E15 continuity + preservation intent + custodian and replica binding",
+      "theme": "complete external custody, preservation and recovery governance",
       "authority_key": "e16",
       "authority": "extensions/E16-EXTERNAL-CUSTODY-REPLICATION-RETENTION-RECOVERY-GOVERNANCE.md",
-      "schema": "schemas/eigiib-e16-a1-preservation-intent.schema.json",
-      "checker": "tools/eigiib_preservation_intent_check.py",
-      "registry_authority_key": "preservation_intent",
-      "registry": "conformance/preservation-intent.json",
+      "schema": "schemas/eigiib-e16-a5-final-closure.schema.json",
+      "checker": "tools/eigiib_e16_final_closure_check.py",
+      "registry_authority_key": "e16_final_closure",
+      "registry": "conformance/e16-final-closure.json",
       "depends_on": [
         "E4",
         "E7",
@@ -570,20 +570,54 @@
         "e15_final_closure",
         "e15_a5_authority_freeze",
         "m0_a7_e16_entry",
-        "e16_a1_transition"
+        "e16_a1_transition",
+        "e16_a2_contract",
+        "replica_placement",
+        "e16_a2_transition",
+        "e16_a2_authority_manifest",
+        "e16_a2_authority_freeze",
+        "e16_a2_human_mastery",
+        "e16_a3_contract",
+        "retention_readback_restore",
+        "e16_a3_transition",
+        "e16_a3_authority_manifest",
+        "e16_a3_authority_freeze",
+        "e16_a3_human_mastery",
+        "e16_a4_contract",
+        "custodian_succession_recovery",
+        "e16_a4_transition",
+        "e16_a4_authority_manifest",
+        "e16_a4_authority_freeze",
+        "e16_a4_human_mastery",
+        "e16_a5_contract",
+        "e16_final_closure",
+        "e16_a5_verifier_matrix",
+        "e16_a5_transition",
+        "e16_a5_authority_manifest",
+        "e16_a5_authority_freeze",
+        "e16_a5_human_mastery",
+        "e16_final_closure_report"
       ],
       "does_not_reprove": [
-        "E15 delivery or publication evidence",
-        "E15 withdrawal semantics",
-        "physical replica placement",
-        "custodian legal authority",
-        "failure-domain independence",
-        "future retention",
-        "future restorability",
+        "E15 delivery, publication or withdrawal evidence",
+        "physical or legal custody transfer",
+        "real verifier or failure-domain independence",
+        "continuous retention",
         "indefinite durability",
-        "universal availability"
+        "globally trusted time",
+        "complete loss detection",
+        "complete quarantine enforcement",
+        "future restore success",
+        "external-service honesty",
+        "collusion resistance",
+        "universal verifier correctness",
+        "universal availability",
+        "universal interoperability",
+        "external durability of the final freeze"
       ],
-      "hardening_profiles": []
+      "hardening_profiles": [
+        "E16-A5"
+      ]
     }
   ],
   "hardening_profiles": [
@@ -709,6 +743,17 @@
       "tests": [
         "tests/test_eigiib_e15_final_closure.py",
         "tests/test_eigiib_e15_verifier_matrix.py"
+      ]
+    },
+    {
+      "id": "E16-A5",
+      "applies_to": "E16",
+      "authority": "extensions/E16-A5-INDEPENDENT-PRESERVATION-VERIFIER-MATRIX-DIFFERENTIAL-RESTORE-REPLAY-FINAL-FREEZE.md",
+      "schema": "schemas/eigiib-e16-a5-final-closure.schema.json",
+      "checker": "tools/eigiib_e16_final_closure_check.py",
+      "tests": [
+        "tests/test_eigiib_e16_verifier_matrix.py",
+        "tests/test_eigiib_e16_final_closure.py"
       ]
     }
   ]
