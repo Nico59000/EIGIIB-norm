@@ -1,0 +1,404 @@
+name: M0-A10 one-shot dual-channel publisher
+
+on:
+  push:
+    branches:
+      - ops/m0-a10-publisher-once
+
+permissions:
+  contents: write
+  packages: write
+  actions: write
+
+concurrency:
+  group: m0-a10-publisher-once
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      SOURCE_HEAD: fc3f8402bfbe447227f5777bad92b620c7bcb350
+      TARGET_BASE: af028b4b99c216cffb7764571e3e97db29d76635
+      TARGET_BRANCH: agent/m0-a10-stable-e16-normative-bundle-dual-channel-publication-exact-external-readback
+      RELEASE_TAG: eigiib-m0-a10-e16-stable-v1
+      OCI_REPOSITORY: ghcr.io/nico59000/eigiib-norm-p1-a16
+      OCI_TAG: m0-a10-e16-stable-v1
+      BUNDLE: eigiib-e16-1.0-stable-bundle.tar.gz
+      MANIFEST: eigiib-e16-1.0-stable-bundle-manifest.json
+      SIGNATURE: eigiib-e16-1.0-stable-bundle-manifest.sig
+      PUBLIC_KEY: eigiib-m0-a10-publisher-ed25519-public.pem
+      OPS_BRANCH: ops/m0-a10-publisher-once
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ env.SOURCE_HEAD }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.26.5'
+          cache: false
+      - name: Publish, read back, restore and record
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          test "$(git rev-parse HEAD)" = "$SOURCE_HEAD"
+          git fetch origin refs/heads/stable/eigiib-e16-1.0:refs/remotes/origin/stable/eigiib-e16-1.0
+          test "$(git rev-parse "refs/remotes/origin/stable/eigiib-e16-1.0")" = "$SOURCE_HEAD"
+
+          go install oras.land/oras/cmd/oras@v1.3.2
+          ORAS="$(go env GOPATH)/bin/oras"
+          "$ORAS" version
+          gh --version
+          openssl version
+
+          # Purge the two completed M0-A9 one-shot cleanup run families.
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          targets = {
+              "ops/m0-a9-actions-cleanup-once",
+              "ops/m0-a9-actions-cleanup-exact",
+          }
+          deleted = []
+          seen = []
+          page = 1
+          while True:
+              doc = json.loads(subprocess.check_output(
+                  ["gh", "api", f"repos/{repo}/actions/runs?event=push&per_page=100&page={page}"],
+                  text=True,
+              ))
+              runs = doc.get("workflow_runs", [])
+              if not runs:
+                  break
+              for run in runs:
+                  branch = run.get("head_branch")
+                  if branch not in targets:
+                      continue
+                  run_id = int(run["id"])
+                  seen.append({"id": run_id, "head_branch": branch, "status": run.get("status"), "conclusion": run.get("conclusion")})
+                  subprocess.run(
+                      ["gh", "api", "--method", "DELETE", f"repos/{repo}/actions/runs/{run_id}"],
+                      check=True,
+                  )
+                  deleted.append(run_id)
+              page += 1
+
+          branch_checks = {}
+          for name in sorted(targets):
+              encoded = name.replace("/", "%2F")
+              check = subprocess.run(
+                  ["gh", "api", f"repos/{repo}/git/ref/heads/{encoded}"],
+                  stdout=subprocess.DEVNULL,
+                  stderr=subprocess.DEVNULL,
+              )
+              branch_checks[name] = check.returncode == 0
+              if branch_checks[name]:
+                  raise SystemExit(f"cleanup branch still exists: {name}")
+
+          pr_query = f'repo:{repo} is:pr ("ops/m0-a9-actions-cleanup-once" OR "ops/m0-a9-actions-cleanup-exact")'
+          prs = json.loads(subprocess.check_output(
+              ["gh", "api", "--method", "GET", "search/issues", "-f", f"q={pr_query}", "-f", "per_page=100"],
+              text=True,
+          ))
+          record = {
+              "standard": "EIGIIB-M0-A10-OPS-CLEANUP-1.0",
+              "status": "purged-or-absent",
+              "objects": [
+                  {
+                      "name": name,
+                      "pullRequestCount": 0,
+                      "branchRefPresent": branch_checks[name],
+                      "compareEndpointExpected": "404-ref-absent",
+                  }
+                  for name in sorted(targets)
+              ],
+              "searchedRuns": seen,
+              "deletedRunIds": sorted(deleted),
+              "matchingPullRequests": [
+                  {"number": item.get("number"), "state": item.get("state"), "title": item.get("title")}
+                  for item in prs.get("items", [])
+              ],
+              "method": {
+                  "branchRemoval": "DELETE /repos/{owner}/{repo}/git/refs/heads/{encoded-ref}",
+                  "runRemoval": "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}",
+                  "prSearch": "GET /search/issues with is:pr and exact branch names",
+                  "compareInterpretation": "404 is the expected result after the compared head ref is deleted",
+              },
+          }
+          Path("m0-a10-ops-cleanup-record.json").write_text(
+              json.dumps(record, sort_keys=True, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+          # Build a deterministic archive from the exact stable E16 commit.
+          git archive --format=tar --prefix=eigiib-e16-1.0/ "$SOURCE_HEAD" | gzip -n -9 > "$BUNDLE"
+          bundle_sha="$(sha256sum "$BUNDLE" | awk '{print $1}')"
+          bundle_bytes="$(wc -c < "$BUNDLE" | tr -d ' ')"
+
+          openssl genpkey -algorithm ED25519 -out publisher-private.pem
+          openssl pkey -in publisher-private.pem -pubout -out "$PUBLIC_KEY"
+          spki_sha="$(openssl pkey -pubin -in "$PUBLIC_KEY" -outform DER | sha256sum | awk '{print $1}')"
+          export spki_sha
+
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          bundle = Path(os.environ["BUNDLE"])
+          payload = bundle.read_bytes()
+          manifest = {
+              "standard": "EIGIIB-M0-A10-BUNDLE-MANIFEST-1.0",
+              "bundle": {
+                  "name": bundle.name,
+                  "bytes": len(payload),
+                  "sha256": hashlib.sha256(payload).hexdigest(),
+                  "mediaType": "application/vnd.eigiib.e16.stable-bundle.v1+gzip",
+              },
+              "source": {
+                  "repository": os.environ["GITHUB_REPOSITORY"],
+                  "stableBranch": "stable/eigiib-e16-1.0",
+                  "commit": os.environ["SOURCE_HEAD"],
+                  "profileRevision": "EIGIIB-E16-1.0",
+              },
+              "construction": {
+                  "recipe": "git archive --format=tar --prefix=eigiib-e16-1.0/ <exact-commit> | gzip -n -9",
+                  "deterministicForExactCommit": True,
+              },
+              "signature": {
+                  "algorithm": "Ed25519",
+                  "publicKeyAsset": os.environ["PUBLIC_KEY"],
+                  "publicSpkiSha256": os.environ["spki_sha"],
+                  "authorityBoundary": "ephemeral-publication-integrity-key-not-production-release-authority",
+              },
+              "claims": {
+                  "exactStableSourceBinding": "established",
+                  "bundleContentIdentity": "established",
+                  "productionReleaseAuthorization": "not-claimed",
+                  "futureAvailability": "not-claimed",
+                  "indefiniteDurability": "not-claimed",
+              },
+          }
+          Path(os.environ["MANIFEST"]).write_text(
+              json.dumps(manifest, sort_keys=True, separators=(",", ":")) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+          openssl pkeyutl -sign -rawin -inkey publisher-private.pem -in "$MANIFEST" -out "$SIGNATURE"
+          openssl pkeyutl -verify -rawin -pubin -inkey "$PUBLIC_KEY" -in "$MANIFEST" -sigfile "$SIGNATURE"
+          manifest_sha="$(sha256sum "$MANIFEST" | awk '{print $1}')"
+          signature_sha="$(sha256sum "$SIGNATURE" | awk '{print $1}')"
+          public_key_sha="$(sha256sum "$PUBLIC_KEY" | awk '{print $1}')"
+
+          cat > release-notes.md <<EOF
+          M0-A10 bounded publication fixture for the exact stable E16 source.
+
+          Source commit: $SOURCE_HEAD
+          Bundle SHA-256: $bundle_sha
+          Signed manifest SHA-256: $manifest_sha
+
+          This prerelease establishes current publication, readback and exact restore for the named GitHub Release and GHCR object only. It does not establish production release authorization, future availability or indefinite durability.
+          EOF
+
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release delete "$RELEASE_TAG" --yes --cleanup-tag
+          fi
+          gh release create "$RELEASE_TAG" \
+            --target "$SOURCE_HEAD" \
+            --title "EIGIIB M0-A10 stable E16 dual-channel fixture" \
+            --notes-file release-notes.md \
+            --draft \
+            --prerelease
+          gh release upload "$RELEASE_TAG" "$BUNDLE" "$MANIFEST" "$SIGNATURE" "$PUBLIC_KEY"
+          gh release edit "$RELEASE_TAG" --draft=false --prerelease
+
+          OCI_REF="$OCI_REPOSITORY:$OCI_TAG"
+          printf '%s' "$GITHUB_TOKEN" | "$ORAS" login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          "$ORAS" push "$OCI_REF" \
+            --artifact-type application/vnd.eigiib.m0-a10.e16-stable-bundle.v1 \
+            --annotation "org.opencontainers.image.source=https://github.com/$GITHUB_REPOSITORY" \
+            --annotation "org.opencontainers.image.revision=$SOURCE_HEAD" \
+            "$BUNDLE:application/vnd.eigiib.e16.stable-bundle.v1+gzip" \
+            "$MANIFEST:application/vnd.eigiib.m0-a10.bundle-manifest.v1+json" \
+            "$SIGNATURE:application/vnd.eigiib.ed25519-signature.v1" \
+            "$PUBLIC_KEY:application/vnd.eigiib.ed25519-public-key.v1+pem"
+
+          mkdir -p release-auth release-public oci-auth oci-public
+          gh api "repos/$GITHUB_REPOSITORY/releases/tags/$RELEASE_TAG" > release-auth.json
+          curl -fsSL --retry 8 --retry-delay 3 \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/tags/$RELEASE_TAG" \
+            -o release-public.json
+          gh release download "$RELEASE_TAG" --dir release-auth
+
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          expected = {
+              os.environ["BUNDLE"],
+              os.environ["MANIFEST"],
+              os.environ["SIGNATURE"],
+              os.environ["PUBLIC_KEY"],
+          }
+          auth = json.loads(Path("release-auth.json").read_text())
+          public = json.loads(Path("release-public.json").read_text())
+          if auth["id"] != public["id"] or auth["tag_name"] != public["tag_name"]:
+              raise SystemExit("authenticated/public release identity mismatch")
+          if auth["draft"] or public["draft"] or not auth["prerelease"] or not public["prerelease"]:
+              raise SystemExit("release publication state mismatch")
+          assets = {item["name"]: item for item in public["assets"]}
+          if set(assets) != expected:
+              raise SystemExit(f"release asset set mismatch: {sorted(assets)}")
+          for name in sorted(expected):
+              subprocess.run(
+                  ["curl", "-fsSL", "--retry", "8", "--retry-delay", "3", assets[name]["browser_download_url"], "-o", str(Path("release-public") / name)],
+                  check=True,
+              )
+          PY
+
+          "$ORAS" manifest fetch --descriptor "$OCI_REF" > oci-descriptor.json
+          oci_digest="$(python -c 'import json; print(json.load(open("oci-descriptor.json"))["digest"])')"
+          "$ORAS" manifest fetch "$OCI_REF" > oci-manifest-auth.json
+          "$ORAS" pull "$OCI_REF" -o oci-auth
+          "$ORAS" logout ghcr.io
+          "$ORAS" manifest fetch "$OCI_REPOSITORY@$oci_digest" > oci-manifest-public.json
+          "$ORAS" pull "$OCI_REPOSITORY@$oci_digest" -o oci-public
+
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          names = [
+              os.environ["BUNDLE"],
+              os.environ["MANIFEST"],
+              os.environ["SIGNATURE"],
+              os.environ["PUBLIC_KEY"],
+          ]
+          original = {name: Path(name).read_bytes() for name in names}
+          routes = {}
+          for route in ["release-auth", "release-public", "oci-auth", "oci-public"]:
+              route_data = {}
+              for name in names:
+                  data = (Path(route) / name).read_bytes()
+                  if data != original[name]:
+                      raise SystemExit(f"{route}/{name} is not byte-identical")
+                  route_data[name] = {
+                      "bytes": len(data),
+                      "sha256": hashlib.sha256(data).hexdigest(),
+                  }
+              routes[route] = route_data
+
+          release_auth = json.loads(Path("release-auth.json").read_text())
+          descriptor = json.loads(Path("oci-descriptor.json").read_text())
+          manifest_auth = Path("oci-manifest-auth.json").read_bytes()
+          manifest_public = Path("oci-manifest-public.json").read_bytes()
+          if manifest_auth != manifest_public:
+              raise SystemExit("authenticated/public OCI manifest mismatch")
+
+          evidence = {
+              "standard": "EIGIIB-M0-A10-LIVE-PUBLICATION-EVIDENCE-1.0",
+              "status": "bounded-external-publication-and-readback-verified",
+              "source": {
+                  "repository": os.environ["GITHUB_REPOSITORY"],
+                  "stableBranch": "stable/eigiib-e16-1.0",
+                  "commit": os.environ["SOURCE_HEAD"],
+                  "profileRevision": "EIGIIB-E16-1.0",
+              },
+              "bundle": routes["release-auth"][os.environ["BUNDLE"]] | {"name": os.environ["BUNDLE"]},
+              "signedManifest": {
+                  **routes["release-auth"][os.environ["MANIFEST"]],
+                  "name": os.environ["MANIFEST"],
+                  "signatureName": os.environ["SIGNATURE"],
+                  "signatureSha256": routes["release-auth"][os.environ["SIGNATURE"]]["sha256"],
+                  "publicKeyName": os.environ["PUBLIC_KEY"],
+                  "publicKeySha256": routes["release-auth"][os.environ["PUBLIC_KEY"]]["sha256"],
+              },
+              "githubRelease": {
+                  "id": release_auth["id"],
+                  "tag": release_auth["tag_name"],
+                  "name": release_auth["name"],
+                  "draft": release_auth["draft"],
+                  "prerelease": release_auth["prerelease"],
+                  "immutable": release_auth.get("immutable"),
+                  "assetCount": len(release_auth["assets"]),
+                  "authenticatedReadback": "conformant",
+                  "publicReadback": "conformant",
+                  "exactRestore": "conformant",
+              },
+              "ociRegistry": {
+                  "repository": os.environ["OCI_REPOSITORY"],
+                  "tag": os.environ["OCI_TAG"],
+                  "manifestDigest": descriptor["digest"],
+                  "manifestMediaType": descriptor["mediaType"],
+                  "manifestBytes": descriptor["size"],
+                  "authenticatedReadback": "conformant",
+                  "publicReadback": "conformant",
+                  "exactRestore": "conformant",
+              },
+              "routes": routes,
+              "crossChannel": {
+                  "bundleByteIdentity": "conformant",
+                  "manifestByteIdentity": "conformant",
+                  "signatureByteIdentity": "conformant",
+                  "publicKeyByteIdentity": "conformant",
+              },
+              "observation": {
+                  "capturedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+                  "workflowRunId": int(os.environ["GITHUB_RUN_ID"]),
+              },
+              "claims": {
+                  "currentNamedChannelPublication": "established",
+                  "currentAuthenticatedAndPublicReadback": "established",
+                  "currentExactRestore": "established",
+                  "productionReleaseAuthorization": "not-claimed",
+                  "futureAvailability": "not-claimed",
+                  "indefiniteDurability": "not-claimed",
+                  "providerIndependence": "not-claimed",
+              },
+          }
+          Path("m0-a10-live-publication-evidence.json").write_text(
+              json.dumps(evidence, sort_keys=True, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+          git fetch origin "refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          git worktree add target "refs/remotes/origin/$TARGET_BRANCH"
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_BASE"
+          mkdir -p target/conformance
+          cp "$MANIFEST" target/conformance/m0-a10-stable-bundle-manifest.json
+          cp "$SIGNATURE" target/conformance/m0-a10-stable-bundle-manifest.sig
+          cp "$PUBLIC_KEY" target/conformance/m0-a10-publisher-public-key.pem
+          cp m0-a10-live-publication-evidence.json target/conformance/m0-a10-live-publication-evidence.json
+          cp oci-manifest-public.json target/conformance/m0-a10-oci-manifest.json
+          cp m0-a10-ops-cleanup-record.json target/conformance/m0-a10-ops-cleanup-record.json
+
+          git -C target config user.name "github-actions[bot]"
+          git -C target config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C target add conformance
+          git -C target commit -m "M0-A10: capture dual-channel publication evidence"
+          git -C target push origin "HEAD:refs/heads/$TARGET_BRANCH"
+
+          encoded_ref="${OPS_BRANCH//\//%2F}"
+          gh api --method DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/$encoded_ref"
