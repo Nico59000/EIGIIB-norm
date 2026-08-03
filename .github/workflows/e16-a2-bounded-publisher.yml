@@ -97,18 +97,19 @@ jobs:
           PY
           python tools/eigiib_extension_graph_check.py . --json > extension-graph-report.json
           git merge-base --is-ancestor 7fd50a2009c6a437c7fe0b680407cf337b55cf4f HEAD
-      - name: Publish clean E16-A2 head
+      - name: Publish non-workflow E16-A2 authorities
         shell: bash
         run: |
           set -euo pipefail
           rm -rf .e16a2-payload
           rm -f historical-e16-a1-report.json actual-e16-a2-report.json extension-graph-report.json
-          rm .github/workflows/e16-a2-bounded-publisher.yml
+          rm -f .github/workflows/e16-a2-replica-placement.yml
+          find tests tools -type d -name __pycache__ -prune -exec rm -rf {} +
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
           git diff --cached --check
-          git commit -m 'E16-A2 replica placement and custody evidence'
+          git commit -m 'E16-A2 materialize non-workflow authorities'
           git push origin HEAD:agent/e16-a2-replica-placement-custody-acceptance-failure-domain-evidence
 
-# pull-request synchronized publisher trigger
+# workflow paths are finalized by the GitHub connector after this bounded run
