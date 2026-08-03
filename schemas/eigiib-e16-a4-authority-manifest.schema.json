@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-e16-a4-authority-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "profile_revision",
+    "source_e16_a3_commit",
+    "required_authorities",
+    "authorities"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-E16-A4-AUTHORITY-MANIFEST-1.0"
+    },
+    "status": {
+      "const": "authoritative-slice-overlay"
+    },
+    "profile_revision": {
+      "const": "EIGIIB-E16-draft-1.0"
+    },
+    "source_e16_a3_commit": {
+      "const": "74cb64ebcb1b51b0a035e755be413dbd2a7e9e3e"
+    },
+    "required_authorities": {
+      "const": [
+        "contract",
+        "authority_manifest",
+        "registry",
+        "transition",
+        "authority_freeze",
+        "human_mastery",
+        "manual_review",
+        "registry_schema",
+        "manifest_schema",
+        "transition_schema",
+        "freeze_schema",
+        "checker",
+        "historical_replay",
+        "tests",
+        "expected_report",
+        "workflow"
+      ]
+    },
+    "authorities": {
+      "const": {
+        "contract": "extensions/E16-A4-CUSTODIAN-SUCCESSION-REPLICA-MIGRATION-LOSS-QUARANTINE-ANTI-ROLLBACK-RECOVERY.md",
+        "authority_manifest": "conformance/e16-a4-authority-manifest.json",
+        "registry": "conformance/custodian-succession-recovery.json",
+        "transition": "conformance/e16-a4-adoption-transition.json",
+        "authority_freeze": "conformance/e16-a4-authority-freeze.json",
+        "human_mastery": "docs/E16-A4-HUMAN-MASTERY-GUIDE.md",
+        "manual_review": "conformance/E16-A4-MANUAL-REVIEW.md",
+        "registry_schema": "schemas/eigiib-e16-a4-custodian-succession-recovery.schema.json",
+        "manifest_schema": "schemas/eigiib-e16-a4-authority-manifest.schema.json",
+        "transition_schema": "schemas/eigiib-e16-a4-adoption-transition.schema.json",
+        "freeze_schema": "schemas/eigiib-e16-a4-authority-freeze.schema.json",
+        "checker": "tools/eigiib_custodian_succession_recovery_check.py",
+        "historical_replay": "tools/eigiib_historical_e16_a3_replay.py",
+        "tests": "tests/test_eigiib_custodian_succession_recovery.py",
+        "expected_report": "tests/fixtures/e16-a4/expected-report.json",
+        "workflow": ".github/workflows/e16-a4-custodian-succession-recovery.yml"
+      }
+    }
+  }
+}

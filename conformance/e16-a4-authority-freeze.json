@@ -1,0 +1,83 @@
+{
+  "standard": "EIGIIB-E16-A4-FREEZE-1.0",
+  "status": "frozen",
+  "profile_revision": "EIGIIB-E16-draft-1.0",
+  "source_e16_a3_commit": "74cb64ebcb1b51b0a035e755be413dbd2a7e9e3e",
+  "authorities": [
+    {
+      "path": ".github/workflows/e16-a4-custodian-succession-recovery.yml",
+      "bytes": 2879,
+      "sha256": "6e40382f805ac7147ce5c5e4a25b1cca508bea83068b80691bb54bdf8172c13a"
+    },
+    {
+      "path": "conformance/E16-A4-MANUAL-REVIEW.md",
+      "bytes": 1136,
+      "sha256": "670b583382c695c2b7df18439d623c5b636c861045fdd412f94f54e4e33b73cf"
+    },
+    {
+      "path": "conformance/custodian-succession-recovery.json",
+      "bytes": 557,
+      "sha256": "f1dee0985e670b11bf47ef4904ec0a751b81eb1cc17a8a708da750fc16deae4c"
+    },
+    {
+      "path": "conformance/e16-a4-adoption-transition.json",
+      "bytes": 901,
+      "sha256": "36dc3b37388367b8fd3c5fe89596d18bea4b9928ffcb5305f09ecbb75d8b1e32"
+    },
+    {
+      "path": "conformance/e16-a4-authority-manifest.json",
+      "bytes": 1784,
+      "sha256": "d2de6a4966f1a7c392011efa2d5903429f2252909aeb44753ea402dfa11c890f"
+    },
+    {
+      "path": "docs/E16-A4-HUMAN-MASTERY-GUIDE.md",
+      "bytes": 2257,
+      "sha256": "54457aa5eab3d5f582e5456b0667c71eb31b311255cc7c79c394e5b892ec9b8c"
+    },
+    {
+      "path": "extensions/E16-A4-CUSTODIAN-SUCCESSION-REPLICA-MIGRATION-LOSS-QUARANTINE-ANTI-ROLLBACK-RECOVERY.md",
+      "bytes": 6192,
+      "sha256": "142631d6ffa94d84d67eb8f5e95bfa5826068440d4696171578b7282f14eedc3"
+    },
+    {
+      "path": "schemas/eigiib-e16-a4-adoption-transition.schema.json",
+      "bytes": 1498,
+      "sha256": "d2008c0a45037d7ef51f081c73ad434f73e3e35f77b08ef9caa28851c9e5e771"
+    },
+    {
+      "path": "schemas/eigiib-e16-a4-authority-freeze.schema.json",
+      "bytes": 2223,
+      "sha256": "6e27bb41578667ed2cdcd417f33f043293c8c9a24dec8403970caba3df3d4f81"
+    },
+    {
+      "path": "schemas/eigiib-e16-a4-authority-manifest.schema.json",
+      "bytes": 2443,
+      "sha256": "585e0639fd12b84b35fb4b124d0bbd6621ac100e0d8a8880019d014cc3469e0d"
+    },
+    {
+      "path": "schemas/eigiib-e16-a4-custodian-succession-recovery.schema.json",
+      "bytes": 26159,
+      "sha256": "d7aa41f58327b3e009cd4696aee0b5f9edd795f71864a936311cc8204276c1ac"
+    },
+    {
+      "path": "tests/fixtures/e16-a4/expected-report.json",
+      "bytes": 656,
+      "sha256": "432099e5483122795b64b479310a4d39bbebf58c95d9ed26dd4bd8f16d1fe691"
+    },
+    {
+      "path": "tests/test_eigiib_custodian_succession_recovery.py",
+      "bytes": 19637,
+      "sha256": "a61e0a27176c7677243aa2457b2927b5bbcea16c850a1aaece1b7c1cb38cb1f1"
+    },
+    {
+      "path": "tools/eigiib_custodian_succession_recovery_check.py",
+      "bytes": 27856,
+      "sha256": "bf24e2bc6c8d1a8ed513417171a26345b66d20c113778e0250eeae1086e0cfc8"
+    },
+    {
+      "path": "tools/eigiib_historical_e16_a3_replay.py",
+      "bytes": 6765,
+      "sha256": "b11e82a6bf34d133c3dc8e22d6ca2b51eee259645cecf96bd65676a749224e82"
+    }
+  ]
+}

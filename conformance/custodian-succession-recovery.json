@@ -1,0 +1,15 @@
+{
+  "standard": "EIGIIB-E16-A4-1.0",
+  "status": "structural-only",
+  "source_e16_a3_commit": "74cb64ebcb1b51b0a035e755be413dbd2a7e9e3e",
+  "upstream_retention_registry": "conformance/retention-readback-restore.json",
+  "upstream_e16_a3_freeze": "conformance/e16-a3-authority-freeze.json",
+  "authority_manifest": "conformance/e16-a4-authority-manifest.json",
+  "succession_authorizations": [],
+  "migration_plans": [],
+  "migration_observations": [],
+  "loss_reports": [],
+  "quarantine_records": [],
+  "recovery_replays": [],
+  "recovery_decisions": []
+}
