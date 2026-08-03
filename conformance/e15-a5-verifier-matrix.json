@@ -1,0 +1,216 @@
+{
+  "cases": [
+    {
+      "expected_state": "delivery-evidence-bounded",
+      "id": "delivery-positive",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "externally-attested",
+        "lineage_result": "current",
+        "observer_independence_result": "not-required",
+        "publication_result": "not-evaluated",
+        "withdrawal_result": "not-evaluated"
+      }
+    },
+    {
+      "expected_state": "acknowledgement-evidence-bounded",
+      "id": "acknowledgement-positive",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "not-required",
+        "publication_result": "not-evaluated",
+        "withdrawal_result": "not-evaluated"
+      }
+    },
+    {
+      "expected_state": "publication-evidence-bounded",
+      "id": "publication-positive",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "not-required",
+        "publication_result": "publication-observed",
+        "withdrawal_result": "not-evaluated"
+      }
+    },
+    {
+      "expected_state": "persistence-evidence-bounded",
+      "id": "persistence-positive",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "not-required",
+        "publication_result": "persistence-observed",
+        "withdrawal_result": "not-evaluated"
+      }
+    },
+    {
+      "expected_state": "independent-readback-bounded",
+      "id": "readback-positive",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "independent",
+        "publication_result": "independently-read-back",
+        "withdrawal_result": "not-evaluated"
+      }
+    },
+    {
+      "expected_state": "withdrawal-request-bounded",
+      "id": "withdrawal-request-positive",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "independent",
+        "publication_result": "independently-read-back",
+        "withdrawal_result": "withdrawal-requested"
+      }
+    },
+    {
+      "expected_state": "tombstone-bounded",
+      "id": "tombstone-positive",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "independent",
+        "publication_result": "independently-read-back",
+        "withdrawal_result": "tombstoned"
+      }
+    },
+    {
+      "expected_state": "distribution-stop-bounded",
+      "id": "distribution-stop-positive",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "independent",
+        "publication_result": "independently-read-back",
+        "withdrawal_result": "distribution-stopped"
+      }
+    },
+    {
+      "expected_state": "withdrawal-evidence-bounded",
+      "id": "post-withdrawal-positive",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "independent",
+        "publication_result": "independently-read-back",
+        "withdrawal_result": "post-withdrawal-observed"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "negative-precedes-unavailable",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "rejected",
+        "lineage_result": "current",
+        "observer_independence_result": "unavailable",
+        "publication_result": "unavailable",
+        "withdrawal_result": "unavailable"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "insufficient-independence",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "insufficient",
+        "publication_result": "independently-read-back",
+        "withdrawal_result": "not-evaluated"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "rollback-detected",
+      "inputs": {
+        "anti_rollback_result": "rollback-detected",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "independent",
+        "publication_result": "independently-read-back",
+        "withdrawal_result": "distribution-stopped"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "content-mismatch",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "rejected",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "independent",
+        "publication_result": "independently-read-back",
+        "withdrawal_result": "post-withdrawal-observed"
+      }
+    },
+    {
+      "expected_state": "rejected",
+      "id": "contested-withdrawal",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "independent",
+        "publication_result": "independently-read-back",
+        "withdrawal_result": "contested"
+      }
+    },
+    {
+      "expected_state": "held",
+      "id": "held-observer",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "held",
+        "publication_result": "independently-read-back",
+        "withdrawal_result": "not-evaluated"
+      }
+    },
+    {
+      "expected_state": "unavailable",
+      "id": "unavailable-publication",
+      "inputs": {
+        "anti_rollback_result": "current",
+        "content_identity_result": "verified",
+        "delivery_result": "acknowledged",
+        "lineage_result": "current",
+        "observer_independence_result": "unavailable",
+        "publication_result": "unavailable",
+        "withdrawal_result": "not-evaluated"
+      }
+    }
+  ],
+  "independent_verifier": "tools/eigiib_e15_external_evidence_independent.py",
+  "reference_verifier": "tools/eigiib_e15_external_evidence_reference.py",
+  "standard": "EIGIIB-E15-A5-1.0",
+  "status": "frozen-vectors"
+}

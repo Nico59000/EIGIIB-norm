@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "differential_verification": {
+      "additionalProperties": false,
+      "properties": {
+        "frozen_expected_states_required": {
+          "const": true
+        },
+        "implementations_import_each_other": {
+          "const": false
+        },
+        "known_negative_precedence_required": {
+          "const": true
+        },
+        "verifier_count": {
+          "const": 2
+        }
+      },
+      "required": [
+        "verifier_count",
+        "implementations_import_each_other",
+        "frozen_expected_states_required",
+        "known_negative_precedence_required"
+      ],
+      "type": "object"
+    },
+    "historical_preservation": {
+      "additionalProperties": false,
+      "properties": {
+        "descendant_profile_compatibility_isolated": {
+          "const": true
+        },
+        "e15_a4_claims_rewritten": {
+          "const": false
+        },
+        "final_freeze_separate": {
+          "const": true
+        },
+        "source_freeze_mutated": {
+          "const": false
+        },
+        "transition_is_additive": {
+          "const": true
+        }
+      },
+      "required": [
+        "transition_is_additive",
+        "source_freeze_mutated",
+        "e15_a4_claims_rewritten",
+        "descendant_profile_compatibility_isolated",
+        "final_freeze_separate"
+      ],
+      "type": "object"
+    },
+    "historical_replay": {
+      "additionalProperties": false,
+      "properties": {
+        "current_tree_substitution_forbidden": {
+          "const": true
+        },
+        "historical_tree_isolated": {
+          "const": true
+        },
+        "mode": {
+          "const": "materialize-and-replay-exact-source-commit"
+        },
+        "required_results": {
+          "const": [
+            "historical-e14-conformant",
+            "e15-a1-conformant",
+            "e15-a2-conformant",
+            "e15-a3-conformant",
+            "e15-a4-conformant",
+            "e15-a4-tests-conformant"
+          ]
+        },
+        "source_commit_must_be_ancestor": {
+          "const": true
+        },
+        "tool": {
+          "const": "tools/eigiib_historical_e15_a4_replay.py"
+        }
+      },
+      "required": [
+        "mode",
+        "tool",
+        "historical_tree_isolated",
+        "current_tree_substitution_forbidden",
+        "source_commit_must_be_ancestor",
+        "required_results"
+      ],
+      "type": "object"
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "authority_freeze": {
+          "const": "conformance/e15-a4-authority-freeze.json"
+        },
+        "branch": {
+          "const": "agent/e15-a4-withdrawal-tombstones-post-delivery-governance"
+        },
+        "checker": {
+          "const": "tools/eigiib_withdrawal_governance_check.py"
+        },
+        "head_commit": {
+          "const": "fce0ba52930e32069b54ab8f5634501a130222a7"
+        },
+        "profile_revision": {
+          "const": "EIGIIB-E15-draft-1.3"
+        },
+        "registry_authority": {
+          "const": "conformance/withdrawal-governance.json"
+        }
+      },
+      "required": [
+        "branch",
+        "head_commit",
+        "profile_revision",
+        "registry_authority",
+        "authority_freeze",
+        "checker"
+      ],
+      "type": "object"
+    },
+    "standard": {
+      "const": "EIGIIB-E15-A5-TRANSITION-1.0"
+    },
+    "status": {
+      "const": "adopted-final-e15"
+    },
+    "target": {
+      "additionalProperties": false,
+      "properties": {
+        "adoption_state": {
+          "const": "final"
+        },
+        "authority_freeze": {
+          "const": "conformance/e15-a5-authority-freeze.json"
+        },
+        "checker": {
+          "const": "tools/eigiib_e15_final_closure_check.py"
+        },
+        "closure_authority": {
+          "const": "conformance/e15-final-closure.json"
+        },
+        "extension": {
+          "const": "E15-1.0"
+        },
+        "matrix_authority": {
+          "const": "conformance/e15-a5-verifier-matrix.json"
+        },
+        "profile_revision": {
+          "const": "EIGIIB-E15-1.0"
+        },
+        "slice": {
+          "const": "E15-A5"
+        }
+      },
+      "required": [
+        "slice",
+        "extension",
+        "profile_revision",
+        "closure_authority",
+        "matrix_authority",
+        "authority_freeze",
+        "checker",
+        "adoption_state"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "source",
+    "target",
+    "historical_replay",
+    "differential_verification",
+    "historical_preservation"
+  ],
+  "title": "EIGIIB E15-A5 adoption transition",
+  "type": "object"
+}

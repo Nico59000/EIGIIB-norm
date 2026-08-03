@@ -16,6 +16,7 @@ TRANSITION_STANDARD = "EIGIIB-E15-A1-TRANSITION-1.0"
 FREEZE_STANDARD = "EIGIIB-E15-A1-FREEZE-1.0"
 HISTORY_STANDARD = "EIGIIB-E15-A1-HISTORICAL-E14-REPLAY-1.0"
 PROFILE_REVISION = "EIGIIB-E15-draft-1.0"
+FINAL_PROFILE_REVISION = "EIGIIB-E15-1.0"
 SOURCE_E14_HEAD = "472e14fbb3d92205eabf10438e90295e19125ea4"
 SOURCE_M0_A6_HEAD = "9cff4c1e392b6661af4b01e710f10342fe2ad402"
 DELIVERY_ACTION = "eigiib:e15:deliver"
@@ -187,8 +188,8 @@ class Checker:
             return
         if "E15-1.0" not in profile.get("extensions", []):
             self.add("error", "E15A1.PROFILE.ADOPTION", "E15-1.0 must be adopted", "EIGIIB.toml")
-        if profile.get("revision") != PROFILE_REVISION:
-            self.add("error", "E15A1.PROFILE.REVISION", f"revision must be {PROFILE_REVISION}", "EIGIIB.toml")
+        if profile.get("revision") not in {PROFILE_REVISION, FINAL_PROFILE_REVISION}:
+            self.add("error", "E15A1.PROFILE.REVISION", f"revision must be {PROFILE_REVISION} or {FINAL_PROFILE_REVISION}", "EIGIIB.toml")
         expected = {
             "m0_a6_e15_entry": "conformance/m0-a6-e15-entry.json",
             "m0_a6_human_mastery": "docs/M0-A6-HUMAN-MASTERY-GUIDE.md",

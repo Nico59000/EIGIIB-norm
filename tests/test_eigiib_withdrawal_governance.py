@@ -36,6 +36,10 @@ class E15A4Test(unittest.TestCase):
                 shutil.copyfile(source, target)
             else:
                 target.write_text(f"fixture:{rel}\n", encoding="utf-8")
+        profile_path = self.root / "EIGIIB.toml"
+        profile = profile_path.read_text(encoding="utf-8")
+        profile = profile.replace('revision = "EIGIIB-E15-1.0"', 'revision = "EIGIIB-E15-draft-1.3"')
+        profile_path.write_text(profile, encoding="utf-8")
         parent = json.loads((self.root / "conformance/publication-readback.json").read_text(encoding="utf-8"))
         for field in (
             "publisher_profiles", "readback_observer_profiles", "publication_policies",

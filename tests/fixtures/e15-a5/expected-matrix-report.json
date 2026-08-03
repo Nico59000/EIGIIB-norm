@@ -1,0 +1,109 @@
+{
+  "case_count": 16,
+  "findings": [],
+  "matched_case_count": 16,
+  "outcomes": [
+    {
+      "expected": "delivery-evidence-bounded",
+      "id": "delivery-positive",
+      "independent": "delivery-evidence-bounded",
+      "reference": "delivery-evidence-bounded"
+    },
+    {
+      "expected": "acknowledgement-evidence-bounded",
+      "id": "acknowledgement-positive",
+      "independent": "acknowledgement-evidence-bounded",
+      "reference": "acknowledgement-evidence-bounded"
+    },
+    {
+      "expected": "publication-evidence-bounded",
+      "id": "publication-positive",
+      "independent": "publication-evidence-bounded",
+      "reference": "publication-evidence-bounded"
+    },
+    {
+      "expected": "persistence-evidence-bounded",
+      "id": "persistence-positive",
+      "independent": "persistence-evidence-bounded",
+      "reference": "persistence-evidence-bounded"
+    },
+    {
+      "expected": "independent-readback-bounded",
+      "id": "readback-positive",
+      "independent": "independent-readback-bounded",
+      "reference": "independent-readback-bounded"
+    },
+    {
+      "expected": "withdrawal-request-bounded",
+      "id": "withdrawal-request-positive",
+      "independent": "withdrawal-request-bounded",
+      "reference": "withdrawal-request-bounded"
+    },
+    {
+      "expected": "tombstone-bounded",
+      "id": "tombstone-positive",
+      "independent": "tombstone-bounded",
+      "reference": "tombstone-bounded"
+    },
+    {
+      "expected": "distribution-stop-bounded",
+      "id": "distribution-stop-positive",
+      "independent": "distribution-stop-bounded",
+      "reference": "distribution-stop-bounded"
+    },
+    {
+      "expected": "withdrawal-evidence-bounded",
+      "id": "post-withdrawal-positive",
+      "independent": "withdrawal-evidence-bounded",
+      "reference": "withdrawal-evidence-bounded"
+    },
+    {
+      "expected": "rejected",
+      "id": "negative-precedes-unavailable",
+      "independent": "rejected",
+      "reference": "rejected"
+    },
+    {
+      "expected": "rejected",
+      "id": "insufficient-independence",
+      "independent": "rejected",
+      "reference": "rejected"
+    },
+    {
+      "expected": "rejected",
+      "id": "rollback-detected",
+      "independent": "rejected",
+      "reference": "rejected"
+    },
+    {
+      "expected": "rejected",
+      "id": "content-mismatch",
+      "independent": "rejected",
+      "reference": "rejected"
+    },
+    {
+      "expected": "rejected",
+      "id": "contested-withdrawal",
+      "independent": "rejected",
+      "reference": "rejected"
+    },
+    {
+      "expected": "held",
+      "id": "held-observer",
+      "independent": "held",
+      "reference": "held"
+    },
+    {
+      "expected": "unavailable",
+      "id": "unavailable-publication",
+      "independent": "unavailable",
+      "reference": "unavailable"
+    }
+  ],
+  "standard": "EIGIIB-E15-A5-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-e15-verifier-matrix",
+  "tool_version": "0.1.0",
+  "verifier_count": 2,
+  "verifier_matrix_result": "conformant"
+}

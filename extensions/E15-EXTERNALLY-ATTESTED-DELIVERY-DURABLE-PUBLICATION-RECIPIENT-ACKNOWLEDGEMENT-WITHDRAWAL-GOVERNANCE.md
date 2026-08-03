@@ -435,13 +435,42 @@ exact E15-A3 source commit
   -> current withdrawal/tombstone/stop/observation evaluation
 ```
 
-## 30. Planned companion
+## 30. E15-A5 independent verifier boundary
 
-E15-A5 will own the independent external-evidence verifier matrix, differential replay and final E15 authority freeze.
+E15-A5 consumes only explicit result coordinates from the closed A1–A4 chain. It does not reopen or reinterpret individual delivery, publication or withdrawal records.
 
-## 31. Non-goals and proof boundary
+The final relation classifies the deepest explicitly established bounded stage after applying precedence:
 
-E15 does not establish absolute material delivery, remote service honesty, recipient possession or human awareness, universal availability, indefinite durability, global withdrawal or erasure, recipient-side deletion, legal recall, instantaneous propagation, unregistered-mirror closure, collusion resistance or universal interoperability.
+```text
+known negative
+  -> unavailable
+  -> held
+  -> deepest positive bounded stage
+```
+
+The positive stages range from `delivery-evidence-bounded` through `withdrawal-evidence-bounded`.
+
+## 31. Differential replay
+
+The frozen matrix is replayed by two separate Python implementations. Neither imports the other. A matrix case conforms only when both implementations agree with the frozen expected state.
+
+This separation reduces accidental implementation identity. It does not prove conceptual independence, mathematical completeness or absence of correlated defects.
+
+## 32. Exact A4 replay and final freeze
+
+E15-A5 materializes exact E15-A4 source commit `fce0ba52930e32069b54ab8f5634501a130222a7`, executes the exact inherited replay chain, compares the A4 report with its frozen fixture and runs the A4 unit tests before current-tree closure evaluation.
+
+The profile is promoted to:
+
+```text
+EIGIIB-E15-1.0
+```
+
+The final freeze records exact bytes and SHA-256 digests for the complete E15 authority surface and excludes itself to avoid a self-digest cycle.
+
+## 33. Non-goals and proof boundary
+
+E15 does not establish absolute material delivery, remote service honesty, recipient possession or human awareness, universal availability, indefinite durability, global withdrawal or erasure, recipient-side deletion, legal recall, instantaneous propagation, unregistered-mirror closure, collusion resistance, universal verifier correctness or external durability of the freeze.
 
 Therefore:
 
@@ -450,15 +479,22 @@ withdrawal requested != withdrawal executed
 tombstone installed != bytes erased
 distribution stopped != recipient copy deleted
 not-found at one target != global absence
-unreachable != absent
-latest registered heads != global consensus
-post-withdrawal observed != future unavailability
+matrix agreement != universal correctness
+final freeze != externally durable storage
 ```
 
-## 32. Reference tools
+## 34. Reference tools
 
-Current E15-A4 checker: `tools/eigiib_withdrawal_governance_check.py`.
+Current E15-A5 checker: `tools/eigiib_e15_final_closure_check.py`.
 
-Historical E15-A3 replay bridge: `tools/eigiib_historical_e15_a3_replay.py`.
+Independent matrix tools:
 
-The E15-A3 checker, E15-A2 checker, E15-A1 checker and historical E14 bridges remain historical source authorities. All reference tools use Python standard-library facilities and repository-local Git history.
+```text
+tools/eigiib_e15_external_evidence_reference.py
+tools/eigiib_e15_external_evidence_independent.py
+tools/eigiib_e15_verifier_matrix.py
+```
+
+Historical E15-A4 replay bridge: `tools/eigiib_historical_e15_a4_replay.py`.
+
+All reference tools use Python standard-library facilities and repository-local Git history.
