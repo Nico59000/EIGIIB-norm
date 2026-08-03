@@ -1,0 +1,66 @@
+name: E16-A5 corrected bounded final publisher
+
+on:
+  pull_request:
+    paths:
+      - '.e16a5-payload/normalize_e16a5_replay.py'
+      - '.github/workflows/e16-a5-bounded-publisher-corrected.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  publish:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: agent/e16-a5-independent-preservation-verifier-matrix-differential-restore-replay-final-freeze
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Execute corrected bounded publication
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess
+
+          workflow = Path('.github/workflows/e16-a5-bounded-publisher.yml')
+          text = workflow.read_text(encoding='utf-8')
+
+          def extract(name: str, target: str) -> Path:
+              marker = f"      - name: {name}\n        shell: bash\n        run: |\n"
+              start = text.index(marker) + len(marker)
+              remainder = text[start:]
+              end = remainder.find("\n      - name: ")
+              if end < 0:
+                  end = len(remainder)
+              lines = []
+              for line in remainder[:end].splitlines():
+                  if line.startswith('          '):
+                      lines.append(line[10:])
+                  elif line.strip():
+                      raise SystemExit(f'unexpected indentation in {name}: {line!r}')
+                  else:
+                      lines.append('')
+              path = Path('/tmp') / target
+              path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+              return path
+
+          materialize = extract('Materialize bounded E16-A5 payload', 'e16a5-materialize.sh')
+          validate = extract('Validate E16-A5 final closure', 'e16a5-validate.sh')
+          publish = extract('Publish non-workflow E16-A5 authorities', 'e16a5-publish.sh')
+
+          subprocess.run(['bash', str(materialize)], check=True)
+          subprocess.run(['python', '.e16a5-payload/patch_e16a5.py'], check=True)
+          subprocess.run(['python', '.e16a5-payload/normalize_e16a5_replay.py'], check=True)
+          subprocess.run(['bash', str(validate)], check=True)
+          subprocess.run(['bash', str(publish)], check=True)
+          PY
