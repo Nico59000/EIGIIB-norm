@@ -1,0 +1,59 @@
+{
+  "standard": "EIGIIB-M0-A9-AUTHORITY-FREEZE-1.0",
+  "status": "self-excluding-authority-freeze",
+  "source_head": "232e8574f23fb2162a6fdf7fa24338e7aaf987d6",
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a9-cross-lineage-reconciliation.yml",
+      "bytes": 2348,
+      "sha256": "6cff011a14217b02f435ab581114eb0de7498e4f41748630e15ff25ed4937d60"
+    },
+    {
+      "path": "conformance/M0-A9-MANUAL-REVIEW.md",
+      "bytes": 752,
+      "sha256": "0bc3cd385372e498d3f05eb4dfd59ce8993e6edd0148c4fadabdb7428141039a"
+    },
+    {
+      "path": "conformance/m0-a9-cross-lineage-capabilities.json",
+      "bytes": 7603,
+      "sha256": "796657dbc5cf66a965d04a9a2defecdb5bb4989f86b6694c1033a5d0bae2ba72"
+    },
+    {
+      "path": "conformance/m0-a9-promotion-readiness.json",
+      "bytes": 1776,
+      "sha256": "9c1374c5d11cffc60967851ca9699f4e735d3c0b8cbd1b21f2ed9868d55c354e"
+    },
+    {
+      "path": "docs/M0-A9-CROSS-LINEAGE-CAPABILITY-RECONCILIATION-CLAIM-BOUNDARY-INDEX-AND-PROMOTION-READINESS.md",
+      "bytes": 3087,
+      "sha256": "bd69114fd6eefb378d933ce4710d4dd743d4032c8f7856ea534d75606e997908"
+    },
+    {
+      "path": "docs/M0-A9-HUMAN-MASTERY-GUIDE.md",
+      "bytes": 1270,
+      "sha256": "6036b2e0c018c60d2210707c4575fc8d24f19ca13d32b18e395b2d1294edf0f1"
+    },
+    {
+      "path": "schemas/eigiib-m0-a9-cross-lineage-reconciliation.schema.json",
+      "bytes": 940,
+      "sha256": "c6a029078e51999ea57534b764c2b369f3674e2f160e3cdd4a940a1c24ffe5eb"
+    },
+    {
+      "path": "tests/fixtures/m0-a9/expected-report.json",
+      "bytes": 469,
+      "sha256": "470a20905c6e4775a546888e603876cb5698ff6d6a09174bfdfe6f2784f3f299"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a9.py",
+      "bytes": 4902,
+      "sha256": "c30a78e4e5c6f80814b1454261ea9fd6cf91e7325bdd7cf2f9aec0e2a8edf366"
+    },
+    {
+      "path": "tools/eigiib_m0_a9_check.py",
+      "bytes": 9172,
+      "sha256": "a36ff2602e429d6a9059adca601344d961d75c3536c25514e0ca3d0d0455a41d"
+    }
+  ],
+  "authority_count": 10,
+  "excluded_path": "conformance/m0-a9-authority-freeze.json"
+}

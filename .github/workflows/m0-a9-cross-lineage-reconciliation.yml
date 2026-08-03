@@ -1,0 +1,69 @@
+name: M0-A9 cross-lineage capability reconciliation
+run-name: M0-A9 / ${{ github.event.pull_request.head.ref || github.ref_name }} / ${{ github.sha }}
+
+on:
+  pull_request:
+    branches:
+      - agent/m0-a8-authoritative-lineage-publication-default-branch-reconciliation-pr-topology-closure
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/m0-a9-cross-lineage-reconciliation.yml"
+      - "conformance/M0-A9-MANUAL-REVIEW.md"
+      - "conformance/m0-a9-*.json"
+      - "docs/M0-A9-*.md"
+      - "schemas/eigiib-m0-a9-cross-lineage-reconciliation.schema.json"
+      - "tests/fixtures/m0-a9/expected-report.json"
+      - "tests/test_eigiib_m0_a9.py"
+      - "tools/eigiib_m0_a9_check.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m0-a9-${{ github.event.pull_request.head.ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: M0-A9 mutation suite
+        run: python -m unittest -v tests/test_eigiib_m0_a9.py
+      - name: Canonical reconciliation report
+        shell: bash
+        run: |
+          python tools/eigiib_m0_a9_check.py --output m0-a9-report.json
+          python - <<'PY'
+          from pathlib import Path
+          expected = Path("tests/fixtures/m0-a9/expected-report.json").read_bytes()
+          actual = Path("m0-a9-report.json").read_bytes()
+          if actual != expected:
+              raise SystemExit("M0-A9 canonical report mismatch")
+          PY
+      - name: Authority and schema parse
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in [
+              "conformance/m0-a9-cross-lineage-capabilities.json",
+              "conformance/m0-a9-promotion-readiness.json",
+              "conformance/m0-a9-authority-freeze.json",
+              "schemas/eigiib-m0-a9-cross-lineage-reconciliation.schema.json",
+          ]:
+              json.loads(Path(path).read_text(encoding="utf-8"))
+          PY
