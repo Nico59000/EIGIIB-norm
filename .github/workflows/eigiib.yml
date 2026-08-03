@@ -137,6 +137,9 @@ jobs:
           python tools/eigiib_e15_final_closure_check.py . \
             --history-report .eigiib-results/e15-a4-history.json \
             --json | tee .eigiib-results/components/e15.json
+      - name: Bind E15-A5 hardening-profile report carrier
+        if: always()
+        run: cp .eigiib-results/components/e15.json .eigiib-results/components/e15-a5.json
       - name: EIGIIB M0-A2 aggregate conformance
         if: always()
         run: |
