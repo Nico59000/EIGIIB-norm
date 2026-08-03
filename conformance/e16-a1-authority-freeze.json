@@ -116,9 +116,9 @@
       "sha256": "c86fb9cdf1b020acbd0421a64c3a1f0fd66fd04095f9c9d71ebd9cc240b598b7"
     },
     {
-      "bytes": 17391,
+      "bytes": 17528,
       "path": "tools/eigiib_extension_graph_check.py",
-      "sha256": "cced633f8999a300ab1b61801c1a06c1d825e4a599fb2173b2b1c894712e41d7"
+      "sha256": "b61d72074141664605c6b0562c4c92e9788f95868a50fd310a9e34f4396daa59"
     },
     {
       "bytes": 5425,

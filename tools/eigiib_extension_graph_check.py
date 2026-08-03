@@ -46,6 +46,10 @@ class Checker:
     def add(self, severity: str, code: str, message: str, path: str = "") -> None:
         self.findings.append(Finding(severity, code, path, message))
 
+    def manifest_ref(self) -> str:
+        """Return the repository manifest reference in canonical POSIX form."""
+        return self.manifest_path.as_posix()
+
     def confined(self, rel: str, code: str) -> Path | None:
         p = (self.root / rel).resolve(strict=False)
         try:
@@ -56,17 +60,17 @@ class Checker:
         return p
 
     def load(self) -> bool:
-        p = self.confined(str(self.manifest_path), "M0.GRAPH")
+        p = self.confined(self.manifest_ref(), "M0.GRAPH")
         if p is None or not p.exists():
-            self.add("error", "M0.GRAPH.MISSING", "extension graph manifest is missing", str(self.manifest_path))
+            self.add("error", "M0.GRAPH.MISSING", "extension graph manifest is missing", self.manifest_ref())
             return False
         try:
             obj = json.loads(p.read_text(encoding="utf-8"))
         except Exception as exc:
-            self.add("error", "M0.GRAPH.PARSE", str(exc), str(self.manifest_path))
+            self.add("error", "M0.GRAPH.PARSE", str(exc), self.manifest_ref())
             return False
         if not isinstance(obj, dict):
-            self.add("error", "M0.GRAPH.TYPE", "manifest root must be an object", str(self.manifest_path))
+            self.add("error", "M0.GRAPH.TYPE", "manifest root must be an object", self.manifest_ref())
             return False
         self.obj = obj
         try:
@@ -93,7 +97,7 @@ class Checker:
             self.add("error", "M0.GRAPH.STANDARD", f"standard must be {STANDARD}", "standard")
         if self.obj.get("status") != "structural":
             self.add("error", "M0.GRAPH.STATUS", "status must be structural", "status")
-        if self.obj.get("authority") != str(self.manifest_path):
+        if self.obj.get("authority") != self.manifest_ref():
             self.add("error", "M0.GRAPH.AUTHORITY", "authority must equal manifest path", "authority")
         if self.obj.get("derived_fields") != ["used_by"]:
             self.add("error", "M0.GRAPH.DERIVED", "derived_fields must contain only used_by", "derived_fields")
@@ -296,7 +300,7 @@ class Checker:
         authorities = self.profile.get("authorities", {})
         required = self.profile.get("required_authorities", [])
         manifest_key = "extension_graph"
-        manifest_path = str(self.manifest_path)
+        manifest_path = self.manifest_ref()
         if not isinstance(authorities, dict) or authorities.get(manifest_key) != manifest_path:
             self.add("error", "M0.PROFILE.GRAPH_AUTHORITY", f"EIGIIB.toml must bind {manifest_key} to {manifest_path}", "EIGIIB.toml")
         if not isinstance(required, list) or manifest_key not in required:
