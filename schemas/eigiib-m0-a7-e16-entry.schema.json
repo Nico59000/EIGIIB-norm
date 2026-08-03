@@ -1,0 +1,328 @@
+{
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a7-e16-entry.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_continuity": {
+      "const": {
+        "current_tree_byte_equality_required_before_e16_a1": true,
+        "descendant_transition_required": true,
+        "frozen_source_commit": "036b81c3c128524858d66d096a1eb87e23cc5dad",
+        "historical_replay_mode": "materialize-and-replay-exact-source-commit",
+        "rule": "historical-source-commit-readback-before-descendant-central-profile-mutation",
+        "silent_retargeting_forbidden": true,
+        "transition_must_verify": [
+          "exact-e15-source-commit",
+          "all-e15-frozen-authority-digests-at-source-commit",
+          "historical-e15-checker-and-matrix-replay-at-source-commit",
+          "additive-e16-adoption",
+          "no-rewrite-of-e15-claims",
+          "new-central-profile-and-workflow-digests",
+          "separate-e16-manual-gate"
+        ]
+      }
+    },
+    "decision_vocabulary": {
+      "const": {
+        "derived": [
+          "not-preserved",
+          "preservation-intended",
+          "placement-observed",
+          "custody-accepted",
+          "retention-observed",
+          "restore-verified",
+          "degraded",
+          "quarantined",
+          "migrated",
+          "rejected",
+          "held",
+          "contested",
+          "unavailable",
+          "superseded"
+        ],
+        "evidence": [
+          "absent",
+          "pending",
+          "positive",
+          "negative",
+          "contested",
+          "unavailable"
+        ],
+        "gate": [
+          "permit",
+          "deny",
+          "held",
+          "unavailable"
+        ]
+      }
+    },
+    "entry_gate": {
+      "const": {
+        "authority_continuity_bridge": "required-in-e16-a1",
+        "central_profile_mutation": "forbidden-before-transition-bridge",
+        "e15_final_closure": "complete",
+        "e15_frozen_paths_unchanged": true,
+        "e15_multiplatform_closure": "complete",
+        "e16_normative_text": "not-created",
+        "e16_schema_and_checker": "not-created",
+        "readiness": "ready-for-e16-a1-design"
+      }
+    },
+    "input_contract": {
+      "const": {
+        "custodian_profile": "versioned custodian identity, authority scope and service boundary",
+        "custody_policy": "versioned rules for admissible custody acceptance and evidence",
+        "e15_external_object_commitment": "exact E15 object commitment admitted for preservation",
+        "e15_final_closure_report": "exact conformant E15-A5 closure report and final freeze",
+        "evaluation_context": "fixed purpose, operation, policy revisions and interpretation context",
+        "idempotency_key": "operation key preventing silent duplicate placement or migration requests",
+        "observation_policy": "versioned timing, spacing, readback and failure-classification rules",
+        "placement_policy": "versioned replica-count, location-class and failure-domain declarations",
+        "replica_profile": "versioned replica endpoint, provider, implementation and storage-class description",
+        "restoration_policy": "versioned restore source, target, content-identity and completion requirements",
+        "retention_policy": "versioned bounded retention interval and renewal rules",
+        "succession_policy": "versioned custodian replacement, migration, quarantine and rollback rules"
+      }
+    },
+    "methodology_translation": {
+      "const": {
+        "direct_source_republication": false,
+        "mode": "typed-derived-rules-only",
+        "rules": [
+          {
+            "id": "typed-custody-transport",
+            "statement": "an E15 object becomes an E16 preservation input only through an explicit source commitment, custodian role, replica role, policy and context"
+          },
+          {
+            "id": "role-separated-preservation-diagnostics",
+            "statement": "placement, custody acceptance, retention observation, content readback, restoration and migration remain independently evaluated coordinates"
+          },
+          {
+            "id": "structural-before-preservation-interpretation",
+            "statement": "exact E15 lineage and object binding are established before any preservation lifecycle state is interpreted"
+          },
+          {
+            "id": "failure-domain-declaration",
+            "statement": "provider, account, region, implementation, process and network-path separation are declared dimensions rather than inferred independence"
+          },
+          {
+            "id": "coincidence-is-not-independence",
+            "statement": "different names or locators do not establish independent failure domains without an explicit typed relation"
+          },
+          {
+            "id": "finite-observation-is-not-indefinite-durability",
+            "statement": "bounded retention, readback and restore observations do not establish future or perpetual durability"
+          },
+          {
+            "id": "declared-preservation-policy",
+            "statement": "no universal replica count or retention horizon is assumed; every composite preservation policy declares its thresholds and precedence"
+          }
+        ],
+        "source_equations_allowed": false,
+        "source_specific_terminology_allowed": false,
+        "source_status": "external-contextual-methodology-input"
+      }
+    },
+    "multiplatform_closure": {
+      "const": {
+        "e15_a4_historical_replay_run": 30811560795,
+        "e15_a5_final_closure_run": 30811560397,
+        "platforms": [
+          "ubuntu-24.04",
+          "macos-15",
+          "windows-2025"
+        ],
+        "result": "success"
+      }
+    },
+    "nonclaims": {
+      "const": [
+        "indefinite-durability",
+        "universal-availability",
+        "external-service-honesty",
+        "provider-independence",
+        "correlated-failure-resistance",
+        "administrative-deletion-prevention",
+        "legal-custody-or-ownership",
+        "global-erasure",
+        "globally-trusted-time",
+        "collusion-resistance",
+        "universal-interoperability"
+      ]
+    },
+    "planned_slices": {
+      "const": [
+        {
+          "depends_on": [
+            "E15-A5"
+          ],
+          "does_not_reprove": [
+            "E15 delivery or publication evidence",
+            "E15 withdrawal semantics",
+            "future durability"
+          ],
+          "id": "E16-A1",
+          "owns": [
+            "historical E15 authority continuity",
+            "preservation intent",
+            "custodian identity",
+            "replica binding"
+          ],
+          "status": "planned-not-created",
+          "title": "Historical Authority Continuity, Preservation Intent, Custodian and Replica Binding"
+        },
+        {
+          "depends_on": [
+            "E16-A1"
+          ],
+          "does_not_reprove": [
+            "custodian legal authority",
+            "physical failure-domain separation",
+            "future retention"
+          ],
+          "id": "E16-A2",
+          "owns": [
+            "replica placement requests",
+            "custody acceptance evidence",
+            "provider-domain declarations",
+            "placement observations"
+          ],
+          "status": "planned-not-created",
+          "title": "Replica Placement, Custody Acceptance, Failure-Domain Declaration and Placement Evidence"
+        },
+        {
+          "depends_on": [
+            "E16-A2"
+          ],
+          "does_not_reprove": [
+            "indefinite durability",
+            "future restorability",
+            "universal availability"
+          ],
+          "id": "E16-A3",
+          "owns": [
+            "bounded retention windows",
+            "preservation observations",
+            "independent content readback",
+            "restore verification"
+          ],
+          "status": "planned-not-created",
+          "title": "Retention Windows, Bounded Preservation Observations, Independent Readback and Restore Verification"
+        },
+        {
+          "depends_on": [
+            "E16-A2",
+            "E16-A3"
+          ],
+          "does_not_reprove": [
+            "global absence",
+            "provider honesty",
+            "correlated-failure resistance"
+          ],
+          "id": "E16-A4",
+          "owns": [
+            "custodian succession",
+            "replica migration",
+            "loss and quarantine records",
+            "anti-rollback recovery"
+          ],
+          "status": "planned-not-created",
+          "title": "Custodian Succession, Replica Migration, Loss, Quarantine and Anti-Rollback Recovery"
+        },
+        {
+          "depends_on": [
+            "E16-A3",
+            "E16-A4"
+          ],
+          "does_not_reprove": [
+            "universal verifier correctness",
+            "unbounded retention",
+            "universal interoperability"
+          ],
+          "id": "E16-A5",
+          "owns": [
+            "independent preservation verifier matrix",
+            "differential restore replay",
+            "final authority freeze"
+          ],
+          "status": "planned-not-created",
+          "title": "Independent Preservation Verifier Matrix, Differential Restore Replay and Final Freeze"
+        }
+      ]
+    },
+    "required_inputs": {
+      "const": [
+        "e15_final_closure_report",
+        "e15_external_object_commitment",
+        "custodian_profile",
+        "replica_profile",
+        "custody_policy",
+        "placement_policy",
+        "retention_policy",
+        "restoration_policy",
+        "observation_policy",
+        "succession_policy",
+        "evaluation_context",
+        "idempotency_key"
+      ]
+    },
+    "safety_rules": {
+      "const": [
+        "e15-publication-readback-does-not-imply-replication",
+        "replica-registration-does-not-prove-physical-separation",
+        "provider-distinct-label-does-not-prove-failure-domain-independence",
+        "retention-policy-does-not-guarantee-future-retention",
+        "repeated-readback-does-not-prove-indefinite-durability",
+        "restore-success-at-one-time-does-not-prove-future-restorability",
+        "current-multi-location-availability-does-not-prove-universal-availability",
+        "custody-acceptance-does-not-transfer-legal-ownership",
+        "deletion-at-one-custodian-does-not-prove-global-erasure",
+        "known-negative-precedes-held-and-unavailable",
+        "exact-source-binding-precedes-preservation-lifecycle-interpretation"
+      ]
+    },
+    "source_lineage": {
+      "const": {
+        "authority": "conformance/e15-a5-authority-freeze.json",
+        "branch": "agent/e15-a5-independent-external-evidence-verifier-final-freeze",
+        "final_closure": "conformance/e15-final-closure.json",
+        "head_commit": "036b81c3c128524858d66d096a1eb87e23cc5dad",
+        "profile_revision": "EIGIIB-E15-1.0",
+        "required_terminal_slice": "E15-A5"
+      }
+    },
+    "standard": {
+      "const": "EIGIIB-M0-A7-E16-ENTRY-1.0"
+    },
+    "status": {
+      "const": "ready-for-e16-a1-design-not-normatively-adopted"
+    },
+    "target": {
+      "const": {
+        "adoption_state": "not-adopted",
+        "extension_file": null,
+        "first_principal_slice": "E16-A1",
+        "identifier": "E16",
+        "working_title": "External Custody, Replication, Retention and Recovery Governance"
+      }
+    }
+  },
+  "required": [
+    "authority_continuity",
+    "decision_vocabulary",
+    "entry_gate",
+    "input_contract",
+    "methodology_translation",
+    "multiplatform_closure",
+    "nonclaims",
+    "planned_slices",
+    "required_inputs",
+    "safety_rules",
+    "source_lineage",
+    "standard",
+    "status",
+    "target"
+  ],
+  "title": "EIGIIB M0-A7 E16 entry normalization",
+  "type": "object"
+}
