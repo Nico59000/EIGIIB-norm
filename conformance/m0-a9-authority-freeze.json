@@ -45,13 +45,13 @@
     },
     {
       "path": "tests/test_eigiib_m0_a9.py",
-      "bytes": 4102,
-      "sha256": "6e2de663484f1b7e3a4d773eb197046541efd182ed4ebecf9aa1704988b70049"
+      "bytes": 4902,
+      "sha256": "c30a78e4e5c6f80814b1454261ea9fd6cf91e7325bdd7cf2f9aec0e2a8edf366"
     },
     {
       "path": "tools/eigiib_m0_a9_check.py",
-      "bytes": 7547,
-      "sha256": "7e5b2f7478f02bdba893f8edd31597f20363989bd2d72c0fd9b3aacbf283549c"
+      "bytes": 9172,
+      "sha256": "a36ff2602e429d6a9059adca601344d961d75c3536c25514e0ca3d0d0455a41d"
     }
   ],
   "authority_count": 10,
