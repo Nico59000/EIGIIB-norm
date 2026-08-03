@@ -1,0 +1,53 @@
+{
+  "standard": "EIGIIB-M0-A8-FREEZE-1.0",
+  "status": "frozen",
+  "source_head": "fc3f8402bfbe447227f5777bad92b620c7bcb350",
+  "authority_count": 9,
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a8-lineage-publication.yml",
+      "bytes": 3473,
+      "sha256": "b8a0b7e62e704b4707229eb2e1f8bc076ce55711650a7ae063f0eb03226aa536"
+    },
+    {
+      "path": "conformance/M0-A8-MANUAL-REVIEW.md",
+      "bytes": 826,
+      "sha256": "def358c0343c74e86f869d8d648ac21d669370d66d4f59e562af77d45d26cdc0"
+    },
+    {
+      "path": "conformance/m0-a8-lineage-publication.json",
+      "bytes": 6775,
+      "sha256": "59826ceb516da095b230f96afe9a6b2858eb4649349f7da83c7cc87e5f5da1b1"
+    },
+    {
+      "path": "docs/M0-A8-AUTHORITATIVE-LINEAGE-PUBLICATION-DEFAULT-BRANCH-RECONCILIATION-AND-PR-TOPOLOGY-CLOSURE.md",
+      "bytes": 2573,
+      "sha256": "287e1c82a758ecfa9caa9b6dc214068b374e226591a2969bf66dc2000d8717f5"
+    },
+    {
+      "path": "docs/M0-A8-HUMAN-MASTERY-GUIDE.md",
+      "bytes": 954,
+      "sha256": "da9fba76c37431cf24286ec3b5305ea64add118c71959e3e7281c388bd4da355"
+    },
+    {
+      "path": "schemas/eigiib-m0-a8-lineage-publication.schema.json",
+      "bytes": 8392,
+      "sha256": "922d96b0c24164f5d697ffc63251c5a7eaedb35e80ccb0e1afabc4a7ae6abd4c"
+    },
+    {
+      "path": "tests/fixtures/m0-a8/expected-report.json",
+      "bytes": 399,
+      "sha256": "8e82e9d40fa8eced11265687cf655c8557eabddc04cb22da459b24c167a4ed7c"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a8.py",
+      "bytes": 3843,
+      "sha256": "e65320e326cfd972e0dd0efb6061a1ebb7c0b791195ee4550356e9dfa57f8406"
+    },
+    {
+      "path": "tools/eigiib_m0_a8_check.py",
+      "bytes": 17703,
+      "sha256": "8e10f60161f416c3b1a66f13a4e3ed21b75a19b654eb70d4004b075d7786a343"
+    }
+  ]
+}

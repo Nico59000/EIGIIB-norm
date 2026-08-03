@@ -1,0 +1,88 @@
+name: M0-A8 authoritative lineage publication and PR topology
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m0-a8-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  validate:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: M0-A8 unit and mutation suite
+        run: python -m unittest -v tests/test_eigiib_m0_a8.py
+      - name: M0-A8 authority and event topology
+        shell: bash
+        run: |
+          python tools/eigiib_m0_a8_check.py . --event "$GITHUB_EVENT_PATH" --json > actual-m0-a8-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = json.loads(Path('actual-m0-a8-report.json').read_text(encoding='utf-8'))
+          expected = json.loads(Path('tests/fixtures/m0-a8/expected-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('M0-A8 report fixture mismatch')
+          PY
+      - name: Exact E16-A5 ancestry
+        shell: bash
+        run: git merge-base --is-ancestor fc3f8402bfbe447227f5777bad92b620c7bcb350 HEAD
+
+  historical-e16-closure:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: fc3f8402bfbe447227f5777bad92b620c7bcb350
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Historical E16-A4 replay
+        shell: bash
+        run: python tools/eigiib_historical_e16_a4_replay.py . --json > historical-e16-a4-report.json
+      - name: E16-A5 targeted tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_e16_verifier_matrix.py tests/test_eigiib_e16_final_closure.py
+      - name: Independent verifier matrix
+        shell: bash
+        run: |
+          python tools/eigiib_e16_verifier_matrix.py . --json > historical-e16-matrix.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = json.loads(Path('historical-e16-matrix.json').read_text(encoding='utf-8'))
+          expected = json.loads(Path('tests/fixtures/e16-a5/expected-matrix-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('historical E16-A5 matrix fixture mismatch')
+          PY
+      - name: Final E16 closure
+        shell: bash
+        run: |
+          python tools/eigiib_e16_final_closure_check.py . --history-report historical-e16-a4-report.json --matrix-report historical-e16-matrix.json --json > historical-e16-closure.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = json.loads(Path('historical-e16-closure.json').read_text(encoding='utf-8'))
+          expected = json.loads(Path('tests/fixtures/e16-a5/expected-closure-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('historical E16 final closure fixture mismatch')
+          PY
