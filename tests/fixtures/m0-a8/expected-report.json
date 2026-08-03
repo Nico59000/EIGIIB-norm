@@ -1,0 +1,16 @@
+{
+  "closed_non_authoritative_prs": [
+    141,
+    145,
+    147
+  ],
+  "default_branch": "main",
+  "finding_count": 0,
+  "findings": [],
+  "overall_result": "conformant",
+  "source_head": "fc3f8402bfbe447227f5777bad92b620c7bcb350",
+  "stable_branch": "stable/eigiib-e16-1.0",
+  "standard": "EIGIIB-M0-A8-LINEAGE-PUBLICATION-1.0",
+  "tool": "eigiib-m0-a8-check",
+  "tool_version": "0.1.0"
+}

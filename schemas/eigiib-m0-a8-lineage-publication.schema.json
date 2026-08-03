@@ -1,0 +1,365 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/eigiib/schemas/eigiib-m0-a8-lineage-publication.schema.json",
+  "title": "EIGIIB M0-A8 lineage publication authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "source_lineage",
+    "publication_roles",
+    "reconciliation",
+    "authoritative_pr_topology",
+    "closed_non_authoritative_prs",
+    "pr_topology_policy",
+    "historical_status_supersession",
+    "authority_freeze",
+    "manual_gate",
+    "nonclaims"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A8-LINEAGE-PUBLICATION-1.0"
+    },
+    "status": {
+      "const": "lineage-publication-normalized"
+    },
+    "source_lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "branch",
+        "head_commit",
+        "profile_revision",
+        "pull_request",
+        "final_closure",
+        "authority_freeze",
+        "frozen_authority_count"
+      ],
+      "properties": {
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "head_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "profile_revision": {
+          "const": "EIGIIB-E16-1.0"
+        },
+        "pull_request": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "final_closure": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority_freeze": {
+          "type": "string",
+          "minLength": 1
+        },
+        "frozen_authority_count": {
+          "const": 95
+        }
+      }
+    },
+    "publication_roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_branch",
+        "stable_normative_branch",
+        "governance_successor_branch"
+      ],
+      "properties": {
+        "default_branch": {
+          "$ref": "#/$defs/branchRole"
+        },
+        "stable_normative_branch": {
+          "$ref": "#/$defs/branchRole"
+        },
+        "governance_successor_branch": {
+          "$ref": "#/$defs/successorRole"
+        }
+      }
+    },
+    "reconciliation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_branch_moved",
+        "historical_heads_rewritten",
+        "stable_publication_created",
+        "main_merge_authorized",
+        "resolution"
+      ],
+      "properties": {
+        "default_branch_moved": {
+          "const": false
+        },
+        "historical_heads_rewritten": {
+          "const": false
+        },
+        "stable_publication_created": {
+          "const": true
+        },
+        "main_merge_authorized": {
+          "const": false
+        },
+        "resolution": {
+          "const": "separate-default-and-normative-publication-roles"
+        }
+      }
+    },
+    "authoritative_pr_topology": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/topologyItem"
+      }
+    },
+    "closed_non_authoritative_prs": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "uniqueItems": true
+    },
+    "pr_topology_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_branch",
+        "forbidden_direct_head_prefixes",
+        "stable_publication_prefix",
+        "authorized_default_branch_heads",
+        "stacked_prs_require_exact_base",
+        "unknown_direct_to_default_state"
+      ],
+      "properties": {
+        "default_branch": {
+          "const": "main"
+        },
+        "forbidden_direct_head_prefixes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "stable_publication_prefix": {
+          "const": "stable/"
+        },
+        "authorized_default_branch_heads": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "stacked_prs_require_exact_base": {
+          "const": true
+        },
+        "unknown_direct_to_default_state": {
+          "const": "deny"
+        }
+      }
+    },
+    "historical_status_supersession": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "historical_status_text",
+          "current_status",
+          "current_authorities",
+          "historical_file_rewritten",
+          "reason"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "historical_status_text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "current_status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "current_authorities": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "historical_file_rewritten": {
+            "const": false
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "manual_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "attestation"
+      ],
+      "properties": {
+        "status": {
+          "const": "complete"
+        },
+        "attestation": {
+          "const": "conformance/M0-A8-MANUAL-REVIEW.md"
+        }
+      }
+    },
+    "nonclaims": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "authority_freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "status",
+        "authority_count"
+      ],
+      "properties": {
+        "path": {
+          "const": "conformance/m0-a8-authority-freeze.json"
+        },
+        "status": {
+          "const": "self-excluding"
+        },
+        "authority_count": {
+          "const": 9
+        }
+      }
+    }
+  },
+  "$defs": {
+    "branchRole": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "profile_revision",
+        "role"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "observed_head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "head_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "profile_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "observed_head"
+          ]
+        },
+        {
+          "required": [
+            "head_commit"
+          ]
+        }
+      ]
+    },
+    "successorRole": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "base_branch",
+        "base_head",
+        "role"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "topologyItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "pull_request",
+        "base_head",
+        "head"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pull_request": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "base_head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    }
+  }
+}

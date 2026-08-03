@@ -1,0 +1,202 @@
+{
+  "standard": "EIGIIB-M0-A8-LINEAGE-PUBLICATION-1.0",
+  "status": "lineage-publication-normalized",
+  "source_lineage": {
+    "branch": "agent/e16-a5-independent-preservation-verifier-matrix-differential-restore-replay-final-freeze",
+    "head_commit": "fc3f8402bfbe447227f5777bad92b620c7bcb350",
+    "profile_revision": "EIGIIB-E16-1.0",
+    "pull_request": 153,
+    "final_closure": "conformance/e16-final-closure.json",
+    "authority_freeze": "conformance/e16-a5-authority-freeze.json",
+    "frozen_authority_count": 95
+  },
+  "publication_roles": {
+    "default_branch": {
+      "name": "main",
+      "observed_head": "b0f4ec77000c0d4dd49915d78d0ab23946da4031",
+      "profile_revision": "EIGIIB-E13-draft-1.0",
+      "role": "legacy-default-not-current-normative-lineage"
+    },
+    "stable_normative_branch": {
+      "name": "stable/eigiib-e16-1.0",
+      "head_commit": "fc3f8402bfbe447227f5777bad92b620c7bcb350",
+      "profile_revision": "EIGIIB-E16-1.0",
+      "role": "published-stable-normative-lineage"
+    },
+    "governance_successor_branch": {
+      "name": "agent/m0-a8-authoritative-lineage-publication-default-branch-reconciliation-pr-topology-closure",
+      "base_branch": "agent/e16-a5-independent-preservation-verifier-matrix-differential-restore-replay-final-freeze",
+      "base_head": "fc3f8402bfbe447227f5777bad92b620c7bcb350",
+      "role": "additive-governance-successor"
+    }
+  },
+  "reconciliation": {
+    "default_branch_moved": false,
+    "historical_heads_rewritten": false,
+    "stable_publication_created": true,
+    "main_merge_authorized": false,
+    "resolution": "separate-default-and-normative-publication-roles"
+  },
+  "authoritative_pr_topology": [
+    {
+      "id": "M0-A5-F1",
+      "pull_request": 119,
+      "base_head": "c1983e9f2e95879ee16c162075c8d72bc73d88f9",
+      "head": "a547e0f94af1b256200c12836a1539c4d5b28716"
+    },
+    {
+      "id": "E14-A1",
+      "pull_request": 123,
+      "base_head": "a547e0f94af1b256200c12836a1539c4d5b28716",
+      "head": "c96d8bd59fe76726f60ff95fa729fec8a9de050e"
+    },
+    {
+      "id": "E14-A2",
+      "pull_request": 125,
+      "base_head": "c96d8bd59fe76726f60ff95fa729fec8a9de050e",
+      "head": "46034359357830a418ca0f0a9167109c28400780"
+    },
+    {
+      "id": "E14-A3",
+      "pull_request": 127,
+      "base_head": "46034359357830a418ca0f0a9167109c28400780",
+      "head": "8b1b64eee08f78301b5fdd5f0ecbd7f7f55f957f"
+    },
+    {
+      "id": "E14-A4",
+      "pull_request": 129,
+      "base_head": "8b1b64eee08f78301b5fdd5f0ecbd7f7f55f957f",
+      "head": "31e85dbd109ecbe8c27564cd3411f11358e87acb"
+    },
+    {
+      "id": "E14-A5",
+      "pull_request": 132,
+      "base_head": "31e85dbd109ecbe8c27564cd3411f11358e87acb",
+      "head": "e9135666c5ec8b89ea25477d64ddea7a489af0c4"
+    },
+    {
+      "id": "E14-A5-F1",
+      "pull_request": 134,
+      "base_head": "e9135666c5ec8b89ea25477d64ddea7a489af0c4",
+      "head": "472e14fbb3d92205eabf10438e90295e19125ea4"
+    },
+    {
+      "id": "M0-A6",
+      "pull_request": 136,
+      "base_head": "472e14fbb3d92205eabf10438e90295e19125ea4",
+      "head": "9cff4c1e392b6661af4b01e710f10342fe2ad402"
+    },
+    {
+      "id": "E15-A1",
+      "pull_request": 138,
+      "base_head": "9cff4c1e392b6661af4b01e710f10342fe2ad402",
+      "head": "ca0dfde0efcee975ef4957f604d4954b6de07e01"
+    },
+    {
+      "id": "E15-A2",
+      "pull_request": 139,
+      "base_head": "ca0dfde0efcee975ef4957f604d4954b6de07e01",
+      "head": "25988d80571f0f8d3587d976810a2dd8e0ce2328"
+    },
+    {
+      "id": "E15-A3",
+      "pull_request": 140,
+      "base_head": "25988d80571f0f8d3587d976810a2dd8e0ce2328",
+      "head": "f403e93dd6d1dcb058474d67f2cc7e73b8ad13bd"
+    },
+    {
+      "id": "E15-A4",
+      "pull_request": 142,
+      "base_head": "f403e93dd6d1dcb058474d67f2cc7e73b8ad13bd",
+      "head": "fce0ba52930e32069b54ab8f5634501a130222a7"
+    },
+    {
+      "id": "E15-A5",
+      "pull_request": 144,
+      "base_head": "fce0ba52930e32069b54ab8f5634501a130222a7",
+      "head": "036b81c3c128524858d66d096a1eb87e23cc5dad"
+    },
+    {
+      "id": "M0-A7",
+      "pull_request": 146,
+      "base_head": "036b81c3c128524858d66d096a1eb87e23cc5dad",
+      "head": "ae189e1c478c523789f11e4424395be154e8521d"
+    },
+    {
+      "id": "E16-A1",
+      "pull_request": 148,
+      "base_head": "ae189e1c478c523789f11e4424395be154e8521d",
+      "head": "7fd50a2009c6a437c7fe0b680407cf337b55cf4f"
+    },
+    {
+      "id": "E16-A2",
+      "pull_request": 150,
+      "base_head": "7fd50a2009c6a437c7fe0b680407cf337b55cf4f",
+      "head": "1bd5929a5a4415df8758b220765925ac80a797bc"
+    },
+    {
+      "id": "E16-A3",
+      "pull_request": 151,
+      "base_head": "1bd5929a5a4415df8758b220765925ac80a797bc",
+      "head": "74cb64ebcb1b51b0a035e755be413dbd2a7e9e3e"
+    },
+    {
+      "id": "E16-A4",
+      "pull_request": 152,
+      "base_head": "74cb64ebcb1b51b0a035e755be413dbd2a7e9e3e",
+      "head": "b28fe74f829141232770155724620617bfb1241c"
+    },
+    {
+      "id": "E16-A5",
+      "pull_request": 153,
+      "base_head": "b28fe74f829141232770155724620617bfb1241c",
+      "head": "fc3f8402bfbe447227f5777bad92b620c7bcb350"
+    }
+  ],
+  "closed_non_authoritative_prs": [
+    141,
+    145,
+    147
+  ],
+  "pr_topology_policy": {
+    "default_branch": "main",
+    "forbidden_direct_head_prefixes": [
+      "agent/"
+    ],
+    "stable_publication_prefix": "stable/",
+    "authorized_default_branch_heads": [],
+    "stacked_prs_require_exact_base": true,
+    "unknown_direct_to_default_state": "deny"
+  },
+  "historical_status_supersession": [
+    {
+      "path": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
+      "historical_status_text": "draft normative extension 1.3, adopted through E15-A4",
+      "current_status": "closed-at-e15-a5-profile-eigiib-e15-1.0",
+      "current_authorities": [
+        "conformance/e15-final-closure.json",
+        "conformance/e15-a5-authority-freeze.json",
+        "EIGIIB.toml"
+      ],
+      "historical_file_rewritten": false,
+      "reason": "the historical path is frozen by the descendant E16 authority; current status is owned by the final closure and active profile"
+    }
+  ],
+  "authority_freeze": {
+    "path": "conformance/m0-a8-authority-freeze.json",
+    "status": "self-excluding",
+    "authority_count": 9
+  },
+  "manual_gate": {
+    "status": "complete",
+    "attestation": "conformance/M0-A8-MANUAL-REVIEW.md"
+  },
+  "nonclaims": [
+    "default-branch-migration",
+    "merge-or-release-authorization",
+    "external-durability-of-stable-branch",
+    "immutability-against-repository-administrators",
+    "universal-prevention-of-accidental-pull-requests",
+    "rewriting-of-historical-e14-e15-e16-authorities"
+  ]
+}
