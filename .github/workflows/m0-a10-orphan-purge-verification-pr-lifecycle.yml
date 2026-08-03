@@ -1,0 +1,71 @@
+name: M0-A10 orphan purge verification with PR lifecycle
+
+on:
+  push:
+    branches:
+      - ops/m0-a10-orphan-purge-verification-pr-lifecycle
+
+permissions:
+  actions: read
+  contents: write
+  issues: write
+  pull-requests: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPOSITORY: ${{ github.repository }}
+      BRANCH: ${{ github.ref_name }}
+    steps:
+      - name: Wait for closed PR association
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, time, urllib.parse, urllib.request
+          token=os.environ['GH_TOKEN']; repo=os.environ['REPOSITORY']; branch=os.environ['BRANCH']; owner=repo.split('/',1)[0]
+          headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'eigiib-m0-a10-purge-verifier'}
+          q=urllib.parse.urlencode({'state':'closed','head':f'{owner}:{branch}','per_page':10})
+          url=f'https://api.github.com/repos/{repo}/pulls?{q}'
+          for _ in range(120):
+              with urllib.request.urlopen(urllib.request.Request(url,headers=headers),timeout=30) as r: pulls=json.load(r)
+              if pulls: print(f'closed PR observed: #{pulls[0]["number"]}'); break
+              time.sleep(2)
+          else: raise SystemExit('closed PR association not observed')
+          PY
+
+      - name: Verify zero retained runs and record result
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, urllib.parse, urllib.request
+          token=os.environ['GH_TOKEN']; repo=os.environ['REPOSITORY']
+          targets=('ops/m0-a10-exact-freeze-rebind-once','ops/m0-a10-final-wave-cleanup-once','ops/m0-a10-last-obsolete-waves-cancel-once')
+          headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'eigiib-m0-a10-purge-verifier'}
+          results={}
+          for branch in targets:
+              q=urllib.parse.urlencode({'branch':branch,'per_page':100})
+              with urllib.request.urlopen(urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/runs?{q}',headers=headers),timeout=30) as r: payload=json.load(r)
+              results[branch]=payload.get('total_count',0)
+          if any(results.values()): raise SystemExit(f'retained runs remain: {results}')
+          body='## Purge verification complete\n\nAll three deleted M0-A10 technical branch names now return zero retained GitHub Actions runs:\n\n' + '\n'.join(f'- `{name}`: `{count}` runs' for name,count in results.items()) + '\n\nThe orphan-suggestion cleanup therefore matches the successful M0-A9 method: deleted refs plus deleted branch-associated Actions runs.'
+          data=json.dumps({'body':body}).encode()
+          req=urllib.request.Request(f'https://api.github.com/repos/{repo}/issues/162/comments',headers={**headers,'Content-Type':'application/json'},data=data,method='POST')
+          with urllib.request.urlopen(req,timeout=30) as r:
+              if r.status!=201: raise SystemExit(f'unexpected comment status {r.status}')
+          print(results)
+          PY
+
+      - name: Delete verification branch after PR closure
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os, urllib.parse, urllib.request
+          token=os.environ['GH_TOKEN']; repo=os.environ['REPOSITORY']; branch=urllib.parse.quote(os.environ['BRANCH'],safe='')
+          req=urllib.request.Request(f'https://api.github.com/repos/{repo}/git/refs/heads/{branch}',headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'eigiib-m0-a10-purge-verifier'},method='DELETE')
+          with urllib.request.urlopen(req,timeout=30) as r:
+              if r.status!=204: raise SystemExit(f'unexpected ref delete status {r.status}')
+          PY
