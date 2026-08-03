@@ -27,7 +27,7 @@ jobs:
           set -euo pipefail
           patch='.eigiib-payload/e15-a5-freeze-carrier.patch'
           printf '%s  %s\n' \
-            '9aa0d3c77905e206ad5c4523d504512833ef6b971b1fd430445c5f117a28d58c' \
+            '57e5faac79d365b770bd74d833380218da6dfa35b95d1e864744ffc977cac89b' \
             "$patch" | sha256sum --check --strict
           git apply --check "$patch"
           git apply "$patch"
