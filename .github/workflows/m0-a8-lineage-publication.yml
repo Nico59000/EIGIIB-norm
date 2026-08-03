@@ -51,28 +51,38 @@ jobs:
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
+          ref: fc3f8402bfbe447227f5777bad92b620c7bcb350
           fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.13.14'
-      - name: Materialize exact E16-A5 source
+      - name: Historical E16-A4 replay
         shell: bash
-        run: git worktree add --detach historical-e16 fc3f8402bfbe447227f5777bad92b620c7bcb350
-      - name: Replay exact historical E16 closure
+        run: python tools/eigiib_historical_e16_a4_replay.py . --json > historical-e16-a4-report.json
+      - name: E16-A5 targeted tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_e16_verifier_matrix.py tests/test_eigiib_e16_final_closure.py
+      - name: Independent verifier matrix
         shell: bash
         run: |
-          python historical-e16/tools/eigiib_historical_e16_a4_replay.py historical-e16 --json > historical-e16-a4-report.json
-          python historical-e16/tools/eigiib_e16_verifier_matrix.py historical-e16 --json > historical-e16-matrix.json
-          python historical-e16/tools/eigiib_e16_final_closure_check.py historical-e16 --history-report historical-e16-a4-report.json --matrix-report historical-e16-matrix.json --json > historical-e16-closure.json
+          python tools/eigiib_e16_verifier_matrix.py . --json > historical-e16-matrix.json
           python - <<'PY'
           import json
           from pathlib import Path
-          root = Path('historical-e16')
-          pairs = [
-              (Path('historical-e16-matrix.json'), root / 'tests/fixtures/e16-a5/expected-matrix-report.json'),
-              (Path('historical-e16-closure.json'), root / 'tests/fixtures/e16-a5/expected-closure-report.json'),
-          ]
-          for actual, expected in pairs:
-              if json.loads(actual.read_text(encoding='utf-8')) != json.loads(expected.read_text(encoding='utf-8')):
-                  raise SystemExit(f'historical fixture mismatch: {actual}')
+          actual = json.loads(Path('historical-e16-matrix.json').read_text(encoding='utf-8'))
+          expected = json.loads(Path('tests/fixtures/e16-a5/expected-matrix-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('historical E16-A5 matrix fixture mismatch')
+          PY
+      - name: Final E16 closure
+        shell: bash
+        run: |
+          python tools/eigiib_e16_final_closure_check.py . --history-report historical-e16-a4-report.json --matrix-report historical-e16-matrix.json --json > historical-e16-closure.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = json.loads(Path('historical-e16-closure.json').read_text(encoding='utf-8'))
+          expected = json.loads(Path('tests/fixtures/e16-a5/expected-closure-report.json').read_text(encoding='utf-8'))
+          if actual != expected:
+              raise SystemExit('historical E16 final closure fixture mismatch')
           PY
