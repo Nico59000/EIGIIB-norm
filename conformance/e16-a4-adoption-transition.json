@@ -1,0 +1,28 @@
+{
+  "standard": "EIGIIB-E16-A4-TRANSITION-1.0",
+  "status": "adopted-e16-a4",
+  "source": {
+    "slice": "E16-A3",
+    "head_commit": "74cb64ebcb1b51b0a035e755be413dbd2a7e9e3e",
+    "profile_revision": "EIGIIB-E16-draft-1.0",
+    "authority_freeze": "conformance/e16-a3-authority-freeze.json"
+  },
+  "target": {
+    "extension": "E16-1.0",
+    "slice": "E16-A4",
+    "profile_revision": "EIGIIB-E16-draft-1.0",
+    "authority_manifest": "conformance/e16-a4-authority-manifest.json",
+    "registry": "conformance/custodian-succession-recovery.json"
+  },
+  "historical_preservation": {
+    "e16_a3_claims_rewritten": false,
+    "e16_a3_source_freeze_mutated": false,
+    "transition_is_additive": true,
+    "descendant_authority_frozen_separately": true
+  },
+  "reserved_for_later_slices": [
+    "independent-final-verifier-matrix",
+    "differential-restore-replay",
+    "final-authority-freeze"
+  ]
+}

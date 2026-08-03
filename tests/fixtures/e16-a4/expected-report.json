@@ -1,0 +1,23 @@
+{
+  "authority_freeze_result": "conformant",
+  "decision_state_counts": {
+    "held": 0,
+    "rejected": 0,
+    "successor-replica-recovered": 0,
+    "unavailable": 0
+  },
+  "findings": [],
+  "historical_continuity_result": "conformant",
+  "loss_report_count": 0,
+  "migration_observation_count": 0,
+  "migration_plan_count": 0,
+  "quarantine_record_count": 0,
+  "recovery_decision_count": 0,
+  "recovery_replay_count": 0,
+  "recovery_result": "not-evaluated",
+  "standard": "EIGIIB-E16-A4-1.0",
+  "structural_result": "conformant",
+  "succession_authorization_count": 0,
+  "tool": "eigiib-custodian-succession-recovery-check",
+  "tool_version": "0.1.0"
+}
