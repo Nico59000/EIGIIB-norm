@@ -1,6 +1,6 @@
 # EIGIIB-E15 — Externally Attested Delivery, Durable Publication, Recipient Acknowledgement and Withdrawal Governance
 
-Status: draft normative extension 1.1, adopted through E15-A2 from the exact E15-A1 historical authority.
+Status: draft normative extension 1.2, adopted through E15-A3 from the exact E15-A2 historical authority.
 
 ## 1. Purpose
 
@@ -224,15 +224,104 @@ exact E15-A1 source commit
   -> current transfer/evidence/acknowledgement evaluation
 ```
 
-## 18. Planned companions
+## 18. E15-A3 publication boundary
 
-E15-A3 will own external publication records, bounded persistence observations and independent readback.
+E15-A3 consumes only an exact E15-A2 lifecycle decision whose state is `externally-attested`. It adds four independently bound objects:
+
+```text
+external publication record
+bounded persistence observation
+independent readback
+publication lifecycle decision
+```
+
+A publication record binds the exact A2 attempt and decision commitment, publisher revision, publication policy, locator kind, mechanism, payload digest and size, time window, idempotency key, process and network-path identifiers, external event and authentication reference.
+
+A positive publication record proves only the bounded external event represented by that record.
+
+```text
+published != publicly reachable
+published != persistent
+published != durable
+published != independently readable
+```
+
+## 19. Publisher, observer and policy profiles
+
+Publisher and readback-observer profiles have distinct identity, principal, provider and implementation coordinates. A publication policy states allowed publishers and observers, locator and mechanism classes, freshness limits, the minimum number and spacing of persistence observations, whether readback is required, and the exact independence dimensions that a readback must satisfy.
+
+A different process does not imply a different implementation, provider or principal. Independence is never inferred from a display name or one differing identifier.
+
+## 20. Bounded persistence observations
+
+A persistence observation records one exact publication, observer revision, locator, payload digest, observation time, validity limit, event, evidence state and authentication reference.
+
+Positive observations are counted only when they are exact, fresh and sufficiently spaced. Their result is bounded by the recorded times, observer, locator and policy.
+
+```text
+one observation != durability
+repeated observations != indefinite retention
+unreachable != absent
+absence at one locator != global absence
+```
+
+## 21. Independent readback
+
+A readback binds one exact publication and records the bytes obtained through one declared route. Positive readback requires matching locator, payload digest and byte count, plus every independence dimension required by policy.
+
+Digest equality establishes byte identity only. It does not establish semantic truth, publisher honesty, future availability or provider independence beyond the declared dimensions.
+
+## 22. E15-A3 lifecycle decision
+
+E15-A3 evaluates nine gate coordinates:
+
+```text
+binding_result
+publisher_result
+observer_result
+freshness_result
+publication_result
+persistence_result
+readback_result
+independence_result
+content_identity_result
+```
+
+Gate values remain `permit`, `deny`, `held` and `unavailable`. Lifecycle states are:
+
+```text
+not-published
+publication-observed
+persistence-observed
+independently-read-back
+rejected
+held
+contested
+unavailable
+```
+
+Known negatives precede contested, unavailable and incomplete results. Satisfying bounded persistence without a qualifying readback yields `persistence-observed`, not a universal durability claim.
+
+## 23. Structural-before-lifecycle replay
+
+E15-A3 materializes exact E15-A2 source commit `25988d80571f0f8d3587d976810a2dd8e0ce2328` in an isolated tree, replays the complete historical E14→E15-A2 chain and executes the frozen A2 unit suite before interpreting A3 records.
+
+The order is:
+
+```text
+exact E15-A2 source commit
+  -> historical E14 + E15-A1 + E15-A2 replay
+  -> additive E15-A3 transition
+  -> current publication/persistence/readback evaluation
+```
+
+## 24. Planned companions
 
 E15-A4 will own withdrawal, tombstones and post-delivery governance.
 
 E15-A5 will own the independent external-evidence verifier matrix and final freeze.
 
-## 19. Non-goals and proof boundary
+## 25. Non-goals and proof boundary
 
 E15-A1 does not establish absolute material delivery, remote service acceptance, recipient possession or human awareness, publication or persistence, universal availability, infinite durability, global withdrawal or erasure, legal recall, external-service honesty, collusion resistance or universal interoperability.
 
@@ -246,10 +335,10 @@ policy permit != external acceptance
 idempotency available != exactly-once external effect
 ```
 
-## 20. Reference tools
+## 26. Reference tools
 
-Current E15-A2 checker: `tools/eigiib_delivery_evidence_check.py`.
+Current E15-A3 checker: `tools/eigiib_publication_readback_check.py`.
 
-Historical E15-A1 replay bridge: `tools/eigiib_historical_e15_a1_replay.py`.
+Historical E15-A2 replay bridge: `tools/eigiib_historical_e15_a2_replay.py`.
 
-The E15-A1 checker and historical E14 bridge remain historical source authorities. All reference tools use Python standard-library facilities and repository-local Git history.
+The E15-A2 checker, E15-A1 checker and historical E14 bridge remain historical source authorities. All reference tools use Python standard-library facilities and repository-local Git history.

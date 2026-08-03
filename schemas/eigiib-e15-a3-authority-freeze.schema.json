@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorities": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "bytes",
+          "sha256"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "profile_revision": {
+      "const": "EIGIIB-E15-draft-1.2"
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "e15_a2_head_commit": {
+          "const": "25988d80571f0f8d3587d976810a2dd8e0ce2328"
+        }
+      },
+      "required": [
+        "e15_a2_head_commit"
+      ],
+      "type": "object"
+    },
+    "standard": {
+      "const": "EIGIIB-E15-A3-FREEZE-1.0"
+    },
+    "status": {
+      "const": "frozen"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "source",
+    "profile_revision",
+    "authorities"
+  ],
+  "title": "EIGIIB E15-A3 authority freeze",
+  "type": "object"
+}

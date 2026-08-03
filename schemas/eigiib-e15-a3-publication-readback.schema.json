@@ -1,0 +1,932 @@
+{
+  "$defs": {
+    "authentication": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "key_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "signature_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "algorithm",
+        "key_id",
+        "signature_sha256"
+      ],
+      "type": "object"
+    },
+    "commitment": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "algorithm",
+        "digest"
+      ],
+      "type": "object"
+    },
+    "decision": {
+      "additionalProperties": false,
+      "properties": {
+        "binding_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "content_identity_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "evaluated_at": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "freshness_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "independence_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "independent_readbacks": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "lifecycle_state": {
+          "enum": [
+            "not-published",
+            "publication-observed",
+            "persistence-observed",
+            "independently-read-back",
+            "rejected",
+            "held",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "observer_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "persistence_observations": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "persistence_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "publication": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "publication_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "publication_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "publisher_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "readback_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "reasons": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "sequence": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "publication",
+        "publication_revision",
+        "sequence",
+        "persistence_observations",
+        "independent_readbacks",
+        "binding_result",
+        "publisher_result",
+        "observer_result",
+        "freshness_result",
+        "publication_result",
+        "persistence_result",
+        "readback_result",
+        "independence_result",
+        "content_identity_result",
+        "lifecycle_state",
+        "evaluated_at",
+        "reasons",
+        "evidence_refs",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "observer": {
+      "additionalProperties": false,
+      "properties": {
+        "authentication_algorithms": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_authority": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_state": {
+          "enum": [
+            "contested",
+            "rejected",
+            "unavailable",
+            "verified"
+          ]
+        },
+        "implementation_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "independent-observer",
+            "recipient-interface",
+            "verifier-service"
+          ]
+        },
+        "principal_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "identity_authority",
+        "identity_state",
+        "principal_id",
+        "provider_id",
+        "implementation_id",
+        "authentication_algorithms",
+        "commitment",
+        "kind"
+      ],
+      "type": "object"
+    },
+    "persistence": {
+      "additionalProperties": false,
+      "properties": {
+        "authentication": {
+          "$ref": "#/$defs/authentication"
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "locator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observation_state": {
+          "enum": [
+            "positive",
+            "negative",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "observed_at": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "observed_event": {
+          "enum": [
+            "present",
+            "absent",
+            "digest-mismatch",
+            "unreachable",
+            "unknown"
+          ]
+        },
+        "observer": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observer_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "payload_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "publication": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "publication_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "valid_until": {
+          "pattern": "Z$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "publication",
+        "publication_revision",
+        "observer",
+        "observer_revision",
+        "observation_state",
+        "observed_event",
+        "observed_at",
+        "valid_until",
+        "locator",
+        "payload_sha256",
+        "authentication",
+        "source_reference",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "policy": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_locator_kinds": {
+          "items": {
+            "enum": [
+              "registry-reference",
+              "release-asset",
+              "object-key",
+              "content-address"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_observers": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_publication_mechanisms": {
+          "items": {
+            "enum": [
+              "registry-push",
+              "release-publication",
+              "object-put",
+              "content-addressed-publish"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_publishers": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "max_observation_age_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_publication_age_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_readback_age_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "min_observation_interval_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "min_persistence_observations": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "readback_requirement": {
+          "enum": [
+            "required",
+            "optional"
+          ]
+        },
+        "required_authentication_algorithms": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "required_independence_dimensions": {
+          "items": {
+            "enum": [
+              "principal",
+              "provider",
+              "implementation",
+              "process",
+              "network-path"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "active",
+            "retired",
+            "contested",
+            "unavailable"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "state",
+        "allowed_publishers",
+        "allowed_observers",
+        "allowed_locator_kinds",
+        "allowed_publication_mechanisms",
+        "required_authentication_algorithms",
+        "max_publication_age_seconds",
+        "min_persistence_observations",
+        "min_observation_interval_seconds",
+        "max_observation_age_seconds",
+        "readback_requirement",
+        "required_independence_dimensions",
+        "max_readback_age_seconds",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "publication": {
+      "additionalProperties": false,
+      "properties": {
+        "authentication": {
+          "$ref": "#/$defs/authentication"
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "issued_at": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "locator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "locator_kind": {
+          "enum": [
+            "registry-reference",
+            "release-asset",
+            "object-key",
+            "content-address"
+          ]
+        },
+        "network_path_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observed_event": {
+          "enum": [
+            "published",
+            "rejected",
+            "failed",
+            "removed",
+            "unknown"
+          ]
+        },
+        "payload_bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "payload_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "policy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policy_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "process_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "publication_idempotency_key": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "publication_mechanism": {
+          "enum": [
+            "registry-push",
+            "release-publication",
+            "object-put",
+            "content-addressed-publish"
+          ]
+        },
+        "publication_sequence": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "publication_state": {
+          "enum": [
+            "positive",
+            "negative",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "publisher": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "publisher_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_attempt": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_attempt_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_delivery_decision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_delivery_decision_commitment_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "source_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "valid_until": {
+          "pattern": "Z$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "source_attempt",
+        "source_attempt_revision",
+        "source_delivery_decision",
+        "source_delivery_decision_commitment_sha256",
+        "publisher",
+        "publisher_revision",
+        "policy",
+        "policy_revision",
+        "publication_sequence",
+        "publication_idempotency_key",
+        "locator",
+        "locator_kind",
+        "publication_mechanism",
+        "payload_sha256",
+        "payload_bytes",
+        "issued_at",
+        "valid_until",
+        "publication_state",
+        "observed_event",
+        "process_id",
+        "network_path_id",
+        "authentication",
+        "source_reference",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "publisher": {
+      "additionalProperties": false,
+      "properties": {
+        "authentication_algorithms": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_authority": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_state": {
+          "enum": [
+            "contested",
+            "rejected",
+            "unavailable",
+            "verified"
+          ]
+        },
+        "implementation_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "content-addressed-store",
+            "object-store",
+            "registry",
+            "release-service"
+          ]
+        },
+        "locator_kinds": {
+          "items": {
+            "enum": [
+              "content-address",
+              "object-key",
+              "registry-reference",
+              "release-asset"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "principal_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "publication_mechanisms": {
+          "items": {
+            "enum": [
+              "content-addressed-publish",
+              "object-put",
+              "registry-push",
+              "release-publication"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "identity_authority",
+        "identity_state",
+        "principal_id",
+        "provider_id",
+        "implementation_id",
+        "authentication_algorithms",
+        "commitment",
+        "kind",
+        "locator_kinds",
+        "publication_mechanisms"
+      ],
+      "type": "object"
+    },
+    "readback": {
+      "additionalProperties": false,
+      "properties": {
+        "authentication": {
+          "$ref": "#/$defs/authentication"
+        },
+        "bytes_read": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "locator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "network_path_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observed_event": {
+          "enum": [
+            "bytes-match",
+            "digest-mismatch",
+            "not-found",
+            "unreachable",
+            "unknown"
+          ]
+        },
+        "observer": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observer_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "payload_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "process_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "publication": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "publication_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "read_at": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "readback_state": {
+          "enum": [
+            "positive",
+            "negative",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "valid_until": {
+          "pattern": "Z$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "publication",
+        "publication_revision",
+        "observer",
+        "observer_revision",
+        "readback_state",
+        "observed_event",
+        "read_at",
+        "valid_until",
+        "locator",
+        "payload_sha256",
+        "bytes_read",
+        "process_id",
+        "network_path_id",
+        "authentication",
+        "source_reference",
+        "commitment"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bounded_persistence_observations": {
+      "items": {
+        "$ref": "#/$defs/persistence"
+      },
+      "type": "array"
+    },
+    "external_publication_records": {
+      "items": {
+        "$ref": "#/$defs/publication"
+      },
+      "type": "array"
+    },
+    "independent_readbacks": {
+      "items": {
+        "$ref": "#/$defs/readback"
+      },
+      "type": "array"
+    },
+    "publication_lifecycle_decisions": {
+      "items": {
+        "$ref": "#/$defs/decision"
+      },
+      "type": "array"
+    },
+    "publication_policies": {
+      "items": {
+        "$ref": "#/$defs/policy"
+      },
+      "type": "array"
+    },
+    "publisher_profiles": {
+      "items": {
+        "$ref": "#/$defs/publisher"
+      },
+      "type": "array"
+    },
+    "readback_observer_profiles": {
+      "items": {
+        "$ref": "#/$defs/observer"
+      },
+      "type": "array"
+    },
+    "source_e15_a2_commit": {
+      "const": "25988d80571f0f8d3587d976810a2dd8e0ce2328"
+    },
+    "standard": {
+      "const": "EIGIIB-E15-A3-1.0"
+    },
+    "status": {
+      "const": "structural-only"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "source_e15_a2_commit",
+    "publisher_profiles",
+    "readback_observer_profiles",
+    "publication_policies",
+    "external_publication_records",
+    "bounded_persistence_observations",
+    "independent_readbacks",
+    "publication_lifecycle_decisions"
+  ],
+  "title": "EIGIIB E15-A3 publication and readback registry",
+  "type": "object"
+}

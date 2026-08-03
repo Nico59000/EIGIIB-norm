@@ -37,6 +37,29 @@ class E15A2Test(unittest.TestCase):
             else:
                 target.write_text(f"fixture:{rel}\n", encoding="utf-8")
 
+        profile = '''standard = "EIGIIB-1.0"
+extensions = ["E15-1.0"]
+revision = "EIGIIB-E15-draft-1.1"
+required_authorities = ["e15", "delivery_intent", "e15_a1_transition", "e15_a1_authority_freeze", "delivery_evidence", "e15_a2_transition", "e15_a2_authority_freeze", "e15_a2_human_mastery"]
+
+[authorities]
+e15 = "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md"
+delivery_intent = "conformance/delivery-intent.json"
+e15_a1_transition = "conformance/e15-a1-adoption-transition.json"
+e15_a1_authority_freeze = "conformance/e15-a1-authority-freeze.json"
+delivery_evidence = "conformance/delivery-evidence.json"
+e15_a2_transition = "conformance/e15-a2-adoption-transition.json"
+e15_a2_authority_freeze = "conformance/e15-a2-authority-freeze.json"
+e15_a2_human_mastery = "docs/E15-A2-HUMAN-MASTERY-GUIDE.md"
+
+[[manual_gates]]
+id = "e15-a2-transfer-evidence-acknowledgement-review"
+status = "complete"
+authority = "e15"
+attestation = "conformance/E15-A2-MANUAL-REVIEW.md"
+'''
+        (self.root / "EIGIIB.toml").write_text(profile, encoding="utf-8")
+
         parent = json.loads((self.root / "conformance/delivery-intent.json").read_text(encoding="utf-8"))
         parent["delivery_intents"] = []
         parent["delivery_decisions"] = []

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "consumed_inputs": {
+      "type": "object"
+    },
+    "historical_preservation": {
+      "type": "object"
+    },
+    "historical_replay": {
+      "type": "object"
+    },
+    "source": {
+      "type": "object"
+    },
+    "standard": {
+      "const": "EIGIIB-E15-A3-TRANSITION-1.0"
+    },
+    "status": {
+      "const": "adopted-e15-a3"
+    },
+    "target": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "source",
+    "historical_replay",
+    "target",
+    "consumed_inputs",
+    "historical_preservation"
+  ],
+  "title": "EIGIIB E15-A3 adoption transition",
+  "type": "object"
+}

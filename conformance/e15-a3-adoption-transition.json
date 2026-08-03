@@ -1,0 +1,50 @@
+{
+  "consumed_inputs": {
+    "bounded_persistence_observation": "publication_readback.bounded_persistence_observation",
+    "evaluation_time": "publication_readback.publication_lifecycle_decision.evaluated_at",
+    "external_publication_record": "publication_readback.external_publication_record",
+    "independent_readback": "publication_readback.independent_readback",
+    "publication_policy": "publication_readback.publication_policy",
+    "source_externally_attested_decision": "delivery_evidence.delivery_evidence_decision",
+    "source_transfer_attempt": "delivery_evidence.transfer_attempt"
+  },
+  "historical_preservation": {
+    "descendant_a2_test_profile_isolated": true,
+    "descendant_profile_frozen_separately": true,
+    "e15_a2_claims_rewritten": false,
+    "source_freeze_mutated": false,
+    "transition_is_additive": true
+  },
+  "historical_replay": {
+    "current_tree_substitution_forbidden": true,
+    "historical_tree_isolated": true,
+    "mode": "materialize-and-replay-exact-source-commit",
+    "required_results": [
+      "historical-e14-conformant",
+      "e15-a1-conformant",
+      "e15-a2-conformant",
+      "e15-a2-tests-conformant"
+    ],
+    "source_commit_must_be_ancestor": true,
+    "tool": "tools/eigiib_historical_e15_a2_replay.py"
+  },
+  "source": {
+    "authority_freeze": "conformance/e15-a2-authority-freeze.json",
+    "branch": "agent/e15-a2-transfer-attempt-external-delivery-evidence-recipient-acknowledgement",
+    "checker": "tools/eigiib_delivery_evidence_check.py",
+    "head_commit": "25988d80571f0f8d3587d976810a2dd8e0ce2328",
+    "profile_revision": "EIGIIB-E15-draft-1.1",
+    "registry_authority": "conformance/delivery-evidence.json"
+  },
+  "standard": "EIGIIB-E15-A3-TRANSITION-1.0",
+  "status": "adopted-e15-a3",
+  "target": {
+    "adoption_state": "adopted",
+    "authority_freeze": "conformance/e15-a3-authority-freeze.json",
+    "checker": "tools/eigiib_publication_readback_check.py",
+    "extension": "E15-1.0",
+    "profile_revision": "EIGIIB-E15-draft-1.2",
+    "registry_authority": "conformance/publication-readback.json",
+    "slice": "E15-A3"
+  }
+}

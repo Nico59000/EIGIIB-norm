@@ -464,13 +464,13 @@
       "id": "E15",
       "kind": "extension",
       "title": "Externally Attested Delivery, Durable Publication, Recipient Acknowledgement and Withdrawal Governance",
-      "theme": "external transfer attempts + delivery evidence + recipient acknowledgement",
+      "theme": "external publication records + bounded persistence observations + independent readback",
       "authority_key": "e15",
       "authority": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
-      "schema": "schemas/eigiib-e15-a2-delivery-evidence.schema.json",
-      "checker": "tools/eigiib_delivery_evidence_check.py",
-      "registry_authority_key": "delivery_evidence",
-      "registry": "conformance/delivery-evidence.json",
+      "schema": "schemas/eigiib-e15-a3-publication-readback.schema.json",
+      "checker": "tools/eigiib_publication_readback_check.py",
+      "registry_authority_key": "publication_readback",
+      "registry": "conformance/publication-readback.json",
       "depends_on": [
         "E4",
         "E11",
@@ -489,7 +489,10 @@
         "delivery_intent",
         "e15_a1_transition",
         "e15_a1_authority_freeze",
-        "e15_a2_transition"
+        "e15_a2_transition",
+        "e15_a2_authority_freeze",
+        "publication_readback",
+        "e15_a3_transition"
       ],
       "does_not_reprove": [
         "E4 authentication",
@@ -501,8 +504,13 @@
         "endpoint authorization",
         "recipient possession",
         "human awareness",
-        "publication durability",
-        "global withdrawal"
+        "global withdrawal",
+        "external-service honesty",
+        "universal availability",
+        "indefinite durability",
+        "provider independence beyond declared dimensions",
+        "global absence",
+        "withdrawal or erasure"
       ]
     }
   ],
