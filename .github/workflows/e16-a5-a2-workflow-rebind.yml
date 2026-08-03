@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - '.e16a5-a2-workflow-rebind.trigger'
+      - '.github/workflows/e16-a5-a2-workflow-rebind.yml'
   workflow_dispatch:
 
 permissions:
