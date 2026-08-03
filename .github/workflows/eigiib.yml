@@ -125,17 +125,17 @@ jobs:
             --output-dir .eigiib-results/components \
             --matrix-output .eigiib-results/e14-a5-matrix.json \
             --json | tee .eigiib-results/e14-history.json
-      - name: Historical E15-A3 authority replay
+      - name: Historical E15-A4 authority replay
         if: always()
         run: |
           set -o pipefail
-          python tools/eigiib_historical_e15_a3_replay.py . --json | tee .eigiib-results/e15-a3-history.json
-      - name: EIGIIB E15-A4 withdrawal governance conformance
+          python tools/eigiib_historical_e15_a4_replay.py . --json | tee .eigiib-results/e15-a4-history.json
+      - name: EIGIIB E15-A5 final closure conformance
         if: always()
         run: |
           set -o pipefail
-          python tools/eigiib_withdrawal_governance_check.py . \
-            --history-report .eigiib-results/e15-a3-history.json \
+          python tools/eigiib_e15_final_closure_check.py . \
+            --history-report .eigiib-results/e15-a4-history.json \
             --json | tee .eigiib-results/components/e15.json
       - name: EIGIIB M0-A2 aggregate conformance
         if: always()
