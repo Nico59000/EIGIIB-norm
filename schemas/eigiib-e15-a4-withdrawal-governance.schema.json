@@ -1,0 +1,1237 @@
+{
+  "$defs": {
+    "authentication": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "key_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "signature_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "algorithm",
+        "key_id",
+        "signature_sha256"
+      ],
+      "type": "object"
+    },
+    "authority": {
+      "additionalProperties": false,
+      "properties": {
+        "actions": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "authentication_algorithms": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_authority": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_state": {
+          "enum": [
+            "verified",
+            "rejected",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "implementation_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "governance-authority",
+            "content-controller",
+            "release-governor"
+          ]
+        },
+        "principal_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "identity_authority",
+        "identity_state",
+        "principal_id",
+        "provider_id",
+        "implementation_id",
+        "authentication_algorithms",
+        "commitment",
+        "kind",
+        "actions"
+      ],
+      "type": "object"
+    },
+    "commitment": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "algorithm",
+        "digest"
+      ],
+      "type": "object"
+    },
+    "decision": {
+      "additionalProperties": false,
+      "properties": {
+        "anti_rollback_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "authority_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "binding_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "content_identity_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "distribution_stop_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "distribution_stops": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "evaluated_at": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "freshness_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "lifecycle_state": {
+          "enum": [
+            "withdrawal-requested",
+            "tombstoned",
+            "distribution-stopped",
+            "post-withdrawal-observed",
+            "rejected",
+            "held",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "observer_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "operator_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "policy_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "post_withdrawal_observation_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "post_withdrawal_observations": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "reasons": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "registry_tombstones": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "request_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "request_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sequence": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "tombstone_result": {
+          "enum": [
+            "permit",
+            "deny",
+            "held",
+            "unavailable"
+          ]
+        },
+        "withdrawal_request": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "withdrawal_request",
+        "request_revision",
+        "sequence",
+        "registry_tombstones",
+        "distribution_stops",
+        "post_withdrawal_observations",
+        "binding_result",
+        "authority_result",
+        "operator_result",
+        "observer_result",
+        "policy_result",
+        "freshness_result",
+        "request_result",
+        "tombstone_result",
+        "distribution_stop_result",
+        "post_withdrawal_observation_result",
+        "anti_rollback_result",
+        "content_identity_result",
+        "lifecycle_state",
+        "evaluated_at",
+        "reasons",
+        "evidence_refs",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "observation": {
+      "additionalProperties": false,
+      "properties": {
+        "authentication": {
+          "$ref": "#/$defs/authentication"
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "locator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "network_path_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observation_state": {
+          "enum": [
+            "positive",
+            "negative",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "observed_at": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "observed_event": {
+          "enum": [
+            "tombstone-visible",
+            "not-found",
+            "still-available",
+            "digest-mismatch",
+            "unreachable",
+            "unknown"
+          ]
+        },
+        "observer": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observer_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "payload_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "process_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "request_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "target_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "valid_until": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "withdrawal_request": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "withdrawal_request",
+        "request_revision",
+        "target",
+        "target_revision",
+        "observer",
+        "observer_revision",
+        "observation_state",
+        "observed_event",
+        "observed_at",
+        "valid_until",
+        "locator",
+        "payload_sha256",
+        "process_id",
+        "network_path_id",
+        "authentication",
+        "source_reference",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "operator": {
+      "additionalProperties": false,
+      "properties": {
+        "authentication_algorithms": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_authority": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_state": {
+          "enum": [
+            "verified",
+            "rejected",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "implementation_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "registry-operator",
+            "distribution-operator",
+            "publication-operator"
+          ]
+        },
+        "managed_targets": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "principal_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "stop_mechanisms": {
+          "items": {
+            "enum": [
+              "registry-tombstone",
+              "release-unpublish",
+              "object-delete-marker",
+              "distribution-block",
+              "content-address-denylist"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "identity_authority",
+        "identity_state",
+        "principal_id",
+        "provider_id",
+        "implementation_id",
+        "authentication_algorithms",
+        "commitment",
+        "kind",
+        "managed_targets",
+        "stop_mechanisms"
+      ],
+      "type": "object"
+    },
+    "policy": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_authorities": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_observers": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "allowed_operators": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "max_post_observation_age_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_request_age_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_stop_age_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_tombstone_age_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "min_post_observation_interval_seconds": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "minimum_withdrawal_sequence": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "registered_targets": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "required_authentication_algorithms": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "required_post_withdrawal_observations_per_target": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "active",
+            "retired",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "stop_coverage": {
+          "const": "all-registered-stop-targets"
+        },
+        "stop_targets": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "tombstone_requirement": {
+          "enum": [
+            "required",
+            "optional"
+          ]
+        },
+        "tombstone_targets": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "state",
+        "allowed_authorities",
+        "allowed_operators",
+        "allowed_observers",
+        "registered_targets",
+        "tombstone_targets",
+        "stop_targets",
+        "tombstone_requirement",
+        "stop_coverage",
+        "minimum_withdrawal_sequence",
+        "max_request_age_seconds",
+        "max_tombstone_age_seconds",
+        "max_stop_age_seconds",
+        "max_post_observation_age_seconds",
+        "required_post_withdrawal_observations_per_target",
+        "min_post_observation_interval_seconds",
+        "required_authentication_algorithms",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "request": {
+      "additionalProperties": false,
+      "properties": {
+        "authentication": {
+          "$ref": "#/$defs/authentication"
+        },
+        "authority": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "authority_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "effective_at": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observed_event": {
+          "enum": [
+            "requested",
+            "rejected",
+            "cancelled",
+            "unknown"
+          ]
+        },
+        "payload_bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "payload_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "policy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policy_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "request_state": {
+          "enum": [
+            "positive",
+            "negative",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "requested_at": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "scope_targets": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source_a3_decision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_a3_decision_commitment_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "source_publication": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_publication_commitment_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "source_publication_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "valid_until": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "withdrawal_idempotency_key": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "withdrawal_sequence": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "source_publication",
+        "source_publication_revision",
+        "source_publication_commitment_sha256",
+        "source_a3_decision",
+        "source_a3_decision_commitment_sha256",
+        "authority",
+        "authority_revision",
+        "policy",
+        "policy_revision",
+        "withdrawal_sequence",
+        "withdrawal_idempotency_key",
+        "scope_targets",
+        "payload_sha256",
+        "payload_bytes",
+        "requested_at",
+        "effective_at",
+        "valid_until",
+        "request_state",
+        "observed_event",
+        "authentication",
+        "source_reference",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "stop": {
+      "additionalProperties": false,
+      "properties": {
+        "authentication": {
+          "$ref": "#/$defs/authentication"
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "locator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observed_at": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "observed_event": {
+          "enum": [
+            "stopped",
+            "resumed",
+            "failed",
+            "unknown"
+          ]
+        },
+        "operator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "operator_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "payload_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "predecessor_commitment_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "predecessor_id": {
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "request_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "stop_mechanism": {
+          "enum": [
+            "registry-tombstone",
+            "release-unpublish",
+            "object-delete-marker",
+            "distribution-block",
+            "content-address-denylist"
+          ]
+        },
+        "stop_sequence": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "stop_state": {
+          "enum": [
+            "positive",
+            "negative",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "target": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "target_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "valid_until": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "withdrawal_request": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "withdrawal_request",
+        "request_revision",
+        "target",
+        "target_revision",
+        "operator",
+        "operator_revision",
+        "stop_sequence",
+        "predecessor_id",
+        "predecessor_commitment_sha256",
+        "stop_mechanism",
+        "stop_state",
+        "observed_event",
+        "observed_at",
+        "valid_until",
+        "locator",
+        "payload_sha256",
+        "authentication",
+        "source_reference",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "target": {
+      "additionalProperties": false,
+      "properties": {
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "registry",
+            "object-store",
+            "release-service",
+            "content-addressed-store"
+          ]
+        },
+        "locator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "locator_kind": {
+          "enum": [
+            "registry-reference",
+            "release-asset",
+            "object-key",
+            "content-address"
+          ]
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "stop_mechanisms": {
+          "items": {
+            "enum": [
+              "registry-tombstone",
+              "release-unpublish",
+              "object-delete-marker",
+              "distribution-block",
+              "content-address-denylist"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "tombstone_capable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "kind",
+        "locator",
+        "locator_kind",
+        "tombstone_capable",
+        "stop_mechanisms",
+        "commitment"
+      ],
+      "type": "object"
+    },
+    "tombstone": {
+      "additionalProperties": false,
+      "properties": {
+        "authentication": {
+          "$ref": "#/$defs/authentication"
+        },
+        "commitment": {
+          "$ref": "#/$defs/commitment"
+        },
+        "generation": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "locator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observed_at": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "observed_event": {
+          "enum": [
+            "installed",
+            "removed",
+            "rejected",
+            "unknown"
+          ]
+        },
+        "operator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "operator_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "payload_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "predecessor_commitment_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "predecessor_id": {
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "request_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_reference": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "stop_mechanism": {
+          "enum": [
+            "registry-tombstone",
+            "release-unpublish",
+            "object-delete-marker",
+            "distribution-block",
+            "content-address-denylist"
+          ]
+        },
+        "target": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "target_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "tombstone_state": {
+          "enum": [
+            "positive",
+            "negative",
+            "contested",
+            "unavailable"
+          ]
+        },
+        "valid_until": {
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "withdrawal_request": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "withdrawal_request",
+        "request_revision",
+        "target",
+        "target_revision",
+        "operator",
+        "operator_revision",
+        "generation",
+        "predecessor_id",
+        "predecessor_commitment_sha256",
+        "stop_mechanism",
+        "tombstone_state",
+        "observed_event",
+        "observed_at",
+        "valid_until",
+        "locator",
+        "payload_sha256",
+        "authentication",
+        "source_reference",
+        "commitment"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "distribution_operator_profiles": {
+      "items": {
+        "$ref": "#/$defs/operator"
+      },
+      "type": "array"
+    },
+    "distribution_stop_records": {
+      "items": {
+        "$ref": "#/$defs/stop"
+      },
+      "type": "array"
+    },
+    "distribution_target_profiles": {
+      "items": {
+        "$ref": "#/$defs/target"
+      },
+      "type": "array"
+    },
+    "post_withdrawal_observations": {
+      "items": {
+        "$ref": "#/$defs/observation"
+      },
+      "type": "array"
+    },
+    "registry_tombstones": {
+      "items": {
+        "$ref": "#/$defs/tombstone"
+      },
+      "type": "array"
+    },
+    "source_e15_a3_commit": {
+      "const": "f403e93dd6d1dcb058474d67f2cc7e73b8ad13bd"
+    },
+    "standard": {
+      "const": "EIGIIB-E15-A4-1.0"
+    },
+    "status": {
+      "const": "structural-only"
+    },
+    "withdrawal_authority_profiles": {
+      "items": {
+        "$ref": "#/$defs/authority"
+      },
+      "type": "array"
+    },
+    "withdrawal_lifecycle_decisions": {
+      "items": {
+        "$ref": "#/$defs/decision"
+      },
+      "type": "array"
+    },
+    "withdrawal_policies": {
+      "items": {
+        "$ref": "#/$defs/policy"
+      },
+      "type": "array"
+    },
+    "withdrawal_requests": {
+      "items": {
+        "$ref": "#/$defs/request"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "standard",
+    "status",
+    "source_e15_a3_commit",
+    "withdrawal_authority_profiles",
+    "distribution_operator_profiles",
+    "distribution_target_profiles",
+    "withdrawal_policies",
+    "withdrawal_requests",
+    "registry_tombstones",
+    "distribution_stop_records",
+    "post_withdrawal_observations",
+    "withdrawal_lifecycle_decisions"
+  ],
+  "title": "EIGIIB E15-A4 withdrawal governance registry",
+  "type": "object"
+}

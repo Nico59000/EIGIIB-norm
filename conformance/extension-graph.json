@@ -464,13 +464,13 @@
       "id": "E15",
       "kind": "extension",
       "title": "Externally Attested Delivery, Durable Publication, Recipient Acknowledgement and Withdrawal Governance",
-      "theme": "external publication records + bounded persistence observations + independent readback",
+      "theme": "withdrawal requests + registry tombstones + distribution stops + bounded post-withdrawal observations",
       "authority_key": "e15",
       "authority": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
-      "schema": "schemas/eigiib-e15-a3-publication-readback.schema.json",
-      "checker": "tools/eigiib_publication_readback_check.py",
-      "registry_authority_key": "publication_readback",
-      "registry": "conformance/publication-readback.json",
+      "schema": "schemas/eigiib-e15-a4-withdrawal-governance.schema.json",
+      "checker": "tools/eigiib_withdrawal_governance_check.py",
+      "registry_authority_key": "withdrawal_governance",
+      "registry": "conformance/withdrawal-governance.json",
       "depends_on": [
         "E4",
         "E11",
@@ -492,7 +492,10 @@
         "e15_a2_transition",
         "e15_a2_authority_freeze",
         "publication_readback",
-        "e15_a3_transition"
+        "e15_a3_transition",
+        "e15_a3_authority_freeze",
+        "withdrawal_governance",
+        "e15_a4_transition"
       ],
       "does_not_reprove": [
         "E4 authentication",
@@ -504,13 +507,17 @@
         "endpoint authorization",
         "recipient possession",
         "human awareness",
-        "global withdrawal",
         "external-service honesty",
         "universal availability",
         "indefinite durability",
         "provider independence beyond declared dimensions",
         "global absence",
-        "withdrawal or erasure"
+        "global erasure",
+        "recipient-side deletion",
+        "legal recall",
+        "instantaneous withdrawal propagation",
+        "unregistered-mirror closure",
+        "future unavailability"
       ]
     }
   ],

@@ -1,0 +1,115 @@
+{
+  "authorities": [
+    {
+      "bytes": 1956,
+      "path": ".github/workflows/e15-a3-publication-readback.yml",
+      "sha256": "f1551d6a0d1baba9315cd7885db4299e447f28d5ba8b503a53daae85e1e82ebc"
+    },
+    {
+      "bytes": 4639,
+      "path": ".github/workflows/e15-a4-withdrawal-governance.yml",
+      "sha256": "25d7d7970568567c798faff094df2fe988d690c88eb08930a41bd30e29594fe7"
+    },
+    {
+      "bytes": 7935,
+      "path": ".github/workflows/eigiib.yml",
+      "sha256": "830c79e9e99ffde421fd37eb8e78bf3f6082baa51807b07026593c4b76b92598"
+    },
+    {
+      "bytes": 12848,
+      "path": "EIGIIB.toml",
+      "sha256": "09acff2164262abcfe3b40ea5fcc0b87be549ffdf6b711276f21043567f8f39b"
+    },
+    {
+      "bytes": 2148,
+      "path": "conformance/E15-A4-MANUAL-REVIEW.md",
+      "sha256": "da3f24a88460037b67aefd4b6f007d505219ff162e7071b58fbedf7ad25b9bc2"
+    },
+    {
+      "bytes": 2118,
+      "path": "conformance/e15-a3-adoption-transition.json",
+      "sha256": "3b483baee497f3c832a871c85e20d5a419b23188a0f388bbb1629dd3f38e1ec4"
+    },
+    {
+      "bytes": 3968,
+      "path": "conformance/e15-a3-authority-freeze.json",
+      "sha256": "684de5dcf943bc7c88026adb9aa7ffc0c3a69c3f5bcf7b6502374ca554ca45b5"
+    },
+    {
+      "bytes": 2321,
+      "path": "conformance/e15-a4-adoption-transition.json",
+      "sha256": "40a9fec79083634465e0d217d640a0d50096359e16581e3208b822bf4caf3247"
+    },
+    {
+      "bytes": 20287,
+      "path": "conformance/extension-graph.json",
+      "sha256": "e4853a5349ae70a281b25d9f9045595611a08643d374c3a347eb1f50bf4af45c"
+    },
+    {
+      "bytes": 385,
+      "path": "conformance/publication-readback.json",
+      "sha256": "14c6975b8f250947d659b3c3fad5c9e0c709c97e817997d96941ff2698d60e02"
+    },
+    {
+      "bytes": 456,
+      "path": "conformance/withdrawal-governance.json",
+      "sha256": "01855ec3e899f834aa992645b23c5bc40c4f0ce09c3f8712c5a1408968d9e279"
+    },
+    {
+      "bytes": 3969,
+      "path": "docs/E15-A4-HUMAN-MASTERY-GUIDE.md",
+      "sha256": "64bb19bd7d347c2e74299d79cf8a625202f5e5a9b8025117afeefa56c6383d0a"
+    },
+    {
+      "bytes": 16595,
+      "path": "extensions/E15-EXTERNALLY-ATTESTED-DELIVERY-DURABLE-PUBLICATION-RECIPIENT-ACKNOWLEDGEMENT-WITHDRAWAL-GOVERNANCE.md",
+      "sha256": "0f29195aac7ec03a8ad999781e254395c624ff2a45014115632d8f03f9c965cc"
+    },
+    {
+      "bytes": 737,
+      "path": "schemas/eigiib-e15-a4-adoption-transition.schema.json",
+      "sha256": "9925fee38b728f9eea866c6edb8b5acf71ce76b06aa22a799f5f6a092055832a"
+    },
+    {
+      "bytes": 1300,
+      "path": "schemas/eigiib-e15-a4-authority-freeze.schema.json",
+      "sha256": "7ab8980953b02f1e7acbbe42f28018ffc8ddf20ef775fbc6ab9da8765304c84b"
+    },
+    {
+      "bytes": 28511,
+      "path": "schemas/eigiib-e15-a4-withdrawal-governance.schema.json",
+      "sha256": "5d98a3b30fc1e14f79348ce9b4f6bc83e4d19dcc931ff68f533bba205d919b69"
+    },
+    {
+      "bytes": 890,
+      "path": "tests/fixtures/e15-a4/expected-report.json",
+      "sha256": "318654024537f0dce72e406e4bd48df0c1c74b3d1832d66491d15a5a5aa8ea33"
+    },
+    {
+      "bytes": 18204,
+      "path": "tests/test_eigiib_publication_readback.py",
+      "sha256": "f0f5e64da34e00ddde54320bf6be0e09f4409544e6621d7a10749c34b70648c2"
+    },
+    {
+      "bytes": 27753,
+      "path": "tests/test_eigiib_withdrawal_governance.py",
+      "sha256": "f3acf1dd3dc19d4163eb8e1fe433a4fb3de823817f9020a539d5febcdeaa9787"
+    },
+    {
+      "bytes": 7033,
+      "path": "tools/eigiib_historical_e15_a3_replay.py",
+      "sha256": "0e91479ea6590fb50cf5dd90f412642fb1b909f9acc33d0714a2d7bb3ecd02be"
+    },
+    {
+      "bytes": 70986,
+      "path": "tools/eigiib_withdrawal_governance_check.py",
+      "sha256": "68982bcd168e52acf1e1c14af3a20d075c22d7ae4fd088c8026a14e94e9ab1d3"
+    }
+  ],
+  "profile_revision": "EIGIIB-E15-draft-1.3",
+  "source": {
+    "e15_a3_head_commit": "f403e93dd6d1dcb058474d67f2cc7e73b8ad13bd"
+  },
+  "standard": "EIGIIB-E15-A4-FREEZE-1.0",
+  "status": "frozen"
+}

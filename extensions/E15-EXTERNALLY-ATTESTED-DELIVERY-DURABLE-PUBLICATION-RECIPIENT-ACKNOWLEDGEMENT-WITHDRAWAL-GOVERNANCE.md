@@ -1,6 +1,6 @@
 # EIGIIB-E15 — Externally Attested Delivery, Durable Publication, Recipient Acknowledgement and Withdrawal Governance
 
-Status: draft normative extension 1.2, adopted through E15-A3 from the exact E15-A2 historical authority.
+Status: draft normative extension 1.3, adopted through E15-A4 from the exact E15-A3 historical authority.
 
 ## 1. Purpose
 
@@ -315,30 +315,150 @@ exact E15-A2 source commit
   -> current publication/persistence/readback evaluation
 ```
 
-## 24. Planned companions
+## 24. E15-A4 withdrawal boundary
 
-E15-A4 will own withdrawal, tombstones and post-delivery governance.
+E15-A4 consumes only an exact E15-A3 publication record and an exact E15-A3 lifecycle decision whose state is one of:
 
-E15-A5 will own the independent external-evidence verifier matrix and final freeze.
+```text
+publication-observed
+persistence-observed
+independently-read-back
+```
 
-## 25. Non-goals and proof boundary
+It adds distinct authorities for:
 
-E15-A1 does not establish absolute material delivery, remote service acceptance, recipient possession or human awareness, publication or persistence, universal availability, infinite durability, global withdrawal or erasure, legal recall, external-service honesty, collusion resistance or universal interoperability.
+```text
+withdrawal authority profile
+distribution operator profile
+distribution target profile
+withdrawal policy and request
+registry tombstone
+distribution stop record
+post-withdrawal observation
+withdrawal lifecycle decision
+```
+
+A withdrawal authority authorizes the request. A distribution operator acts on one declared target. A post-withdrawal observer reports one bounded target event. These roles are not interchangeable.
+
+## 25. Requests, targets and operators
+
+A withdrawal request binds the exact E15-A3 publication and decision commitments, payload digest and byte count, authority revision, policy revision, withdrawal sequence, idempotency key, registered target set and bounded time window.
+
+A target profile binds one locator, locator kind, tombstone capability and admitted stop mechanisms. An operator profile binds its managed targets, mechanisms and authentication algorithms.
+
+```text
+withdrawal authority != target operator
+target A evidence != target B evidence
+same locator label != same target revision
+request admitted != request executed
+```
+
+## 26. Tombstone and distribution-stop heads
+
+Registry tombstones and distribution-stop records form commitment-chained histories per exact withdrawal request and target.
+
+The first entry has sequence or generation 1 and no predecessor. Every later entry binds the immediately preceding id and commitment. Decisions must cite the latest registered head.
+
+Therefore a stale positive head cannot hide a later negative head:
+
+```text
+installed -> removed
+stopped -> resumed
+```
+
+A removed tombstone or resumed distribution is a known negative. It is not reduced to an unavailable or incomplete result.
+
+## 27. Bounded post-withdrawal observations
+
+A post-withdrawal observation binds one exact request, target, locator, inherited E15-A3 observer revision, payload identity, event, observation time, validity limit, process, network path and authentication reference.
+
+Positive events are limited to:
+
+```text
+tombstone-visible
+not-found
+```
+
+Known negative events include:
+
+```text
+still-available
+digest-mismatch
+```
+
+`unreachable` remains unavailable evidence and is never interpreted as absence.
+
+## 28. E15-A4 lifecycle decision
+
+E15-A4 evaluates twelve gate coordinates:
+
+```text
+binding_result
+authority_result
+operator_result
+observer_result
+policy_result
+freshness_result
+request_result
+tombstone_result
+distribution_stop_result
+post_withdrawal_observation_result
+anti_rollback_result
+content_identity_result
+```
+
+Gate values remain `permit`, `deny`, `held` and `unavailable`. Lifecycle states are:
+
+```text
+withdrawal-requested
+tombstoned
+distribution-stopped
+post-withdrawal-observed
+rejected
+held
+contested
+unavailable
+```
+
+Known negatives precede contested, unavailable and incomplete results. Missing target evidence preserves the strongest completed bounded state; it does not fabricate global completion.
+
+## 29. Structural-before-lifecycle replay
+
+E15-A4 materializes exact E15-A3 source commit `f403e93dd6d1dcb058474d67f2cc7e73b8ad13bd` in an isolated tree, replays the complete historical E14→E15-A3 chain and executes the frozen A3 unit suite before interpreting A4 records.
+
+The order is:
+
+```text
+exact E15-A3 source commit
+  -> historical E14 + E15-A1 + E15-A2 + E15-A3 replay
+  -> additive E15-A4 transition
+  -> current withdrawal/tombstone/stop/observation evaluation
+```
+
+## 30. Planned companion
+
+E15-A5 will own the independent external-evidence verifier matrix, differential replay and final E15 authority freeze.
+
+## 31. Non-goals and proof boundary
+
+E15 does not establish absolute material delivery, remote service honesty, recipient possession or human awareness, universal availability, indefinite durability, global withdrawal or erasure, recipient-side deletion, legal recall, instantaneous propagation, unregistered-mirror closure, collusion resistance or universal interoperability.
 
 Therefore:
 
 ```text
-admissible != delivered
-endpoint verified != endpoint reachable
-carrier active != carrier used
-policy permit != external acceptance
-idempotency available != exactly-once external effect
+withdrawal requested != withdrawal executed
+tombstone installed != bytes erased
+distribution stopped != recipient copy deleted
+not-found at one target != global absence
+unreachable != absent
+latest registered heads != global consensus
+post-withdrawal observed != future unavailability
 ```
 
-## 26. Reference tools
+## 32. Reference tools
 
-Current E15-A3 checker: `tools/eigiib_publication_readback_check.py`.
+Current E15-A4 checker: `tools/eigiib_withdrawal_governance_check.py`.
 
-Historical E15-A2 replay bridge: `tools/eigiib_historical_e15_a2_replay.py`.
+Historical E15-A3 replay bridge: `tools/eigiib_historical_e15_a3_replay.py`.
 
-The E15-A2 checker, E15-A1 checker and historical E14 bridge remain historical source authorities. All reference tools use Python standard-library facilities and repository-local Git history.
+The E15-A3 checker, E15-A2 checker, E15-A1 checker and historical E14 bridges remain historical source authorities. All reference tools use Python standard-library facilities and repository-local Git history.

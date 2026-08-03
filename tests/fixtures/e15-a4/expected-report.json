@@ -1,0 +1,29 @@
+{
+  "authority_freeze_result": "conformant",
+  "distribution_operator_profile_count": 0,
+  "distribution_stop_record_count": 0,
+  "distribution_target_profile_count": 0,
+  "findings": [],
+  "historical_continuity_result": "conformant",
+  "lifecycle_state_counts": {
+    "contested": 0,
+    "distribution-stopped": 0,
+    "held": 0,
+    "post-withdrawal-observed": 0,
+    "rejected": 0,
+    "tombstoned": 0,
+    "unavailable": 0,
+    "withdrawal-requested": 0
+  },
+  "post_withdrawal_observation_count": 0,
+  "registry_tombstone_count": 0,
+  "standard": "EIGIIB-E15-A4-1.0",
+  "structural_result": "conformant",
+  "tool": "eigiib-withdrawal-governance-check",
+  "tool_version": "0.1.0",
+  "withdrawal_authority_profile_count": 0,
+  "withdrawal_governance_result": "not-evaluated",
+  "withdrawal_lifecycle_decision_count": 0,
+  "withdrawal_policy_count": 0,
+  "withdrawal_request_count": 0
+}
