@@ -1,0 +1,43 @@
+{
+  "deletedRunIds": [
+    30858788022,
+    30858972197
+  ],
+  "matchingPullRequests": [],
+  "method": {
+    "branchRemoval": "DELETE /repos/{owner}/{repo}/git/refs/heads/{encoded-ref}",
+    "compareInterpretation": "404 is the expected result after the compared head ref is deleted",
+    "prSearch": "GET /search/issues with is:pr and exact branch names",
+    "runRemoval": "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}"
+  },
+  "objects": [
+    {
+      "branchRefPresent": false,
+      "compareEndpointExpected": "404-ref-absent",
+      "name": "ops/m0-a9-actions-cleanup-exact",
+      "pullRequestCount": 0
+    },
+    {
+      "branchRefPresent": false,
+      "compareEndpointExpected": "404-ref-absent",
+      "name": "ops/m0-a9-actions-cleanup-once",
+      "pullRequestCount": 0
+    }
+  ],
+  "searchedRuns": [
+    {
+      "conclusion": "success",
+      "head_branch": "ops/m0-a9-actions-cleanup-exact",
+      "id": 30858972197,
+      "status": "completed"
+    },
+    {
+      "conclusion": "failure",
+      "head_branch": "ops/m0-a9-actions-cleanup-once",
+      "id": 30858788022,
+      "status": "completed"
+    }
+  ],
+  "standard": "EIGIIB-M0-A10-OPS-CLEANUP-1.0",
+  "status": "purged-or-absent"
+}
