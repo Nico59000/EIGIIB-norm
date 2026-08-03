@@ -1,0 +1,72 @@
+name: E16-A1 historical continuity and preservation intent
+
+on:
+  pull_request:
+    branches:
+      - agent/m0-a7-e16-entry-normalization-e15-authority-continuity
+    paths:
+      - 'extensions/E16-*'
+      - 'tools/eigiib_preservation_intent_check.py'
+      - 'tools/eigiib_historical_m0_a7_replay.py'
+      - 'schemas/eigiib-e16-a1-*'
+      - 'conformance/preservation-intent.json'
+      - 'conformance/e16-a1-*'
+      - 'conformance/E16-A1-*'
+      - 'tests/test_eigiib_preservation_intent.py'
+      - 'tests/fixtures/e16-a1/**'
+      - 'docs/E16-A1-*'
+      - 'EIGIIB.toml'
+      - 'conformance/extension-graph.json'
+      - '.github/workflows/e16-a1-preservation-intent.yml'
+      - '.github/workflows/eigiib.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  preservation-intent:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Historical M0-A7 and E15 replay
+        shell: bash
+        run: python tools/eigiib_historical_m0_a7_replay.py . --e15-output .e16-history/e15.json --json > .e16-history-report.json
+      - name: E16-A1 unit tests
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_preservation_intent.py
+      - name: Preservation-intent report
+        shell: bash
+        run: |
+          python tools/eigiib_preservation_intent_check.py . --history-report .e16-history-report.json --json > actual-e16-a1.json
+          python - <<'PY2'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('actual-e16-a1.json').read_text());e=json.loads(Path('tests/fixtures/e16-a1/expected-report.json').read_text())
+          if a!=e: raise SystemExit('E16-A1 report differs from frozen fixture')
+          PY2
+      - name: Parse authorities and profile
+        shell: bash
+        run: |
+          python -m json.tool conformance/preservation-intent.json >/dev/null
+          python -m json.tool conformance/e16-a1-adoption-transition.json >/dev/null
+          python -m json.tool conformance/e16-a1-authority-freeze.json >/dev/null
+          python -c "import tomllib,pathlib; tomllib.loads(pathlib.Path('EIGIIB.toml').read_text())"
+      - name: Extension graph
+        shell: bash
+        run: python tools/eigiib_extension_graph_check.py . --json >/dev/null
+      - name: Exact M0-A7 ancestry
+        shell: bash
+        run: git merge-base --is-ancestor ae189e1c478c523789f11e4424395be154e8521d HEAD
