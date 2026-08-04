@@ -1,0 +1,73 @@
+{
+  "standard": "EIGIIB-M0-A12-F3-1.0",
+  "title": "Independent Multi-Observer Differential Continuity and Custodian Succession Replay",
+  "status": "differential-succession-harness-established-f2-accumulation-pending",
+  "source": {
+    "m0A12F2Head": "597ba0931d3510b01136d8ca6c6075ee106a7f19",
+    "m0A12F1Head": "eaa64be6c27d30ceba7762ecf1ec7f93fe805745",
+    "campaignId": "eigiib-m0-a11-external-preservation-observation-v1",
+    "stableBundleSha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+    "f2AuthorityPath": "conformance/m0-a12-f2-continuity.json"
+  },
+  "prerequisite": {
+    "requiredF2Decision": "bounded-long-horizon-preservation-accumulation-verified",
+    "requiredF2Label": "T",
+    "currentDecision": "not-accumulated",
+    "gate": "blocked-until-f2-T"
+  },
+  "differentialContract": {
+    "observers": [
+      "independent-observer-primary",
+      "independent-observer-secondary"
+    ],
+    "sequences": [
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37
+    ],
+    "pairedRoundCount": 7,
+    "signedObservationCount": 14,
+    "maximumObserverSkewSeconds": 1800,
+    "requiredMismatchCount": 0
+  },
+  "successionContract": {
+    "predecessorDomainId": "external-preservation-primary",
+    "successorDomainId": "external-preservation-primary-successor",
+    "anchorCustodianDomainId": "external-preservation-secondary",
+    "cutoverSequence": 34,
+    "predecessorDisposition": "quarantined-nonauthoritative",
+    "staleAuthorityReplayDecision": "rejected"
+  },
+  "claimBoundary": {
+    "decision": "independent-multi-observer-differential-continuity-and-custodian-succession-replay-verified",
+    "scope": "bounded-differential-window-and-single-succession-only",
+    "futureContinuityNotImplied": true,
+    "universalSuccessionSafetyNotImplied": true,
+    "e17Decision": "not-ready-for-adoption"
+  },
+  "currentState": {
+    "f2Accumulation": "not-accumulated",
+    "secondaryObserverEvidence": "absent",
+    "pairedRounds": 0,
+    "successionReplay": "absent",
+    "replayDecision": "not-verified"
+  },
+  "nonclaims": [
+    "m0-a12-f2-accumulated-in-T",
+    "secondary-observer-bound-and-live",
+    "differential-window-observed",
+    "custodian-succession-executed",
+    "stale-authority-replay-tested-live",
+    "future-continuity-guaranteed",
+    "e17-adoption"
+  ],
+  "naturalSuccessor": {
+    "id": "M0-A12-F4",
+    "title": "Multi-Authority Emergency Succession, Catastrophic Recovery and E17 Evidence Matrix",
+    "decision": "blocked-until-f3-differential-succession-replay-is-T"
+  }
+}

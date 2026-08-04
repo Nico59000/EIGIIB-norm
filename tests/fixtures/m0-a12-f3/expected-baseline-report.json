@@ -1,0 +1,20 @@
+{
+  "standard": "EIGIIB-M0-A12-F3-REPORT-1.0",
+  "structural_result": "conformant-blocked-prerequisite",
+  "replay_result": "f2-accumulation-pending",
+  "htntLabel": "NF",
+  "findings": [],
+  "summary": {
+    "sourceF2Head": "597ba0931d3510b01136d8ca6c6075ee106a7f19",
+    "prerequisiteF2Accumulated": false,
+    "pairedRounds": 0,
+    "requiredPairedRounds": 7,
+    "signedObservations": 0,
+    "requiredSignedObservations": 14,
+    "differentialMismatchCount": 0,
+    "cutoverSequence": 34,
+    "lapseState": "blocked",
+    "authorityCount": 19,
+    "e17Decision": "not-ready-for-adoption"
+  }
+}

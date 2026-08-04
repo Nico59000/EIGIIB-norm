@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/m0-a12-f3-differential-succession-certificate.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "sourceF2Head",
+    "f2AnchorDigest",
+    "observerIndependenceDigest",
+    "firstSequence",
+    "lastSequence",
+    "pairedRoundCount",
+    "signedObservationCount",
+    "differentialMismatchCount",
+    "primaryLastDigest",
+    "secondaryLastDigest",
+    "successionRecordDigest",
+    "cutoverSequence",
+    "successionEffectiveAt",
+    "lastObservedAt",
+    "elapsedSeconds",
+    "lapseState",
+    "decision",
+    "claimBoundary",
+    "certificateDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-F3-DIFFERENTIAL-SUCCESSION-CERTIFICATE-1.0"
+    },
+    "sourceF2Head": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "f2AnchorDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "observerIndependenceDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "firstSequence": {
+      "const": 31
+    },
+    "lastSequence": {
+      "const": 37
+    },
+    "pairedRoundCount": {
+      "const": 7
+    },
+    "signedObservationCount": {
+      "const": 14
+    },
+    "differentialMismatchCount": {
+      "const": 0
+    },
+    "primaryLastDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "secondaryLastDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "successionRecordDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "cutoverSequence": {
+      "const": 34
+    },
+    "successionEffectiveAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lastObservedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "elapsedSeconds": {
+      "type": "integer",
+      "minimum": 604800
+    },
+    "lapseState": {
+      "enum": [
+        "current",
+        "grace"
+      ]
+    },
+    "decision": {
+      "const": "independent-multi-observer-differential-continuity-and-custodian-succession-replay-verified"
+    },
+    "claimBoundary": {
+      "const": "bounded-differential-window-and-single-succession-only"
+    },
+    "certificateDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

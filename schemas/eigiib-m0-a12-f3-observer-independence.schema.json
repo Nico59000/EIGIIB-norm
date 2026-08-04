@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/m0-a12-f3-observer-independence.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "observers",
+    "dimensions",
+    "evidenceRefs",
+    "matrixDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-F3-OBSERVER-INDEPENDENCE-1.0"
+    },
+    "observers": {
+      "const": [
+        "independent-observer-primary",
+        "independent-observer-secondary"
+      ]
+    },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider-operator",
+        "tenant-account",
+        "identity-root",
+        "privileged-administrator",
+        "credential-store",
+        "execution-plane",
+        "audit-log-custody"
+      ],
+      "properties": {
+        "provider-operator": {
+          "const": "distinct"
+        },
+        "tenant-account": {
+          "const": "distinct"
+        },
+        "identity-root": {
+          "const": "distinct"
+        },
+        "privileged-administrator": {
+          "const": "distinct"
+        },
+        "credential-store": {
+          "const": "distinct"
+        },
+        "execution-plane": {
+          "const": "distinct"
+        },
+        "audit-log-custody": {
+          "const": "distinct"
+        }
+      }
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "matrixDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

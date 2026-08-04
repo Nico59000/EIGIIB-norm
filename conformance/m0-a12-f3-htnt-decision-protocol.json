@@ -1,0 +1,79 @@
+{
+  "standard": "EIGIIB-M0-A12-F3-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier": {
+    "id": "S4",
+    "coordinates": [
+      "localDifferentialSuccessionValidation",
+      "independentMultiObserverSuccessionEvidence"
+    ],
+    "labels": {
+      "F": [
+        0,
+        0
+      ],
+      "NF": [
+        1,
+        0
+      ],
+      "NT": [
+        0,
+        1
+      ],
+      "T": [
+        1,
+        1
+      ]
+    }
+  },
+  "fixedContext": true,
+  "current": {
+    "label": "NF",
+    "meaning": "differential-succession-harness-valid-f2-accumulation-and-live-evidence-absent",
+    "action": "preserve-harness-and-block-replay-closure"
+  },
+  "dynamicInterpretation": {
+    "F": "local authority, policy, ledger or replay verifier invalid",
+    "NF": "local harness valid while F2 closure or multi-observer succession evidence is absent",
+    "NT": "signed differential or succession evidence exists but is incomplete, divergent, stale or lapsed",
+    "T": "F2 is accumulated in T and the paired differential window plus succession replay are complete, current and valid"
+  },
+  "transitionMeasure": {
+    "type": "finite-missing-obligation-set",
+    "strictDecreaseRequired": true,
+    "obligations": [
+      "f2-accumulation-in-T",
+      "secondary-observer-independence",
+      "paired-sequences-31-through-37",
+      "zero-differential-mismatch",
+      "five-party-succession-record",
+      "stale-authority-rejection",
+      "differential-succession-certificate"
+    ]
+  },
+  "prohibitedTransitions": [
+    [
+      "NF",
+      "T-without-f2-T"
+    ],
+    [
+      "NF",
+      "T-without-secondary-observer-independence"
+    ],
+    [
+      "NT",
+      "T-with-differential-mismatch"
+    ],
+    [
+      "NT",
+      "T-with-stale-predecessor-authority"
+    ],
+    [
+      "any",
+      "T-without-valid-certificate"
+    ],
+    [
+      "T",
+      "E17-ready"
+    ]
+  ]
+}

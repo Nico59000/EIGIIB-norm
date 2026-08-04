@@ -1,0 +1,23 @@
+{
+  "standard": "EIGIIB-M0-A12-F3-SUCCESSION-POLICY-1.0",
+  "sourceHead": "597ba0931d3510b01136d8ca6c6075ee106a7f19",
+  "predecessor": "external-preservation-primary",
+  "successor": "external-preservation-primary-successor",
+  "anchorCustodian": "external-preservation-secondary",
+  "cutoverSequence": 34,
+  "requiredSuccessorEvidence": [
+    "custody-acceptance",
+    "exact-object-version-readback",
+    "retention-policy-readback",
+    "retention-attributed-deletion-denial",
+    "exact-restore-readback",
+    "audit-export"
+  ],
+  "requiredPostCutoverState": {
+    "predecessor": "quarantined-nonauthoritative",
+    "successor": "authoritative-primary-custodian",
+    "staleAuthorityReplay": "rejected",
+    "anchorCustodian": "continuous-and-unchanged"
+  },
+  "rollbackPolicy": "predecessor-cannot-regain-authority-without-new-registered-succession-event"
+}
