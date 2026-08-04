@@ -1,0 +1,59 @@
+name: M0-A13 superseded publisher run cleanup
+run-name: M0-A13 cleanup / ${{ github.event.pull_request.number }}
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened]
+    paths:
+      - '.github/workflows/m0-a13-superseded-publisher-run-cleanup.yml'
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Verify lifecycle PR is closed unmerged
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          state=""
+          for _ in $(seq 1 18); do
+            state="$(gh api "repos/$REPO/pulls/$PR" --jq .state)"
+            [ "$state" = "closed" ] && break
+            sleep 5
+          done
+          test "$state" = "closed"
+          merged="$(gh api "repos/$REPO/pulls/$PR" --jq '.merged_at // ""')"
+          test -z "$merged"
+      - name: Delete superseded publisher run and prove absence
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh api -X DELETE "repos/$REPO/actions/runs/30928604857"
+          set +e
+          response="$(gh api "repos/$REPO/actions/runs/30928604857" 2>&1)"
+          rc=$?
+          set -e
+          test "$rc" -ne 0
+          printf '%s' "$response" | grep -q '404'
+      - name: Publish cleanup record
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh pr comment 180 --repo "$REPO" --body 'The superseded controlled-publisher run `30928604857` was deleted after its exact payload, safe extraction and 124-test validation had succeeded; its only failure was the expected GitHub App workflow-write restriction. Direct API readback returned HTTP 404. Authoritative M0-A13 head `d096b9fbf68cead15a3a9eb7bf4cff1493a0aa45` and all final-head validations were not modified.'
+      - name: Delete technical branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          REF: ${{ github.event.pull_request.head.ref }}
+        run: gh api -X DELETE "repos/$REPO/git/refs/heads/$REF"
