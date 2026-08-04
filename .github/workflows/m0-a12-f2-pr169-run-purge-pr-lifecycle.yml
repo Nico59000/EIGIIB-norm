@@ -1,0 +1,116 @@
+name: M0-A12-F2 accidental PR169 run purge
+run-name: M0-A12-F2 PR169 purge / ${{ github.sha }}
+
+on:
+  push:
+    branches:
+      - ops/m0-a12-f2-pr169-run-purge-pr-lifecycle
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  purge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      HEAD_BRANCH: ops/m0-a12-f2-pr169-run-purge-pr-lifecycle
+      ACCIDENTAL_PR: "169"
+      AUTHORITATIVE_PR: "170"
+    steps:
+      - name: Wait for closed lifecycle PR
+        id: lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          own_pr=""
+          for _ in $(seq 1 120); do
+            own_pr=$(curl --fail-with-body -sS -G \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              --data-urlencode "state=closed" \
+              --data-urlencode "head=Nico59000:${HEAD_BRANCH}" \
+              "$api/pulls" | jq -r '.[0].number // empty')
+            if [[ -n "$own_pr" ]]; then
+              break
+            fi
+            sleep 5
+          done
+          test -n "$own_pr"
+          echo "own_pr=$own_pr" >> "$GITHUB_OUTPUT"
+
+      - name: Purge every workflow run associated with accidental PR 169
+        id: purge
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          ids_file=$(mktemp)
+          : > "$ids_file"
+          page=1
+          while :; do
+            response=$(curl --fail-with-body -sS \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "$api/actions/runs?event=pull_request&per_page=100&page=$page")
+            count=$(jq '.workflow_runs | length' <<<"$response")
+            [[ "$count" -gt 0 ]] || break
+            jq -r --argjson pr "$ACCIDENTAL_PR" \
+              '.workflow_runs[] | select(any(.pull_requests[]?; .number == $pr)) | .id' \
+              <<<"$response" >> "$ids_file"
+            page=$((page + 1))
+          done
+          sort -u "$ids_file" -o "$ids_file"
+          deleted=0
+          while IFS= read -r run_id; do
+            [[ -n "$run_id" ]] || continue
+            curl --fail-with-body -sS -X DELETE \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "$api/actions/runs/$run_id"
+            deleted=$((deleted + 1))
+          done < "$ids_file"
+          ids=$(paste -sd, "$ids_file")
+          echo "deleted=$deleted" >> "$GITHUB_OUTPUT"
+          echo "ids=$ids" >> "$GITHUB_OUTPUT"
+
+      - name: Publish authoritative cleanup record
+        shell: bash
+        env:
+          OWN_PR: ${{ steps.lifecycle.outputs.own_pr }}
+          DELETED: ${{ steps.purge.outputs.deleted }}
+          IDS: ${{ steps.purge.outputs.ids }}
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          body=$(jq -n \
+            --arg deleted "$DELETED" \
+            --arg ids "$IDS" \
+            '{body:("Accidental direct-to-main PR #169 was closed unmerged. All workflow runs associated by the GitHub API with PR #169 were deleted.\n\n- deleted run count: `"+$deleted+"`\n- deleted run IDs: `"+($ids // "")+"`\n- authoritative stacked PR: #170\n- authoritative F2 head: `597ba0931d3510b01136d8ca6c6075ee106a7f19`\n\nThe rejected M0-A8 topology wave was therefore removed rather than treated as an F2 regression.")}' )
+          for pr in "$OWN_PR" "$AUTHORITATIVE_PR"; do
+            curl --fail-with-body -sS -X POST \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "$api/issues/$pr/comments" \
+              -d "$body"
+          done
+
+      - name: Delete technical branch after closed PR and report
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          curl --fail-with-body -sS -X DELETE \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "$api/git/refs/heads/$HEAD_BRANCH"
