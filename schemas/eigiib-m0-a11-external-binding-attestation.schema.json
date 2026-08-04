@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a11-external-binding-attestation.schema.json",
+  "title": "EIGIIB M0-A11 external control-domain attestation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "domainId",
+    "providerOperator",
+    "tenantAccountId",
+    "identityRoot",
+    "privilegedAdministratorSet",
+    "billingAuthority",
+    "credentialStore",
+    "executionPlane",
+    "regionOrFailureDomain",
+    "auditLogCustody",
+    "issuedAt",
+    "evidenceRefs",
+    "signer",
+    "signature",
+    "claimBoundary"
+  ],
+  "properties": {
+    "standard": {"const": "EIGIIB-M0-A11-CONTROL-DOMAIN-ATTESTATION-1.0"},
+    "domainId": {"type": "string", "minLength": 1},
+    "providerOperator": {"type": "string", "minLength": 1},
+    "tenantAccountId": {"type": "string", "minLength": 1},
+    "identityRoot": {"type": "string", "minLength": 1},
+    "privilegedAdministratorSet": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "billingAuthority": {"type": "string", "minLength": 1},
+    "credentialStore": {"type": "string", "minLength": 1},
+    "executionPlane": {"type": "string", "minLength": 1},
+    "regionOrFailureDomain": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "auditLogCustody": {"type": "string", "minLength": 1},
+    "issuedAt": {"type": "string", "format": "date-time"},
+    "evidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "signer": {"type": "object"},
+    "signature": {"type": "object"},
+    "claimBoundary": {
+      "const": "bounded-attestation-subject-to-independent-verification"
+    }
+  }
+}

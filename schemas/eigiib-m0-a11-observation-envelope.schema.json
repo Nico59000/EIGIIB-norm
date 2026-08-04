@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a11-observation-envelope.schema.json",
+  "title": "EIGIIB M0-A11 observation envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "campaignId",
+    "sequence",
+    "observedAt",
+    "previousObservationDigest",
+    "observerDomainId",
+    "observerKeyId",
+    "channels",
+    "observationDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A11-OBSERVATION-1.0"
+    },
+    "campaignId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "observedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "previousObservationDigest": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "observerDomainId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observerKeyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "channels": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": false,
+      "items": {
+        "type": "object"
+      }
+    },
+    "observationDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

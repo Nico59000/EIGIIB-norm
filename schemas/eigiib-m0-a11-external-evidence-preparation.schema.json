@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a11-external-evidence-preparation.schema.json",
+  "title": "EIGIIB M0-A11 external evidence preparation authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "status",
+    "source",
+    "authorities",
+    "preparedCapabilities",
+    "claimBoundary",
+    "entryGates",
+    "nonclaims"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A11-1.0"
+    },
+    "status": {
+      "const": "external-evidence-acquisition-prepared-not-activated"
+    },
+    "source": {
+      "type": "object"
+    },
+    "authorities": {
+      "type": "object"
+    },
+    "preparedCapabilities": {
+      "type": "object"
+    },
+    "claimBoundary": {
+      "type": "object"
+    },
+    "entryGates": {
+      "type": "object"
+    },
+    "nonclaims": {
+      "type": "array",
+      "minItems": 13,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

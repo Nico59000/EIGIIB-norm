@@ -1,0 +1,76 @@
+{
+  "standard": "EIGIIB-M0-A11-1.0",
+  "status": "external-evidence-acquisition-prepared-not-activated",
+  "source": {
+    "m0A10Head": "2891265f04a5d9a4d69c134fa48881b0ed93fe13",
+    "m0A10AuthorityPath": "conformance/m0-a10-dual-channel-publication.json",
+    "stableBundle": {
+      "name": "eigiib-e16-1.0-stable-bundle.tar.gz",
+      "bytes": 985664,
+      "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+      "manifestSha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9",
+      "signatureSha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4",
+      "publicKeySha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e"
+    }
+  },
+  "authorities": {
+    "controlDomainRegistryPath": "conformance/m0-a11-control-domain-registry.json",
+    "immutableChannelBootstrapPath": "conformance/m0-a11-immutable-channel-bootstrap.json",
+    "observationCampaignPath": "conformance/m0-a11-observation-campaign.json",
+    "observationLedgerPath": "conformance/m0-a11-observation-ledger.json"
+  },
+  "preparedCapabilities": {
+    "externalControlDomainRegistry": "established-preparatory-contract",
+    "immutablePreservationChannelBootstrap": "established-preparatory-contract",
+    "independentObservationCampaign": "established-preparatory-contract",
+    "lapseDetectionHarness": "established-deterministic-harness"
+  },
+  "claimBoundary": {
+    "preparatoryOnly": true,
+    "unknownExternalFacts": "deny",
+    "declaredConfigurationIsNotObservedEvidence": true,
+    "providerLabelIsNotControlIndependence": true,
+    "retentionIntentIsNotImmutability": true,
+    "scheduledObservationIsNotCompletedObservation": true
+  },
+  "entryGates": {
+    "m0A12": {
+      "id": "M0-A12",
+      "title": "External Immutable Channel Activation, Independent Attestation and First Signed Observation",
+      "decision": "ready-for-external-activation-only",
+      "requiredEvidence": [
+        "two-bound-external-control-domain-attestations",
+        "two-provisioned-immutable-preservation-channels",
+        "one-bound-independent-observer-attestation",
+        "one-valid-signed-observation-per-channel",
+        "one-complete-control-dimension-diversity-evaluation"
+      ]
+    },
+    "e17": {
+      "id": "E17",
+      "decision": "not-ready-for-adoption",
+      "remainingEvidence": [
+        "real-external-authority-and-control-domain-attestation",
+        "correlated-failure-model-and-diversity-evidence",
+        "long-horizon-periodic-observation-with-lapse-detection",
+        "multi-authority-deletion-quarantine-and-hold-evidence",
+        "independent-live-evidence-matrix"
+      ]
+    }
+  },
+  "nonclaims": [
+    "external-provider-selected",
+    "external-account-created",
+    "external-authority-attested",
+    "immutable-channel-provisioned",
+    "retention-lock-enforced",
+    "legal-hold-enforced",
+    "administrative-deletion-prevented",
+    "independent-observer-bound",
+    "signed-observation-captured",
+    "long-horizon-preservation-observed",
+    "correlated-failure-resistance-established",
+    "provider-independence-established",
+    "e17-adoption"
+  ]
+}

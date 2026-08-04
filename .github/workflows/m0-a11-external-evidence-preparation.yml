@@ -1,0 +1,111 @@
+name: M0-A11 external evidence acquisition preparation
+run-name: M0-A11 / ${{ github.event.pull_request.head.ref || github.ref_name }} / ${{ github.sha }}
+
+on:
+  pull_request:
+    branches:
+      - agent/m0-a10-stable-e16-normative-bundle-dual-channel-publication-exact-external-readback
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/m0-a11-external-evidence-preparation.yml"
+      - "conformance/M0-A11-MANUAL-REVIEW.md"
+      - "conformance/m0-a11-*"
+      - "docs/M0-A11-*.md"
+      - "schemas/eigiib-m0-a11-*.schema.json"
+      - "tests/fixtures/m0-a11/expected-report.json"
+      - "tests/test_eigiib_m0_a11.py"
+      - "tools/eigiib_m0_a11_*.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m0-a11-${{ github.event.pull_request.head.ref || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  validate:
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.13.14"
+      - name: M0-A11 positive and mutation suite
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_m0_a11.py
+      - name: Structural preparatory closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/eigiib_m0_a11_check.py . --output m0-a11-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path("tests/fixtures/m0-a11/expected-report.json").read_text(encoding="utf-8"))
+          actual = json.loads(Path("m0-a11-report.json").read_text(encoding="utf-8"))
+          if actual != expected:
+              raise SystemExit("M0-A11 canonical report mismatch")
+          PY
+      - name: Deterministic inactive campaign state
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/eigiib_m0_a11_observe.py . --at 2026-08-04T00:00:00Z --output m0-a11-lapse-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("m0-a11-lapse-report.json").read_text(encoding="utf-8"))
+          if report["state"] != "not-activated" or report["observationCount"] != 0 or report["findings"]:
+              raise SystemExit("M0-A11 preparatory lapse state mismatch")
+          PY
+      - name: Closed schemas and authorities parse
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          paths = [
+              "conformance/m0-a11-external-evidence-preparation.json",
+              "conformance/m0-a11-control-domain-registry.json",
+              "conformance/m0-a11-immutable-channel-bootstrap.json",
+              "conformance/m0-a11-observation-campaign.json",
+              "conformance/m0-a11-observation-ledger.json",
+              "conformance/m0-a11-authority-freeze.json",
+              "schemas/eigiib-m0-a11-external-evidence-preparation.schema.json",
+              "schemas/eigiib-m0-a11-observation-envelope.schema.json",
+              "schemas/eigiib-m0-a11-external-binding-attestation.schema.json",
+          ]
+          for path in paths:
+              json.loads(Path(path).read_text(encoding="utf-8"))
+          PY
+      - name: No secret material or methodology-specific terminology
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! find conformance docs schemas tests tools -type f \( -iname '*private*key*' -o -iname '*token*' -o -iname '*secret*' \) -print -quit | grep .
+          pattern='BEGIN PRIVATE'' KEY'
+          ! grep -R -n --binary-files=without-match "$pattern" \
+            conformance/M0-A11-* conformance/m0-a11-* docs/M0-A11-* \
+            schemas/eigiib-m0-a11-* tests/fixtures/m0-a11 tests/test_eigiib_m0_a11.py \
+            tools/eigiib_m0_a11_*.py
+          pattern_one="$(printf '\110\124\053\116\124')"
+          pattern_two="$(printf '\110\145\171\164\151\156\147.\102\145\163\164\145\157\144')"
+          pattern_three="$(printf '\116\106/\116\124')"
+          ! grep -R -n -E "${pattern_one}|${pattern_two}|${pattern_three}" \
+            conformance/M0-A11-* conformance/m0-a11-* docs/M0-A11-* \
+            schemas/eigiib-m0-a11-* tests/fixtures/m0-a11 tests/test_eigiib_m0_a11.py \
+            tools/eigiib_m0_a11_*.py

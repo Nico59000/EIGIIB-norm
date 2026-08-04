@@ -1,0 +1,83 @@
+{
+  "standard": "EIGIIB-M0-A11-IMMUTABLE-CHANNEL-BOOTSTRAP-1.0",
+  "status": "bootstrap-contracts-prepared-no-channel-provisioned",
+  "channels": [
+    {
+      "id": "immutable-channel-primary",
+      "controlDomainId": "external-preservation-primary",
+      "artifact": {
+        "name": "eigiib-e16-1.0-stable-bundle.tar.gz",
+        "bytes": 985664,
+        "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+        "manifestSha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9",
+        "signatureSha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4",
+        "publicKeySha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e"
+      },
+      "lifecycleState": "planned-not-provisioned",
+      "endpoint": "unbound",
+      "providerResourceId": "unbound",
+      "objectVersionId": "unbound",
+      "retention": {
+        "modeRequirement": "compliance-lock-or-equivalent-non-bypassable-retention",
+        "minimumWindowSeconds": "unbound",
+        "lockEffectiveAt": "unbound",
+        "retainUntil": "unbound",
+        "policyState": "not-applied"
+      },
+      "requiredEvidence": [
+        "provider-resource-identity",
+        "object-version-identity",
+        "retention-policy-document",
+        "retention-lock-readback",
+        "authorized-deletion-denial",
+        "privileged-deletion-denial",
+        "audit-log-export",
+        "exact-object-readback"
+      ],
+      "deploymentEvidence": []
+    },
+    {
+      "id": "immutable-channel-secondary",
+      "controlDomainId": "external-preservation-secondary",
+      "artifact": {
+        "name": "eigiib-e16-1.0-stable-bundle.tar.gz",
+        "bytes": 985664,
+        "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+        "manifestSha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9",
+        "signatureSha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4",
+        "publicKeySha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e"
+      },
+      "lifecycleState": "planned-not-provisioned",
+      "endpoint": "unbound",
+      "providerResourceId": "unbound",
+      "objectVersionId": "unbound",
+      "retention": {
+        "modeRequirement": "compliance-lock-or-equivalent-non-bypassable-retention",
+        "minimumWindowSeconds": "unbound",
+        "lockEffectiveAt": "unbound",
+        "retainUntil": "unbound",
+        "policyState": "not-applied"
+      },
+      "requiredEvidence": [
+        "provider-resource-identity",
+        "object-version-identity",
+        "retention-policy-document",
+        "retention-lock-readback",
+        "authorized-deletion-denial",
+        "privileged-deletion-denial",
+        "audit-log-export",
+        "exact-object-readback"
+      ],
+      "deploymentEvidence": []
+    }
+  ],
+  "crossChannelRules": {
+    "distinctControlDomainsRequired": true,
+    "sameProviderOperatorDeniedUnlessIndependenceSeparatelyProved": true,
+    "sameTenantAccountDenied": true,
+    "sameIdentityRootDenied": true,
+    "sameCredentialStoreDenied": true,
+    "exactArtifactIdentityRequired": true
+  },
+  "activationState": "not-activated"
+}

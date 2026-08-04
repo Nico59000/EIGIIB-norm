@@ -1,0 +1,115 @@
+{
+  "standard": "EIGIIB-M0-A11-CONTROL-DOMAIN-REGISTRY-1.0",
+  "status": "registry-prepared-external-bindings-unbound",
+  "requiredControlDimensions": [
+    "provider-operator",
+    "tenant-account",
+    "identity-root",
+    "privileged-administrator",
+    "billing-authority",
+    "credential-store",
+    "execution-plane",
+    "region-or-failure-domain",
+    "audit-log-custody"
+  ],
+  "independenceRules": {
+    "unknownDimension": "not-independent",
+    "sameProviderOperator": "not-independent",
+    "sameTenantAccount": "not-independent",
+    "sameIdentityRoot": "not-independent",
+    "samePrivilegedAdministrator": "not-independent",
+    "sameBillingAuthority": "not-independent",
+    "sameCredentialStore": "not-independent",
+    "sameExecutionPlane": "not-independent-for-observation",
+    "providerMarketingLabelAlone": "insufficient"
+  },
+  "domains": [
+    {
+      "id": "github-existing-publication-domain",
+      "role": [
+        "existing-publication-source"
+      ],
+      "bindingState": "observed-existing",
+      "externalToGitHub": false,
+      "providerOperator": "GitHub",
+      "tenantAccount": "Nico59000",
+      "claimBoundary": "single-existing-provider-domain-not-external-preservation-evidence"
+    },
+    {
+      "id": "external-preservation-primary",
+      "role": [
+        "planned-preservation-custodian"
+      ],
+      "bindingState": "unbound",
+      "externalToGitHub": true,
+      "providerBinding": "unbound",
+      "attestationPath": null,
+      "controlDimensions": {
+        "provider-operator": "unbound",
+        "tenant-account": "unbound",
+        "identity-root": "unbound",
+        "privileged-administrator": "unbound",
+        "billing-authority": "unbound",
+        "credential-store": "unbound",
+        "execution-plane": "unbound",
+        "region-or-failure-domain": "unbound",
+        "audit-log-custody": "unbound"
+      },
+      "claimBoundary": "placeholder-not-a-real-control-domain"
+    },
+    {
+      "id": "external-preservation-secondary",
+      "role": [
+        "planned-preservation-custodian"
+      ],
+      "bindingState": "unbound",
+      "externalToGitHub": true,
+      "providerBinding": "unbound",
+      "attestationPath": null,
+      "controlDimensions": {
+        "provider-operator": "unbound",
+        "tenant-account": "unbound",
+        "identity-root": "unbound",
+        "privileged-administrator": "unbound",
+        "billing-authority": "unbound",
+        "credential-store": "unbound",
+        "execution-plane": "unbound",
+        "region-or-failure-domain": "unbound",
+        "audit-log-custody": "unbound"
+      },
+      "claimBoundary": "placeholder-not-a-real-control-domain"
+    },
+    {
+      "id": "independent-observer-primary",
+      "role": [
+        "planned-independent-observer"
+      ],
+      "bindingState": "unbound",
+      "externalToGitHub": true,
+      "providerBinding": "unbound",
+      "attestationPath": null,
+      "controlDimensions": {
+        "provider-operator": "unbound",
+        "tenant-account": "unbound",
+        "identity-root": "unbound",
+        "privileged-administrator": "unbound",
+        "billing-authority": "unbound",
+        "credential-store": "unbound",
+        "execution-plane": "unbound",
+        "region-or-failure-domain": "unbound",
+        "audit-log-custody": "unbound"
+      },
+      "prohibitedRoles": [
+        "preservation-custodian",
+        "publication-authority"
+      ],
+      "claimBoundary": "placeholder-not-an-independent-observer"
+    }
+  ],
+  "minimumFutureTopology": {
+    "boundExternalPreservationDomains": 2,
+    "boundIndependentObserverDomains": 1,
+    "allPairwiseRequiredDimensionsEvaluated": true,
+    "unknownPairwiseResult": "deny"
+  }
+}

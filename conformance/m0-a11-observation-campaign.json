@@ -1,0 +1,53 @@
+{
+  "standard": "EIGIIB-M0-A11-OBSERVATION-CAMPAIGN-1.0",
+  "campaignId": "eigiib-m0-a11-external-preservation-observation-v1",
+  "status": "campaign-contract-prepared-not-activated",
+  "activationState": "not-activated",
+  "activatedAt": null,
+  "observerDomainId": "independent-observer-primary",
+  "expectedChannelIds": [
+    "immutable-channel-primary",
+    "immutable-channel-secondary"
+  ],
+  "schedule": {
+    "cadenceSeconds": 86400,
+    "graceSeconds": 21600,
+    "lapseAfterSeconds": 172800,
+    "clock": "utc-rfc3339",
+    "firstSequence": 1
+  },
+  "chain": {
+    "digestAlgorithm": "sha256",
+    "canonicalization": "sorted-compact-json-utf8",
+    "firstPreviousDigest": null,
+    "contiguousSequenceRequired": true,
+    "strictlyIncreasingObservedAtRequired": true
+  },
+  "requiredObservationFields": [
+    "campaignId",
+    "sequence",
+    "observedAt",
+    "previousObservationDigest",
+    "observerDomainId",
+    "observerKeyId",
+    "channels",
+    "observationDigest"
+  ],
+  "activationPrerequisites": [
+    "observer-domain-bound-and-attested",
+    "both-channels-provisioned-and-locked",
+    "observer-signing-key-bound",
+    "initial-object-versions-recorded",
+    "campaign-anchor-approved"
+  ],
+  "stateMachine": [
+    "not-activated",
+    "awaiting-first-observation",
+    "current",
+    "grace",
+    "overdue",
+    "lapsed",
+    "invalid"
+  ],
+  "e17Effect": "none-until-independent-long-horizon-evidence-is-obtained"
+}
