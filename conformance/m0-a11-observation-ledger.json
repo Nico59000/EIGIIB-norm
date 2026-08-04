@@ -1,0 +1,7 @@
+{
+  "standard": "EIGIIB-M0-A11-OBSERVATION-LEDGER-1.0",
+  "campaignId": "eigiib-m0-a11-external-preservation-observation-v1",
+  "campaignState": "not-activated",
+  "observations": [],
+  "claimBoundary": "empty-preparatory-ledger-is-not-observation-evidence"
+}

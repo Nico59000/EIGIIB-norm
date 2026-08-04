@@ -1,0 +1,89 @@
+{
+  "standard": "EIGIIB-M0-A11-AUTHORITY-FREEZE-1.0",
+  "status": "self-excluding-authority-freeze",
+  "source_head": "2891265f04a5d9a4d69c134fa48881b0ed93fe13",
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a11-external-evidence-preparation.yml",
+      "bytes": 4623,
+      "sha256": "2ff16e6035ffd842c6f94a5b84963219a8ed698982e51fae79a133a23bb05967"
+    },
+    {
+      "path": "conformance/M0-A11-MANUAL-REVIEW.md",
+      "bytes": 1323,
+      "sha256": "1f5d85c02d5d53f8070d18fe8323b0ca95a09b2f0aeb9f61a394ed63e9bf31f6"
+    },
+    {
+      "path": "conformance/m0-a11-external-evidence-preparation.json",
+      "bytes": 3161,
+      "sha256": "e9600645cd6a9455f0548036894cd90140052390f9a2195462943fef4e00e826"
+    },
+    {
+      "path": "conformance/m0-a11-control-domain-registry.json",
+      "bytes": 3707,
+      "sha256": "801fec8d844e7af7dd1f4afbace8014b568146d697bf828137cab6f17b946627"
+    },
+    {
+      "path": "conformance/m0-a11-immutable-channel-bootstrap.json",
+      "bytes": 3219,
+      "sha256": "3b693121fdeb786bb3b8d82a55b240c7dd01d8e609ec48dc9ee328bcf6944ce7"
+    },
+    {
+      "path": "conformance/m0-a11-observation-campaign.json",
+      "bytes": 1445,
+      "sha256": "00ac4d31c054cf5d02f7457bbce1f84155cc10666c1864b77a9241409ccdf051"
+    },
+    {
+      "path": "conformance/m0-a11-observation-ledger.json",
+      "bytes": 260,
+      "sha256": "bbb90b4f820cbb881c2f273ff48bae901a221b40aed2a290dfa3aa28b1220fb5"
+    },
+    {
+      "path": "docs/M0-A11-EXTERNAL-CONTROL-DOMAIN-REGISTRY-IMMUTABLE-PRESERVATION-CHANNEL-BOOTSTRAP-INDEPENDENT-OBSERVATION-CAMPAIGN-AND-LAPSE-DETECTION-HARNESS.md",
+      "bytes": 5706,
+      "sha256": "8ceac689c51a1db17a8ba2eb05ace4327d3a62b499185580a1d8edfdf6a51f3a"
+    },
+    {
+      "path": "docs/M0-A11-HUMAN-MASTERY-GUIDE.md",
+      "bytes": 1052,
+      "sha256": "ae23a29bff55a40754931a3e19fa0a54c0a4deefbf42cd755694898f14705f40"
+    },
+    {
+      "path": "schemas/eigiib-m0-a11-external-evidence-preparation.schema.json",
+      "bytes": 1034,
+      "sha256": "189e872010cf5e1dbff7b5ffcc65759230c5ce4083d60f35f373904b8c15db08"
+    },
+    {
+      "path": "schemas/eigiib-m0-a11-observation-envelope.schema.json",
+      "bytes": 1303,
+      "sha256": "78f25803e834f4983727de5f6614353819c421c6c49b33e1afa03251bbba7b5b"
+    },
+    {
+      "path": "schemas/eigiib-m0-a11-external-binding-attestation.schema.json",
+      "bytes": 1907,
+      "sha256": "84e41d586bc2235e8245d3940c61578c4963a7f3d6547e644968656345dec094"
+    },
+    {
+      "path": "tests/fixtures/m0-a11/expected-report.json",
+      "bytes": 444,
+      "sha256": "5914dec413b79dc2cdd65715b4b651b11259840423006c932049f062c058a557"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a11.py",
+      "bytes": 8485,
+      "sha256": "402c07efc5d456a7468fec05c7a221577da6873d2dc467b2f5fe457ff6342535"
+    },
+    {
+      "path": "tools/eigiib_m0_a11_check.py",
+      "bytes": 11132,
+      "sha256": "ed085a246f4ffeacc5fcb4240a1770f935be675d7dc6c691c002433d774a4d22"
+    },
+    {
+      "path": "tools/eigiib_m0_a11_observe.py",
+      "bytes": 6463,
+      "sha256": "faef493cecd378e8c582adb4c323dc43a25e99768000ce9cd250e8017ba76c65"
+    }
+  ],
+  "authority_count": 16,
+  "excluded_path": "conformance/m0-a11-authority-freeze.json"
+}

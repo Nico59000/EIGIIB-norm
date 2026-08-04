@@ -1,0 +1,14 @@
+{
+  "findings": [],
+  "standard": "EIGIIB-M0-A11-REPORT-1.0",
+  "structural_result": "conformant",
+  "summary": {
+    "campaignActivationState": "not-activated",
+    "e17Decision": "not-ready-for-adoption",
+    "m0A10Head": "2891265f04a5d9a4d69c134fa48881b0ed93fe13",
+    "observationCount": 0,
+    "plannedImmutableChannels": 2,
+    "preparatoryStatus": "external-evidence-acquisition-prepared-not-activated",
+    "registeredDomains": 4
+  }
+}
