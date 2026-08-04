@@ -1,0 +1,59 @@
+name: M0-A12 exact accidental topology run purge
+
+on:
+  pull_request:
+    types: [closed]
+    paths:
+      - '.github/workflows/m0-a12-f1-f3-exact-topology-run-purge.yml'
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  purge:
+    if: github.event.pull_request.head.ref == 'ops/m0-a12-f1-f3-exact-topology-run-purge-pr-lifecycle'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      BRANCH: ops/m0-a12-f1-f3-exact-topology-run-purge-pr-lifecycle
+    steps:
+      - name: Verify accidental PRs are closed unmerged
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pr in 168 173; do
+            state=$(gh api "repos/$REPO/pulls/$pr" --jq .state)
+            merged=$(gh api "repos/$REPO/pulls/$pr" --jq .merged)
+            test "$state" = closed
+            test "$merged" = false
+          done
+      - name: Delete exact rejected or superseded runs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for run in 30898618820 30902085634 30906069397; do
+            if gh api "repos/$REPO/actions/runs/$run" >/dev/null 2>&1; then
+              gh api --method DELETE "repos/$REPO/actions/runs/$run"
+            fi
+            set +e
+            output=$(gh api -i "repos/$REPO/actions/runs/$run" 2>&1)
+            rc=$?
+            set -e
+            test "$rc" -ne 0
+            printf '%s' "$output" | grep -q '404\|Not Found'
+          done
+      - name: Publish exact cleanup record
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh pr comment 167 --body "Accidental direct-to-main PR #168 was closed unmerged. Exact stale topology runs \`30898618820\` (failure) and \`30902085634\` (cancelled) were deleted; direct API readback returned HTTP 404. Authoritative F1 PR #167 and head \`eaa64be6c27d30ceba7762ecf1ec7f93fe805745\` were not modified. This maintenance is separate from M0-A12-F3."
+          gh pr comment 174 --body "Accidental direct-to-main PR #173 was closed unmerged. Exact rejected topology run \`30906069397\` was deleted; direct API readback returned HTTP 404. Authoritative F3 PR #174 and head \`fb2d9515280d456e280848f2d364a2a33c774e6e\` were not modified. Replacement M0-A8 run \`30906070099\` completed successfully."
+      - name: Delete technical branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api --method DELETE "repos/$REPO/git/refs/heads/$BRANCH"
