@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/m0-a12-f2-lapse-event.schema.json",
+  "title": "EIGIIB M0-A12-F2 lapse event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "campaignId",
+    "expectedSequence",
+    "dueAt",
+    "detectedAt",
+    "state",
+    "previousObservationDigest",
+    "eventDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-F2-LAPSE-EVENT-1.0"
+    },
+    "campaignId": {
+      "const": "eigiib-m0-a11-external-preservation-observation-v1"
+    },
+    "expectedSequence": {
+      "type": "integer",
+      "minimum": 2
+    },
+    "dueAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "detectedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "state": {
+      "enum": [
+        "overdue",
+        "lapsed"
+      ]
+    },
+    "previousObservationDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "eventDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

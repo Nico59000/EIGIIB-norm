@@ -1,0 +1,86 @@
+{
+  "standard": "EIGIIB-M0-A12-F2-1.0",
+  "title": "Independent Observation Continuity, Lapse Detection and Long-Horizon Preservation Accumulation",
+  "status": "continuity-harness-established-f1-closure-pending",
+  "source": {
+    "m0A12F1Head": "eaa64be6c27d30ceba7762ecf1ec7f93fe805745",
+    "m0A12Head": "e6661993924aed4d0185df48cf0b8587b2e0abf3",
+    "m0A12F1AuthorityPath": "conformance/m0-a12-f1-bound-ingress.json",
+    "stableBundleSha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+    "campaignId": "eigiib-m0-a11-external-preservation-observation-v1"
+  },
+  "prerequisite": {
+    "requiredF1Decision": "point-in-time-activation-closed",
+    "requiredF1Label": "T",
+    "currentDecision": "not-closed",
+    "gate": "blocked-until-f1-T"
+  },
+  "continuityContract": {
+    "firstContinuationSequence": 2,
+    "requiredLastSequence": 30,
+    "requiredTotalObservationCount": 30,
+    "requiredContinuationObservationCount": 29,
+    "cadenceSeconds": 86400,
+    "graceSeconds": 21600,
+    "lapseAfterSeconds": 172800,
+    "requiredElapsedSeconds": 2505600,
+    "maximumOverdueObservations": 0,
+    "checkpointSequences": [
+      7,
+      14,
+      21,
+      28
+    ],
+    "requiredChannels": [
+      "immutable-channel-primary",
+      "immutable-channel-secondary"
+    ],
+    "signatureNamespace": "eigiib-m0-a12-f2-continuity@eigiib.example",
+    "digestAlgorithm": "sha256",
+    "canonicalization": "sorted-compact-json-utf8-subset"
+  },
+  "lapseStateMachine": {
+    "states": [
+      "blocked",
+      "awaiting-sequence-2",
+      "current",
+      "grace",
+      "overdue",
+      "lapsed",
+      "invalid"
+    ],
+    "dueRule": "previous-observed-at-plus-cadence",
+    "graceRule": "due-less-than-now-less-than-or-equal-due-plus-grace",
+    "overdueRule": "due-plus-grace-less-than-now-less-than-due-plus-lapse-after",
+    "lapsedRule": "now-greater-than-or-equal-due-plus-lapse-after",
+    "recoveryRule": "late-observation-does-not-erase-recorded-lapse"
+  },
+  "accumulationBoundary": {
+    "decision": "bounded-long-horizon-preservation-accumulation-verified",
+    "scope": "observed-window-only",
+    "futureContinuityNotImplied": true,
+    "universalFailureIndependenceNotImplied": true,
+    "e17Decision": "not-ready-for-adoption"
+  },
+  "currentState": {
+    "f1Closure": "not-closed",
+    "continuityEvidence": "absent",
+    "acceptedObservations": 0,
+    "lapseState": "blocked",
+    "accumulationDecision": "not-accumulated"
+  },
+  "nonclaims": [
+    "m0-a12-f1-closed-in-T",
+    "continuity-campaign-started",
+    "second-live-observation-captured",
+    "lapse-free-window-observed",
+    "bounded-long-horizon-accumulation-established",
+    "future-continuity-guaranteed",
+    "e17-adoption"
+  ],
+  "naturalSuccessor": {
+    "id": "M0-A12-F3",
+    "title": "Independent Multi-Observer Differential Continuity and Custodian Succession Replay",
+    "decision": "blocked-until-f2-bounded-accumulation-is-T"
+  }
+}

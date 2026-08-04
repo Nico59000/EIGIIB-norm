@@ -1,0 +1,44 @@
+{
+  "standard": "EIGIIB-M0-A12-F2-ACCUMULATION-POLICY-1.0",
+  "campaignId": "eigiib-m0-a11-external-preservation-observation-v1",
+  "sourceHead": "eaa64be6c27d30ceba7762ecf1ec7f93fe805745",
+  "schedule": {
+    "cadenceSeconds": 86400,
+    "graceSeconds": 21600,
+    "lapseAfterSeconds": 172800,
+    "clock": "utc-rfc3339"
+  },
+  "threshold": {
+    "firstSequence": 1,
+    "lastSequence": 30,
+    "totalObservationCount": 30,
+    "continuationObservationCount": 29,
+    "minimumElapsedSeconds": 2505600,
+    "maximumOverdueObservations": 0,
+    "maximumLapses": 0
+  },
+  "checkpointPolicy": {
+    "sequences": [
+      7,
+      14,
+      21,
+      28
+    ],
+    "requiredClaims": [
+      "retention-policy-readback-verified",
+      "retention-attributed-deletion-denial-verified",
+      "exact-restore-readback-verified"
+    ],
+    "requiredPerChannel": true
+  },
+  "channelPolicy": {
+    "requiredChannels": [
+      "immutable-channel-primary",
+      "immutable-channel-secondary"
+    ],
+    "requiredResult": "exact-and-retained",
+    "requiredArtifactSha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+    "requiredRetentionState": "applied-and-readback-verified"
+  },
+  "claimBoundary": "bounded-observed-window-not-future-guarantee"
+}

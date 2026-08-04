@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/m0-a12-f2-continuity-certificate.schema.json",
+  "title": "EIGIIB M0-A12-F2 bounded continuity certificate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "sourceF1Head",
+    "campaignId",
+    "firstObservationDigest",
+    "lastObservationDigest",
+    "firstObservedAt",
+    "lastObservedAt",
+    "totalObservationCount",
+    "continuationObservationCount",
+    "elapsedSeconds",
+    "overdueCount",
+    "lapseCount",
+    "lapseState",
+    "decision",
+    "claimBoundary",
+    "certificateDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-F2-CONTINUITY-CERTIFICATE-1.0"
+    },
+    "sourceF1Head": {
+      "const": "eaa64be6c27d30ceba7762ecf1ec7f93fe805745"
+    },
+    "campaignId": {
+      "const": "eigiib-m0-a11-external-preservation-observation-v1"
+    },
+    "firstObservationDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "lastObservationDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "firstObservedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lastObservedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "totalObservationCount": {
+      "const": 30
+    },
+    "continuationObservationCount": {
+      "const": 29
+    },
+    "elapsedSeconds": {
+      "type": "integer",
+      "minimum": 2505600
+    },
+    "overdueCount": {
+      "const": 0
+    },
+    "lapseCount": {
+      "const": 0
+    },
+    "lapseState": {
+      "enum": [
+        "current",
+        "grace"
+      ]
+    },
+    "decision": {
+      "const": "bounded-long-horizon-preservation-accumulation-verified"
+    },
+    "claimBoundary": {
+      "const": "bounded-observed-window-not-future-guarantee"
+    },
+    "certificateDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

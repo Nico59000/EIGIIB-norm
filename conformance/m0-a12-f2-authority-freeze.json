@@ -1,0 +1,89 @@
+{
+  "standard": "EIGIIB-M0-A12-F2-AUTHORITY-FREEZE-1.0",
+  "status": "self-excluding-continuity-authority-freeze",
+  "sourceHead": "eaa64be6c27d30ceba7762ecf1ec7f93fe805745",
+  "authorityCount": 16,
+  "excludedPath": "conformance/m0-a12-f2-authority-freeze.json",
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a12-f2-observation-continuity.yml",
+      "bytes": 4594,
+      "sha256": "f9199e115ffbc1364807727e014bd375688346e8fe92bfa7be915176eab89100"
+    },
+    {
+      "path": "conformance/M0-A12-F2-MANUAL-REVIEW.md",
+      "bytes": 1227,
+      "sha256": "d06ee87f154f582295a861bdd841e4a69fd8f8536456109be503a50fd17c2a26"
+    },
+    {
+      "path": "conformance/m0-a12-f2-accumulation-policy.json",
+      "bytes": 1264,
+      "sha256": "012384f0d4ec3bd953629184511dfeeaf215e1ed5f5d3ff6df4346ed5bc3ca7e"
+    },
+    {
+      "path": "conformance/m0-a12-f2-continuity-ledger.json",
+      "bytes": 466,
+      "sha256": "bc357cb03ddab599622cba104996e881981869447438e7bd75406cc4e699e566"
+    },
+    {
+      "path": "conformance/m0-a12-f2-continuity.json",
+      "bytes": 2955,
+      "sha256": "e370d29b8a1b1a116690918a9cb5016b2bd7d59a975ade85bec698601f0117b7"
+    },
+    {
+      "path": "conformance/m0-a12-f2-htnt-decision-protocol.json",
+      "bytes": 1737,
+      "sha256": "b4c7fa9967c30b9ee146412a700c2f5838d67c959ca02e35a40101cda6b32816"
+    },
+    {
+      "path": "docs/M0-A12-F2-INDEPENDENT-OBSERVATION-CONTINUITY-LAPSE-DETECTION-AND-LONG-HORIZON-PRESERVATION-ACCUMULATION.md",
+      "bytes": 1825,
+      "sha256": "5ac88917ea513c9932ec9b8319de56a01c36cc5cc41e799967cf47c8b5f03007"
+    },
+    {
+      "path": "docs/M0-A12-F2-OPERATOR-RUNBOOK.md",
+      "bytes": 1299,
+      "sha256": "32880cf61d0896430bc3bc2c8e6171f2b9e2300ca77f887d905650ad2a91dec6"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f2-continuity-certificate.schema.json",
+      "bytes": 1958,
+      "sha256": "e727c8560907b3c8bf21dd1aa21958a34c77dafc7bf9d658be6ad24bf0261200"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f2-lapse-event.schema.json",
+      "bytes": 1101,
+      "sha256": "e011d7f72927a3e3415cbe07b48e700affa34c9961f61ce3d95b41f6becdd0c9"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f2-observation.schema.json",
+      "bytes": 2221,
+      "sha256": "10b8c95a66eca5dfae26c3d69e82cd58a107b521e9f234ead73b7c5a7409ed35"
+    },
+    {
+      "path": "tests/fixtures/m0-a12-f2/expected-baseline-report.json",
+      "bytes": 510,
+      "sha256": "542b39bd3e2d732ba4ae6eff4603a206e641c5b7c08dae505fe1789557ea4e86"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a12_f2.py",
+      "bytes": 10114,
+      "sha256": "95f403b79f71d0c4c81cc2652ded3395e743ffbcccd4a6d6ffbdd90a735055e4"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_f2_canonical.py",
+      "bytes": 1168,
+      "sha256": "0180124e650458f5f42a53665af4ab4b7dac2799eed8ecdf24bdc4af5a02a31d"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_f2_check.py",
+      "bytes": 9213,
+      "sha256": "96740779e27dc7be984f2e73788b763aa2daaa483a3cbbb8d00d3f4b9ae68261"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_f2_ledger.py",
+      "bytes": 6991,
+      "sha256": "c320c36f6b75e8896370a81aa4d987def690a49aa541ff33e4a80cf717d59c70"
+    }
+  ]
+}
