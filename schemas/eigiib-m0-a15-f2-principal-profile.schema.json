@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a15-f2-principal-profile.schema.json",
+  "title": "EIGIIB M0-A15-F2 principal profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "principalId",
+    "role",
+    "controlDomainId",
+    "identityRoot",
+    "providerOperator",
+    "networkPath",
+    "implementation",
+    "keyId",
+    "algorithm",
+    "publicKey"
+  ],
+  "properties": {
+    "principalId": {"type": "string", "minLength": 1},
+    "role": {
+      "enum": ["publisher", "observer", "activation-authority", "activation-witness"]
+    },
+    "controlDomainId": {"type": "string", "minLength": 1},
+    "identityRoot": {"type": "string", "minLength": 1},
+    "providerOperator": {"type": "string", "minLength": 1},
+    "networkPath": {"type": "string", "minLength": 1},
+    "implementation": {"type": "string", "minLength": 1},
+    "keyId": {"type": "string", "minLength": 1},
+    "algorithm": {"const": "ed25519"},
+    "publicKey": {"type": "string", "contentEncoding": "base64"}
+  }
+}

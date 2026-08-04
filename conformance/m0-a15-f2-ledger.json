@@ -1,0 +1,9 @@
+{
+  "standard": "EIGIIB-M0-A15-F2-LEDGER-1.0",
+  "sourceHead": "b66ba8d5b11ce4e9d30d5fdb70fb982db3e26095",
+  "entries": [],
+  "ingressCount": 0,
+  "activationCount": 0,
+  "verifiedTClosureCount": 0,
+  "decision": "external-authenticated-activation-not-observed"
+}

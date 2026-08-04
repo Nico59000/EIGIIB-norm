@@ -1,0 +1,22 @@
+{
+  "standard": "EIGIIB-M0-A15-F2-POLICY-1.0",
+  "sourceHead": "b66ba8d5b11ce4e9d30d5fdb70fb982db3e26095",
+  "sourceTree": "9c2ded5aedbf5c22d311461ad7ee42d8315f8763",
+  "canonicalEncoding": "sorted-key-compact-utf8-json-without-floats",
+  "digestAlgorithm": "sha256",
+  "signatureAlgorithm": "ed25519",
+  "minimumIngressObservers": 2,
+  "activationWitnessCount": 4,
+  "activationWitnessQuorum": 3,
+  "minimumActivationReadbacks": 2,
+  "maximumIngressToActivationSeconds": 86400,
+  "maximumActivationWindowSeconds": 3600,
+  "exactF1Decision": "require-T-from-exact-frozen-F1-verifier",
+  "activationDecision": "exact-f1-t-then-point-in-time-signed-closure",
+  "externalLocator": "https-nonlocal-noninvalid-required",
+  "evaluationTime": "explicit-caller-supplied-and-window-bound",
+  "hostClockReads": "forbidden",
+  "runtimeNetworkOperations": "forbidden",
+  "declarativeProofBooleans": "forbidden",
+  "committedLiveEvidence": "forbidden"
+}

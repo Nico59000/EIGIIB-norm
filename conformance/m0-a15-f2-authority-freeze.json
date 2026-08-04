@@ -1,0 +1,89 @@
+{
+  "standard": "EIGIIB-M0-A15-F2-AUTHORITY-FREEZE-1.0",
+  "sourceHead": "b66ba8d5b11ce4e9d30d5fdb70fb982db3e26095",
+  "sourceTree": "9c2ded5aedbf5c22d311461ad7ee42d8315f8763",
+  "authorityCount": 16,
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a15-f2-external-history-activation.yml",
+      "bytes": 7133,
+      "sha256": "133c3bea6965f612f96812cc0bb0acb0a75ecf9875a1812a887433afa34fc8be"
+    },
+    {
+      "path": "conformance/M0-A15-F2-MANUAL-REVIEW.md",
+      "bytes": 1149,
+      "sha256": "eec399b2dc37b6854b0612fada491e5f44676283efeb759f689e30491ec0289d"
+    },
+    {
+      "path": "conformance/m0-a15-f2-authority.json",
+      "bytes": 1573,
+      "sha256": "c964edab3b3c1feccf6d8104515debc2fcd0ec09d46a99047b31d9b749188da8"
+    },
+    {
+      "path": "conformance/m0-a15-f2-htnt-decision-protocol.json",
+      "bytes": 1446,
+      "sha256": "dea2d1c351563e4ded37e69d0d64a2f7f29fa14157230816ec3c7545fc5efbe0"
+    },
+    {
+      "path": "conformance/m0-a15-f2-ledger.json",
+      "bytes": 264,
+      "sha256": "4c3830bc36fe4760cfb8dd652d86672e6307978d5db4aff18270bdf67ebcaca8"
+    },
+    {
+      "path": "conformance/m0-a15-f2-policy.json",
+      "bytes": 941,
+      "sha256": "6d403f1ec6fca9824380303d39fc2c675ce87e4b6547b0812c6e0bb4ddd6b926"
+    },
+    {
+      "path": "docs/M0-A15-F2-EXTERNAL-AUTHENTICATED-HISTORY-INGRESS-EXACT-A14-REPLAY-POINT-IN-TIME-ACTIVATION-AND-T-CLOSURE.md",
+      "bytes": 1839,
+      "sha256": "ca900fea181b9b38825ce555dfc164264e19638b7091ac02fdfbcfdd44eabb22"
+    },
+    {
+      "path": "docs/M0-A15-F2-OPERATOR-RUNBOOK.md",
+      "bytes": 1474,
+      "sha256": "3349e1e4eedaeeddda35d8b0ee0e405fef9f9eabe0e3ec2bc2cb54dfcbcd2314"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-f2-activation-package.schema.json",
+      "bytes": 3262,
+      "sha256": "a060ffa87f50384e481188e5207f85bb6327916afbdeaa9ce364c5e17379ad98"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-f2-principal-profile.schema.json",
+      "bytes": 1088,
+      "sha256": "a401379ac6ca2f44349f638b80398401b82dde271178f45a719b40485427fc39"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-f2-signed-envelope.schema.json",
+      "bytes": 678,
+      "sha256": "02ca25af26d895eefff3f1af1d6cfa4e3a6e9d00499e66b1b846ebd8029edcab"
+    },
+    {
+      "path": "tests/fixtures/m0-a15-f2/expected-baseline-report.json",
+      "bytes": 599,
+      "sha256": "8aa7994cce4319cbec7288da5c165ad5fa15a66f70b7fb761d5ee0d88a6d7349"
+    },
+    {
+      "path": "tests/m0_a15_f2_cases.py",
+      "bytes": 13642,
+      "sha256": "24eec624c026a291ceba140040c68e6f0077e0dce65ee5959b87b75d24c17d10"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a15_f2.py",
+      "bytes": 5914,
+      "sha256": "ce475c577aca25c8919496c1a63a72f52b486a769958cbf42f309b0193a48fcb"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_f2_check.py",
+      "bytes": 11488,
+      "sha256": "75747cd6564cff8cf53adfcd88b6030457b6a1d7710ea5e9d18fa7ca3cc8a8ae"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_f2_replay.py",
+      "bytes": 20893,
+      "sha256": "ea3e2f35ab288deaa92c1bc867db133210ec249589dec5fe0ffe55b4849942e8"
+    }
+  ],
+  "excludedPath": "conformance/m0-a15-f2-authority-freeze.json"
+}
