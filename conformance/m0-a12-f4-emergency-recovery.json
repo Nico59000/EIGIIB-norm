@@ -1,0 +1,58 @@
+{
+  "standard": "EIGIIB-M0-A12-F4-1.0",
+  "title": "Multi-Authority Emergency Succession, Catastrophic Recovery and E17 Evidence Matrix",
+  "status": "emergency-recovery-and-e17-matrix-harness-established-f3-verification-pending",
+  "source": {
+    "m0A12F3Head": "fb2d9515280d456e280848f2d364a2a33c774e6e",
+    "campaignId": "eigiib-m0-a11-external-preservation-observation-v1",
+    "stableBundleSha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+  },
+  "prerequisite": {
+    "requiredF3Decision": "independent-multi-observer-differential-continuity-and-custodian-succession-replay-verified",
+    "requiredF3Label": "T",
+    "currentDecision": "not-verified",
+    "gate": "blocked-until-f3-T"
+  },
+  "emergencyContract": {
+    "scenarioId": "catastrophic-loss-two-custodians-and-observer-quorum-v1",
+    "requiredLostAuthorities": ["external-preservation-primary-successor", "external-preservation-secondary"],
+    "minimumSimultaneousLossCount": 2,
+    "emergencyAuthoritySetSize": 7,
+    "emergencyApprovalThreshold": 5,
+    "recoveryShareSetSize": 5,
+    "recoveryShareThreshold": 3,
+    "minimumIndependentRecoveryDomains": 3,
+    "freshCustodians": ["external-preservation-emergency-alpha", "external-preservation-emergency-beta"],
+    "freshObserver": "independent-observer-emergency",
+    "minimumRecoveredChannelCount": 2,
+    "requiredRecoveredArtifactSha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+    "staleAuthorityReplayDecision": "rejected"
+  },
+  "e17Matrix": {
+    "authorityPath": "conformance/m0-a12-f4-e17-evidence-matrix.json",
+    "currentDecision": "not-ready-for-adoption",
+    "requiredBlockingCount": 0,
+    "currentBlockingCount": 14
+  },
+  "claimBoundary": {
+    "decision": "multi-authority-emergency-succession-catastrophic-recovery-and-e17-evidence-matrix-verified",
+    "scope": "one-registered-catastrophe-and-point-in-time-e17-matrix-only",
+    "futureRecoveryNotImplied": true,
+    "universalDisasterToleranceNotImplied": true,
+    "e17AdoptionNotImplied": true
+  },
+  "currentState": {
+    "f3Replay": "not-verified",
+    "catastropheDeclaration": "absent",
+    "emergencyApprovals": 0,
+    "recoveryShares": 0,
+    "recoveredChannels": 0,
+    "recoveryDecision": "not-verified",
+    "e17Decision": "not-ready-for-adoption"
+  },
+  "naturalSuccessor": {
+    "id": "M0-A12-F5",
+    "title": "E17 Adoption Authority, External Governance Convergence and Final M0 Freeze",
+    "decision": "blocked-until-f4-emergency-recovery-and-e17-matrix-is-T"
+  }
+}

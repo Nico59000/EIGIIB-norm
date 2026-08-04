@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "EIGIIB M0-A12-F4 catastrophic-recovery-certificate",
+  "required": ["scenarioId","f3CertificateDigest","catastropheDeclarationDigest","emergencyApprovalDigests","recoveryShareDigests","recoveredArtifactSha256","freshChannels","staleAuthorityReplay","e17MatrixDigest","certificateDigest"],
+  "properties": {
+    "scenarioId":{"type":"string"},
+    "f3CertificateDigest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "catastropheDeclarationDigest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "emergencyApprovalDigests":{"type":"array","minItems":5,"uniqueItems":true,"items":{"type":"string","pattern":"^[0-9a-f]{64}$"}},
+    "recoveryShareDigests":{"type":"array","minItems":3,"uniqueItems":true,"items":{"type":"string","pattern":"^[0-9a-f]{64}$"}},
+    "recoveredArtifactSha256":{"const":"96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"},
+    "freshChannels":{"type":"array","minItems":2,"uniqueItems":true,"items":{"type":"string"}},
+    "staleAuthorityReplay":{"const":"rejected"},
+    "e17MatrixDigest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "certificateDigest":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "standard": "EIGIIB-M0-A12-F4-EMERGENCY-POLICY-1.0",
+  "sourceF3Head": "fb2d9515280d456e280848f2d364a2a33c774e6e",
+  "catastrophe": {
+    "minimumLostAuthorities": 2,
+    "declarationWindowSeconds": 21600,
+    "mustIncludeCustodianLoss": true,
+    "mustIncludeObservationCapabilityLoss": true
+  },
+  "emergencyAuthorityRoles": [
+    "emergency-coordinator",
+    "recovery-custodian-alpha",
+    "recovery-custodian-beta",
+    "recovery-custodian-gamma",
+    "emergency-witness-alpha",
+    "emergency-witness-beta",
+    "independent-emergency-auditor"
+  ],
+  "approvalThreshold": {
+    "numerator": 5,
+    "denominator": 7,
+    "distinctControlDomainsRequired": 5,
+    "unknownControlDimensionDecision": "deny"
+  },
+  "recoveryShares": {
+    "registered": 5,
+    "threshold": 3,
+    "minimumIndependentFailureDomains": 3,
+    "singleShareInsufficient": true,
+    "shareReuseAcrossCeremonies": "forbidden"
+  },
+  "freshAuthorityRule": "all-catastrophe-affected-authorities-remain-nonauthoritative-until-a-new-registered-post-recovery-succession-event"
+}

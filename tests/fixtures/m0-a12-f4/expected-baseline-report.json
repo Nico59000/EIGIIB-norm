@@ -1,0 +1,12 @@
+{
+  "standard": "EIGIIB-M0-A12-F4-REPORT-1.0",
+  "htntLabel": "NF",
+  "decision": "not-verified",
+  "findings": [],
+  "summary": {
+    "f3Replay": "not-verified",
+    "recoveryDecision": "not-verified",
+    "e17Decision": "not-ready-for-adoption",
+    "blockingMatrixRows": 14
+  }
+}

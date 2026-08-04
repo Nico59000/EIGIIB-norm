@@ -1,0 +1,13 @@
+{
+  "standard": "EIGIIB-M0-A12-F4-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier": {"id":"S4","coordinates":["localEmergencyRecoveryValidation","independentCatastrophicRecoveryEvidence"],"labels":{"F":[0,0],"NF":[1,0],"NT":[0,1],"T":[1,1]}},
+  "fixedContext": true,
+  "current": {"label":"NF","meaning":"emergency-recovery-harness-valid-f3-and-live-catastrophe-evidence-absent","action":"preserve-harness-and-block-recovery-closure"},
+  "dynamicInterpretation": {
+    "F": "local authority, policy, ledger, matrix or verifier invalid",
+    "NF": "local harness valid while F3 closure or live catastrophe evidence is absent",
+    "NT": "signed emergency or recovery evidence exists but quorum, threshold, exactness, freshness or matrix closure is incomplete",
+    "T": "F3 is verified in T and one registered catastrophe is recovered exactly through independent threshold authorities with a complete bounded E17 evidence matrix"
+  },
+  "prohibitedTransitions": [["NF","T-without-f3-T"],["NF","T-without-5-of-7-emergency-quorum"],["NT","T-without-3-of-5-recovery-threshold"],["NT","T-with-digest-mismatch"],["NT","T-with-stale-authority-accepted"],["T","E17-adopted-by-F4"]]
+}

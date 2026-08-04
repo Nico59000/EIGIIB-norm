@@ -1,0 +1,36 @@
+{
+  "standard": "EIGIIB-M0-A12-F4-CATASTROPHIC-RECOVERY-POLICY-1.0",
+  "sourceF3Head": "fb2d9515280d456e280848f2d364a2a33c774e6e",
+  "artifactSha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+  "phases": [
+    "declare-catastrophe",
+    "freeze-stale-authority",
+    "collect-threshold-shares",
+    "reconstruct-in-isolation",
+    "verify-exact-artifact",
+    "provision-fresh-channels",
+    "apply-retention-lock",
+    "perform-deletion-denial",
+    "perform-independent-restore",
+    "bind-emergency-observer",
+    "publish-recovery-certificate"
+  ],
+  "freshChannels": ["immutable-channel-emergency-alpha", "immutable-channel-emergency-beta"],
+  "requiredPerChannelEvidence": [
+    "provider-resource-identity",
+    "object-version-identity",
+    "retention-lock-readback",
+    "authorized-deletion-denial",
+    "privileged-deletion-denial",
+    "exact-object-readback",
+    "independent-restore-readback",
+    "audit-log-export"
+  ],
+  "antiRollback": {
+    "lostAuthoritySignatures": "rejected",
+    "preCatastropheChannelPromotion": "rejected",
+    "recoveredArtifactDigestMismatch": "rejected",
+    "partialShareThreshold": "rejected"
+  },
+  "recoveryCertificateNamespace": "eigiib-m0-a12-f4-recovery@eigiib.example"
+}

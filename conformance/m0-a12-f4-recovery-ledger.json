@@ -1,0 +1,17 @@
+{
+  "standard": "EIGIIB-M0-A12-F4-RECOVERY-LEDGER-1.0",
+  "status": "f3-verification-pending",
+  "sourceHead": "fb2d9515280d456e280848f2d364a2a33c774e6e",
+  "entries": [],
+  "catastropheDeclarationDigest": null,
+  "emergencyApprovalCount": 0,
+  "recoveryShareCount": 0,
+  "independentRecoveryDomainCount": 0,
+  "recoveredArtifactDigest": null,
+  "freshChannelCount": 0,
+  "emergencyObserverDigest": null,
+  "recoveryCertificateDigest": null,
+  "staleAuthorityReplay": "blocked",
+  "recoveryDecision": "not-verified",
+  "e17MatrixDecision": "not-ready-for-adoption"
+}

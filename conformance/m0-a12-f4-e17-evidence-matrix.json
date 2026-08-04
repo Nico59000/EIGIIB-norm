@@ -1,0 +1,23 @@
+{
+  "standard": "EIGIIB-M0-A12-F4-E17-EVIDENCE-MATRIX-1.0",
+  "sourceF3Head": "fb2d9515280d456e280848f2d364a2a33c774e6e",
+  "matrixDecision": "not-ready-for-adoption",
+  "rows": [
+    {"capability":"trusted-release-signer","currentEvidence":"protocol-authority-present","closureRequirement":"external-operational-evidence-required","blocking":true},
+    {"capability":"authorized-release-signer","currentEvidence":"protocol-authority-present","closureRequirement":"external-operational-evidence-required","blocking":true},
+    {"capability":"trusted-transparency-service","currentEvidence":"protocol-authority-present","closureRequirement":"external-operational-evidence-required","blocking":true},
+    {"capability":"trusted-effective-time","currentEvidence":"protocol-authority-present","closureRequirement":"external-operational-evidence-required","blocking":true},
+    {"capability":"global-append-only-consistency","currentEvidence":"protocol-authority-present","closureRequirement":"external-operational-evidence-required","blocking":true},
+    {"capability":"content-revocation","currentEvidence":"protocol-authority-present","closureRequirement":"external-operational-evidence-required","blocking":true},
+    {"capability":"distribution-withdrawal","currentEvidence":"protocol-authority-present","closureRequirement":"external-operational-evidence-required","blocking":true},
+    {"capability":"vulnerability-remediation","currentEvidence":"protocol-authority-present","closureRequirement":"external-operational-evidence-required","blocking":true},
+    {"capability":"live-github-release","currentEvidence":"not-established","closureRequirement":"live-publication-evidence-required","blocking":true},
+    {"capability":"external-registry-publication","currentEvidence":"not-established","closureRequirement":"external-registry-evidence-required","blocking":true},
+    {"capability":"external-persistence-or-durability","currentEvidence":"harness-present","closureRequirement":"long-horizon-external-evidence-required","blocking":true},
+    {"capability":"production-release-governance","currentEvidence":"not-established","closureRequirement":"production-governance-evidence-required","blocking":true},
+    {"capability":"universal-interoperability","currentEvidence":"bounded-only","closureRequirement":"universal-claim-prohibited","blocking":true},
+    {"capability":"future-unregistered-runner-compatibility","currentEvidence":"not-establishable-point-in-time","closureRequirement":"future-universal-claim-prohibited","blocking":true}
+  ],
+  "closureRule": "all-adoptable-rows-must-have-current-independent-evidence-and-non-adoptable-universal-rows-must-remain-explicitly-bounded",
+  "adoptionAuthority": "not-in-f4"
+}
