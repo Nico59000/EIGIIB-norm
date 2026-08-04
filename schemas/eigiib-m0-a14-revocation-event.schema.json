@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "M0-A14 revocation event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "revocationId",
+    "collegeId",
+    "requestDigest",
+    "effectiveAt",
+    "approvals",
+    "outcome"
+  ],
+  "properties": {
+    "revocationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "collegeId": {
+      "enum": [
+        "normative-authority-college",
+        "operational-governance-college",
+        "independent-verification-college"
+      ]
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "effectiveAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approvals": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "collegeId",
+          "approverId",
+          "controlDomainId",
+          "recordDigest"
+        ],
+        "properties": {
+          "collegeId": {
+            "enum": [
+              "normative-authority-college",
+              "operational-governance-college",
+              "independent-verification-college"
+            ]
+          },
+          "approverId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "controlDomainId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "recordDigest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "outcome": {
+      "enum": [
+        "revoked-and-rolled-back",
+        "revoked-and-refrozen"
+      ]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "standard": "EIGIIB-M0-A14-GOVERNANCE-DRIFT-POLICY-1.0",
+  "sourceA13Head": "d096b9fbf68cead15a3a9eb7bf4cff1493a0aa45",
+  "snapshotRequiredPerCycle": true,
+  "baseline": "first-accepted-cycle-snapshot",
+  "minimumCollegeThreshold": 4,
+  "minimumMembersPerCollege": 5,
+  "minimumDistinctControlDomainsPerCollege": 4,
+  "crossCollegeIdentityOverlap": "forbidden",
+  "unknownControlOverlap": "deny",
+  "allowedDrift": "declared-nonweakening-only",
+  "requiredTransitionEvidence": [
+    "from-snapshot-digest",
+    "to-snapshot-digest",
+    "reason-code",
+    "three-college-identical-approval",
+    "independent-review",
+    "effective-time"
+  ],
+  "prohibitedDrift": [
+    "threshold-reduction",
+    "member-count-below-five",
+    "control-domain-collapse",
+    "cross-college-identity-overlap",
+    "unregistered-membership-change",
+    "unknown-control-overlap",
+    "retroactive-transition"
+  ],
+  "futureStabilityNotImplied": true
+}

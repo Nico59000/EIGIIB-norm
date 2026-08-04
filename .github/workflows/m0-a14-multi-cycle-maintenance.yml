@@ -1,0 +1,103 @@
+name: M0-A14 multi-cycle maintenance continuity and governance drift control
+run-name: M0-A14 / ${{ github.event.pull_request.head.ref || github.ref_name }} / ${{ github.sha }}
+
+on:
+  pull_request:
+    branches:
+      - agent/m0-a13-post-freeze-maintenance-reopening-authority-supersession-governance
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/m0-a14-multi-cycle-maintenance.yml'
+      - 'conformance/M0-A14-*'
+      - 'conformance/m0-a14-*'
+      - 'docs/M0-A14-*'
+      - 'schemas/eigiib-m0-a14-*'
+      - 'tests/fixtures/m0-a14/**'
+      - 'tests/test_eigiib_m0_a14.py'
+      - 'tools/eigiib_m0_a14_*.py'
+      - 'evidence/m0-a14/**'
+  workflow_dispatch:
+    inputs:
+      require_verified:
+        description: Fail unless a real multi-cycle continuity chain is verified
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  validate:
+    timeout-minutes: 50
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Install pinned cryptographic verifier
+        run: python -m pip install --disable-pip-version-check --no-input cryptography==46.0.4
+      - name: Inherited M0-A12 through M0-A13 suites
+        run: |
+          python -m unittest -v tests/test_eigiib_m0_a12.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f1.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f2.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f3.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f4.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f5.py
+          python -m unittest -v tests/test_eigiib_m0_a13.py
+      - name: M0-A14 continuity and drift suite
+        run: python -m unittest -v tests/test_eigiib_m0_a14.py
+      - name: Canonical blocked baseline
+        run: |
+          python tools/eigiib_m0_a14_check.py . --output m0-a14-baseline.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual=json.loads(Path('m0-a14-baseline.json').read_text())
+          expected=json.loads(Path('tests/fixtures/m0-a14/expected-baseline-report.json').read_text())
+          assert actual==expected
+          PY
+      - name: Multi-cycle continuity remains fail-closed
+        run: |
+          set +e
+          python tools/eigiib_m0_a14_check.py . --require-verified >/tmp/m0-a14.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+      - name: Python tools compile
+        run: python -m py_compile tools/eigiib_m0_a14_*.py
+      - name: Closed JSON and schemas parse
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          paths=list(Path('conformance').glob('m0-a14-*.json'))
+          paths+=list(Path('schemas').glob('eigiib-m0-a14-*.json'))
+          paths+=list(Path('tests/fixtures/m0-a14').glob('*.json'))
+          for path in paths: json.loads(path.read_text())
+          PY
+      - name: No committed live A14 evidence or secrets
+        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.require_verified }}
+        run: |
+          test ! -e evidence/m0-a14
+          ! find conformance docs schemas tests tools -type f \( -iname '*private*key*' -o -iname '*token*' -o -iname '*secret*' \) -print -quit | grep .
+      - name: Require live verified state when explicitly requested
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.require_verified }}
+        run: python tools/eigiib_m0_a14_check.py . --require-verified

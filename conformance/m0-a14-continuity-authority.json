@@ -1,0 +1,48 @@
+{
+  "standard": "EIGIIB-M0-A14-1.0",
+  "title": "Multi-Cycle Maintenance Continuity, Reopening Revocation and Governance Drift Control",
+  "status": "multi-cycle-continuity-harness-established-m0-a13-verification-pending",
+  "source": {
+    "m0A13Head": "d096b9fbf68cead15a3a9eb7bf4cff1493a0aa45",
+    "stableBundleSha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+    "a13AuthorityPath": "conformance/m0-a13-maintenance-authority.json",
+    "a13LedgerPath": "conformance/m0-a13-maintenance-ledger.json"
+  },
+  "prerequisite": {
+    "requiredA13Decision": "post-freeze-maintenance-reopening-authority-and-supersession-governance-verified",
+    "requiredA13Label": "T",
+    "currentDecision": "not-verified",
+    "gate": "blocked-until-m0-a13-T"
+  },
+  "continuityContract": {
+    "minimumCycleCount": 3,
+    "minimumObservedSpanSeconds": 2592000,
+    "sequenceStartsAt": 1,
+    "gapTolerance": 0,
+    "overlapToleranceSeconds": 0,
+    "minimumRevocationEvents": 1,
+    "exactRefreezeDigestChainRequired": true,
+    "governanceSnapshotPerCycleRequired": true,
+    "nonWeakeningTransitionRequiredForDeclaredDrift": true
+  },
+  "currentState": {
+    "a13Decision": "not-verified",
+    "acceptedCycles": 0,
+    "revocationEvents": 0,
+    "governanceTransitions": 0,
+    "driftDecision": "not-evaluated",
+    "continuityDecision": "not-accumulated"
+  },
+  "claimBoundary": {
+    "decision": "multi-cycle-maintenance-continuity-reopening-revocation-and-governance-drift-control-verified",
+    "scope": "bounded-observed-cycle-history-only",
+    "futureMaintenanceNotImplied": true,
+    "futureGovernanceStabilityNotImplied": true,
+    "universalDriftAbsenceNotImplied": true
+  },
+  "naturalSuccessor": {
+    "id": "M0-A15",
+    "title": "Independent Multi-Registry Maintenance Witnessing, Split-Brain Detection and Long-Term Governance Reconciliation",
+    "decision": "blocked-until-m0-a14-is-T"
+  }
+}

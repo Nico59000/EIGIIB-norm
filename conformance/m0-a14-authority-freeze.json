@@ -1,0 +1,118 @@
+{
+  "standard": "EIGIIB-M0-A14-AUTHORITY-FREEZE-1.0",
+  "sourceHead": "d096b9fbf68cead15a3a9eb7bf4cff1493a0aa45",
+  "authorityCount": 22,
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a14-multi-cycle-maintenance.yml",
+      "bytes": 4012,
+      "sha256": "3cdabb18217ca483206c96ae31d482e1f856132b29f1d3e1ffb54464a6b6d7ad"
+    },
+    {
+      "path": "conformance/M0-A14-MANUAL-REVIEW.md",
+      "bytes": 722,
+      "sha256": "8b91ed6fd625be58539f490b43a3b3b5617821907d98d4094250c1a7363fbf33"
+    },
+    {
+      "path": "conformance/m0-a14-continuity-authority.json",
+      "bytes": 1924,
+      "sha256": "3f44f988af02c20b5e1136e0f9e47149ce37210d59faed3b927be31398075782"
+    },
+    {
+      "path": "conformance/m0-a14-continuity-policy.json",
+      "bytes": 893,
+      "sha256": "ebdfbb26d9b687efcddb3c421d2eec278ebb0086e090eae585d5c9211e2acc6f"
+    },
+    {
+      "path": "conformance/m0-a14-governance-drift-policy.json",
+      "bytes": 939,
+      "sha256": "aa13f72bb57555b9f91289e7b17252afaf3aef28b33ddd3734910c7bfd442ebb"
+    },
+    {
+      "path": "conformance/m0-a14-htnt-decision-protocol.json",
+      "bytes": 1603,
+      "sha256": "2439a1b6d891cc48b232c9b7c02a4601a074b37e24f45404d0c76c15e284ed0a"
+    },
+    {
+      "path": "conformance/m0-a14-maintenance-ledger.json",
+      "bytes": 442,
+      "sha256": "457acbd9fd53dec57d86612df43377959e616d79d115e5e068e0cc30221b0b16"
+    },
+    {
+      "path": "conformance/m0-a14-revocation-policy.json",
+      "bytes": 623,
+      "sha256": "a5d3bebc6ec61735cad9309ce312a9c6527e6f773ec4865af9840bb1297f0beb"
+    },
+    {
+      "path": "docs/M0-A14-MULTI-CYCLE-MAINTENANCE-CONTINUITY-REOPENING-REVOCATION-AND-GOVERNANCE-DRIFT-CONTROL.md",
+      "bytes": 808,
+      "sha256": "1d98fc305829ccd186f6a475fd52a465dbe2d015c9a57979ee2003bfcab24244"
+    },
+    {
+      "path": "docs/M0-A14-OPERATOR-RUNBOOK.md",
+      "bytes": 883,
+      "sha256": "85fc649e05e0901058eb8b420944dc7c0868a2b38c7c390bb50a71b3ba120b31"
+    },
+    {
+      "path": "schemas/eigiib-m0-a14-continuity-certificate.schema.json",
+      "bytes": 1462,
+      "sha256": "838903a3f6579bd04bcc79cb0ef8eb709a909a4d5af256fda995ff1a3df3af5a"
+    },
+    {
+      "path": "schemas/eigiib-m0-a14-cycle-chain.schema.json",
+      "bytes": 849,
+      "sha256": "78d06633f9945799c3a3355c3c1fd3c981323466a86761248863481126ec0ad3"
+    },
+    {
+      "path": "schemas/eigiib-m0-a14-drift-event.schema.json",
+      "bytes": 869,
+      "sha256": "02905ed65a226b1b25201b70bb4410c92d7087bc374d61dfed157b085bf7d092"
+    },
+    {
+      "path": "schemas/eigiib-m0-a14-governance-snapshot.schema.json",
+      "bytes": 1708,
+      "sha256": "6e050ce01588df37c67e423aefd59e3ba60cc21c8b0601e58be1e6f5785a4245"
+    },
+    {
+      "path": "schemas/eigiib-m0-a14-governance-transition.schema.json",
+      "bytes": 1583,
+      "sha256": "684eff5d6d8a1de894332b7f425b3a5d5014e29d66c69299ab3e999ac2662ce9"
+    },
+    {
+      "path": "schemas/eigiib-m0-a14-maintenance-cycle.schema.json",
+      "bytes": 4244,
+      "sha256": "0692e21f1b77f0c564cf88d8483ebb02086829d80bfc65470ec19a9189361ae8"
+    },
+    {
+      "path": "schemas/eigiib-m0-a14-revocation-event.schema.json",
+      "bytes": 1687,
+      "sha256": "67a0813ca238720b3c829dca87d0c0cdb49ff01f3d8b0cda75abb7a15895b77a"
+    },
+    {
+      "path": "tests/fixtures/m0-a14/expected-baseline-report.json",
+      "bytes": 293,
+      "sha256": "7b75a1cdceb88299c113105f46a42e2a54cab32ae6ff8a87adca55468b77b980"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a14.py",
+      "bytes": 10293,
+      "sha256": "fa52794f1b2fbb270843e2fa3690e924a0fa522a4a9494c1821a4a643099cbcf"
+    },
+    {
+      "path": "tools/eigiib_m0_a14_canonical.py",
+      "bytes": 168,
+      "sha256": "30e40240ceec8e7f50da3997b70965d2fe307ee3b9f6e9bca459a85a050b9f7e"
+    },
+    {
+      "path": "tools/eigiib_m0_a14_check.py",
+      "bytes": 3726,
+      "sha256": "8bdf6dac402a8e8468b355f5a9a4cf385b83e53ef20e574ac486db4a78972c7a"
+    },
+    {
+      "path": "tools/eigiib_m0_a14_replay.py",
+      "bytes": 9513,
+      "sha256": "64472471cd80e1031579f9841f9cb01c3fba72f22e0ce5affb1671677dc31f43"
+    }
+  ],
+  "excludedPath": "conformance/m0-a14-authority-freeze.json"
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "M0-A14 cycle chain",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "a13Decision",
+    "a13Head",
+    "a13ClosureCertificateValid",
+    "initialRefreezeDigest",
+    "cycles",
+    "continuityCertificateValid"
+  ],
+  "properties": {
+    "a13Decision": {
+      "const": "verified"
+    },
+    "a13Head": {
+      "const": "d096b9fbf68cead15a3a9eb7bf4cff1493a0aa45"
+    },
+    "a13ClosureCertificateValid": {
+      "const": true
+    },
+    "initialRefreezeDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "cycles": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "$ref": "eigiib-m0-a14-maintenance-cycle.schema.json"
+      }
+    },
+    "continuityCertificateValid": {
+      "const": true
+    }
+  }
+}

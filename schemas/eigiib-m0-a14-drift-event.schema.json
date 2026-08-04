@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "M0-A14 governance drift event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cycleSequence",
+    "classification",
+    "fromSnapshotDigest",
+    "toSnapshotDigest"
+  ],
+  "properties": {
+    "cycleSequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "classification": {
+      "enum": [
+        "none",
+        "declared-nonweakening",
+        "prohibited"
+      ]
+    },
+    "fromSnapshotDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "toSnapshotDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "transitionDigest": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "M0-A14 governance snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "snapshotDigest",
+    "colleges",
+    "unknownControlOverlap"
+  ],
+  "properties": {
+    "snapshotDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "colleges": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "members",
+          "threshold",
+          "distinctControlDomains",
+          "memberIds",
+          "controlDomainIds"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "normative-authority-college",
+              "operational-governance-college",
+              "independent-verification-college"
+            ]
+          },
+          "members": {
+            "type": "integer",
+            "minimum": 5
+          },
+          "threshold": {
+            "type": "integer",
+            "minimum": 4
+          },
+          "distinctControlDomains": {
+            "type": "integer",
+            "minimum": 4
+          },
+          "memberIds": {
+            "type": "array",
+            "minItems": 5,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "controlDomainIds": {
+            "type": "array",
+            "minItems": 4,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "unknownControlOverlap": {
+      "const": false
+    }
+  }
+}
