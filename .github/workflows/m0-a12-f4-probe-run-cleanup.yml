@@ -1,0 +1,76 @@
+name: M0-A12-F4 bounded probe and run cleanup
+
+on:
+  pull_request:
+    types: [closed]
+    paths:
+      - '.github/workflows/m0-a12-f4-probe-run-cleanup.yml'
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  cleanup:
+    if: github.event.pull_request.head.ref == 'ops/m0-a12-f4-probe-and-superseded-run-cleanup'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      F3_HEAD: fb2d9515280d456e280848f2d364a2a33c774e6e
+      SELF_BRANCH: ops/m0-a12-f4-probe-and-superseded-run-cleanup
+    steps:
+      - name: Verify lifecycle PR is closed unmerged
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${{ github.event.pull_request.state }}" = closed
+          test "${{ github.event.pull_request.merged }}" = false
+      - name: Verify and delete exact probe branches
+        shell: bash
+        run: |
+          set -euo pipefail
+          for branch in \
+            tmp/f4-tree-api-probe \
+            tmp/f4-tree-api-probe-2 \
+            tmp/f4-tree-api-probe-3 \
+            tmp/f4-tree-api-probe-4; do
+            encoded=${branch//\//%2F}
+            sha=$(gh api "repos/$REPO/git/ref/heads/$encoded" --jq .object.sha)
+            test "$sha" = "$F3_HEAD"
+            gh api --method DELETE "repos/$REPO/git/refs/heads/$encoded"
+            set +e
+            output=$(gh api -i "repos/$REPO/git/ref/heads/$encoded" 2>&1)
+            rc=$?
+            set -e
+            test "$rc" -ne 0
+            printf '%s' "$output" | grep -q '404\|Not Found'
+          done
+      - name: Delete superseded failed workflow run
+        shell: bash
+        run: |
+          set -euo pipefail
+          run=30912079487
+          if gh api "repos/$REPO/actions/runs/$run" >/dev/null 2>&1; then
+            gh api --method DELETE "repos/$REPO/actions/runs/$run"
+          fi
+          set +e
+          output=$(gh api -i "repos/$REPO/actions/runs/$run" 2>&1)
+          rc=$?
+          set -e
+          test "$rc" -ne 0
+          printf '%s' "$output" | grep -q '404\|Not Found'
+      - name: Publish cleanup record
+        shell: bash
+        run: |
+          set -euo pipefail
+          body='F4 technical normalization completed: temporary branches `tmp/f4-tree-api-probe`, `-2`, `-3`, and `-4` were verified at exact F3 head `fb2d9515280d456e280848f2d364a2a33c774e6e` and deleted with 404 readback. Superseded failed run `30912079487`, caused solely by a PowerShell heredoc incompatibility on the obsolete head, was deleted with 404 readback. Authoritative F4 head `e92fee6cafc54f94c5b417949fde12c951cc0635` was not modified.'
+          gh api --method POST "repos/$REPO/issues/176/comments" -f body="$body" >/dev/null
+      - name: Delete technical branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          encoded=${SELF_BRANCH//\//%2F}
+          gh api --method DELETE "repos/$REPO/git/refs/heads/$encoded"
