@@ -1,0 +1,32 @@
+{
+  "standard": "EIGIIB-M0-A12-F3-OBSERVER-REGISTRY-1.0",
+  "sourceHead": "597ba0931d3510b01136d8ca6c6075ee106a7f19",
+  "observers": [
+    {
+      "domainId": "independent-observer-primary",
+      "role": "inherited-primary-observer",
+      "bindingState": "unbound-live-evidence"
+    },
+    {
+      "domainId": "independent-observer-secondary",
+      "role": "differential-secondary-observer",
+      "bindingState": "unbound-live-evidence"
+    }
+  ],
+  "requiredIndependenceDimensions": [
+    "provider-operator",
+    "tenant-account",
+    "identity-root",
+    "privileged-administrator",
+    "credential-store",
+    "execution-plane",
+    "audit-log-custody"
+  ],
+  "unknownDimensionDecision": "not-independent",
+  "sharedDimensionDecision": "not-independent",
+  "prohibitedRoleOverlap": [
+    "preservation-custodian",
+    "publication-authority",
+    "succession-approver-for-own-custody-domain"
+  ]
+}

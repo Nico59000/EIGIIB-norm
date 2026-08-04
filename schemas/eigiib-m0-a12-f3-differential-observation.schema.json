@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/m0-a12-f3-differential-observation.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "campaignId",
+    "sequence",
+    "observedAt",
+    "previousObservationDigest",
+    "observerDomainId",
+    "observerKeyId",
+    "custodyEpoch",
+    "channels",
+    "factSetDigest",
+    "observationDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-F3-DIFFERENTIAL-OBSERVATION-1.0"
+    },
+    "campaignId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 31,
+      "maximum": 37
+    },
+    "observedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "previousObservationDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "observerDomainId": {
+      "enum": [
+        "independent-observer-primary",
+        "independent-observer-secondary"
+      ]
+    },
+    "observerKeyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "custodyEpoch": {
+      "enum": [
+        "pre-succession",
+        "post-succession"
+      ]
+    },
+    "channels": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "channelId",
+          "custodianDomainId",
+          "objectVersionId",
+          "readbackSha256",
+          "retentionState",
+          "result",
+          "evidenceRefs"
+        ],
+        "properties": {
+          "channelId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "custodianDomainId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "objectVersionId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "readbackSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "retentionState": {
+            "const": "applied-and-readback-verified"
+          },
+          "result": {
+            "const": "exact-and-retained"
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "factSetDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "observationDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

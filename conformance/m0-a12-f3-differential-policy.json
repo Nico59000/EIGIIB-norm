@@ -1,0 +1,70 @@
+{
+  "standard": "EIGIIB-M0-A12-F3-DIFFERENTIAL-POLICY-1.0",
+  "sourceF2Head": "597ba0931d3510b01136d8ca6c6075ee106a7f19",
+  "campaignId": "eigiib-m0-a11-external-preservation-observation-v1",
+  "stableBundleSha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+  "observers": [
+    "independent-observer-primary",
+    "independent-observer-secondary"
+  ],
+  "observerSlugs": {
+    "independent-observer-primary": "observer-primary",
+    "independent-observer-secondary": "observer-secondary"
+  },
+  "observerIndependenceDimensions": [
+    "provider-operator",
+    "tenant-account",
+    "identity-root",
+    "privileged-administrator",
+    "credential-store",
+    "execution-plane",
+    "audit-log-custody"
+  ],
+  "timing": {
+    "cadenceSeconds": 86400,
+    "graceSeconds": 21600,
+    "lapseAfterSeconds": 172800,
+    "minimumGapSeconds": 64800,
+    "maximumObserverSkewSeconds": 1800,
+    "clock": "utc-rfc3339"
+  },
+  "window": {
+    "firstSequence": 31,
+    "lastSequence": 37,
+    "pairedRoundCount": 7,
+    "signedObservationCount": 14,
+    "minimumElapsedSeconds": 604800
+  },
+  "channelEpochs": {
+    "pre-succession": {
+      "immutable-channel-primary": "external-preservation-primary",
+      "immutable-channel-secondary": "external-preservation-secondary"
+    },
+    "post-succession": {
+      "immutable-channel-primary-successor": "external-preservation-primary-successor",
+      "immutable-channel-secondary": "external-preservation-secondary"
+    }
+  },
+  "succession": {
+    "cutoverSequence": 34,
+    "predecessorDomainId": "external-preservation-primary",
+    "successorDomainId": "external-preservation-primary-successor",
+    "anchorCustodianDomainId": "external-preservation-secondary",
+    "successorChannelId": "immutable-channel-primary-successor",
+    "requiredSigners": [
+      "external-preservation-primary",
+      "external-preservation-primary-successor",
+      "external-preservation-secondary",
+      "independent-observer-primary",
+      "independent-observer-secondary"
+    ]
+  },
+  "signerSlugs": {
+    "external-preservation-primary": "predecessor",
+    "external-preservation-primary-successor": "successor",
+    "external-preservation-secondary": "anchor-custodian",
+    "independent-observer-primary": "observer-primary",
+    "independent-observer-secondary": "observer-secondary"
+  },
+  "claimBoundary": "bounded-differential-window-and-single-succession-only"
+}

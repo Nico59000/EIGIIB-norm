@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/m0-a12-f3-succession-record.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "sourceF2Head",
+    "campaignId",
+    "cutoverSequence",
+    "effectiveAt",
+    "predecessorDomainId",
+    "successorDomainId",
+    "anchorCustodianDomainId",
+    "successorChannelId",
+    "stableBundleSha256",
+    "successorRetentionState",
+    "successorDeletionDenialVerified",
+    "successorRestoreReadbackVerified",
+    "successorCustodyAccepted",
+    "predecessorDisposition",
+    "staleAuthorityReplayDecision",
+    "evidenceRefs",
+    "recordDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-F3-SUCCESSION-RECORD-1.0"
+    },
+    "sourceF2Head": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "campaignId": {
+      "type": "string"
+    },
+    "cutoverSequence": {
+      "const": 34
+    },
+    "effectiveAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "predecessorDomainId": {
+      "const": "external-preservation-primary"
+    },
+    "successorDomainId": {
+      "const": "external-preservation-primary-successor"
+    },
+    "anchorCustodianDomainId": {
+      "const": "external-preservation-secondary"
+    },
+    "successorChannelId": {
+      "const": "immutable-channel-primary-successor"
+    },
+    "stableBundleSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "successorRetentionState": {
+      "const": "applied-and-readback-verified"
+    },
+    "successorDeletionDenialVerified": {
+      "const": true
+    },
+    "successorRestoreReadbackVerified": {
+      "const": true
+    },
+    "successorCustodyAccepted": {
+      "const": true
+    },
+    "predecessorDisposition": {
+      "const": "quarantined-nonauthoritative"
+    },
+    "staleAuthorityReplayDecision": {
+      "const": "rejected"
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "recordDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

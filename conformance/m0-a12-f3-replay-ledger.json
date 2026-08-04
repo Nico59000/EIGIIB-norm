@@ -1,0 +1,17 @@
+{
+  "standard": "EIGIIB-M0-A12-F3-REPLAY-LEDGER-1.0",
+  "status": "f2-accumulation-pending",
+  "sourceHead": "597ba0931d3510b01136d8ca6c6075ee106a7f19",
+  "entries": [],
+  "pairedRoundCount": 0,
+  "signedObservationCount": 0,
+  "differentialMismatchCount": 0,
+  "lastPrimaryObservationDigest": null,
+  "lastSecondaryObservationDigest": null,
+  "observerIndependenceDigest": null,
+  "successionRecordDigest": null,
+  "cutoverSequence": null,
+  "lapseState": "blocked",
+  "replayDecision": "not-verified",
+  "e17Decision": "not-ready-for-adoption"
+}

@@ -1,0 +1,103 @@
+{
+  "standard": "EIGIIB-M0-A12-F3-AUTHORITY-FREEZE-1.0",
+  "sourceHead": "597ba0931d3510b01136d8ca6c6075ee106a7f19",
+  "authorityCount": 19,
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a12-f3-multi-observer-succession.yml",
+      "bytes": 4549,
+      "sha256": "ac03fcf90e5726376e7ca95039760fe3ea4254f0c55510e6e2427fd095888c42"
+    },
+    {
+      "path": "conformance/M0-A12-F3-MANUAL-REVIEW.md",
+      "bytes": 578,
+      "sha256": "f5907b5f717c0f218facd271346461e49dabb62f974fe5eded8142345e88373b"
+    },
+    {
+      "path": "conformance/m0-a12-f3-differential-continuity.json",
+      "bytes": 2566,
+      "sha256": "27d55efcfe6241b3b32810fd3029a8d0ceb030d0ecc3290ef0b5826eb2559a9e"
+    },
+    {
+      "path": "conformance/m0-a12-f3-differential-policy.json",
+      "bytes": 2426,
+      "sha256": "c2bfa001f3a8b62874895cdac4cb5690ab7349f6648fa7e8cbc2cc276c4db789"
+    },
+    {
+      "path": "conformance/m0-a12-f3-htnt-decision-protocol.json",
+      "bytes": 1867,
+      "sha256": "9e5e620961f9dd0cb7fff9a41119b7c903bc650f4901f49a4441d3dc8dc3ea75"
+    },
+    {
+      "path": "conformance/m0-a12-f3-observer-registry.json",
+      "bytes": 906,
+      "sha256": "c6c26c0530537785aef035f7bc534e55dbc1e148175011c584af54d775226a5b"
+    },
+    {
+      "path": "conformance/m0-a12-f3-replay-ledger.json",
+      "bytes": 548,
+      "sha256": "a5d69c9244c3662c09261304e7425e396653598962e693dbe967608e13bdee31"
+    },
+    {
+      "path": "conformance/m0-a12-f3-succession-policy.json",
+      "bytes": 864,
+      "sha256": "2332c6328a1ef07ab3518a3315bcc5d98927f735dcdac2c3be59802e007e1928"
+    },
+    {
+      "path": "docs/M0-A12-F3-INDEPENDENT-MULTI-OBSERVER-DIFFERENTIAL-CONTINUITY-AND-CUSTODIAN-SUCCESSION-REPLAY.md",
+      "bytes": 967,
+      "sha256": "cad2e73e7aaf6a166762820073235efa711cd9be021dd0b6a9e5b8f33bfff458"
+    },
+    {
+      "path": "docs/M0-A12-F3-OPERATOR-RUNBOOK.md",
+      "bytes": 903,
+      "sha256": "138ae26d395b08c240cbd2345c5c48ddac4c56a148f356f3d1cb8eed704ae0a1"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f3-differential-observation.schema.json",
+      "bytes": 2608,
+      "sha256": "2427edb0d4fdefdba839632b4882ed64bf2bfdcd20735640dcf37881d2548ba0"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f3-differential-succession-certificate.schema.json",
+      "bytes": 2368,
+      "sha256": "e84542a19b8af57207a7bf56bd836b159f45109b56c04bfd34fe53c64228494b"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f3-observer-independence.schema.json",
+      "bytes": 1627,
+      "sha256": "cd21c95e0f70d45db86251de3b0c9340bfa17f57dfb0f5ac0e07a2bd010931ee"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f3-succession-record.schema.json",
+      "bytes": 2181,
+      "sha256": "2d3b29efe1844d6789059f94da0f9cdc89c11e2a981ff91db08a43e820b00a9a"
+    },
+    {
+      "path": "tests/fixtures/m0-a12-f3/expected-baseline-report.json",
+      "bytes": 598,
+      "sha256": "a148d1072e3f64641f68001ffd47c5e3d3ca23f38d73bd75b6224ff46e2b01e4"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a12_f3.py",
+      "bytes": 14240,
+      "sha256": "bc8eab04add499ec4e7081b3b80c653247b5d704fffc1e35d360bc3f3ef131aa"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_f3_canonical.py",
+      "bytes": 1168,
+      "sha256": "0180124e650458f5f42a53665af4ab4b7dac2799eed8ecdf24bdc4af5a02a31d"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_f3_check.py",
+      "bytes": 10018,
+      "sha256": "9147c344833059f2f9973782e870d537d8d225267e6028a711e4c3047e79e1c2"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_f3_replay.py",
+      "bytes": 12579,
+      "sha256": "0233c0eee5ebe9b8c358235d616f779dbf2dd7c00ab4c220d31a1d99b7e99500"
+    }
+  ],
+  "excludedPath": "conformance/m0-a12-f3-authority-freeze.json"
+}
