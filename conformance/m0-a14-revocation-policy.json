@@ -1,0 +1,13 @@
+{
+  "standard": "EIGIIB-M0-A14-REVOCATION-POLICY-1.0",
+  "sourceA13Head": "d096b9fbf68cead15a3a9eb7bf4cff1493a0aa45",
+  "minimumRevocationEvents": 1,
+  "authority": "any-one-of-three-colleges-at-original-4-of-5-threshold",
+  "distinctControlDomainsRequired": 4,
+  "identicalRequestDigestRequired": true,
+  "effectiveRule": "no-authorized-write-at-or-after-revocation-effective-time",
+  "requiredOutcome": "revoked-cycle-closed-by-rollback-or-bounded-successor-refreeze",
+  "revokedAuthorityReplayDecision": "rejected",
+  "revocationRemovalDecision": "forbidden",
+  "futureAuthorityRule": "new-reopening-request-required"
+}

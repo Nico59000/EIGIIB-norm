@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "M0-A14 governance transition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "fromSnapshotDigest",
+    "toSnapshotDigest",
+    "reasonCode",
+    "effectiveAt",
+    "approvals",
+    "independentReviewValid"
+  ],
+  "properties": {
+    "fromSnapshotDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "toSnapshotDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "reasonCode": {
+      "type": "string",
+      "minLength": 1
+    },
+    "effectiveAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approvals": {
+      "type": "array",
+      "minItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "collegeId",
+          "approverId",
+          "controlDomainId",
+          "recordDigest"
+        ],
+        "properties": {
+          "collegeId": {
+            "enum": [
+              "normative-authority-college",
+              "operational-governance-college",
+              "independent-verification-college"
+            ]
+          },
+          "approverId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "controlDomainId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "recordDigest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "independentReviewValid": {
+      "const": true
+    }
+  }
+}

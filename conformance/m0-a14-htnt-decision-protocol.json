@@ -1,0 +1,70 @@
+{
+  "standard": "EIGIIB-M0-A14-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier": {
+    "id": "S4",
+    "coordinates": [
+      "localMultiCycleGovernanceValidation",
+      "independentCycleContinuityEvidence"
+    ],
+    "labels": {
+      "F": [
+        0,
+        0
+      ],
+      "NF": [
+        1,
+        0
+      ],
+      "NT": [
+        0,
+        1
+      ],
+      "T": [
+        1,
+        1
+      ]
+    }
+  },
+  "fixedContext": true,
+  "current": {
+    "label": "NF",
+    "meaning": "multi-cycle-governance-harness-valid-a13-T-and-live-cycle-chain-absent",
+    "action": "preserve-harness-and-block-continuity-claim"
+  },
+  "dynamicInterpretation": {
+    "F": "local authority, policy, ledger, schema, freeze or verifier invalid",
+    "NF": "local harness valid while M0-A13 T or a live multi-cycle chain is absent",
+    "NT": "cycle, revocation or governance evidence exists but continuity, thresholds, non-weakening drift control or certificate closure is incomplete",
+    "T": "M0-A13 is T and at least three real cycles form one exact bounded chain with effective revocation and no prohibited governance drift"
+  },
+  "prohibitedTransitions": [
+    [
+      "NF",
+      "T-without-m0-a13-T"
+    ],
+    [
+      "NF",
+      "T-with-fewer-than-three-cycles"
+    ],
+    [
+      "NT",
+      "T-with-cycle-gap-or-overlap"
+    ],
+    [
+      "NT",
+      "T-without-revocation-exercise"
+    ],
+    [
+      "NT",
+      "T-with-post-revocation-write"
+    ],
+    [
+      "NT",
+      "T-with-undeclared-or-weakening-drift"
+    ],
+    [
+      "T",
+      "automatic-future-maintenance-or-drift-assurance"
+    ]
+  ]
+}

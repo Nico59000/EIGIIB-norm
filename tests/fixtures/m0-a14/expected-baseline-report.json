@@ -1,0 +1,13 @@
+{
+  "standard": "EIGIIB-M0-A14-REPORT-1.0",
+  "htntLabel": "NF",
+  "decision": "not-accumulated",
+  "findings": [],
+  "summary": {
+    "a13Decision": "not-verified",
+    "acceptedCycles": 0,
+    "revocationEvents": 0,
+    "governanceTransitions": 0,
+    "driftDecision": "not-evaluated"
+  }
+}

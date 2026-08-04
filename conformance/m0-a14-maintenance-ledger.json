@@ -1,0 +1,14 @@
+{
+  "standard": "EIGIIB-M0-A14-MAINTENANCE-LEDGER-1.0",
+  "status": "m0-a13-verification-pending",
+  "sourceHead": "d096b9fbf68cead15a3a9eb7bf4cff1493a0aa45",
+  "entries": [],
+  "cycleCount": 0,
+  "revocationEventCount": 0,
+  "governanceTransitionCount": 0,
+  "initialRefreezeDigest": null,
+  "latestRefreezeDigest": null,
+  "continuityCertificateDigest": null,
+  "continuityDecision": "not-accumulated",
+  "driftDecision": "not-evaluated"
+}

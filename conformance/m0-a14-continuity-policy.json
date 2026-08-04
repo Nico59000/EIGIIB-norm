@@ -1,0 +1,28 @@
+{
+  "standard": "EIGIIB-M0-A14-CONTINUITY-POLICY-1.0",
+  "sourceA13Head": "d096b9fbf68cead15a3a9eb7bf4cff1493a0aa45",
+  "minimumCycleCount": 3,
+  "minimumObservedSpanSeconds": 2592000,
+  "sequenceRule": "strictly-contiguous-starting-at-one",
+  "temporalRule": "each-cycle-issued-after-prior-cycle-closed",
+  "refreezeRule": "cycle-i-predecessor-refreeze-digest-equals-cycle-i-minus-one-successor-refreeze-digest",
+  "uniqueFields": [
+    "maintenanceEventId",
+    "requestDigest",
+    "reopeningAuthorityDigest",
+    "successorRefreezeDigest"
+  ],
+  "requiredPerCycle": [
+    "exact-scope",
+    "three-college-approval",
+    "current-authority",
+    "supersession-record",
+    "independent-verification",
+    "all-workflows-success",
+    "refreeze-manifest",
+    "independent-refreeze-readback",
+    "closure-certificate",
+    "governance-snapshot"
+  ],
+  "missingOrUnknownDecision": "deny"
+}
