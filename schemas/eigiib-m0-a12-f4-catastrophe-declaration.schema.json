@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "EIGIIB M0-A12-F4 catastrophe-declaration",
+  "required": ["scenarioId","declaredAt","lostAuthorities","declarationDigest"],
+  "properties": {
+    "scenarioId": {"type":"string"},
+    "declaredAt": {"type":"string","format":"date-time"},
+    "lostAuthorities": {"type":"array","minItems":2,"uniqueItems":true,"items":{"type":"string"}},
+    "declarationDigest": {"type":"string","pattern":"^[0-9a-f]{64}$"}
+  }
+}

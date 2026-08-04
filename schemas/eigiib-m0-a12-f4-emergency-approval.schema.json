@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "EIGIIB M0-A12-F4 emergency-approval",
+  "required": ["authorityId","controlDomainId","declarationDigest","signature"],
+  "properties": {
+    "authorityId": {"type":"string"},
+    "controlDomainId": {"type":"string"},
+    "declarationDigest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "signature": {"type":"string","minLength":16}
+  }
+}

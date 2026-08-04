@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "EIGIIB M0-A12-F4 recovery-share",
+  "required": ["shareId","failureDomain","ceremonyId","shareDigest","signature"],
+  "properties": {
+    "shareId": {"type":"string"},
+    "failureDomain": {"type":"string"},
+    "ceremonyId": {"type":"string"},
+    "shareDigest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "signature": {"type":"string","minLength":16}
+  }
+}
