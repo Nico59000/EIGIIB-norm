@@ -6,8 +6,8 @@
   "authorities": [
     {
       "path": ".github/workflows/m0-a15-f2-external-history-activation.yml",
-      "bytes": 6833,
-      "sha256": "84edfe57f43d8185dddd729e40e0081e7e070203c5e07d38d28676192cf0faf0"
+      "bytes": 7143,
+      "sha256": "6fb72ecb3301653fe02ae4a15e9b47b7345ec05183b493cb0b70d36ab9780e87"
     },
     {
       "path": "conformance/M0-A15-F2-MANUAL-REVIEW.md",

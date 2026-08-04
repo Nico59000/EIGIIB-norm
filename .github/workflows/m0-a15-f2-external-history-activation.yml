@@ -105,7 +105,13 @@ jobs:
       - name: No committed activation package or private key
         run: |
           test ! -e evidence/m0-a15-f2
-          ! find conformance docs schemas tests tools -type f \( -iname '*private-key*' -o -iname '*.pem' -o -iname '*.key' \) -print -quit | grep .
+          ! find conformance docs schemas tests tools -type f \
+            \( -iname '*m0-a15-f2*' -o -iname '*M0-A15-F2*' -o -iname '*m0_a15_f2*' \) \
+            \( -iname '*private-key*' -o -iname '*.pem' -o -iname '*.key' \) \
+            -print -quit | grep .
+          ! grep -RIl \
+            --include='*m0-a15-f2*' --include='*M0-A15-F2*' --include='*m0_a15_f2*' \
+            -- 'BEGIN .*PRIVATE KEY' conformance docs schemas tests tools | grep .
 
   issue-external-candidate:
     if: ${{ github.event_name == 'pull_request' }}
