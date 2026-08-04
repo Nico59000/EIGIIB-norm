@@ -5,8 +5,8 @@
   "authorities": [
     {
       "path": ".github/workflows/m0-a11-external-evidence-preparation.yml",
-      "bytes": 4623,
-      "sha256": "2ff16e6035ffd842c6f94a5b84963219a8ed698982e51fae79a133a23bb05967"
+      "bytes": 4699,
+      "sha256": "914d7e4eb377ae2149f3800776834711cffebc027394ad87da63685c475ad22e"
     },
     {
       "path": "conformance/M0-A11-MANUAL-REVIEW.md",
