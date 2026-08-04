@@ -10,11 +10,18 @@ from unittest.mock import patch
 TESTS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(TESTS_DIR))
 
-from m0_a15_f1_cases import (
-    A15_HEAD, ROOT, CanonicalValueError, CaseBuilder, REGISTRY_IDS,
-    canonical_bytes, digest_hex, evaluate, h, validate_evidence_schema,
-    verify_case, verify_envelope,
-)
+try:
+    from m0_a15_f1_cases import (
+        A15_HEAD, ROOT, CanonicalValueError, CaseBuilder, REGISTRY_IDS,
+        canonical_bytes, digest_hex, evaluate, h, validate_evidence_schema,
+        verify_case, verify_envelope,
+    )
+except ModuleNotFoundError as exc:
+    if exc.name not in {"cryptography", "jsonschema"}:
+        raise
+    raise unittest.SkipTest(
+        f"M0-A15-F1 verification provider not installed: {exc.name}"
+    ) from exc
 
 class M0A15F1Tests(unittest.TestCase):
     def setUp(self):
