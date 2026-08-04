@@ -1,0 +1,11 @@
+{
+  "standard":"EIGIIB-M0-A12-F5-GOVERNANCE-CONVERGENCE-1.0",
+  "colleges":[
+    {"id":"normative-authority-college","members":5,"threshold":4,"distinctControlDomainsRequired":4},
+    {"id":"operational-governance-college","members":5,"threshold":4,"distinctControlDomainsRequired":4},
+    {"id":"independent-verification-college","members":5,"threshold":4,"distinctControlDomainsRequired":4}
+  ],
+  "crossCollegeRule":"all-three-colleges-must-approve-identical-adoption-record",
+  "separationRules":["no-person-or-credential-may-satisfy-two-colleges","unknown-control-overlap-denies-convergence","operational-owner-cannot-be-sole-verifier"],
+  "currentDecision":"not-converged"
+}

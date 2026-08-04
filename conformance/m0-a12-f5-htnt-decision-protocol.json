@@ -1,0 +1,8 @@
+{
+  "standard":"EIGIIB-M0-A12-F5-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier":{"id":"S4","coordinates":["localAdoptionFreezeValidation","independentAdoptionGovernanceEvidence"],"labels":{"F":[0,0],"NF":[1,0],"NT":[0,1],"T":[1,1]}},
+  "fixedContext":true,
+  "current":{"label":"NF","meaning":"adoption-freeze-harness-valid-f4-and-live-governance-evidence-absent","action":"preserve-harness-and-block-adoption"},
+  "dynamicInterpretation":{"F":"local authority, matrix, governance policy, ledger or verifier invalid","NF":"local harness valid while F4 closure or adoption evidence is absent","NT":"signed adoption material exists but evidence, convergence, freshness or freeze closure is incomplete","T":"F4 is verified in T, all adoptable rows are independently evidenced, all three colleges converge and final M0 freeze is independently read back"},
+  "prohibitedTransitions":[["NF","T-without-f4-T"],["NF","T-with-open-adoptable-row"],["NT","T-without-three-college-convergence"],["NT","T-without-final-freeze-readback"],["any","adopt-universal-claim"]]
+}

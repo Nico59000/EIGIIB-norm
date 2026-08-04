@@ -1,0 +1,7 @@
+{
+  "standard":"EIGIIB-M0-A12-F5-REPORT-1.0",
+  "htntLabel":"NF",
+  "decision":"not-adopted",
+  "findings":[],
+  "summary":{"f4Replay":"not-verified","adoptableRowsClosed":0,"blockingRows":12,"collegeApprovals":0,"finalFreezeDecision":"not-frozen"}
+}

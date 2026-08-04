@@ -1,0 +1,10 @@
+{
+  "standard":"EIGIIB-M0-A12-F5-ADOPTION-POLICY-1.0",
+  "sourceF4Head":"e92fee6cafc54f94c5b417949fde12c951cc0635",
+  "adoptableCapabilities":["trusted-release-signer","authorized-release-signer","trusted-transparency-service","trusted-effective-time","global-append-only-consistency","content-revocation","distribution-withdrawal","vulnerability-remediation","live-github-release","external-registry-publication","external-persistence-or-durability","production-release-governance"],
+  "boundedClaims":["universal-interoperability","future-unregistered-runner-compatibility"],
+  "requiredEvidencePerAdoptableRow":["authority-reference","external-operation-reference","independent-readback-reference","freshness-reference","revocation-or-supersession-reference","evidence-digest"],
+  "freshnessSeconds":604800,
+  "missingOrUnknownDecision":"deny",
+  "universalClaimDecision":"bounded-not-adopted"
+}
