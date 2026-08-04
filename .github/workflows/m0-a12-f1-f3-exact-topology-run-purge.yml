@@ -31,7 +31,7 @@ jobs:
             test "$state" = closed
             test "$merged" = false
           done
-      - name: Delete exact rejected or superseded runs
+      - name: Verify exact rejected or superseded runs are absent
         shell: bash
         run: |
           set -euo pipefail
@@ -50,8 +50,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          gh pr comment 167 --body "Accidental direct-to-main PR #168 was closed unmerged. Exact stale topology runs \`30898618820\` (failure) and \`30902085634\` (cancelled) were deleted; direct API readback returned HTTP 404. Authoritative F1 PR #167 and head \`eaa64be6c27d30ceba7762ecf1ec7f93fe805745\` were not modified. This maintenance is separate from M0-A12-F3."
-          gh pr comment 174 --body "Accidental direct-to-main PR #173 was closed unmerged. Exact rejected topology run \`30906069397\` was deleted; direct API readback returned HTTP 404. Authoritative F3 PR #174 and head \`fb2d9515280d456e280848f2d364a2a33c774e6e\` were not modified. Replacement M0-A8 run \`30906070099\` completed successfully."
+          gh pr comment 167 -R "$REPO" --body "Accidental direct-to-main PR #168 was closed unmerged. Exact stale topology runs \`30898618820\` (failure) and \`30902085634\` (cancelled) were deleted; direct API readback returned HTTP 404. Authoritative F1 PR #167 and head \`eaa64be6c27d30ceba7762ecf1ec7f93fe805745\` were not modified. This maintenance is separate from M0-A12-F3."
+          gh pr comment 174 -R "$REPO" --body "Accidental direct-to-main PR #173 was closed unmerged. Exact rejected topology run \`30906069397\` was deleted; direct API readback returned HTTP 404. Authoritative F3 PR #174 and head \`fb2d9515280d456e280848f2d364a2a33c774e6e\` were not modified. Replacement M0-A8 run \`30906070099\` completed successfully."
       - name: Delete technical branch
         shell: bash
         run: |
