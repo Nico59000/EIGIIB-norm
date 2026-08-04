@@ -1,0 +1,81 @@
+{
+  "standard": "EIGIIB-M0-A12-F2-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier": {
+    "id": "S4",
+    "coordinates": [
+      "localContinuityValidation",
+      "independentTemporalEvidenceValidation"
+    ],
+    "labels": {
+      "F": [
+        0,
+        0
+      ],
+      "NF": [
+        1,
+        0
+      ],
+      "NT": [
+        0,
+        1
+      ],
+      "T": [
+        1,
+        1
+      ]
+    }
+  },
+  "fixedContext": true,
+  "current": {
+    "label": "NF",
+    "meaning": "continuity-harness-valid-f1-closure-and-temporal-evidence-absent",
+    "action": "preserve-harness-and-block-accumulation"
+  },
+  "dynamicInterpretation": {
+    "F": "local authority, policy, ledger or lapse detector invalid",
+    "NF": "local harness valid while F1 closure or temporal evidence is absent",
+    "NT": "signed temporal evidence exists but chain, timing, checkpoint or accumulation closure is incomplete",
+    "T": "F1 is closed in T and the bounded observation window is complete, current and lapse-free"
+  },
+  "binaryPromotionRule": {
+    "allowedOnlyFor": [
+      "F",
+      "T"
+    ],
+    "offDiagonal": "suspended"
+  },
+  "transitionMeasure": {
+    "type": "finite-missing-obligation-set",
+    "strictDecreaseRequired": true,
+    "obligations": [
+      "f1-closure-in-T",
+      "sequence-2-through-30",
+      "continuous-digest-chain",
+      "zero-lapse-window",
+      "four-checkpoints",
+      "continuity-certificate"
+    ]
+  },
+  "prohibitedTransitions": [
+    [
+      "NF",
+      "T-without-f1-T"
+    ],
+    [
+      "NF",
+      "T-without-sequence-2-through-30"
+    ],
+    [
+      "NT",
+      "T-with-lapse-or-overdue"
+    ],
+    [
+      "any",
+      "T-without-valid-certificate"
+    ],
+    [
+      "T",
+      "E17-ready"
+    ]
+  ]
+}

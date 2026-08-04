@@ -1,0 +1,16 @@
+{
+  "standard": "EIGIIB-M0-A12-F2-CONTINUITY-LEDGER-1.0",
+  "status": "f1-closure-pending",
+  "sourceHead": "eaa64be6c27d30ceba7762ecf1ec7f93fe805745",
+  "entries": [],
+  "acceptedObservationCount": 0,
+  "firstSequence": null,
+  "lastSequence": null,
+  "lastObservationDigest": null,
+  "nextExpectedAt": null,
+  "lapseCount": 0,
+  "overdueCount": 0,
+  "lapseState": "blocked",
+  "accumulationDecision": "not-accumulated",
+  "e17Decision": "not-ready-for-adoption"
+}

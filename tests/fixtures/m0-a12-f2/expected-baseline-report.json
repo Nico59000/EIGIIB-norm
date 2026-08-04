@@ -1,0 +1,17 @@
+{
+  "continuity_result": "f1-closure-pending",
+  "findings": [],
+  "htntLabel": "NF",
+  "standard": "EIGIIB-M0-A12-F2-REPORT-1.0",
+  "structural_result": "conformant-blocked-prerequisite",
+  "summary": {
+    "acceptedObservations": 0,
+    "authorityCount": 16,
+    "e17Decision": "not-ready-for-adoption",
+    "lapseState": "blocked",
+    "prerequisiteF1Closed": false,
+    "requiredElapsedSeconds": 2505600,
+    "requiredObservations": 30,
+    "sourceF1Head": "eaa64be6c27d30ceba7762ecf1ec7f93fe805745"
+  }
+}

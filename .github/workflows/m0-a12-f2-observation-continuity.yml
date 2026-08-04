@@ -1,0 +1,112 @@
+name: M0-A12-F2 observation continuity and lapse detection
+run-name: M0-A12-F2 / ${{ github.event.pull_request.head.ref || github.ref_name }} / ${{ github.sha }}
+
+on:
+  pull_request:
+    branches:
+      - agent/m0-a12-f1-bound-external-evidence-ingress-point-in-time-activation-closure
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/m0-a12-f2-observation-continuity.yml"
+      - "conformance/M0-A12-F2-*"
+      - "conformance/m0-a12-f2-*"
+      - "docs/M0-A12-F2-*"
+      - "schemas/eigiib-m0-a12-f2-*"
+      - "tests/fixtures/m0-a12-f2/**"
+      - "tests/test_eigiib_m0_a12_f2.py"
+      - "tools/eigiib_m0_a12_f2_*.py"
+      - "evidence/m0-a12-f2/**"
+  workflow_dispatch:
+    inputs:
+      require_accumulated:
+        description: Fail unless the bounded continuity window is accumulated and current
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m0-a12-f2-${{ github.event.pull_request.head.ref || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  validate:
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.13.14"
+      - name: Install pinned cryptographic verifier
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-input cryptography==46.0.4
+      - name: Inherited M0-A12 and F1 suites
+        shell: bash
+        run: |
+          python -m unittest -v tests/test_eigiib_m0_a12.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f1.py
+      - name: M0-A12-F2 continuity, lapse and accumulation suite
+        shell: bash
+        run: python -m unittest -v tests/test_eigiib_m0_a12_f2.py
+      - name: Canonical blocked baseline
+        shell: bash
+        run: |
+          python tools/eigiib_m0_a12_f2_check.py . --output m0-a12-f2-baseline.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected=json.loads(Path("tests/fixtures/m0-a12-f2/expected-baseline-report.json").read_text(encoding="utf-8"))
+          actual=json.loads(Path("m0-a12-f2-baseline.json").read_text(encoding="utf-8"))
+          if actual != expected:
+              raise SystemExit("M0-A12-F2 canonical baseline mismatch")
+          PY
+      - name: Accumulation remains fail-closed before F1 closure
+        shell: bash
+        run: |
+          set +e
+          python tools/eigiib_m0_a12_f2_check.py . --require-accumulated >/tmp/m0-a12-f2-require.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+      - name: Python tools compile
+        shell: bash
+        run: python -m py_compile tools/eigiib_m0_a12_f2_*.py
+      - name: Closed JSON authorities and schemas parse
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          paths=list(Path("conformance").glob("m0-a12-f2-*.json"))
+          paths+=list(Path("schemas").glob("eigiib-m0-a12-f2-*.json"))
+          paths+=list(Path("tests/fixtures/m0-a12-f2").glob("*.json"))
+          for path in paths:
+              json.loads(path.read_text(encoding="utf-8"))
+          PY
+      - name: No committed live continuity evidence or secrets
+        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.require_accumulated }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e evidence/m0-a12-f2
+          ! find conformance docs schemas tests tools -type f             \( -iname '*private*key*' -o -iname '*token*' -o -iname '*secret*' \)             -print -quit | grep .
+          pattern='BEGIN OPENSSH PRIVATE'' KEY'
+          ! grep -R -n --binary-files=without-match "$pattern"             conformance/M0-A12-F2-* conformance/m0-a12-f2-* docs/M0-A12-F2-*             schemas/eigiib-m0-a12-f2-* tests/fixtures/m0-a12-f2             tests/test_eigiib_m0_a12_f2.py tools/eigiib_m0_a12_f2_*.py
+      - name: Require bounded live accumulation when explicitly requested
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.require_accumulated }}
+        shell: bash
+        run: python tools/eigiib_m0_a12_f2_check.py . --require-accumulated
