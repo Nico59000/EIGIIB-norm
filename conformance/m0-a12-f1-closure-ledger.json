@@ -1,0 +1,13 @@
+{
+  "standard": "EIGIIB-M0-A12-F1-CLOSURE-LEDGER-1.0",
+  "status": "external-evidence-pack-absent",
+  "sourceHead": "e6661993924aed4d0185df48cf0b8587b2e0abf3",
+  "entries": [],
+  "boundArchiveSha256": null,
+  "manifestDigest": null,
+  "evidenceSetDigest": null,
+  "ingressReceiptDigest": null,
+  "closureCertificateDigest": null,
+  "closureDecision": "not-closed",
+  "e17Decision": "not-ready-for-adoption"
+}

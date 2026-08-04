@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a12-f1-closure-certificate.schema.json",
+  "title": "EIGIIB M0-A12-F1 closure certificate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "sourceAuthorityHead",
+    "ingressReceiptDigest",
+    "manifestDigest",
+    "evidenceSetDigest",
+    "m0A12ReportDigest",
+    "closureDecision",
+    "htntTransition",
+    "closedAt",
+    "e17Decision",
+    "claimBoundary",
+    "certificateDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-F1-CLOSURE-CERTIFICATE-1.0"
+    },
+    "sourceAuthorityHead": {
+      "const": "e6661993924aed4d0185df48cf0b8587b2e0abf3"
+    },
+    "ingressReceiptDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "manifestDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "evidenceSetDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "m0A12ReportDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "closureDecision": {
+      "const": "point-in-time-m0-a12-activation-closed"
+    },
+    "htntTransition": {
+      "const": [
+        "NF",
+        "T"
+      ]
+    },
+    "closedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "e17Decision": {
+      "const": "not-ready-for-adoption"
+    },
+    "claimBoundary": {
+      "const": "point-in-time-only-not-long-horizon-preservation"
+    },
+    "certificateDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "standard": "EIGIIB-M0-A12-F1-REPORT-1.0",
+  "structural_result": "conformant-ingress-gate",
+  "closure_result": "external-evidence-pack-absent",
+  "htntLabel": "NF",
+  "findings": [],
+  "summary": {
+    "m0A12Head": "e6661993924aed4d0185df48cf0b8587b2e0abf3",
+    "m0A11Head": "148e3e9d06ce791b90e2816d77f5045ebeac0793",
+    "authorityCount": 16,
+    "externalEvidencePresent": false,
+    "readyForClosureCertificate": false,
+    "closureCertificatePresent": false,
+    "e17Decision": "not-ready-for-adoption"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a12-f1-operator-approval.schema.json",
+  "title": "EIGIIB M0-A12-F1 operator approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "sourceAuthorityHead",
+    "evidenceSetDigest",
+    "decision",
+    "irreversibleProviderActionsAcknowledged",
+    "approvedAt",
+    "providerResources",
+    "approvalDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-F1-OPERATOR-APPROVAL-1.0"
+    },
+    "sourceAuthorityHead": {
+      "const": "e6661993924aed4d0185df48cf0b8587b2e0abf3"
+    },
+    "evidenceSetDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "decision": {
+      "const": "approve-exact-binding-and-point-in-time-closure-attempt"
+    },
+    "irreversibleProviderActionsAcknowledged": {
+      "const": true
+    },
+    "approvedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "providerResources": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "channelId",
+          "providerResourceId",
+          "objectVersionId"
+        ],
+        "properties": {
+          "channelId": {
+            "enum": [
+              "immutable-channel-primary",
+              "immutable-channel-secondary"
+            ]
+          },
+          "providerResourceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "objectVersionId": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "approvalDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a12-f1-evidence-pack-manifest.schema.json",
+  "title": "EIGIIB M0-A12-F1 evidence pack manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "sourceAuthorityHead",
+    "packageRoot",
+    "payloadPrefix",
+    "entries",
+    "payloadSetDigest",
+    "evidenceSetDigest",
+    "manifestDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-F1-EVIDENCE-PACK-MANIFEST-1.0"
+    },
+    "sourceAuthorityHead": {
+      "const": "e6661993924aed4d0185df48cf0b8587b2e0abf3"
+    },
+    "packageRoot": {
+      "const": "m0-a12-f1-package"
+    },
+    "payloadPrefix": {
+      "const": "payload/"
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 17,
+      "maxItems": 512,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "bytes",
+          "sha256",
+          "role",
+          "mediaType"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^payload/evidence/(m0-a12|m0-a12-f1)/[^\\\\]+$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 134217728
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mediaType": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "payloadSetDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "evidenceSetDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "manifestDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

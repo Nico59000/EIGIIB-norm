@@ -1,0 +1,104 @@
+{
+  "standard": "EIGIIB-M0-A12-F1-1.0",
+  "title": "Bound External Evidence Ingress and Point-in-Time Activation Closure",
+  "status": "bound-ingress-gate-established-external-evidence-pack-absent",
+  "source": {
+    "m0A12Head": "e6661993924aed4d0185df48cf0b8587b2e0abf3",
+    "m0A11Head": "148e3e9d06ce791b90e2816d77f5045ebeac0793",
+    "m0A12AuthorityPath": "conformance/m0-a12-external-activation.json",
+    "stableBundle": {
+      "name": "eigiib-e16-1.0-stable-bundle.tar.gz",
+      "bytes": 985664,
+      "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+    }
+  },
+  "typedDecisionProtocol": {
+    "carrier": "S4-internal-external-square",
+    "internalCoordinate": "bound-ingress-and-closure-validation",
+    "externalCoordinate": "complete-independent-live-evidence",
+    "currentLabel": "NF",
+    "currentCoordinates": [
+      1,
+      0
+    ],
+    "closureLabel": "T",
+    "offDiagonalPromotion": "forbidden"
+  },
+  "packageContract": {
+    "packageRoot": "m0-a12-f1-package",
+    "archiveFormats": [
+      "tar",
+      "tar.gz",
+      "tar.xz",
+      "tar.zst-via-predecompression"
+    ],
+    "inventoryPolicy": "closed-exact-no-unlisted-members",
+    "memberPolicy": "regular-files-and-directories-only",
+    "pathPolicy": "normalized-posix-relative-no-traversal",
+    "manifestSigner": "independent-observer-primary",
+    "manifestNamespace": "eigiib-m0-a12-f1-ingress@eigiib.example",
+    "payloadSetDigest": "sha256-canonical-sorted-inventory",
+    "evidenceSetDigest": "sha256-canonical-sorted-m0-a12-inventory",
+    "limits": {
+      "members": 512,
+      "memberBytes": 134217728,
+      "expandedBytes": 536870912
+    }
+  },
+  "approvalContract": {
+    "record": "evidence/m0-a12-f1/operator-approval.json",
+    "requiredSigners": [
+      "external-preservation-primary",
+      "external-preservation-secondary",
+      "independent-observer-primary"
+    ],
+    "signatureNamespace": "eigiib-m0-a12-f1-approval@eigiib.example",
+    "decision": "approve-exact-binding-and-point-in-time-closure-attempt",
+    "irreversibleProviderActionsAcknowledged": true
+  },
+  "bindingProtocol": {
+    "operation": "verify-isolate-stage-then-bind",
+    "exactConfirmation": "BIND-M0-A12-F1-EXTERNAL-EVIDENCE",
+    "overwritePolicy": "deny",
+    "symlinkPolicy": "deny",
+    "hardlinkPolicy": "deny",
+    "devicePolicy": "deny",
+    "destinationRoots": [
+      "evidence/m0-a12",
+      "evidence/m0-a12-f1"
+    ],
+    "receipt": "evidence/m0-a12-f1/ingress-receipt.json"
+  },
+  "closureProtocol": {
+    "requiredM0A12ActivationResult": "point-in-time-external-activation-and-first-signed-observation-verified",
+    "requiredM0A12Label": "T",
+    "certificate": "evidence/m0-a12-f1/closure-certificate.json",
+    "certificateGeneration": "post-binding-derived-no-private-key",
+    "requiredTransition": [
+      "NF",
+      "T"
+    ],
+    "claimBoundary": "point-in-time-only-not-long-horizon-preservation",
+    "e17Decision": "not-ready-for-adoption"
+  },
+  "currentState": {
+    "externalEvidencePack": "absent",
+    "boundEvidence": "absent",
+    "ingressReceipt": "absent",
+    "closureCertificate": "absent",
+    "closureDecision": "not-closed"
+  },
+  "nonclaims": [
+    "external-evidence-pack-received",
+    "external-evidence-bound",
+    "provider-resource-activated-by-this-tranche",
+    "point-in-time-activation-closed",
+    "long-horizon-preservation-established",
+    "e17-adoption"
+  ],
+  "naturalSuccessor": {
+    "id": "M0-A12-F2",
+    "title": "Independent Observation Continuity, Lapse Detection and Long-Horizon Preservation Accumulation",
+    "decision": "blocked-until-m0-a12-f1-is-closed-in-T"
+  }
+}

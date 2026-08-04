@@ -1,0 +1,89 @@
+{
+  "standard": "EIGIIB-M0-A12-F1-AUTHORITY-FREEZE-1.0",
+  "status": "self-excluding-bound-ingress-authority-freeze",
+  "sourceHead": "e6661993924aed4d0185df48cf0b8587b2e0abf3",
+  "authorityCount": 16,
+  "excludedPath": "conformance/m0-a12-f1-authority-freeze.json",
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a12-f1-bound-evidence-ingress.yml",
+      "bytes": 4802,
+      "sha256": "6d09b95f1f1a3852e9e54c198eb5c94a20971cbaf34f0957497fd23532720531"
+    },
+    {
+      "path": "conformance/M0-A12-F1-MANUAL-REVIEW.md",
+      "bytes": 2642,
+      "sha256": "543c0ab895720ec93f6c0094589d9c4dc7d0dababa0790930676e8739c2e16de"
+    },
+    {
+      "path": "conformance/m0-a12-f1-bound-ingress.json",
+      "bytes": 3650,
+      "sha256": "0444b69f0b33537e7f398380cb819fe4fa76f16f5fc50b48f6af6e454d075955"
+    },
+    {
+      "path": "conformance/m0-a12-f1-closure-ledger.json",
+      "bytes": 409,
+      "sha256": "a5253b544d34e528661f5b922cd2372630a39c00e71b74f929c8a8ee04994645"
+    },
+    {
+      "path": "conformance/m0-a12-f1-htnt-decision-protocol.json",
+      "bytes": 1676,
+      "sha256": "cb5ae77a7d72350c53bf4f1bb826d79cde286ab743351fadce799d9445f784bb"
+    },
+    {
+      "path": "docs/M0-A12-F1-BOUND-EXTERNAL-EVIDENCE-INGRESS-AND-POINT-IN-TIME-ACTIVATION-CLOSURE.md",
+      "bytes": 5572,
+      "sha256": "9bb8c4fcd1a675392dcd175b3f7944ea2f74c61a7f5f44d1b735fe6fcf6913d7"
+    },
+    {
+      "path": "docs/M0-A12-F1-OPERATOR-RUNBOOK.md",
+      "bytes": 3591,
+      "sha256": "61586baf087605acbc7c8706c12da1a6db55ddda3db7e8aaaaf681b1400632e8"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f1-closure-certificate.schema.json",
+      "bytes": 1619,
+      "sha256": "0cc58d38b164d396add07cfb6578390099804ffa6c7ecd0657851fad5f6cfc24"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f1-evidence-pack-manifest.schema.json",
+      "bytes": 1942,
+      "sha256": "fa6b6f05acc4b85c2073f50a72e4b9e156448fc7e0eb7e68c7cbbc301014cae4"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f1-ingress-receipt.schema.json",
+      "bytes": 1411,
+      "sha256": "9d51b702e2619587c85908e09cc7a6a54a2c963ac15609ac9221436e65fad48b"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-f1-operator-approval.schema.json",
+      "bytes": 1834,
+      "sha256": "8fdbd2140c32ec8fa1cc35facfe736eb7aaef51a233717f67f9deae89fc8d25a"
+    },
+    {
+      "path": "tests/fixtures/m0-a12-f1/expected-baseline-report.json",
+      "bytes": 521,
+      "sha256": "93e78c3de30e2cc7d325fd7faf405bb76762d1c612b26dfdce37a9e4f2707b23"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a12_f1.py",
+      "bytes": 19080,
+      "sha256": "7bc56f513aec84ff0a82714246b4bdc8d7eba1cbe3c4a9b54fcb4a37f2b4c485"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_f1_canonical.py",
+      "bytes": 1948,
+      "sha256": "f73933dcc791b98b82673d6a9a2eb78088748d6eb8d69e198e578d92d57b153d"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_f1_check.py",
+      "bytes": 21757,
+      "sha256": "5207b5f5ff94103692d84f27c5b09c8d9ca5531a6b08955b7b23db1a975fb0c4"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_f1_ingress.py",
+      "bytes": 17060,
+      "sha256": "369d7b8e1586da29cfeb7921af26c5b58381a77ec7ceedd0777648a6e6e166bc"
+    }
+  ]
+}
