@@ -1,0 +1,100 @@
+name: M0-A15-F1 bounded CI correction publisher
+
+on:
+  pull_request:
+    branches:
+      - agent/m0-a15-independent-multi-registry-maintenance-witnessing-split-brain-detection-long-term-governance-reconciliation
+    types: [synchronize]
+    paths:
+      - '.github/workflows/m0-a15-f1-ci-fix-publisher.yml'
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Install pinned verification providers
+        run: python -m pip install --disable-pip-version-check --no-input cryptography==46.0.4 jsonschema==4.26.0
+      - name: Apply bounded first-parent correction
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path=Path('tools/eigiib_m0_a15_f1_check.py')
+          text=path.read_text()
+          old='''        subprocess.run(
+                      ["git", "-C", str(root), "merge-base", "--is-ancestor", A15_HEAD, "HEAD"],
+                      check=True,
+                      stdout=subprocess.PIPE,
+                      stderr=subprocess.PIPE,
+                      timeout=30,
+                  )
+          '''
+          new='''        current = _git(root, "rev-parse", "HEAD")
+                  seen: set[str] = set()
+                  while current != A15_HEAD:
+                      if current in seen:
+                          raise RuntimeError("first-parent-cycle")
+                      seen.add(current)
+                      line = _git(root, "rev-list", "--parents", "-n", "1", current)
+                      parts = line.split()
+                      if len(parts) < 2:
+                          raise RuntimeError("source-a15-not-on-first-parent-lineage")
+                      current = parts[1]
+          '''
+          if old not in text:
+              raise SystemExit('bounded source block not found')
+          path.write_text(text.replace(old,new))
+          PY
+      - name: Remove temporary diagnostic and publisher workflows
+        run: |
+          rm -f .github/workflows/m0-a15-f1-diagnostic.yml
+          rm -f .github/workflows/m0-a15-f1-ci-fix-publisher.yml
+      - name: Regenerate exact F1 authority freeze
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          path=Path('conformance/m0-a15-f1-authority-freeze.json')
+          data=json.loads(path.read_text())
+          for entry in data['authorities']:
+              raw=Path(entry['path']).read_bytes()
+              entry['bytes']=len(raw)
+              entry['sha256']=hashlib.sha256(raw).hexdigest()
+          path.write_text(json.dumps(data,indent=2)+'\n')
+          PY
+      - name: Validate corrected clean tree
+        run: |
+          python -m py_compile tools/eigiib_m0_a15_f1_*.py tests/m0_a15_f1_cases.py tests/test_eigiib_m0_a15_f1.py
+          python -m unittest -v tests/test_eigiib_m0_a15_f1.py
+          python tools/eigiib_m0_a15_f1_check.py . --output m0-a15-f1-baseline.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual=json.loads(Path('m0-a15-f1-baseline.json').read_text())
+          expected=json.loads(Path('tests/fixtures/m0-a15-f1/expected-baseline-report.json').read_text())
+          assert actual==expected,(actual,expected)
+          PY
+      - name: Publish corrected clean head
+        env:
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tools/eigiib_m0_a15_f1_check.py conformance/m0-a15-f1-authority-freeze.json
+          git add -u .github/workflows/m0-a15-f1-diagnostic.yml .github/workflows/m0-a15-f1-ci-fix-publisher.yml
+          git diff --cached --check
+          git commit -m 'M0-A15-F1: bind exact A15 first-parent lineage in CI'
+          git push origin "HEAD:${HEAD_BRANCH}"
