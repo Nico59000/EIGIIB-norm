@@ -74,13 +74,17 @@ def verify_parent_a15(root: Path) -> list[str]:
         tree = _git(root, "rev-parse", f"{A15_HEAD}^{{tree}}")
         if tree != A15_TREE:
             errors.append("source-a15-tree-mismatch")
-        subprocess.run(
-            ["git", "-C", str(root), "merge-base", "--is-ancestor", A15_HEAD, "HEAD"],
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            timeout=30,
-        )
+        current = _git(root, "rev-parse", "HEAD")
+        seen: set[str] = set()
+        while current != A15_HEAD:
+            if current in seen:
+                raise RuntimeError("first-parent-cycle")
+            seen.add(current)
+            line = _git(root, "rev-list", "--parents", "-n", "1", current)
+            parts = line.split()
+            if len(parts) < 2:
+                raise RuntimeError("source-a15-not-on-first-parent-lineage")
+            current = parts[1]
         freeze_raw = _git_file(root, A15_HEAD, "conformance/m0-a15-authority-freeze.json")
         freeze = json.loads(freeze_raw.decode("utf-8"))
     except Exception:

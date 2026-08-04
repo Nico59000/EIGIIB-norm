@@ -7,7 +7,7 @@
     {
       "path": ".github/workflows/m0-a15-f1-authenticated-evidence-binding.yml",
       "bytes": 4754,
-      "sha256": "75d87ebee19aff66913568a8406d036398338a6eec207072a868d5e7780d7f27"
+      "sha256": "023c56c8e4b81bb95b445154c739001459637787fbb468b8cf67d3793efd5f17"
     },
     {
       "path": "conformance/M0-A15-F1-MANUAL-REVIEW.md",
@@ -101,8 +101,8 @@
     },
     {
       "path": "tools/eigiib_m0_a15_f1_check.py",
-      "bytes": 11205,
-      "sha256": "a8e15de03e34c6a29a314a33375f080f4e722a53b6575f411470fd75ea3eba17"
+      "bytes": 11446,
+      "sha256": "084fca45c2f07b7c55461dbc55d03f903bfa53256ae8a68ae0787efbdfa1c632"
     },
     {
       "path": "tools/eigiib_m0_a15_f1_checkpoints.py",
