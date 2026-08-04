@@ -1,0 +1,32 @@
+stages:
+  - observe
+
+variables:
+  PYTHONDONTWRITEBYTECODE: "1"
+  M0_A12_OBSERVATION_PATH: "evidence/m0-a12/observations/000001.json"
+
+m0-a12-first-observation:
+  stage: observe
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+  script:
+    - python -m pip install --disable-pip-version-check --no-input cryptography==46.0.4
+    - test -n "$M0_A12_OBSERVER_PRIVATE_KEY"
+    - test -n "$M0_A12_OBSERVER_KEY_ID"
+    - install -m 0700 -d "$CI_PROJECT_DIR/.observer"
+    - printf '%s\n' "$M0_A12_OBSERVER_PRIVATE_KEY" > "$CI_PROJECT_DIR/.observer/id_ed25519.pem"
+    - chmod 0600 "$CI_PROJECT_DIR/.observer/id_ed25519.pem"
+    - python tools/m0_a12/observe_live.py
+        --config "$M0_A12_OBSERVER_CONFIG"
+        --output "$M0_A12_OBSERVATION_PATH"
+        --private-key "$CI_PROJECT_DIR/.observer/id_ed25519.pem"
+        --allowed-signers "evidence/m0-a12/keys/allowed_signers.json"
+        --observer-key-id "$M0_A12_OBSERVER_KEY_ID"
+    - python tools/eigiib_m0_a12_check.py . --require-activated --output m0-a12-activation-report.json
+  artifacts:
+    when: always
+    expire_in: 90 days
+    paths:
+      - evidence/m0-a12/
+      - m0-a12-activation-report.json

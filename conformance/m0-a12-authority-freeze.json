@@ -1,0 +1,134 @@
+{
+  "standard": "EIGIIB-M0-A12-AUTHORITY-FREEZE-1.0",
+  "status": "self-excluding-preactivation-authority-freeze",
+  "sourceHead": "148e3e9d06ce791b90e2816d77f5045ebeac0793",
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a12-external-activation-harness.yml",
+      "bytes": 4694,
+      "sha256": "1ce4c2dac0b90f405d5500ed3b982450a01b43e2da88e77ac9716144afd3f97a"
+    },
+    {
+      "path": "conformance/M0-A12-MANUAL-REVIEW.md",
+      "bytes": 1782,
+      "sha256": "15aa8e45223f1a2f9654635e3102a29d023bfe04522053d1a9eea8769d1d1d90"
+    },
+    {
+      "path": "conformance/m0-a12-external-activation.json",
+      "bytes": 3862,
+      "sha256": "5345d55632ae7509b9ccfd897b100aff85374c1d2c10a8e4606a17368ceafc18"
+    },
+    {
+      "path": "conformance/m0-a12-provider-profiles.json",
+      "bytes": 2858,
+      "sha256": "4bd23fcaf59a283f5311b760658d9f5acbd54772ef23108bef7a32a257564ed7"
+    },
+    {
+      "path": "conformance/m0-a12-htnt-decision-protocol.json",
+      "bytes": 1363,
+      "sha256": "348c5ce49a1726758f55c41d0f81eaa843c63cc57764eb89da497b815984ff63"
+    },
+    {
+      "path": "conformance/m0-a12-evidence-ledger.json",
+      "bytes": 271,
+      "sha256": "98e50153bbe064b9a89a798a4f3f7e0686afde091f3c66058661fdc58df192f4"
+    },
+    {
+      "path": "conformance/m0-a12-observer-config.template.json",
+      "bytes": 550,
+      "sha256": "1066d52831d6ecc0684d851b668b2b801fbfe825059fe99a687819b1cdaa9ab7"
+    },
+    {
+      "path": "docs/M0-A12-EXTERNAL-IMMUTABLE-CHANNEL-ACTIVATION-INDEPENDENT-ATTESTATION-AND-FIRST-SIGNED-OBSERVATION.md",
+      "bytes": 9098,
+      "sha256": "572ef59a1fdf2e98c1169fee413d8891f38386d31d7e44a5d023c7ae2055555e"
+    },
+    {
+      "path": "docs/M0-A12-CONTROLLED-ACTIVATION-RUNBOOK.md",
+      "bytes": 3921,
+      "sha256": "f5da7488aa310e69bd7228858e9cc3aae1bf21cbc9ba226ffbf701287a9d9419"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-control-domain-attestation.schema.json",
+      "bytes": 2557,
+      "sha256": "8680f8c310e0586bb9fb7a96645ecc4de98669995b38fa94b4dcc4ccf0a688c9"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-channel-evidence.schema.json",
+      "bytes": 5120,
+      "sha256": "1084a985e5cf63edf4bcdc2f67c198409d0c36f67f899398bc9897d8eaf2f0c2"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-diversity-matrix.schema.json",
+      "bytes": 2110,
+      "sha256": "298d4f8c6864d6fd12d527c8b26cbc418355d8325f698d4bd73edaf66268b966"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-signed-observation.schema.json",
+      "bytes": 2510,
+      "sha256": "44a6b9875137c751a9133fe7eb4760fe6de32594510078f6ed13046a40097ce9"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-detached-signature.schema.json",
+      "bytes": 1422,
+      "sha256": "8d6b67302f29bde6ef116c102d5f39d10a48a7b026efb99c79a7711a0868741c"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-allowed-signers.schema.json",
+      "bytes": 1828,
+      "sha256": "3a0f3fdfb287df61f9c955b137d866c0c29fd19e366a3466f4c5a4794616b7cb"
+    },
+    {
+      "path": "schemas/eigiib-m0-a12-campaign-anchor.schema.json",
+      "bytes": 2392,
+      "sha256": "fefa43974a30ccc9508c9096486d514b9eb2f4e4dca3b1418a5c73b1c623dca7"
+    },
+    {
+      "path": "tests/fixtures/m0-a12/expected-preactivation-report.json",
+      "bytes": 585,
+      "sha256": "4c48fd3fc54cc86ac9c9fa3abe6df547d357a6118d04f7b00f7c911993296904"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a12.py",
+      "bytes": 19991,
+      "sha256": "c7a26aff5ceee33e1c034b3da2cd74e90ec9f8e65db31e6b84b32642e043a801"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_canonical.py",
+      "bytes": 858,
+      "sha256": "fefba93835ff7797d47a5890fcc7e40827ac626cfa8c24ebbb9763c69cba2d00"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_signature.py",
+      "bytes": 5400,
+      "sha256": "d2c38213498271917b0a9fc2b582a3fdb18d7edbacf4212c6efbb27961314b63"
+    },
+    {
+      "path": "tools/eigiib_m0_a12_check.py",
+      "bytes": 22900,
+      "sha256": "eeda6598d7a81c71c0404203e6cad2fc3ca89ca35c3f8a3e0b17b41f29500db5"
+    },
+    {
+      "path": "tools/m0_a12/aws_s3_object_lock_activate.sh",
+      "bytes": 5061,
+      "sha256": "3a2c3c2fe91663197e50a88f958fffd5f634560acce89aa3ba98c6936f0d0a26"
+    },
+    {
+      "path": "tools/m0_a12/gcs_bucket_lock_activate.sh",
+      "bytes": 4755,
+      "sha256": "7994a3ac66517cdf530c48c99149b001822d42eea6d9c0f493e14f970baaf41f"
+    },
+    {
+      "path": "tools/m0_a12/observe_live.py",
+      "bytes": 9295,
+      "sha256": "f957ffc234b1b03812e784ebbc806483ca3fb28da24a38018e01b3b88c7f16ac"
+    },
+    {
+      "path": "external/gitlab/m0-a12-observer.gitlab-ci.yml",
+      "bytes": 1211,
+      "sha256": "24353dbc1e1d561e63936256b5457066a0e47ab4273f68eb58c3763d1f3a0923"
+    }
+  ],
+  "authorityCount": 25,
+  "excludedPath": "conformance/m0-a12-authority-freeze.json"
+}

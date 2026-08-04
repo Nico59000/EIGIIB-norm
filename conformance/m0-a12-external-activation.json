@@ -1,0 +1,110 @@
+{
+  "standard": "EIGIIB-M0-A12-1.0",
+  "title": "External Immutable Channel Activation, Independent Attestation and First Signed Observation",
+  "status": "activation-harness-established-external-evidence-pending",
+  "source": {
+    "m0A11Head": "148e3e9d06ce791b90e2816d77f5045ebeac0793",
+    "m0A10Head": "2891265f04a5d9a4d69c134fa48881b0ed93fe13",
+    "m0A11AuthorityPath": "conformance/m0-a11-external-evidence-preparation.json",
+    "stableBundle": {
+      "name": "eigiib-e16-1.0-stable-bundle.tar.gz",
+      "bytes": 985664,
+      "sha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+      "manifestSha256": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9",
+      "signatureSha256": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4",
+      "publicKeySha256": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e"
+    }
+  },
+  "typedDecisionProtocol": {
+    "carrier": "S4-internal-external-square",
+    "internalCoordinate": "local-harness-and-cryptographic-validation",
+    "externalCoordinate": "independent-live-external-evidence",
+    "currentLabel": "NF",
+    "currentCoordinates": [
+      1,
+      0
+    ],
+    "closureLabel": "T",
+    "offDiagonalPromotion": "forbidden"
+  },
+  "providerProfiles": {
+    "primary": "aws-s3-object-lock-compliance",
+    "secondary": "gcp-cloud-storage-bucket-lock",
+    "observer": "external-gitlab-scheduled-runner"
+  },
+  "activationStateMachine": {
+    "currentState": "external-bindings-pending",
+    "terminalSuccessState": "point-in-time-external-activation-and-first-signed-observation-verified",
+    "terminalFailureState": "invalid-or-conflicting-evidence",
+    "allowedTransitions": [
+      [
+        "external-bindings-pending",
+        "domains-attested"
+      ],
+      [
+        "domains-attested",
+        "channels-provisioned-and-locked"
+      ],
+      [
+        "channels-provisioned-and-locked",
+        "observer-bound"
+      ],
+      [
+        "observer-bound",
+        "campaign-anchored"
+      ],
+      [
+        "campaign-anchored",
+        "first-observation-verified"
+      ],
+      [
+        "first-observation-verified",
+        "point-in-time-external-activation-and-first-signed-observation-verified"
+      ]
+    ]
+  },
+  "requiredEvidence": {
+    "controlDomainAttestations": [
+      "external-preservation-primary",
+      "external-preservation-secondary",
+      "independent-observer-primary"
+    ],
+    "immutableChannels": [
+      "immutable-channel-primary",
+      "immutable-channel-secondary"
+    ],
+    "diversityMatrix": "complete-nine-dimension-pairwise-matrix",
+    "campaignAnchor": "approved-activation-anchor",
+    "firstObservation": "sequence-1-signed-and-covering-both-channels"
+  },
+  "evidenceIngress": {
+    "root": "evidence/m0-a12",
+    "committedSecretsForbidden": true,
+    "detachedSignatureNamespace": "eigiib-m0-a12@eigiib.example",
+    "canonicalization": "rfc8785-compatible-sorted-compact-json-utf8-subset",
+    "digestAlgorithm": "sha256"
+  },
+  "claimBoundary": {
+    "providerProfileSelectionIsNotProviderBinding": true,
+    "adapterAvailabilityIsNotChannelProvisioning": true,
+    "syntheticSignatureVectorIsNotExternalAttestation": true,
+    "firstObservationIsNotLongHorizonEvidence": true,
+    "unknownExternalFacts": "deny",
+    "e17Decision": "not-ready-for-adoption"
+  },
+  "nonclaims": [
+    "external-account-created",
+    "external-control-domain-attested",
+    "immutable-channel-provisioned",
+    "retention-lock-enforced",
+    "independent-observer-bound",
+    "first-live-observation-captured",
+    "long-horizon-preservation-observed",
+    "e17-adoption"
+  ],
+  "naturalSuccessor": {
+    "id": "M0-A12-F1",
+    "title": "Bound External Evidence Ingress and Point-in-Time Activation Closure",
+    "decision": "blocked-until-real-external-evidence-is-supplied"
+  }
+}

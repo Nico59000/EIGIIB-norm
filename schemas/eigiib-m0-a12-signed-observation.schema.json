@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a12-signed-observation.schema.json",
+  "title": "EIGIIB M0-A12 first signed observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "campaignId",
+    "sequence",
+    "observedAt",
+    "previousObservationDigest",
+    "observerDomainId",
+    "observerKeyId",
+    "channels",
+    "observationDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-OBSERVATION-1.0"
+    },
+    "campaignId": {
+      "const": "eigiib-m0-a11-external-preservation-observation-v1"
+    },
+    "sequence": {
+      "const": 1
+    },
+    "observedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "previousObservationDigest": {
+      "type": "null"
+    },
+    "observerDomainId": {
+      "const": "independent-observer-primary"
+    },
+    "observerKeyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "channels": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "channelId",
+          "providerResourceId",
+          "objectVersionId",
+          "readbackBytes",
+          "readbackSha256",
+          "retentionState",
+          "result",
+          "evidenceRefs"
+        ],
+        "properties": {
+          "channelId": {
+            "enum": [
+              "immutable-channel-primary",
+              "immutable-channel-secondary"
+            ]
+          },
+          "providerResourceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "objectVersionId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "readbackBytes": {
+            "const": 985664
+          },
+          "readbackSha256": {
+            "const": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+          },
+          "retentionState": {
+            "const": "applied-and-readback-verified"
+          },
+          "result": {
+            "const": "exact-and-retained"
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "observationDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

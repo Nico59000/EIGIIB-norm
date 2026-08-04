@@ -1,0 +1,18 @@
+{
+  "activation_result": "external-evidence-pending",
+  "findings": [],
+  "htntLabel": "NF",
+  "standard": "EIGIIB-M0-A12-REPORT-1.0",
+  "structural_result": "conformant-preactivation",
+  "summary": {
+    "authorityCount": 25,
+    "e17Decision": "not-ready-for-adoption",
+    "evidencePresent": false,
+    "m0A11Head": "148e3e9d06ce791b90e2816d77f5045ebeac0793",
+    "observationCount": 0,
+    "plannedImmutableChannels": 2,
+    "providerProfiles": 3,
+    "requiredExternalDomains": 3,
+    "stableBundleSha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+  }
+}

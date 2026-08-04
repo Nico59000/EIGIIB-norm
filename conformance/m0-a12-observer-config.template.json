@@ -1,0 +1,17 @@
+{
+  "standard": "EIGIIB-M0-A12-OBSERVER-CONFIG-TEMPLATE-1.0",
+  "claimBoundary": "template-only-no-resource-binding",
+  "aws": {
+    "region": "<external-region>",
+    "bucket": "<external-bucket>",
+    "key": "eigiib-e16-1.0-stable-bundle.tar.gz",
+    "versionId": "<immutable-version-id>",
+    "profile": "<read-only-observer-profile>"
+  },
+  "gcs": {
+    "bucket": "<external-bucket>",
+    "object": "eigiib-e16-1.0-stable-bundle.tar.gz",
+    "generation": "<immutable-generation>",
+    "configuration": "<read-only-observer-configuration>"
+  }
+}
