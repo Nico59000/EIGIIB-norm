@@ -1,0 +1,11 @@
+{
+  "standard":"EIGIIB-M0-A12-F5-1.0",
+  "title":"E17 Adoption Authority, External Governance Convergence and Final M0 Freeze",
+  "status":"adoption-authority-harness-established-f4-verification-pending",
+  "source":{"m0A12F4Head":"e92fee6cafc54f94c5b417949fde12c951cc0635","stableBundleSha256":"96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"},
+  "prerequisite":{"requiredF4Decision":"multi-authority-emergency-succession-catastrophic-recovery-and-e17-evidence-matrix-verified","requiredF4Label":"T","currentDecision":"not-verified","gate":"blocked-until-f4-T"},
+  "adoptionContract":{"adoptableCapabilityCount":12,"boundedNonAdoptableCapabilityCount":2,"governanceColleges":["normative-authority-college","operational-governance-college","independent-verification-college"],"minimumCollegeApprovals":3,"crossCollegeUnanimityRequired":true,"externalEvidenceFreshnessSeconds":604800,"independentReadbackRequired":true},
+  "currentState":{"f4Replay":"not-verified","adoptableRowsClosed":0,"collegeApprovals":0,"adoptionDecision":"not-adopted","finalFreezeDecision":"not-frozen"},
+  "claimBoundary":{"decision":"e17-adoption-authority-external-governance-convergence-and-final-m0-freeze-verified","scope":"point-in-time-adoption-and-final-m0-freeze-only","futureGovernanceNotImplied":true,"universalInteroperabilityNotImplied":true},
+  "naturalSuccessor":{"id":"M0-A13","title":"Post-Freeze Maintenance, Reopening Authority and Supersession Governance","decision":"blocked-until-f5-is-T"}
+}

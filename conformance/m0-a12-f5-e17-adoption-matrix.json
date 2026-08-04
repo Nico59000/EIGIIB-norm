@@ -1,0 +1,21 @@
+{
+  "standard":"EIGIIB-M0-A12-F5-E17-ADOPTION-MATRIX-1.0",
+  "sourceF4Head":"e92fee6cafc54f94c5b417949fde12c951cc0635",
+  "matrixDecision":"not-adopted",
+  "rows":[
+    {"capability":"trusted-release-signer","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"authorized-release-signer","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"trusted-transparency-service","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"trusted-effective-time","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"global-append-only-consistency","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"content-revocation","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"distribution-withdrawal","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"vulnerability-remediation","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"live-github-release","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"external-registry-publication","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"external-persistence-or-durability","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"production-release-governance","classification":"adoptable","state":"evidence-pending","blocking":true},
+    {"capability":"universal-interoperability","classification":"bounded-non-adoptable","state":"explicitly-bounded","blocking":false},
+    {"capability":"future-unregistered-runner-compatibility","classification":"bounded-non-adoptable","state":"explicitly-bounded","blocking":false}
+  ]
+}

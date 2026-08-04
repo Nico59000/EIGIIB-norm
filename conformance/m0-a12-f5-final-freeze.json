@@ -1,0 +1,10 @@
+{
+  "standard":"EIGIIB-M0-A12-F5-FINAL-M0-FREEZE-1.0",
+  "sourceHead":"e92fee6cafc54f94c5b417949fde12c951cc0635",
+  "freezeId":"eigiib-m0-final-freeze-v1",
+  "requiredLineageHeads":{"M0-A12":"e6661993924aed4d0185df48cf0b8587b2e0abf3","M0-A12-F1":"eaa64be6c27d30ceba7762ecf1ec7f93fe805745","M0-A12-F2":"597ba0931d3510b01136d8ca6c6075ee106a7f19","M0-A12-F3":"fb2d9515280d456e280848f2d364a2a33c774e6e","M0-A12-F4":"e92fee6cafc54f94c5b417949fde12c951cc0635"},
+  "requiredArtifacts":["adoption-record","adoption-certificate","governance-convergence-record","e17-adoption-matrix","final-freeze-manifest","independent-freeze-readback"],
+  "mutationPolicy":"no-post-freeze-mutation-without-registered-reopening-authority",
+  "supersessionPolicy":"append-only-new-authority-required",
+  "currentDecision":"not-frozen"
+}

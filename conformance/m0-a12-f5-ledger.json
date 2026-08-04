@@ -1,0 +1,15 @@
+{
+  "standard":"EIGIIB-M0-A12-F5-LEDGER-1.0",
+  "status":"f4-verification-pending",
+  "sourceHead":"e92fee6cafc54f94c5b417949fde12c951cc0635",
+  "entries":[],
+  "adoptableRowsClosed":0,
+  "boundedRowsRecorded":2,
+  "governanceCollegeApprovalCount":0,
+  "adoptionRecordDigest":null,
+  "adoptionCertificateDigest":null,
+  "freezeManifestDigest":null,
+  "independentFreezeReadbackDigest":null,
+  "adoptionDecision":"not-adopted",
+  "finalFreezeDecision":"not-frozen"
+}
