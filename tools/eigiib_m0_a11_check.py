@@ -147,6 +147,7 @@ def evaluate_authority(root: Path) -> dict[str, Any]:
     if lapse.get("state") != "not-activated" or lapse.get("findings"):
         findings.append("M0A11.HARNESS.PREPARATORY_STATE")
 
+    freeze_path = root / FREEZE_PATH
     try:
         freeze = load(root, FREEZE_PATH)
         if freeze.get("standard") != "EIGIIB-M0-A11-AUTHORITY-FREEZE-1.0" or freeze.get("source_head") != M0_A10_HEAD:
