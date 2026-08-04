@@ -1,0 +1,61 @@
+{
+  "standard": "EIGIIB-M0-A12-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier": {
+    "id": "S4",
+    "coordinates": [
+      "internalValidation",
+      "externalValidation"
+    ],
+    "labels": {
+      "F": [
+        0,
+        0
+      ],
+      "NF": [
+        1,
+        0
+      ],
+      "NT": [
+        0,
+        1
+      ],
+      "T": [
+        1,
+        1
+      ]
+    }
+  },
+  "fixedContext": true,
+  "current": {
+    "label": "NF",
+    "meaning": "activation-harness-valid-external-live-evidence-absent",
+    "action": "preserve-internal-validation-and-block-closure"
+  },
+  "actions": {
+    "F": "reject-and-repair-internal-and-external-failures",
+    "NF": "retain-harness-proof-collect-independent-external-evidence",
+    "NT": "quarantine-external-evidence-repair-local-validation",
+    "T": "permit-point-in-time-m0-a12-closure-only"
+  },
+  "binaryPromotionRule": {
+    "allowedOnlyFor": [
+      "F",
+      "T"
+    ],
+    "offDiagonal": "suspended"
+  },
+  "transitionMeasure": {
+    "type": "finite-missing-obligation-set",
+    "strictDecreaseRequired": true,
+    "obligations": [
+      "primary-domain-attestation",
+      "secondary-domain-attestation",
+      "observer-domain-attestation",
+      "primary-channel-evidence",
+      "secondary-channel-evidence",
+      "diversity-matrix",
+      "campaign-anchor",
+      "first-signed-observation"
+    ]
+  }
+}

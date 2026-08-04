@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a12-allowed-signers.schema.json",
+  "title": "EIGIIB M0-A12 allowed Ed25519 signers",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "signers"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-ALLOWED-SIGNERS-1.0"
+    },
+    "signers": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "identity",
+          "keyId",
+          "algorithm",
+          "publicKeyRawBase64",
+          "publicKeyDigest",
+          "validFrom",
+          "purpose"
+        ],
+        "properties": {
+          "identity": {
+            "enum": [
+              "external-preservation-primary",
+              "external-preservation-secondary",
+              "independent-observer-primary"
+            ]
+          },
+          "keyId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "algorithm": {
+            "const": "ed25519"
+          },
+          "publicKeyRawBase64": {
+            "type": "string",
+            "minLength": 1
+          },
+          "publicKeyDigest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validUntil": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "purpose": {
+            "enum": [
+              "control-domain-attestation",
+              "preservation-observation"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

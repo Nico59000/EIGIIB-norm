@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a12-detached-signature.schema.json",
+  "title": "EIGIIB M0-A12 detached Ed25519 signature envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "signedPayloadPath",
+    "signedPayloadDigest",
+    "signatureAlgorithm",
+    "signatureNamespace",
+    "signerIdentity",
+    "signerKeyId",
+    "publicKeyDigest",
+    "signatureValue",
+    "allowedSignersPath",
+    "signedAt"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-DETACHED-SIGNATURE-1.0"
+    },
+    "signedPayloadPath": {
+      "type": "string",
+      "minLength": 1
+    },
+    "signedPayloadDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "signatureAlgorithm": {
+      "const": "ed25519"
+    },
+    "signatureNamespace": {
+      "const": "eigiib-m0-a12@eigiib.example"
+    },
+    "signerIdentity": {
+      "type": "string",
+      "minLength": 1
+    },
+    "signerKeyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "publicKeyDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "signatureValue": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allowedSignersPath": {
+      "const": "keys/allowed_signers.json"
+    },
+    "signedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

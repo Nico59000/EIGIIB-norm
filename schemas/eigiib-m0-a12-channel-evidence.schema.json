@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a12-channel-evidence.schema.json",
+  "title": "EIGIIB M0-A12 immutable channel activation evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "channelId",
+    "controlDomainId",
+    "providerProfile",
+    "providerResourceId",
+    "endpoint",
+    "objectVersionId",
+    "artifact",
+    "retention",
+    "deleteDenials",
+    "auditEvidenceRefs",
+    "exactReadback",
+    "capturedAt",
+    "payloadDigest"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-M0-A12-CHANNEL-EVIDENCE-1.0"
+    },
+    "channelId": {
+      "enum": [
+        "immutable-channel-primary",
+        "immutable-channel-secondary"
+      ]
+    },
+    "controlDomainId": {
+      "enum": [
+        "external-preservation-primary",
+        "external-preservation-secondary"
+      ]
+    },
+    "providerProfile": {
+      "enum": [
+        "aws-s3-object-lock-compliance",
+        "gcp-cloud-storage-bucket-lock"
+      ]
+    },
+    "providerResourceId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "endpoint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "objectVersionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "bytes",
+        "sha256",
+        "manifestSha256",
+        "signatureSha256",
+        "publicKeySha256"
+      ],
+      "properties": {
+        "name": {
+          "const": "eigiib-e16-1.0-stable-bundle.tar.gz"
+        },
+        "bytes": {
+          "const": 985664
+        },
+        "sha256": {
+          "const": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+        },
+        "manifestSha256": {
+          "const": "25c04438df49d7261cf9814142dc0dd575b278ba65e05bc244b13b35d16407a9"
+        },
+        "signatureSha256": {
+          "const": "90925a270871949faf2079eb74321200b0f2eae873a4bc22c9cfac6ccee0a4e4"
+        },
+        "publicKeySha256": {
+          "const": "27116e2e7771cc300b2d2acbc205fd0992c23b8ebec4fe5b5b58023f0aa5382e"
+        }
+      }
+    },
+    "retention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "policyState",
+        "lockEffectiveAt",
+        "retainUntil",
+        "minimumWindowSeconds",
+        "readbackEvidenceRef"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "AWS-COMPLIANCE",
+            "GCS-LOCKED-BUCKET-RETENTION"
+          ]
+        },
+        "policyState": {
+          "const": "applied-and-readback-verified"
+        },
+        "lockEffectiveAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "retainUntil": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "minimumWindowSeconds": {
+          "type": "integer",
+          "minimum": 86400
+        },
+        "readbackEvidenceRef": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "deleteDenials": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "principalClass",
+          "operation",
+          "result",
+          "denialAttributedToRetention",
+          "objectStillPresent",
+          "evidenceRef"
+        ],
+        "properties": {
+          "principalClass": {
+            "enum": [
+              "authorized-deleter",
+              "privileged-administrator"
+            ]
+          },
+          "operation": {
+            "const": "delete-specific-object-version"
+          },
+          "result": {
+            "const": "denied"
+          },
+          "denialAttributedToRetention": {
+            "const": true
+          },
+          "objectStillPresent": {
+            "const": true
+          },
+          "evidenceRef": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "auditEvidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "exactReadback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bytes",
+        "sha256",
+        "readAt",
+        "readerDomainId",
+        "evidenceRef"
+      ],
+      "properties": {
+        "bytes": {
+          "const": 985664
+        },
+        "sha256": {
+          "const": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde"
+        },
+        "readAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "readerDomainId": {
+          "const": "independent-observer-primary"
+        },
+        "evidenceRef": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "capturedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payloadDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

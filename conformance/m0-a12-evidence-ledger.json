@@ -1,0 +1,9 @@
+{
+  "standard": "EIGIIB-M0-A12-EVIDENCE-LEDGER-1.0",
+  "status": "external-evidence-pending",
+  "sourceHead": "148e3e9d06ce791b90e2816d77f5045ebeac0793",
+  "entries": [],
+  "activationDecision": "not-activated",
+  "observationCount": 0,
+  "lastObservationDigest": null
+}

@@ -1,0 +1,73 @@
+{
+  "standard": "EIGIIB-M0-A12-PROVIDER-PROFILES-1.0",
+  "status": "profiles-selected-resources-unbound",
+  "profiles": [
+    {
+      "id": "aws-s3-object-lock-compliance",
+      "role": "primary-immutable-preservation",
+      "providerOperator": "Amazon Web Services",
+      "service": "Amazon S3",
+      "requiredMode": "COMPLIANCE",
+      "requiredFeatures": [
+        "object-lock-enabled-at-bucket-creation-or-confirmed-enabled",
+        "versioning-enabled",
+        "version-specific-retention-readback",
+        "root-non-bypassability-during-retention",
+        "object-version-exact-readback",
+        "cloudtrail-data-event-export-or-equivalent-audit-export"
+      ],
+      "resourceBindingState": "unbound",
+      "credentialBindingState": "unbound",
+      "adapter": "tools/m0_a12/aws_s3_object_lock_activate.sh",
+      "officialSemanticsBoundary": "account-deletion-and-account-continuity-remain-governance-risks"
+    },
+    {
+      "id": "gcp-cloud-storage-bucket-lock",
+      "role": "secondary-immutable-preservation",
+      "providerOperator": "Google Cloud",
+      "service": "Cloud Storage",
+      "requiredMode": "locked-bucket-retention-policy",
+      "requiredFeatures": [
+        "bucket-retention-policy-configured",
+        "retention-policy-irreversibly-locked",
+        "generation-specific-object-readback",
+        "retention-expiration-readback",
+        "delete-denial-attributable-to-retention",
+        "cloud-audit-log-export"
+      ],
+      "resourceBindingState": "unbound",
+      "credentialBindingState": "unbound",
+      "adapter": "tools/m0_a12/gcs_bucket_lock_activate.sh",
+      "officialSemanticsBoundary": "account-good-standing-and-project-continuity-remain-governance-risks"
+    },
+    {
+      "id": "external-gitlab-scheduled-runner",
+      "role": "independent-observer",
+      "providerOperator": "GitLab or separately administered GitLab instance",
+      "service": "scheduled-CI-pipeline",
+      "requiredMode": "separate-account-separate-admin-separate-credential-store",
+      "requiredFeatures": [
+        "schedule-owner-identified",
+        "runner-execution-plane-distinct-from-github-and-custodians",
+        "read-only-credentials-for-both-channels",
+        "observer-signing-key-bound",
+        "scheduled-pipeline-independent-of-code-changes"
+      ],
+      "resourceBindingState": "unbound",
+      "credentialBindingState": "unbound",
+      "adapter": "external/gitlab/m0-a12-observer.gitlab-ci.yml",
+      "prohibitedRoles": [
+        "preservation-custodian",
+        "publication-authority"
+      ]
+    }
+  ],
+  "selectionBoundary": {
+    "sameProviderOperatorForBothCustodians": "denied",
+    "sameTenantAccount": "denied",
+    "sameIdentityRoot": "denied",
+    "sameCredentialStore": "denied",
+    "sameExecutionPlaneForObserver": "denied",
+    "unknownDimension": "not-independent"
+  }
+}
