@@ -1,0 +1,118 @@
+{
+  "standard": "EIGIIB-M0-A15-AUTHORITY-FREEZE-1.0",
+  "sourceHead": "5936ed072187cd7fe72db2c33119c8db92d06570",
+  "authorityCount": 22,
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a15-multi-registry-reconciliation.yml",
+      "bytes": 4104,
+      "sha256": "10d0d24c20da330d6159be1956471625ba1ed94d348e82640857ba9c8d111e30"
+    },
+    {
+      "path": "conformance/M0-A15-MANUAL-REVIEW.md",
+      "bytes": 693,
+      "sha256": "999b98cf3f284af4a0e62aae47a9f15663ec678e0cc49e4939a7260af9dcae53"
+    },
+    {
+      "path": "conformance/m0-a15-htnt-decision-protocol.json",
+      "bytes": 1642,
+      "sha256": "f66c24e8fe3a6d74d0c65751f1f77df60ad82dbecb5627a68d00a3862f0ba3c7"
+    },
+    {
+      "path": "conformance/m0-a15-reconciliation-ledger.json",
+      "bytes": 568,
+      "sha256": "42b3e28640a1e77b1674a4d7fccd5257e276d7864127dbbc706cf886f69c15ef"
+    },
+    {
+      "path": "conformance/m0-a15-reconciliation-policy.json",
+      "bytes": 715,
+      "sha256": "ac6cd584be77c3fc553816b9b150192dcf71263256e0923cc4bbb0d334e77146"
+    },
+    {
+      "path": "conformance/m0-a15-registry-policy.json",
+      "bytes": 925,
+      "sha256": "70e991343c1fda3259b72f127883a967b928e353dc1ada403ebf95bea11df31c"
+    },
+    {
+      "path": "conformance/m0-a15-split-brain-policy.json",
+      "bytes": 841,
+      "sha256": "28005622b8627774a2ee631a11ff47891908a150ca1bf637eb928da9948b9b51"
+    },
+    {
+      "path": "conformance/m0-a15-witnessing-authority.json",
+      "bytes": 2293,
+      "sha256": "c69b0ee3bbe621071703c4e10a46defb1a48e0cc8cb57ea3e1930e1ac77eb79d"
+    },
+    {
+      "path": "docs/M0-A15-INDEPENDENT-MULTI-REGISTRY-MAINTENANCE-WITNESSING-SPLIT-BRAIN-DETECTION-AND-LONG-TERM-GOVERNANCE-RECONCILIATION.md",
+      "bytes": 712,
+      "sha256": "649f8f0da4117a9c394416c195abfad5c987d3abd86ff3e56ce277479daff6e5"
+    },
+    {
+      "path": "docs/M0-A15-OPERATOR-RUNBOOK.md",
+      "bytes": 813,
+      "sha256": "0307b05889b5d0fd2bb260b14b84bb7c9ddeaf155dfb53d4123b4ec55d761188"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-governance-reconciliation.schema.json",
+      "bytes": 902,
+      "sha256": "587d765d03165ea39f0299748af4ff5c3df250b959197f190015127790d9b0d4"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-long-term-reconciliation-certificate.schema.json",
+      "bytes": 1575,
+      "sha256": "2803c91493c35a36d3a1a62e3d51cded7e25c7b1e500b0708faa9439ae8cbeae"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-reconciliation-checkpoint.schema.json",
+      "bytes": 1739,
+      "sha256": "15bea80fe840351246b2cbe234bb641b348dfcdbb1ebd8a1f4513fe3cb6a9a12"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-reconciliation-record.schema.json",
+      "bytes": 1973,
+      "sha256": "db8d9d1ff864d1cc9f09d5954703b77519690e5dca3b131be1c902e05eda3e41"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-registry-receipt.schema.json",
+      "bytes": 1298,
+      "sha256": "469542d76b21f7179f5d99f764dace674061f227c8886ff90224d7313019585f"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-split-brain-event.schema.json",
+      "bytes": 889,
+      "sha256": "cd48706fefe1a5034450dfe304d6ff51ab05382fd4e4751f3d2b1961e114ce72"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-witness-endorsement.schema.json",
+      "bytes": 684,
+      "sha256": "14d3ed30fb2416d1993fc50efc5d175fe14dddac1b4e96b0c156b397265f503f"
+    },
+    {
+      "path": "tests/fixtures/m0-a15/expected-baseline-report.json",
+      "bytes": 270,
+      "sha256": "2127493a809b504304448d18ec91c7fd53e72b03dd8a1e6931c97d2843569b62"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a15.py",
+      "bytes": 12288,
+      "sha256": "e8bf289ef9de18839959c8d52bab480cdee6f43268ca8a07b1e93b7720f247fd"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_canonical.py",
+      "bytes": 163,
+      "sha256": "2e1554bf7db133b42533351b9b1d02e3f75cde9b8d1e64396f63ac3d2380a60f"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_check.py",
+      "bytes": 3801,
+      "sha256": "fefec5f1eab24051438251ea65ca31a26a825513b9641bb8a60179b54d9e0c9a"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_replay.py",
+      "bytes": 11081,
+      "sha256": "04872072541e040e8aa7924fcbb0d2c703b7b354db059a154f6df54104891908"
+    }
+  ],
+  "excludedPath": "conformance/m0-a15-authority-freeze.json"
+}

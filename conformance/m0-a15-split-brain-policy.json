@@ -1,0 +1,24 @@
+{
+  "standard": "EIGIIB-M0-A15-SPLIT-BRAIN-POLICY-1.0",
+  "sourceA14Head": "5936ed072187cd7fe72db2c33119c8db92d06570",
+  "detectionTriggers": [
+    "different-cycle-tip-at-same-sequence",
+    "different-governance-snapshot-at-same-sequence",
+    "conflicting-predecessor-receipt-chain",
+    "registry-equivocation"
+  ],
+  "immediateDecision": "freeze-reconciliation-and-quarantine-divergent-registry",
+  "minimumExerciseCount": 1,
+  "resolutionRequirements": [
+    "common-ancestor",
+    "two-supporting-registries",
+    "four-of-five-independent-witnesses",
+    "append-only-reconciliation-record",
+    "stale-head-rejection",
+    "quarantined-registry-readback",
+    "governance-reconciliation"
+  ],
+  "automaticMajorityAcceptance": false,
+  "unresolvedDivergenceDecision": "split-brain-unresolved",
+  "silentHeadOverwrite": "forbidden"
+}

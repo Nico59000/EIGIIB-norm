@@ -1,0 +1,12 @@
+{
+  "standard": "EIGIIB-M0-A15-REPORT-1.0",
+  "htntLabel": "NF",
+  "decision": "not-observed",
+  "findings": [],
+  "summary": {
+    "a14Decision": "not-verified",
+    "checkpointCount": 0,
+    "splitBrainEvents": 0,
+    "reconciliationDecision": "not-accumulated"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a15-long-term-reconciliation-certificate.schema.json",
+  "title": "EIGIIB M0 A15 Long Term Reconciliation Certificate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sourceA14Head",
+    "firstCheckpointDigest",
+    "lastCheckpointDigest",
+    "checkpointCount",
+    "observedSpanSeconds",
+    "registryCount",
+    "witnessQuorum",
+    "splitBrainEventCount",
+    "reconciliationRecordCount",
+    "decision",
+    "independentReadbackDigest"
+  ],
+  "properties": {
+    "sourceA14Head": {
+      "const": "5936ed072187cd7fe72db2c33119c8db92d06570"
+    },
+    "firstCheckpointDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "lastCheckpointDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "checkpointCount": {
+      "type": "integer",
+      "minimum": 6
+    },
+    "observedSpanSeconds": {
+      "type": "integer",
+      "minimum": 7776000
+    },
+    "registryCount": {
+      "const": 3
+    },
+    "witnessQuorum": {
+      "const": 4
+    },
+    "splitBrainEventCount": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "reconciliationRecordCount": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "decision": {
+      "const": "independent-multi-registry-maintenance-witnessing-split-brain-detection-and-long-term-governance-reconciliation-verified"
+    },
+    "independentReadbackDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

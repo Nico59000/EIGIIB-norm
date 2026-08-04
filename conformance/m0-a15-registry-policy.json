@@ -1,0 +1,36 @@
+{
+  "standard": "EIGIIB-M0-A15-REGISTRY-POLICY-1.0",
+  "sourceA14Head": "5936ed072187cd7fe72db2c33119c8db92d06570",
+  "registries": [
+    "maintenance-registry-alpha",
+    "maintenance-registry-beta",
+    "maintenance-registry-gamma"
+  ],
+  "independenceDimensions": [
+    "providerOperator",
+    "tenantAccount",
+    "identityRoot",
+    "privilegedAdministrator",
+    "storageDomain",
+    "auditCustody"
+  ],
+  "distinctValueRequiredForEveryDimension": true,
+  "receiptFields": [
+    "registryId",
+    "sequence",
+    "observedAt",
+    "checkpointDigest",
+    "cycleTipDigest",
+    "governanceSnapshotDigest",
+    "previousReceiptDigest",
+    "receiptDigest"
+  ],
+  "crossRegistryAgreement": [
+    "checkpointDigest",
+    "cycleTipDigest",
+    "governanceSnapshotDigest"
+  ],
+  "unknownIndependence": "deny",
+  "missingRegistryReceipt": "deny",
+  "registryReplayDecision": "reject-nonauthoritative-or-quarantined-receipt"
+}
