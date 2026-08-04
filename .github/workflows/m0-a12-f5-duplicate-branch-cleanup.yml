@@ -1,6 +1,6 @@
 name: M0-A12-F5 duplicate branch cleanup
 on:
-  pull_request_target:
+  pull_request:
     types: [closed]
     branches: [main]
 permissions:
