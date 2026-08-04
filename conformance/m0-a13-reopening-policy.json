@@ -1,0 +1,48 @@
+{
+  "standard": "EIGIIB-M0-A13-REOPENING-POLICY-1.0",
+  "sourceF5Head": "58945ceab905cb515dff076227bb2b387f907461",
+  "freezeAnchor": "eigiib-m0-final-freeze-v1",
+  "requiredRequestFields": [
+    "maintenanceEventId",
+    "maintenanceClass",
+    "reasonCode",
+    "affectedPaths",
+    "affectedClaims",
+    "predecessorFreezeDigest",
+    "maintenancePlanDigest",
+    "rollbackPlanDigest",
+    "issuedAt",
+    "expiresAt"
+  ],
+  "ordinaryRoute": {
+    "maximumLifetimeSeconds": 604800,
+    "requiredCollegeThresholds": {
+      "normative-authority-college": 4,
+      "operational-governance-college": 4,
+      "independent-verification-college": 4
+    },
+    "distinctControlDomainsPerCollege": 4
+  },
+  "emergencyRoute": {
+    "maximumLifetimeSeconds": 86400,
+    "requiredCollegeThresholds": {
+      "normative-authority-college": 4,
+      "operational-governance-college": 4,
+      "independent-verification-college": 4
+    },
+    "distinctControlDomainsPerCollege": 4,
+    "additionalRequirements": [
+      "security-impact-record",
+      "containment-plan",
+      "post-event-independent-review"
+    ]
+  },
+  "separationRules": [
+    "no-approver-identity-may-satisfy-two-colleges",
+    "no-credential-may-satisfy-two-colleges",
+    "all-colleges-approve-identical-canonical-request",
+    "unknown-control-overlap-denies-reopening"
+  ],
+  "revocationRule": "any-college-may-revoke-before-refreeze-by-its-original-threshold",
+  "expiryRule": "expired-authority-cannot-authorize-new-writes"
+}

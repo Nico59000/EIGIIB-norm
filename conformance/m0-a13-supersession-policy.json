@@ -1,0 +1,28 @@
+{
+  "standard": "EIGIIB-M0-A13-SUPERSESSION-POLICY-1.0",
+  "sourceF5Head": "58945ceab905cb515dff076227bb2b387f907461",
+  "appendOnly": true,
+  "requiredBindings": [
+    "maintenance-event-id",
+    "reopening-request-digest",
+    "predecessor-head",
+    "predecessor-authority-digest",
+    "successor-head",
+    "successor-authority-digest",
+    "exact-scope-digest",
+    "effective-time",
+    "rollback-target",
+    "compatibility-impact",
+    "independent-verification-digest"
+  ],
+  "predecessorDisposition": "addressable-but-nonauthoritative",
+  "staleAuthorityReplayDecision": "rejected",
+  "rollbackRule": "rollback-requires-new-registered-reopening-event",
+  "refreezeRule": {
+    "newFreezeIdPattern": "eigiib-m0-refreeze-<maintenance-event-id>",
+    "exactSuccessorHeadRequired": true,
+    "allRequiredWorkflowsSuccess": true,
+    "independentPublishedReadbackRequired": true
+  },
+  "silentSupersessionDecision": "forbidden"
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "EIGIIB M0-A13 college approval",
+  "required": [
+    "collegeId",
+    "approverId",
+    "controlDomainId",
+    "requestDigest",
+    "approvedAt",
+    "signature"
+  ],
+  "properties": {
+    "collegeId": {
+      "enum": [
+        "normative-authority-college",
+        "operational-governance-college",
+        "independent-verification-college"
+      ]
+    },
+    "approverId": {
+      "type": "string"
+    },
+    "controlDomainId": {
+      "type": "string"
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "approvedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 16
+    }
+  }
+}

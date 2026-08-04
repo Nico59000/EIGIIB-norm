@@ -1,0 +1,12 @@
+{
+  "standard": "EIGIIB-M0-A13-REPORT-1.0",
+  "htntLabel": "NF",
+  "decision": "not-authorized",
+  "findings": [],
+  "summary": {
+    "f5FinalFreeze": "not-frozen",
+    "maintenanceCycles": 0,
+    "reopeningDecision": "not-authorized",
+    "refreezeDecision": "not-refrozen"
+  }
+}

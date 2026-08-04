@@ -1,0 +1,56 @@
+{
+  "standard": "EIGIIB-M0-A13-1.0",
+  "title": "Post-Freeze Maintenance, Reopening Authority and Supersession Governance",
+  "status": "post-freeze-maintenance-harness-established-final-freeze-pending",
+  "source": {
+    "m0A12F5Head": "58945ceab905cb515dff076227bb2b387f907461",
+    "m0A12F5Tree": "fe54597cee5546cee125284b5d084de7459505cd",
+    "finalFreezeId": "eigiib-m0-final-freeze-v1",
+    "stableBundleSha256": "96332827d36ecc360b9d4cf82947d44d161747afc40e3bb37cecc64837c6cfde",
+    "f5AuthorityPath": "conformance/m0-a12-f5-adoption-authority.json",
+    "f5FreezePath": "conformance/m0-a12-f5-final-freeze.json"
+  },
+  "prerequisite": {
+    "requiredF5Decision": "e17-adoption-authority-external-governance-convergence-and-final-m0-freeze-verified",
+    "requiredF5Label": "T",
+    "requiredFinalFreezeDecision": "frozen",
+    "currentDecision": "not-frozen",
+    "gate": "blocked-until-f5-T"
+  },
+  "maintenanceContract": {
+    "frozenScopeMutation": "forbidden-without-registered-reopening-authority",
+    "reopeningScope": "exact-path-and-claim-set-only",
+    "governanceColleges": [
+      "normative-authority-college",
+      "operational-governance-college",
+      "independent-verification-college"
+    ],
+    "thresholdPerCollege": "4-of-5",
+    "crossCollegeRecordEqualityRequired": true,
+    "ordinaryMaximumAuthorityLifetimeSeconds": 604800,
+    "emergencyMaximumAuthorityLifetimeSeconds": 86400,
+    "appendOnlySupersessionRequired": true,
+    "independentRefreezeReadbackRequired": true
+  },
+  "currentState": {
+    "f5FinalFreeze": "not-frozen",
+    "reopeningAuthority": "absent",
+    "maintenanceCycles": 0,
+    "activeMaintenanceEvent": null,
+    "supersessionRecords": 0,
+    "refreezeDecision": "not-refrozen",
+    "maintenanceDecision": "not-authorized"
+  },
+  "claimBoundary": {
+    "decision": "post-freeze-maintenance-reopening-authority-and-supersession-governance-verified",
+    "scope": "one-bounded-maintenance-cycle-only",
+    "futureMaintenanceNotImplied": true,
+    "silentMutationNotAuthorized": true,
+    "automaticReopeningNotAuthorized": true
+  },
+  "naturalSuccessor": {
+    "id": "M0-A14",
+    "title": "Multi-Cycle Maintenance Continuity, Reopening Revocation and Governance Drift Control",
+    "decision": "blocked-until-m0-a13-is-T"
+  }
+}
