@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a15-registry-receipt.schema.json",
+  "title": "EIGIIB M0 A15 Registry Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "registryId",
+    "sequence",
+    "observedAt",
+    "checkpointDigest",
+    "cycleTipDigest",
+    "governanceSnapshotDigest",
+    "previousReceiptDigest",
+    "receiptDigest",
+    "status"
+  ],
+  "properties": {
+    "registryId": {
+      "type": "string"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "observedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "checkpointDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "cycleTipDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "governanceSnapshotDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "previousReceiptDigest": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "receiptDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "status": {
+      "const": "authoritative"
+    }
+  }
+}

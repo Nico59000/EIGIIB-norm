@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a15-governance-reconciliation.schema.json",
+  "title": "EIGIIB M0 A15 Governance Reconciliation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "fromSnapshotDigest",
+    "toSnapshotDigest",
+    "nonWeakening",
+    "threeCollegeIdenticalApproval",
+    "independentReviewValid",
+    "effectiveAt"
+  ],
+  "properties": {
+    "fromSnapshotDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "toSnapshotDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "nonWeakening": {
+      "const": true
+    },
+    "threeCollegeIdenticalApproval": {
+      "const": true
+    },
+    "independentReviewValid": {
+      "const": true
+    },
+    "effectiveAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

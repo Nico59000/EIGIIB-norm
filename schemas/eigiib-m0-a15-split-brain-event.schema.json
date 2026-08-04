@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a15-split-brain-event.schema.json",
+  "title": "EIGIIB M0 A15 Split Brain Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "eventId",
+    "sequence",
+    "checkpointDigest",
+    "conflictingHeads",
+    "detectionDecision"
+  ],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "checkpointDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "conflictingHeads": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "uniqueItems": true
+    },
+    "detectionDecision": {
+      "const": "freeze-and-quarantine"
+    }
+  }
+}

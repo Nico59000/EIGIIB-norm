@@ -1,0 +1,70 @@
+{
+  "standard": "EIGIIB-M0-A15-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier": {
+    "id": "S4",
+    "coordinates": [
+      "localMultiRegistryReconciliationValidation",
+      "independentLongTermWitnessEvidence"
+    ],
+    "labels": {
+      "F": [
+        0,
+        0
+      ],
+      "NF": [
+        1,
+        0
+      ],
+      "NT": [
+        0,
+        1
+      ],
+      "T": [
+        1,
+        1
+      ]
+    }
+  },
+  "fixedContext": true,
+  "current": {
+    "label": "NF",
+    "meaning": "multi-registry-reconciliation-harness-valid-a14-T-and-live-registry-history-absent",
+    "action": "preserve-harness-and-block-reconciliation-claim"
+  },
+  "dynamicInterpretation": {
+    "F": "local authority, policy, ledger, schema, freeze or verifier invalid",
+    "NF": "local harness valid while M0-A14 T or a live multi-registry history is absent",
+    "NT": "registry, witness, split-brain or governance evidence exists but independence, quorum, reconciliation, readback or certificate closure is incomplete",
+    "T": "M0-A14 is T and a long-term three-registry history is independently witnessed, split-brain exercised and append-only reconciled"
+  },
+  "prohibitedTransitions": [
+    [
+      "NF",
+      "T-without-m0-a14-T"
+    ],
+    [
+      "NF",
+      "T-without-three-independent-registries"
+    ],
+    [
+      "NT",
+      "T-without-four-of-five-witness-quorum"
+    ],
+    [
+      "NT",
+      "T-with-unresolved-split-brain"
+    ],
+    [
+      "NT",
+      "T-with-silent-head-overwrite"
+    ],
+    [
+      "NT",
+      "T-without-long-term-span"
+    ],
+    [
+      "T",
+      "automatic-future-registry-or-governance-assurance"
+    ]
+  ]
+}

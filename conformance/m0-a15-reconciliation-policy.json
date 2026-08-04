@@ -1,0 +1,22 @@
+{
+  "standard": "EIGIIB-M0-A15-RECONCILIATION-POLICY-1.0",
+  "sourceA14Head": "5936ed072187cd7fe72db2c33119c8db92d06570",
+  "minimumCheckpointCount": 6,
+  "minimumObservedSpanSeconds": 7776000,
+  "checkpointSequenceStartsAt": 1,
+  "gapTolerance": 0,
+  "witnessQuorum": "4-of-5",
+  "minimumWitnessControlDomains": 4,
+  "registrySupportThreshold": "2-of-3",
+  "governanceChangeRule": "declared-nonweakening-reconciliation-only",
+  "requiredGovernanceEvidence": [
+    "from-snapshot-digest",
+    "to-snapshot-digest",
+    "three-college-identical-approval",
+    "independent-review",
+    "effective-time"
+  ],
+  "appendOnly": true,
+  "independentPublishedReadbackRequired": true,
+  "futureAgreementNotImplied": true
+}

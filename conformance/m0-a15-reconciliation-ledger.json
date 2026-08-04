@@ -1,0 +1,17 @@
+{
+  "standard": "EIGIIB-M0-A15-RECONCILIATION-LEDGER-1.0",
+  "status": "m0-a14-verification-pending",
+  "sourceHead": "5936ed072187cd7fe72db2c33119c8db92d06570",
+  "entries": [],
+  "checkpointCount": 0,
+  "registryReceiptCount": 0,
+  "splitBrainEventCount": 0,
+  "reconciliationRecordCount": 0,
+  "governanceReconciliationCount": 0,
+  "latestCheckpointDigest": null,
+  "latestRegistryReceiptDigests": {},
+  "longTermCertificateDigest": null,
+  "witnessDecision": "not-observed",
+  "splitBrainDecision": "not-evaluated",
+  "reconciliationDecision": "not-accumulated"
+}
