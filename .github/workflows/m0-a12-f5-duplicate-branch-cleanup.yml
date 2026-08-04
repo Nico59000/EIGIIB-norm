@@ -11,18 +11,14 @@ jobs:
     if: github.event.pull_request.head.ref == 'ops/m0-a12-f5-duplicate-branch-cleanup' && github.event.pull_request.merged == false
     runs-on: ubuntu-24.04
     steps:
-      - name: Delete exact duplicate branch and publish record
+      - name: Finalize duplicate branch cleanup
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
-          AUTHORITATIVE: 58945ceab905cb515dff076227bb2b387f907461
           DUPLICATE: agent/m0-a12-f5-e17-adoption-authority-external-governance-convergence-final-m0-freeze-v1
           SELF: ops/m0-a12-f5-duplicate-branch-cleanup
         run: |
           set -euo pipefail
-          sha=$(gh api "repos/$REPO/git/ref/heads/$DUPLICATE" --jq .object.sha)
-          test "$sha" = "$AUTHORITATIVE"
-          gh api -X DELETE "repos/$REPO/git/refs/heads/$DUPLICATE"
           if gh api "repos/$REPO/git/ref/heads/$DUPLICATE" >/dev/null 2>&1; then exit 1; fi
-          gh pr comment 178 --repo "$REPO" --body "F5 duplicate branch normalization completed: \`$DUPLICATE\` was verified at exact authoritative head \`$AUTHORITATIVE\` and deleted with 404 readback. The authoritative F5 branch and PR #178 were not modified."
+          gh pr comment 178 --repo "$REPO" --body "F5 duplicate branch normalization completed. The suffix-v1 duplicate is absent with direct 404 readback. The authoritative F5 branch and PR #178 were not modified."
           gh api -X DELETE "repos/$REPO/git/refs/heads/$SELF"
