@@ -130,23 +130,23 @@ jobs:
         run: python -m pip install --disable-pip-version-check --no-input cryptography==46.0.4 jsonschema==4.26.0
       - name: Issue one random-key external candidate
         run: |
-          rm -rf .eigiib-f2-candidate
-          mkdir -p .eigiib-f2-candidate
+          rm -rf eigiib-f2-candidate
+          mkdir -p eigiib-f2-candidate
           python tests/m0_a15_f2_cases.py \
             --randomize \
             --carrier-locator 'https://raw.githubusercontent.com/Nico59000/EIGIIB-norm/external-m0-a15-f2-history/external-evidence/m0-a15-f2/authenticated-history.json' \
-            --output .eigiib-f2-candidate/activation-package.json \
-            --history-output .eigiib-f2-candidate/authenticated-history.json \
-            --at-output .eigiib-f2-candidate/evaluation-at.txt
+            --output eigiib-f2-candidate/activation-package.json \
+            --history-output eigiib-f2-candidate/authenticated-history.json \
+            --at-output eigiib-f2-candidate/evaluation-at.txt
           python tools/eigiib_m0_a15_f2_check.py . \
-            --package .eigiib-f2-candidate/activation-package.json \
-            --at "$(cat .eigiib-f2-candidate/evaluation-at.txt)" \
+            --package eigiib-f2-candidate/activation-package.json \
+            --at "$(cat eigiib-f2-candidate/evaluation-at.txt)" \
             --require-t \
-            --output .eigiib-f2-candidate/verification-report.json
+            --output eigiib-f2-candidate/verification-report.json
           python - <<'PY'
           import hashlib, json
           from pathlib import Path
-          root = Path('.eigiib-f2-candidate')
+          root = Path('eigiib-f2-candidate')
           metadata = {}
           for name in ('authenticated-history.json', 'activation-package.json', 'verification-report.json'):
               raw = (root / name).read_bytes()
@@ -157,6 +157,6 @@ jobs:
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: m0-a15-f2-external-candidate-${{ github.event.pull_request.head.sha }}
-          path: .eigiib-f2-candidate
+          path: eigiib-f2-candidate
           retention-days: 7
           if-no-files-found: error
