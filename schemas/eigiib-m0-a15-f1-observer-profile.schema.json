@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a15-f1-observer-profile.schema.json",
+  "title": "EIGIIB M0-A15-F1 Readback Observer Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "observerId",
+    "controlDomainId",
+    "identityRoot",
+    "providerOperator",
+    "networkPath",
+    "implementation",
+    "keyId",
+    "algorithm",
+    "publicKey"
+  ],
+  "properties": {
+    "observerId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "controlDomainId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "identityRoot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "providerOperator": {
+      "type": "string",
+      "minLength": 1
+    },
+    "networkPath": {
+      "type": "string",
+      "minLength": 1
+    },
+    "implementation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "keyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "algorithm": {
+      "const": "ed25519"
+    },
+    "publicKey": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9+/]+={0,2}$",
+      "minLength": 40
+    }
+  }
+}

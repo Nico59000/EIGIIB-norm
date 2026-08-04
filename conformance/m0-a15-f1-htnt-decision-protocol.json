@@ -1,0 +1,37 @@
+{
+  "standard": "EIGIIB-M0-A15-F1-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier": {
+    "id": "S4",
+    "coordinates": [
+      "exactLocalAuthorityAndReplayValidation",
+      "authenticatedIndependentExternalHistory"
+    ],
+    "labels": {
+      "F": [0, 0],
+      "NF": [1, 0],
+      "NT": [0, 1],
+      "T": [1, 1]
+    }
+  },
+  "fixedContext": true,
+  "current": {
+    "label": "NF",
+    "meaning": "corrective-harness-valid-live-authenticated-history-absent",
+    "action": "preserve-exact-source-and-block-positive-reconciliation-claim"
+  },
+  "dynamicInterpretation": {
+    "F": "local source, freeze, schema, canonicalization, signature or verifier authority invalid",
+    "NF": "local corrective harness valid and no authenticated live history supplied",
+    "NT": "external material supplied but exact A14 replay, authentication, derivation, quorum, readback or certificate closure incomplete",
+    "T": "exact A14 replay and bounded long-term multi-registry history are cryptographically authenticated and mechanically derived"
+  },
+  "prohibitedTransitions": [
+    ["NF", "T-without-exact-a14-replay"],
+    ["NF", "T-with-declarative-proof-booleans"],
+    ["NT", "T-with-unverified-signature"],
+    ["NT", "T-with-fabricated-split-brain-proof"],
+    ["NT", "T-without-derived-support-and-quarantine"],
+    ["NT", "T-without-independent-readback"],
+    ["T", "automatic-future-registry-or-governance-assurance"]
+  ]
+}

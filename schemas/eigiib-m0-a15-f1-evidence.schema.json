@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a15-f1-evidence.schema.json",
+  "title": "EIGIIB M0-A15-F1 Authenticated Evidence History",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "a14Replay",
+    "registries",
+    "witnesses",
+    "readbackObservers",
+    "checkpoints",
+    "longTermCertificate"
+  ],
+  "properties": {
+    "a14Replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case",
+        "witnessEndorsements"
+      ],
+      "properties": {
+        "case": {
+          "type": "object"
+        },
+        "witnessEndorsements": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-signed-envelope.schema.json"
+          }
+        }
+      }
+    },
+    "registries": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-registry-profile.schema.json"
+      }
+    },
+    "witnesses": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-witness-profile.schema.json"
+      }
+    },
+    "readbackObservers": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-observer-profile.schema.json"
+      }
+    },
+    "checkpoints": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sequence",
+          "observedAt",
+          "previousAcceptedCheckpointDigest",
+          "registryReceipts",
+          "derivedSplitBrainProof",
+          "reconciliationRecord",
+          "governanceReconciliation",
+          "witnessEndorsements"
+        ],
+        "properties": {
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "observedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "previousAcceptedCheckpointDigest": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "registryReceipts": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+              "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-signed-envelope.schema.json"
+            }
+          },
+          "derivedSplitBrainProof": {
+            "oneOf": [
+              {
+                "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-derived-split-brain-proof.schema.json"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reconciliationRecord": {
+            "oneOf": [
+              {
+                "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-reconciliation-record.schema.json"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "governanceReconciliation": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "payload",
+                  "witnessEndorsements"
+                ],
+                "properties": {
+                  "payload": {
+                    "type": "object"
+                  },
+                  "witnessEndorsements": {
+                    "type": "array",
+                    "minItems": 4,
+                    "items": {
+                      "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-signed-envelope.schema.json"
+                    }
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "witnessEndorsements": {
+            "type": "array",
+            "minItems": 4,
+            "items": {
+              "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-signed-envelope.schema.json"
+            }
+          }
+        }
+      }
+    },
+    "longTermCertificate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "payload",
+        "witnessEndorsements",
+        "readbacks"
+      ],
+      "properties": {
+        "payload": {
+          "type": "object"
+        },
+        "witnessEndorsements": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-signed-envelope.schema.json"
+          }
+        },
+        "readbacks": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f1-signed-envelope.schema.json"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "standard": "EIGIIB-M0-A15-F1-POLICY-1.0",
+  "sourceHead": "a39a3865dfe27fe394345e6fb7e9030c37f25203",
+  "sourceTree": "1c74a2d5b417b96e2058d6270a907e2c8150d52a",
+  "canonicalEncoding": "sorted-key-compact-utf8-json-without-floats",
+  "digestAlgorithm": "sha256",
+  "signatureAlgorithm": "ed25519",
+  "registryCount": 3,
+  "witnessCount": 5,
+  "witnessQuorum": 4,
+  "minimumReadbackObservers": 2,
+  "minimumCheckpointCount": 6,
+  "minimumObservedSpanSeconds": 7776000,
+  "splitBrainDecision": "derive-from-authenticated-receipts",
+  "reconciliationDecision": "derive-support-quarantine-and-authoritative-view",
+  "a14ContinuityDecision": "exact-frozen-source-materialization-and-historical-replay",
+  "unknownIndependence": "deny",
+  "unverifiableSignature": "deny",
+  "unboundBooleanProofFlags": "forbidden",
+  "hostClockReads": "forbidden",
+  "runtimeNetworkOperations": "forbidden",
+  "evidenceAdmission": "closed-schema-then-cryptographic-then-semantic"
+}

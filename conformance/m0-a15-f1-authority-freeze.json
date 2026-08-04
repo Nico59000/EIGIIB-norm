@@ -1,0 +1,139 @@
+{
+  "standard": "EIGIIB-M0-A15-F1-AUTHORITY-FREEZE-1.0",
+  "sourceHead": "a39a3865dfe27fe394345e6fb7e9030c37f25203",
+  "sourceTree": "1c74a2d5b417b96e2058d6270a907e2c8150d52a",
+  "authorityCount": 26,
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a15-f1-authenticated-evidence-binding.yml",
+      "bytes": 4754,
+      "sha256": "75d87ebee19aff66913568a8406d036398338a6eec207072a868d5e7780d7f27"
+    },
+    {
+      "path": "conformance/M0-A15-F1-MANUAL-REVIEW.md",
+      "bytes": 989,
+      "sha256": "3d9da6c22b9526c76352d40090fdfb9da68cd076b554b938314e05094acfdf3f"
+    },
+    {
+      "path": "conformance/m0-a15-f1-authority.json",
+      "bytes": 1755,
+      "sha256": "cb025dcc9e4d600e48b5a3b85e080ad5a98715967936b2afd9eb853cc519c4cc"
+    },
+    {
+      "path": "conformance/m0-a15-f1-htnt-decision-protocol.json",
+      "bytes": 1421,
+      "sha256": "66fa5b6b98e61cf340d0b04688345fa1f10d6b61b14e12f4934d3a82629c0686"
+    },
+    {
+      "path": "conformance/m0-a15-f1-ledger.json",
+      "bytes": 365,
+      "sha256": "81e35f0d870899da8dc38c928966a048d19de180231fdd8802e31ecdda908bc6"
+    },
+    {
+      "path": "conformance/m0-a15-f1-policy.json",
+      "bytes": 964,
+      "sha256": "3881a1ae39895d23cde44baa21fc7c4e401bf5a3919b7d52f75911443952e4a9"
+    },
+    {
+      "path": "docs/M0-A15-F1-AUTHENTICATED-MULTI-REGISTRY-EVIDENCE-BINDING-DERIVED-SPLIT-BRAIN-PROOF-AND-EXACT-A14-CONTINUITY-REPLAY.md",
+      "bytes": 1330,
+      "sha256": "d481fced274d18dbba640f55c2e6568ffe56063114cbd0b90d875653ebfd7896"
+    },
+    {
+      "path": "docs/M0-A15-F1-OPERATOR-RUNBOOK.md",
+      "bytes": 1362,
+      "sha256": "7a435f670c576ba65311ce290f5c92519edfaf6b056613cd928fff3742b6bb9c"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-f1-derived-split-brain-proof.schema.json",
+      "bytes": 1169,
+      "sha256": "dca98e599abec08837a85df05960cbb5a55a3f4f48aba9ee1a22954f8b328f72"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-f1-evidence.schema.json",
+      "bytes": 5117,
+      "sha256": "e1aa3a7ee0804281c12608a988e48b3ae9d84eadf3b642243b83ca08cf9b5e5c"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-f1-observer-profile.schema.json",
+      "bytes": 1161,
+      "sha256": "39bbe7aa9d0a98fc89eb5c3dc0bf534db5cf02661d85f2c50389e08b8cdfe025"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-f1-reconciliation-record.schema.json",
+      "bytes": 2559,
+      "sha256": "15440905c3e23467037993e34ad42ddd3b3d6a8cfabe0bf58d3056815204bf23"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-f1-registry-profile.schema.json",
+      "bytes": 1264,
+      "sha256": "36ed5708a2f93610865f8ff5eebea933a11208868b2c7f40172168bc0642bc2d"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-f1-signed-envelope.schema.json",
+      "bytes": 857,
+      "sha256": "a9b19fcc1ddcb353b6f8f7fe62e2941800a9b71a91898b08ae64d696fc350423"
+    },
+    {
+      "path": "schemas/eigiib-m0-a15-f1-witness-profile.schema.json",
+      "bytes": 856,
+      "sha256": "3272990f253430bb743c871eec67fad7dcc086f8f4bc669a96d1e2bb100473e5"
+    },
+    {
+      "path": "tests/fixtures/m0-a15-f1/expected-baseline-report.json",
+      "bytes": 490,
+      "sha256": "c221a97cdf916df7247add23aaf882e890597ce24085fc4261fef962f927b56c"
+    },
+    {
+      "path": "tests/m0_a15_f1_cases.py",
+      "bytes": 12519,
+      "sha256": "7096fde4a2f8de6efb84cb4c56b24e546c36695f8686f854f75686ad9acbc21d"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a15_f1.py",
+      "bytes": 7862,
+      "sha256": "0c19fb0f60b57b07248a1be1cf364d277ff5aa7873d2f5f83cf69016e83a9f67"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_f1_canonical.py",
+      "bytes": 2883,
+      "sha256": "057c54d5b438ba6bbc7f063a1be2903dce280f2b0e02c4261535527f33310582"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_f1_check.py",
+      "bytes": 11205,
+      "sha256": "a8e15de03e34c6a29a314a33375f080f4e722a53b6575f411470fd75ea3eba17"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_f1_checkpoints.py",
+      "bytes": 13396,
+      "sha256": "9ab998b10f3457d962f86d5b6059aa92936a4181f735a7ec148fe6d488f61536"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_f1_crypto.py",
+      "bytes": 1965,
+      "sha256": "ac0586d586e4483afc6b70d0a38af9ef25e4aa915769f58e411a5c192eba5bd1"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_f1_historical_a14.py",
+      "bytes": 4496,
+      "sha256": "5844739414fb1cfac952cb0bdd4bbb4a4a137b3695f5f46bb71e36e02addb673"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_f1_model.py",
+      "bytes": 5043,
+      "sha256": "ede8f1a1a3ef6371d54c2a9e0c576b5e19a93f60f27951ac568e8b21f4437c5a"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_f1_principals.py",
+      "bytes": 7192,
+      "sha256": "305e2abd27d63ed5cca2f078c80b826521fc18803bfe6b19b1f75a05b4c5a217"
+    },
+    {
+      "path": "tools/eigiib_m0_a15_f1_replay.py",
+      "bytes": 5432,
+      "sha256": "d93488f608ef6582e514124a8887592cbf571546bc78aeeaeab73d8a7d92e580"
+    }
+  ],
+  "excludedPath": "conformance/m0-a15-f1-authority-freeze.json"
+}

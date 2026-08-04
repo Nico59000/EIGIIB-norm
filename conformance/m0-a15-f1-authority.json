@@ -1,0 +1,41 @@
+{
+  "standard": "EIGIIB-M0-A15-F1-1.0",
+  "title": "Authenticated Multi-Registry Evidence Binding, Derived Split-Brain Proof and Exact A14 Continuity Replay",
+  "status": "corrective-authenticated-evidence-harness-established-live-history-absent",
+  "source": {
+    "m0A15Head": "a39a3865dfe27fe394345e6fb7e9030c37f25203",
+    "m0A15Tree": "1c74a2d5b417b96e2058d6270a907e2c8150d52a",
+    "m0A14Head": "5936ed072187cd7fe72db2c33119c8db92d06570",
+    "m0A14Tree": "8b77cadd56e5d51a08b94bbeee603d994ca7a5d2"
+  },
+  "correctiveScope": [
+    "materialize-and-verify-exact-frozen-m0-a14-source",
+    "replay-exact-historical-m0-a14-verifier-over-bound-evidence",
+    "authenticate-registry-receipts-witness-endorsements-and-readbacks",
+    "derive-candidate-views-receipt-digests-split-brain-and-quarantine",
+    "derive-checkpoint-reconciliation-and-long-term-certificate-digests",
+    "apply-closed-draft-2020-12-schemas-before-semantic-replay"
+  ],
+  "currentState": {
+    "a14Replay": "not-observed",
+    "authenticatedRegistryReceipts": 0,
+    "authenticatedWitnessEndorsements": 0,
+    "authenticatedReadbacks": 0,
+    "derivedSplitBrainProofs": 0,
+    "reconciliationRecords": 0,
+    "longTermCertificates": 0,
+    "decision": "NF"
+  },
+  "claimBoundary": {
+    "scope": "exact-source-and-bounded-authenticated-history-only",
+    "signatureValidityIsNotOrganizationalIndependence": true,
+    "declaredProfilesAreNotLegalIdentity": true,
+    "finiteObservationIsNotFutureAgreement": true,
+    "authenticatedReceiptIsNotSemanticTruth": true
+  },
+  "naturalSuccessor": {
+    "id": "M0-A16",
+    "title": "Registry Succession, Witness Rotation, Compromise Recovery and Reconciliation Final Freeze",
+    "gate": "blocked-until-m0-a15-f1-is-genuinely-T"
+  }
+}

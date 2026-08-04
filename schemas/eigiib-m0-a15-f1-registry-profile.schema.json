@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a15-f1-registry-profile.schema.json",
+  "title": "EIGIIB M0-A15-F1 Registry Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "registryId",
+    "providerOperator",
+    "tenantAccount",
+    "identityRoot",
+    "privilegedAdministrator",
+    "storageDomain",
+    "auditCustody",
+    "keyId",
+    "algorithm",
+    "publicKey"
+  ],
+  "properties": {
+    "registryId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "providerOperator": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tenantAccount": {
+      "type": "string",
+      "minLength": 1
+    },
+    "identityRoot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "privilegedAdministrator": {
+      "type": "string",
+      "minLength": 1
+    },
+    "storageDomain": {
+      "type": "string",
+      "minLength": 1
+    },
+    "auditCustody": {
+      "type": "string",
+      "minLength": 1
+    },
+    "keyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "algorithm": {
+      "const": "ed25519"
+    },
+    "publicKey": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9+/]+={0,2}$",
+      "minLength": 40
+    }
+  }
+}
