@@ -1,0 +1,32 @@
+{
+  "standard": "EIGIIB-M0-A15-F2-AUTHORITY-1.0",
+  "title": "External Authenticated History Ingress, Exact A14 Replay, Point-in-Time Activation and T Closure",
+  "source": {
+    "m0A15F1Head": "b66ba8d5b11ce4e9d30d5fdb70fb982db3e26095",
+    "m0A15F1Tree": "9c2ded5aedbf5c22d311461ad7ee42d8315f8763",
+    "relationship": "additive-successor"
+  },
+  "authority": {
+    "ingress": "canonical embedded F1 history, SHA-256 content binding, external HTTPS carrier and Ed25519 publisher receipt",
+    "replay": "exact frozen M0-A15-F1 verifier and exact historical M0-A14 replay",
+    "observation": "two independently profiled signed ingress readbacks",
+    "activation": "one bounded sequence-one point-in-time activation signed by a distinct authority",
+    "witnessing": "three of four independently profiled activation witnesses",
+    "publication": "two independently signed activation readbacks",
+    "time": "caller-supplied evaluation instant inside a maximum one-hour activation window"
+  },
+  "claimBoundary": {
+    "establishes": [
+      "bounded authenticity and integrity of the supplied activation package",
+      "exact F1 T result for the embedded history",
+      "point-in-time activation closure at the supplied evaluation instant"
+    ],
+    "doesNotEstablish": [
+      "legal identity or physical independence of declared principals",
+      "truth or honesty of an external provider",
+      "future registry agreement or future witness availability",
+      "automatic M0-A16 succession, compromise recovery or reconciliation"
+    ]
+  },
+  "baseline": "NF"
+}

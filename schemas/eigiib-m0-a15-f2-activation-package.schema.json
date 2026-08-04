@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a15-f2-activation-package.schema.json",
+  "title": "EIGIIB M0-A15-F2 activation package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "source",
+    "evidenceClass",
+    "history",
+    "historyDigest",
+    "carrier",
+    "publisher",
+    "ingressReceipt",
+    "observers",
+    "ingressReadbacks",
+    "activationAuthority",
+    "activationWitnesses",
+    "activation"
+  ],
+  "properties": {
+    "standard": {"const": "EIGIIB-M0-A15-F2-ACTIVATION-PACKAGE-1.0"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["f1Head", "f1Tree"],
+      "properties": {
+        "f1Head": {"const": "b66ba8d5b11ce4e9d30d5fdb70fb982db3e26095"},
+        "f1Tree": {"const": "9c2ded5aedbf5c22d311461ad7ee42d8315f8763"}
+      }
+    },
+    "evidenceClass": {"const": "external-authenticated-history"},
+    "history": {"type": "object"},
+    "historyDigest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "carrier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["carrierId", "locator", "retrievedAt", "mediaType", "contentLength"],
+      "properties": {
+        "carrierId": {"type": "string", "minLength": 1},
+        "locator": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "retrievedAt": {"type": "string", "format": "date-time"},
+        "mediaType": {"const": "application/vnd.eigiib.m0-a15-f1-history+json"},
+        "contentLength": {"type": "integer", "minimum": 1}
+      }
+    },
+    "publisher": {"$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f2-principal-profile.schema.json"},
+    "ingressReceipt": {"$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f2-signed-envelope.schema.json"},
+    "observers": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f2-principal-profile.schema.json"}
+    },
+    "ingressReadbacks": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f2-signed-envelope.schema.json"}
+    },
+    "activationAuthority": {"$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f2-principal-profile.schema.json"},
+    "activationWitnesses": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {"$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f2-principal-profile.schema.json"}
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["envelope", "witnessEndorsements", "readbacks"],
+      "properties": {
+        "envelope": {"$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f2-signed-envelope.schema.json"},
+        "witnessEndorsements": {
+          "type": "array",
+          "minItems": 3,
+          "items": {"$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f2-signed-envelope.schema.json"}
+        },
+        "readbacks": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"$ref": "https://eigiib.example/schemas/eigiib-m0-a15-f2-signed-envelope.schema.json"}
+        }
+      }
+    }
+  }
+}

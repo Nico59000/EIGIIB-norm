@@ -1,0 +1,156 @@
+name: M0-A15-F2 external authenticated history ingress and T closure
+run-name: M0-A15-F2 / ${{ github.event.pull_request.head.ref || github.ref_name }} / ${{ github.sha }}
+
+on:
+  pull_request:
+    branches:
+      - agent/m0-a15-f1-authenticated-evidence-binding-derived-split-brain-exact-a14-replay
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/m0-a15-f2-external-history-activation.yml'
+      - 'conformance/M0-A15-F2-*'
+      - 'conformance/m0-a15-f2-*'
+      - 'docs/M0-A15-F2-*'
+      - 'schemas/eigiib-m0-a15-f2-*'
+      - 'tests/fixtures/m0-a15-f2/**'
+      - 'tests/m0_a15_f2_cases.py'
+      - 'tests/test_eigiib_m0_a15_f2.py'
+      - 'tools/eigiib_m0_a15_f2_*.py'
+      - 'evidence/m0-a15-f2/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  validate:
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Install pinned verification providers
+        run: python -m pip install --disable-pip-version-check --no-input cryptography==46.0.4 jsonschema==4.26.0
+      - name: Inherited M0-A15 and F1 suites
+        run: |
+          python -m unittest -v tests/test_eigiib_m0_a15.py
+          python -m unittest -v tests/test_eigiib_m0_a15_f1.py
+      - name: M0-A15-F2 activation suite
+        run: python -m unittest -v tests/test_eigiib_m0_a15_f2.py
+      - name: Canonical blocked baseline
+        run: |
+          python tools/eigiib_m0_a15_f2_check.py . --output m0-a15-f2-baseline.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = json.loads(Path('m0-a15-f2-baseline.json').read_text())
+          expected = json.loads(Path('tests/fixtures/m0-a15-f2/expected-baseline-report.json').read_text())
+          assert actual == expected
+          PY
+      - name: Exact F1 and A14 source remain available
+        run: |
+          git merge-base --is-ancestor b66ba8d5b11ce4e9d30d5fdb70fb982db3e26095 HEAD
+          test "$(git rev-parse b66ba8d5b11ce4e9d30d5fdb70fb982db3e26095^{tree})" = "9c2ded5aedbf5c22d311461ad7ee42d8315f8763"
+          test "$(git rev-parse 5936ed072187cd7fe72db2c33119c8db92d06570^{tree})" = "8b77cadd56e5d51a08b94bbeee603d994ca7a5d2"
+      - name: Positive point-in-time activation route
+        run: |
+          rm -rf .eigiib-f2-positive
+          mkdir -p .eigiib-f2-positive
+          python tests/m0_a15_f2_cases.py \
+            --output .eigiib-f2-positive/activation-package.json \
+            --history-output .eigiib-f2-positive/authenticated-history.json \
+            --at-output .eigiib-f2-positive/evaluation-at.txt
+          python tools/eigiib_m0_a15_f2_check.py . \
+            --package .eigiib-f2-positive/activation-package.json \
+            --at "$(cat .eigiib-f2-positive/evaluation-at.txt)" \
+            --require-t
+          rm -rf .eigiib-f2-positive
+      - name: Missing external activation remains fail-closed
+        run: |
+          set +e
+          python tools/eigiib_m0_a15_f2_check.py . --require-t >/tmp/m0-a15-f2.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+      - name: Python tools and tests compile
+        run: python -m py_compile tools/eigiib_m0_a15_f2_*.py tests/m0_a15_f2_cases.py tests/test_eigiib_m0_a15_f2.py
+      - name: Closed JSON and schemas parse
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          paths = list(Path('conformance').glob('m0-a15-f2-*.json'))
+          paths += list(Path('schemas').glob('eigiib-m0-a15-f2-*.json'))
+          paths += list(Path('tests/fixtures/m0-a15-f2').glob('*.json'))
+          for path in paths:
+              json.loads(path.read_text())
+          PY
+      - name: No committed activation package or private key
+        run: |
+          test ! -e evidence/m0-a15-f2
+          ! find conformance docs schemas tests tools -type f \( -iname '*private-key*' -o -iname '*.pem' -o -iname '*.key' \) -print -quit | grep .
+
+  issue-external-candidate:
+    if: ${{ github.event_name == 'pull_request' }}
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Install pinned issuance providers
+        run: python -m pip install --disable-pip-version-check --no-input cryptography==46.0.4 jsonschema==4.26.0
+      - name: Issue one random-key external candidate
+        run: |
+          rm -rf .eigiib-f2-candidate
+          mkdir -p .eigiib-f2-candidate
+          python tests/m0_a15_f2_cases.py \
+            --randomize \
+            --carrier-locator 'https://raw.githubusercontent.com/Nico59000/EIGIIB-norm/external-m0-a15-f2-history/external-evidence/m0-a15-f2/authenticated-history.json' \
+            --output .eigiib-f2-candidate/activation-package.json \
+            --history-output .eigiib-f2-candidate/authenticated-history.json \
+            --at-output .eigiib-f2-candidate/evaluation-at.txt
+          python tools/eigiib_m0_a15_f2_check.py . \
+            --package .eigiib-f2-candidate/activation-package.json \
+            --at "$(cat .eigiib-f2-candidate/evaluation-at.txt)" \
+            --require-t \
+            --output .eigiib-f2-candidate/verification-report.json
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path('.eigiib-f2-candidate')
+          metadata = {}
+          for name in ('authenticated-history.json', 'activation-package.json', 'verification-report.json'):
+              raw = (root / name).read_bytes()
+              metadata[name] = {'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+          metadata['evaluationAt'] = (root / 'evaluation-at.txt').read_text().strip()
+          (root / 'candidate-metadata.json').write_text(json.dumps(metadata, indent=2) + '\n')
+          PY
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: m0-a15-f2-external-candidate-${{ github.event.pull_request.head.sha }}
+          path: .eigiib-f2-candidate
+          retention-days: 7
+          if-no-files-found: error

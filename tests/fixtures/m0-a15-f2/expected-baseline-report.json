@@ -1,0 +1,20 @@
+{
+  "standard": "EIGIIB-M0-A15-F2-REPORT-1.0",
+  "htntLabel": "NF",
+  "decision": "external-authenticated-activation-not-observed",
+  "findings": [],
+  "summary": {
+    "sourceF1": "verified",
+    "exactA14Replay": "not-observed",
+    "ingressAuthentication": "not-observed",
+    "independentIngressReadback": "not-observed",
+    "pointInTimeActivation": "not-observed",
+    "activationWitnessQuorum": "not-observed",
+    "activationReadback": "not-observed",
+    "historyDigest": null,
+    "f1ReportDigest": null,
+    "activationDigest": null,
+    "activatedAt": null,
+    "validUntil": null
+  }
+}

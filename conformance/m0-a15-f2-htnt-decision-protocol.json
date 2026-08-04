@@ -1,0 +1,38 @@
+{
+  "standard": "EIGIIB-M0-A15-F2-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier": {
+    "id": "S4",
+    "coordinates": [
+      "exactFrozenF1AndA14ReplayValidation",
+      "authenticatedExternalPointInTimeActivation"
+    ],
+    "labels": {
+      "F": [0, 0],
+      "NF": [1, 0],
+      "NT": [0, 1],
+      "T": [1, 1]
+    }
+  },
+  "fixedContext": true,
+  "current": {
+    "label": "NF",
+    "meaning": "activation-harness-valid-external-authenticated-package-absent",
+    "action": "preserve-exact-F1-source-and-require-bounded-signed-activation"
+  },
+  "dynamicInterpretation": {
+    "F": "local F2 authority, exact F1 source, freeze, schema or verifier invalid",
+    "NF": "local activation harness valid and no external activation package supplied",
+    "NT": "external material supplied but F1 T, ingress authentication, independent readback, timing, activation signature, witness quorum or activation readback incomplete",
+    "T": "exact F1 and A14 replay plus bounded external ingress and point-in-time activation are cryptographically verified"
+  },
+  "prohibitedTransitions": [
+    ["NF", "T-without-external-package"],
+    ["NF", "T-with-committed-test-fixture"],
+    ["NT", "T-without-exact-F1-T"],
+    ["NT", "T-without-independent-ingress-readback"],
+    ["NT", "T-with-host-clock-read"],
+    ["NT", "T-outside-activation-window"],
+    ["NT", "T-without-activation-witness-quorum"],
+    ["T", "automatic-future-succession-assurance"]
+  ]
+}
