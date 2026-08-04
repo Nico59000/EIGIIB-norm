@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "EIGIIB M0-A13 supersession record",
+  "required": [
+    "maintenanceEventId",
+    "requestDigest",
+    "predecessorHead",
+    "predecessorAuthorityDigest",
+    "successorHead",
+    "successorAuthorityDigest",
+    "scopeDigest",
+    "effectiveAt",
+    "rollbackTarget",
+    "compatibilityImpact",
+    "independentVerificationDigest",
+    "staleAuthorityReplay",
+    "recordDigest"
+  ],
+  "properties": {
+    "maintenanceEventId": {
+      "type": "string"
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "predecessorHead": {
+      "const": "58945ceab905cb515dff076227bb2b387f907461"
+    },
+    "predecessorAuthorityDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "successorHead": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "successorAuthorityDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "scopeDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "effectiveAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rollbackTarget": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "compatibilityImpact": {
+      "type": "string"
+    },
+    "independentVerificationDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "staleAuthorityReplay": {
+      "const": "rejected"
+    },
+    "recordDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

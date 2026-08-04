@@ -1,0 +1,70 @@
+{
+  "standard": "EIGIIB-M0-A13-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier": {
+    "id": "S4",
+    "coordinates": [
+      "localPostFreezeGovernanceValidation",
+      "independentMaintenanceCycleEvidence"
+    ],
+    "labels": {
+      "F": [
+        0,
+        0
+      ],
+      "NF": [
+        1,
+        0
+      ],
+      "NT": [
+        0,
+        1
+      ],
+      "T": [
+        1,
+        1
+      ]
+    }
+  },
+  "fixedContext": true,
+  "current": {
+    "label": "NF",
+    "meaning": "post-freeze-governance-harness-valid-final-freeze-and-live-maintenance-cycle-absent",
+    "action": "preserve-harness-and-block-reopening"
+  },
+  "dynamicInterpretation": {
+    "F": "local authority, policy, ledger, schema or verifier invalid",
+    "NF": "local harness valid while F5 final freeze or a maintenance cycle is absent",
+    "NT": "signed reopening or supersession evidence exists but scope, convergence, expiry, verification, anti-rollback or refreeze is incomplete",
+    "T": "F5 is frozen in T and one exact authorized maintenance cycle is append-only superseded, independently verified and re-frozen"
+  },
+  "prohibitedTransitions": [
+    [
+      "NF",
+      "T-without-f5-T"
+    ],
+    [
+      "NF",
+      "T-without-three-college-reopening"
+    ],
+    [
+      "NT",
+      "T-with-expired-or-revoked-authority"
+    ],
+    [
+      "NT",
+      "T-with-in-place-mutation"
+    ],
+    [
+      "NT",
+      "T-with-stale-authority-accepted"
+    ],
+    [
+      "NT",
+      "T-without-independent-refreeze-readback"
+    ],
+    [
+      "T",
+      "automatic-future-maintenance-authority"
+    ]
+  ]
+}

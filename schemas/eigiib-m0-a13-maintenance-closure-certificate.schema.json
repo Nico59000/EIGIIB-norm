@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "EIGIIB M0-A13 maintenance closure certificate",
+  "required": [
+    "maintenanceEventId",
+    "f5FreezeDigest",
+    "reopeningRequestDigest",
+    "approvalSetDigest",
+    "maintenancePlanDigest",
+    "successorHead",
+    "supersessionRecordDigest",
+    "refreezeManifestDigest",
+    "independentRefreezeReadbackDigest",
+    "certificateDigest"
+  ],
+  "properties": {
+    "maintenanceEventId": {
+      "type": "string"
+    },
+    "f5FreezeDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "reopeningRequestDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "approvalSetDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "maintenancePlanDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "successorHead": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "supersessionRecordDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "refreezeManifestDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "independentRefreezeReadbackDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "certificateDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

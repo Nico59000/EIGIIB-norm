@@ -1,0 +1,113 @@
+{
+  "standard": "EIGIIB-M0-A13-AUTHORITY-FREEZE-1.0",
+  "sourceHead": "58945ceab905cb515dff076227bb2b387f907461",
+  "authorityCount": 21,
+  "authorities": [
+    {
+      "path": ".github/workflows/m0-a13-post-freeze-maintenance.yml",
+      "bytes": 3978,
+      "sha256": "ea9afd720bc6718317355ffa5c683853709d3b3225268f94dbaff5966194a7b2"
+    },
+    {
+      "path": "conformance/M0-A13-MANUAL-REVIEW.md",
+      "bytes": 725,
+      "sha256": "cd7c6023ac59d957623f11fc796b0d20a36f02d24d749467e53a81c66187fa39"
+    },
+    {
+      "path": "conformance/m0-a13-htnt-decision-protocol.json",
+      "bytes": 1589,
+      "sha256": "df43ebdc6b21eb172c762cec82c0fea51f945dab868983e4d7349aa37fb95ebb"
+    },
+    {
+      "path": "conformance/m0-a13-maintenance-authority.json",
+      "bytes": 2287,
+      "sha256": "719b4fb5ee04523d8e839eb39db92ca188d884bb0aaca5095829cfd4bf1c3d17"
+    },
+    {
+      "path": "conformance/m0-a13-maintenance-ledger.json",
+      "bytes": 595,
+      "sha256": "25408e5612bc5c87565dfeaa49188124727fea21bc9f2875ac8ed31cb39e1130"
+    },
+    {
+      "path": "conformance/m0-a13-maintenance-policy.json",
+      "bytes": 1121,
+      "sha256": "35c2482f498efec068fe9f542b2e5c9972d82dc3633c9f619d284c97dd8d9695"
+    },
+    {
+      "path": "conformance/m0-a13-reopening-policy.json",
+      "bytes": 1495,
+      "sha256": "12b0637db6a8c4c7884510148daab0479ed004ce1c5ee25f776c271038b30d71"
+    },
+    {
+      "path": "conformance/m0-a13-supersession-policy.json",
+      "bytes": 935,
+      "sha256": "54689bd7237462445bba1ab44730c52b366bcdcd62801b957541c444a80976dd"
+    },
+    {
+      "path": "docs/M0-A13-OPERATOR-RUNBOOK.md",
+      "bytes": 1018,
+      "sha256": "a3f55c0c875bdf9b3be504196553ab4613db732443d6279da8b9cfb9160a8403"
+    },
+    {
+      "path": "docs/M0-A13-POST-FREEZE-MAINTENANCE-REOPENING-AUTHORITY-AND-SUPERSESSION-GOVERNANCE.md",
+      "bytes": 648,
+      "sha256": "1866a7be5459fd86beaddae19459e102636aa81859ccf4488e310c47433eeba0"
+    },
+    {
+      "path": "schemas/eigiib-m0-a13-college-approval.schema.json",
+      "bytes": 836,
+      "sha256": "886050e6c3945052c8e0518297c2df933b205d53bee4b682c12959870f7e69cf"
+    },
+    {
+      "path": "schemas/eigiib-m0-a13-maintenance-closure-certificate.schema.json",
+      "bytes": 1416,
+      "sha256": "fc0d35f36d88ab4e4076fadeb24265ee56654eceac43e4639e9f3f23f7a0feb2"
+    },
+    {
+      "path": "schemas/eigiib-m0-a13-maintenance-plan.schema.json",
+      "bytes": 1125,
+      "sha256": "ddbaff9a686e7464c4d24a43583e34cfaed105b46339b8d5704519f7d468a9f1"
+    },
+    {
+      "path": "schemas/eigiib-m0-a13-refreeze-manifest.schema.json",
+      "bytes": 1142,
+      "sha256": "73bb16cfb72c1e8609f5be5359ad626c9cff871826a4a68a971d73938c3260b1"
+    },
+    {
+      "path": "schemas/eigiib-m0-a13-reopening-request.schema.json",
+      "bytes": 1722,
+      "sha256": "960181249abb4a637bc5385586f2fc260a1e21dcb2d60675274a5c423a535764"
+    },
+    {
+      "path": "schemas/eigiib-m0-a13-supersession-record.schema.json",
+      "bytes": 1628,
+      "sha256": "2fb24554f5b822e984fb20dc3495249c27c1b315d40718cc1a4221f6b1b9f8d3"
+    },
+    {
+      "path": "tests/fixtures/m0-a13/expected-baseline-report.json",
+      "bytes": 281,
+      "sha256": "1124d8832280f67e7d2cd45f207f2324a9f5a007d356b5d5bd928695ed432f9b"
+    },
+    {
+      "path": "tests/test_eigiib_m0_a13.py",
+      "bytes": 8005,
+      "sha256": "66973819044cf0f257887b356052d9f3bc49dfda425b0abcba030c33c641c046"
+    },
+    {
+      "path": "tools/eigiib_m0_a13_canonical.py",
+      "bytes": 245,
+      "sha256": "2dc7913bf24fa04c2ff93c4944af67f44464436effe5eb687d6788efb45a4fc3"
+    },
+    {
+      "path": "tools/eigiib_m0_a13_check.py",
+      "bytes": 4377,
+      "sha256": "460e0b600322eb67f5a8525076cc9df0a8557367871de57f578e4104c678fa42"
+    },
+    {
+      "path": "tools/eigiib_m0_a13_replay.py",
+      "bytes": 4191,
+      "sha256": "d54c7e93a305186e6f5c0ed029156f75f6b26f3cc5833c41dcdca14cc818a430"
+    }
+  ],
+  "excludedPath": "conformance/m0-a13-authority-freeze.json"
+}

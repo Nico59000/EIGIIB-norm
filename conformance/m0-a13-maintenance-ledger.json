@@ -1,0 +1,17 @@
+{
+  "standard": "EIGIIB-M0-A13-MAINTENANCE-LEDGER-1.0",
+  "status": "final-freeze-pending",
+  "sourceHead": "58945ceab905cb515dff076227bb2b387f907461",
+  "freezeId": "eigiib-m0-final-freeze-v1",
+  "entries": [],
+  "activeReopeningAuthorityDigest": null,
+  "maintenancePlanDigest": null,
+  "supersessionRecordDigest": null,
+  "refreezeManifestDigest": null,
+  "independentRefreezeReadbackDigest": null,
+  "maintenanceCycleCount": 0,
+  "reopeningDecision": "not-authorized",
+  "supersessionDecision": "not-recorded",
+  "refreezeDecision": "not-refrozen",
+  "maintenanceDecision": "not-verified"
+}

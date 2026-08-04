@@ -1,0 +1,36 @@
+{
+  "standard": "EIGIIB-M0-A13-MAINTENANCE-POLICY-1.0",
+  "sourceF5Head": "58945ceab905cb515dff076227bb2b387f907461",
+  "finalFreezeId": "eigiib-m0-final-freeze-v1",
+  "maintenanceClasses": {
+    "read-only-verification": {
+      "frozenScopeWriteAllowed": false,
+      "reopeningRequired": false
+    },
+    "non-authoritative-documentation": {
+      "frozenScopeWriteAllowed": false,
+      "reopeningRequired": false
+    },
+    "normative-correction": {
+      "frozenScopeWriteAllowed": true,
+      "reopeningRequired": true
+    },
+    "security-emergency": {
+      "frozenScopeWriteAllowed": true,
+      "reopeningRequired": true
+    },
+    "deprecation-or-withdrawal": {
+      "frozenScopeWriteAllowed": true,
+      "reopeningRequired": true
+    }
+  },
+  "frozenScopeRules": [
+    "no-force-update-of-frozen-heads",
+    "no-in-place-replacement-of-frozen-authorities",
+    "no-path-wildcard-in-reopening-scope",
+    "no-claim-expansion-outside-approved-scope",
+    "all-predecessor-authorities-remain-addressable"
+  ],
+  "implementationNamespace": "M0-R<positive-integer>",
+  "unknownClassificationDecision": "deny"
+}

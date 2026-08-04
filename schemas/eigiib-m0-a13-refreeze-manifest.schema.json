@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "EIGIIB M0-A13 refreeze manifest",
+  "required": [
+    "maintenanceEventId",
+    "predecessorFreezeId",
+    "refreezeId",
+    "successorHead",
+    "supersessionRecordDigest",
+    "workflowInventoryDigest",
+    "independentReadbackDigest",
+    "manifestDigest"
+  ],
+  "properties": {
+    "maintenanceEventId": {
+      "type": "string"
+    },
+    "predecessorFreezeId": {
+      "const": "eigiib-m0-final-freeze-v1"
+    },
+    "refreezeId": {
+      "type": "string",
+      "pattern": "^eigiib-m0-refreeze-m0-maintenance-[0-9]{4,}$"
+    },
+    "successorHead": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "supersessionRecordDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "workflowInventoryDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "independentReadbackDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "manifestDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
