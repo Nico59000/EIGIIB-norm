@@ -1,12 +1,16 @@
 import base64
 import json
 import subprocess
+import sys
 import unittest
 from copy import deepcopy
 from pathlib import Path
 from unittest.mock import patch
 
-from tests.m0_a15_f1_cases import (
+TESTS_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(TESTS_DIR))
+
+from m0_a15_f1_cases import (
     A15_HEAD, ROOT, CanonicalValueError, CaseBuilder, REGISTRY_IDS,
     canonical_bytes, digest_hex, evaluate, h, validate_evidence_schema,
     verify_case, verify_envelope,
