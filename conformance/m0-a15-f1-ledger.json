@@ -1,0 +1,12 @@
+{
+  "standard": "EIGIIB-M0-A15-F1-LEDGER-1.0",
+  "sourceHead": "a39a3865dfe27fe394345e6fb7e9030c37f25203",
+  "entries": [],
+  "checkpointCount": 0,
+  "registryReceiptCount": 0,
+  "splitBrainProofCount": 0,
+  "reconciliationRecordCount": 0,
+  "governanceReconciliationCount": 0,
+  "longTermCertificateCount": 0,
+  "decision": "authenticated-evidence-not-observed"
+}

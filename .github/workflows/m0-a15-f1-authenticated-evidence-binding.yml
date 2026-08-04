@@ -1,0 +1,110 @@
+name: M0-A15-F1 authenticated evidence binding and derived split-brain proof
+run-name: M0-A15-F1 / ${{ github.event.pull_request.head.ref || github.ref_name }} / ${{ github.sha }}
+
+on:
+  pull_request:
+    branches:
+      - agent/m0-a15-independent-multi-registry-maintenance-witnessing-split-brain-detection-long-term-governance-reconciliation
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/m0-a15-f1-authenticated-evidence-binding.yml'
+      - 'conformance/M0-A15-F1-*'
+      - 'conformance/m0-a15-f1-*'
+      - 'docs/M0-A15-F1-*'
+      - 'schemas/eigiib-m0-a15-f1-*'
+      - 'tests/fixtures/m0-a15-f1/**'
+      - 'tests/test_eigiib_m0_a15_f1.py'
+      - 'tools/eigiib_m0_a15_f1_*.py'
+      - 'evidence/m0-a15-f1/**'
+  workflow_dispatch:
+    inputs:
+      require_verified:
+        description: Fail unless an external authenticated M0-A15-F1 history is supplied and verified
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  validate:
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Install pinned verification providers
+        run: python -m pip install --disable-pip-version-check --no-input cryptography==46.0.4 jsonschema==4.26.0
+      - name: Inherited M0-A12 through M0-A15 suites
+        run: |
+          python -m unittest -v tests/test_eigiib_m0_a12.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f1.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f2.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f3.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f4.py
+          python -m unittest -v tests/test_eigiib_m0_a12_f5.py
+          python -m unittest -v tests/test_eigiib_m0_a13.py
+          python -m unittest -v tests/test_eigiib_m0_a14.py
+          python -m unittest -v tests/test_eigiib_m0_a15.py
+      - name: M0-A15-F1 authenticated evidence suite
+        run: python -m unittest -v tests/test_eigiib_m0_a15_f1.py
+      - name: Canonical blocked baseline
+        run: |
+          python tools/eigiib_m0_a15_f1_check.py . --output m0-a15-f1-baseline.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual=json.loads(Path('m0-a15-f1-baseline.json').read_text())
+          expected=json.loads(Path('tests/fixtures/m0-a15-f1/expected-baseline-report.json').read_text())
+          assert actual==expected
+          PY
+      - name: Exact parent and historical A14 source remain available
+        run: |
+          git merge-base --is-ancestor a39a3865dfe27fe394345e6fb7e9030c37f25203 HEAD
+          test "$(git rev-parse a39a3865dfe27fe394345e6fb7e9030c37f25203^{tree})" = "1c74a2d5b417b96e2058d6270a907e2c8150d52a"
+          test "$(git rev-parse 5936ed072187cd7fe72db2c33119c8db92d06570^{tree})" = "8b77cadd56e5d51a08b94bbeee603d994ca7a5d2"
+      - name: Positive state remains fail-closed
+        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.require_verified }}
+        run: |
+          set +e
+          python tools/eigiib_m0_a15_f1_check.py . --require-verified >/tmp/m0-a15-f1.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+      - name: Require verified external history when explicitly requested
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.require_verified }}
+        run: python tools/eigib_m0_a15_f1_check.py . --require-verified
+      - name: Python tools compile
+        run: python -m py_compile tools/eigiib_m0_a15_f1_*.py
+      - name: Closed JSON and schemas parse
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          paths=list(Path('conformance').glob('m0-a15-f1-*.json'))
+          paths+=list(Path('schemas').glob('eigib-m0-a15-f1-*.json'))
+          paths+=list(Path('tests/fixtures/m0-a15-f1').glob('*.json'))
+          for path in paths: json.loads(path.read_text())
+          PY
+      - name: No committed live evidence, private keys or credentials
+        run: |
+          test ! -e evidence/m0-a15-f1
+          ! find conformance docs schemas tests tools -type f \( -iname '* private* key*' -o -iname '*token*' -o -iname '*secret*' -o -iname '*credential*' \) -print -quit | grep .

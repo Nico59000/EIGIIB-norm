@@ -1,0 +1,18 @@
+{
+  "standard": "EIGIIB-M0-A15-F1-REPORT-1.0",
+  "htntLabel": "NF",
+  "decision": "authenticated-evidence-not-observed",
+  "findings": [],
+  "summary": {
+    "sourceA15": "verified",
+    "a14Replay": "not-observed",
+    "checkpointCount": 0,
+    "registryReceiptCount": 0,
+    "splitBrainProofCount": 0,
+    "reconciliationRecordCount": 0,
+    "governanceReconciliationCount": 0,
+    "observedSpanSeconds": 0,
+    "latestCheckpointDigest": null,
+    "longTermCertificateDigest": null
+  }
+}

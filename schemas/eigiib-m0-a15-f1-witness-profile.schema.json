@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example/schemas/eigiib-m0-a15-f1-witness-profile.schema.json",
+  "title": "EIGIIB M0-A15-F1 Witness Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "witnessId",
+    "controlDomainId",
+    "identityRoot",
+    "keyId",
+    "algorithm",
+    "publicKey"
+  ],
+  "properties": {
+    "witnessId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "controlDomainId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "identityRoot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "keyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "algorithm": {
+      "const": "ed25519"
+    },
+    "publicKey": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9+/]+={0,2}$",
+      "minLength": 40
+    }
+  }
+}
