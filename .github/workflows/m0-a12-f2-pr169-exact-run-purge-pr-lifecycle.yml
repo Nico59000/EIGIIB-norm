@@ -1,0 +1,89 @@
+name: M0-A12-F2 exact accidental run purge
+run-name: M0-A12-F2 exact run purge / ${{ github.sha }}
+
+on:
+  push:
+    branches:
+      - ops/m0-a12-f2-pr169-exact-run-purge-pr-lifecycle
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  purge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      HEAD_BRANCH: ops/m0-a12-f2-pr169-exact-run-purge-pr-lifecycle
+      TARGET_RUN: "30902939689"
+      AUTHORITATIVE_PR: "170"
+    steps:
+      - name: Wait for closed lifecycle PR
+        id: lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          own_pr=""
+          for _ in $(seq 1 120); do
+            own_pr=$(curl --fail-with-body -sS -G \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              --data-urlencode "state=closed" \
+              --data-urlencode "head=Nico59000:${HEAD_BRANCH}" \
+              "$api/pulls" | jq -r '.[0].number // empty')
+            [[ -n "$own_pr" ]] && break
+            sleep 5
+          done
+          test -n "$own_pr"
+          echo "own_pr=$own_pr" >> "$GITHUB_OUTPUT"
+
+      - name: Delete exact rejected topology run
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          curl --fail-with-body -sS -X DELETE \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "$api/actions/runs/$TARGET_RUN"
+          code=$(curl -sS -o /tmp/run-check.json -w '%{http_code}' \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "$api/actions/runs/$TARGET_RUN")
+          test "$code" = "404"
+
+      - name: Publish exact deletion record
+        shell: bash
+        env:
+          OWN_PR: ${{ steps.lifecycle.outputs.own_pr }}
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          body=$(jq -n --arg run "$TARGET_RUN" '{body:("Exact rejected topology run `"+$run+"` was deleted and direct API readback returned HTTP 404.\n\n- source: closed accidental PR #169 to `main`\n- authoritative stacked PR: #170\n- authoritative F2 head: `597ba0931d3510b01136d8ca6c6075ee106a7f19`\n- replacement M0-A8 run: `30902940543` (success)\n\nThis was a cleanup of a correctly rejected accidental topology, not a repair of F2.")}' )
+          for pr in "$OWN_PR" "$AUTHORITATIVE_PR"; do
+            curl --fail-with-body -sS -X POST \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "$api/issues/$pr/comments" \
+              -d "$body"
+          done
+
+      - name: Delete technical branch after closed PR and report
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          curl --fail-with-body -sS -X DELETE \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "$api/git/refs/heads/$HEAD_BRANCH"
