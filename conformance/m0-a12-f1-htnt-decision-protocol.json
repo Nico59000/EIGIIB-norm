@@ -1,0 +1,76 @@
+{
+  "standard": "EIGIIB-M0-A12-F1-HTNT-DECISION-PROTOCOL-1.0",
+  "carrier": {
+    "id": "S4",
+    "coordinates": [
+      "localIngressClosureValidation",
+      "independentExternalEvidenceValidation"
+    ],
+    "labels": {
+      "F": [
+        0,
+        0
+      ],
+      "NF": [
+        1,
+        0
+      ],
+      "NT": [
+        0,
+        1
+      ],
+      "T": [
+        1,
+        1
+      ]
+    }
+  },
+  "fixedContext": true,
+  "current": {
+    "label": "NF",
+    "meaning": "ingress-and-closure-gate-valid-external-package-absent",
+    "action": "preserve-gate-and-await-signed-closed-package"
+  },
+  "dynamicInterpretation": {
+    "NF": "no-bound-external-package-or-only-unbound-staging",
+    "NT": "externally signed evidence is present but local binding or closure certificate is incomplete",
+    "T": "exact package bound-m0-a12-replayed-in-T-and-closure-certificate-valid",
+    "F": "local authority or package gate invalid before external evidence is admitted"
+  },
+  "binaryPromotionRule": {
+    "allowedOnlyFor": [
+      "F",
+      "T"
+    ],
+    "offDiagonal": "suspended"
+  },
+  "transitionMeasure": {
+    "type": "finite-missing-obligation-set",
+    "strictDecreaseRequired": true,
+    "obligations": [
+      "signed-closed-package",
+      "exact-inventory-and-safe-extraction",
+      "three-domain-binding-approval",
+      "verified-bound-ingress-receipt",
+      "point-in-time-closure-certificate"
+    ]
+  },
+  "prohibitedTransitions": [
+    [
+      "NF",
+      "T-without-bound-receipt"
+    ],
+    [
+      "NT",
+      "T-without-m0-a12-T"
+    ],
+    [
+      "any",
+      "T-without-valid-certificate"
+    ],
+    [
+      "T",
+      "E17-ready"
+    ]
+  ]
+}
