@@ -1,0 +1,41 @@
+name: EIGIIB IDP-A4
+on:
+  pull_request:
+    paths:
+      - 'extensions/IDP-A4-*'
+      - 'conformance/idp-a4-*'
+      - 'schemas/idp-a4-*'
+      - 'tools/eigiib_idp_a4_*'
+      - 'tests/test_eigiib_idp_a4.py'
+      - 'tests/fixtures/idp-a4/**'
+      - 'docs/IDP-A4-*'
+      - '.github/workflows/idp-a4.yml'
+  push:
+    branches:
+      - 'agent/idp-a4-public-transparency-opaque-commitment-withdrawal-anti-correlation'
+permissions:
+  contents: read
+jobs:
+  idp-a4:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Install pinned schema verifier
+        run: python -m pip install --disable-pip-version-check --no-input jsonschema==4.26.0
+      - name: Closed public schema
+        run: python -c "import json; from jsonschema import Draft202012Validator as V; s=json.load(open('schemas/idp-a4-public-transparency.schema.json',encoding='utf-8')); d=json.load(open('conformance/idp-a4-public-transparency.json',encoding='utf-8')); V.check_schema(s); V(s).validate(d)"
+      - name: Reference public disclosure authority
+        run: python tools/eigiib_idp_a4_check.py --public conformance/idp-a4-public-transparency.json --private tests/fixtures/idp-a4/synthetic-private-witness.json --json
+      - name: Independent public disclosure authority
+        run: python tools/eigiib_idp_a4_independent.py --public conformance/idp-a4-public-transparency.json --private tests/fixtures/idp-a4/synthetic-private-witness.json --json
+      - name: Differential withdrawal and anti-correlation matrix
+        run: python tools/eigiib_idp_a4_matrix.py . --json
+      - name: Unit tests
+        run: python -m unittest tests.test_eigiib_idp_a4 -v

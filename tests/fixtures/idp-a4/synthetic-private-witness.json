@@ -1,0 +1,20 @@
+{
+  "standard": "EIGIIB-IDP-A4-SYNTHETIC-PRIVATE-WITNESS-1.0",
+  "synthetic": true,
+  "witnesses": [
+    {
+      "recordId": "pub-alpha-001",
+      "internalArtifactId": "synthetic-internal-artifact-a",
+      "internalClassification": "D4",
+      "payloadDigest": "3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a",
+      "salt": "1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "recordId": "pub-beta-001",
+      "internalArtifactId": "synthetic-internal-artifact-a",
+      "internalClassification": "D4",
+      "payloadDigest": "3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a",
+      "salt": "2222222222222222222222222222222222222222222222222222222222222222"
+    }
+  ]
+}
