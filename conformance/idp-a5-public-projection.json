@@ -1,0 +1,61 @@
+{
+  "standard": "EIGIIB-IDP-A4-PUBLIC-TRANSPARENCY-1.0",
+  "commitmentProfile": {
+    "algorithm": "sha256",
+    "domainSeparator": "EIGIIB-IDP-A4-COMMITMENT-1.0",
+    "saltBytes": 32,
+    "saltPolicy": "fresh-per-public-record",
+    "openingMaterialPublic": false
+  },
+  "records": [
+    {
+      "recordId": "pub-alpha-001",
+      "recordType": "restricted-state-announcement",
+      "publicationClass": "D0",
+      "publicHandle": "8ce15829a7185dd7423c5ad8a20b3a13f7fb92acfa203f838c5b36255aaa7318",
+      "commitment": "72375069fc09039162989a1eb6b2b73d0d273def933548145b51c9f60e34d1ca",
+      "subjectDisclosure": "restricted-nonpublic",
+      "verificationState": "verified-within-declared-boundary",
+      "publishedAt": "2030-01-01T12:00:00Z",
+      "state": "active",
+      "withdrawalId": null
+    },
+    {
+      "recordId": "pub-beta-001",
+      "recordType": "restricted-state-announcement",
+      "publicationClass": "D0",
+      "publicHandle": "442096c8e6efc4e7935460f75f11762400ee195c32b07da68c55eb3ea50d27aa",
+      "commitment": "4a5bff2432872230e1d8a0cd8b07fc6fd6073cf16f732c5edfe717e847d05c4d",
+      "subjectDisclosure": "restricted-nonpublic",
+      "verificationState": "verified-within-declared-boundary",
+      "publishedAt": "2030-01-02T12:00:00Z",
+      "state": "withdrawn",
+      "withdrawalId": "withdrawal-beta-001"
+    }
+  ],
+  "withdrawals": [
+    {
+      "withdrawalId": "withdrawal-beta-001",
+      "recordId": "pub-beta-001",
+      "effectiveAt": "2030-01-03T12:00:00Z",
+      "reasonClass": "policy-change"
+    }
+  ],
+  "claimBoundary": {
+    "establishes": [
+      "public-existence-and-bounded-status-without-opening-material",
+      "salted-opaque-commitment-construction-and-binding",
+      "append-only-public-withdrawal",
+      "public-handle-and-salt-non-reuse-in-declared-registry"
+    ],
+    "doesNotImply": [
+      "public-access-to-restricted-payload",
+      "public-knowledge-of-internal-artifact-identity",
+      "public-knowledge-of-internal-classification",
+      "public-verification-without-opening-material",
+      "absence-or-existence-of-unlisted-restricted-artifacts",
+      "production-salt-or-handle-entropy",
+      "universal-unlinkability-against-timing-traffic-or-semantic-side-channels"
+    ]
+  }
+}

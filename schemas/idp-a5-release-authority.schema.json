@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "source",
+    "reviewPolicy",
+    "authorityProfiles",
+    "reviews",
+    "release",
+    "freeze",
+    "claimBoundary"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-IDP-A5-SELECTIVE-TRANSPARENCY-FREEZE-1.0"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "a4Head",
+        "a4ProjectionSha256"
+      ],
+      "properties": {
+        "a4Head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "a4ProjectionSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "reviewPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "threshold",
+        "authorityCount",
+        "distinctControlDomains",
+        "releaseRequiresThresholdSignatures"
+      ],
+      "properties": {
+        "threshold": {"const": 2},
+        "authorityCount": {"const": 3},
+        "distinctControlDomains": {"const": true},
+        "releaseRequiresThresholdSignatures": {"const": true}
+      }
+    },
+    "authorityProfiles": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["authorityId","role","controlDomainId","identityRoot","keyId","algorithm","publicKey"],
+        "properties": {
+          "authorityId": {"type": "string","minLength": 1},
+          "role": {"type": "string","minLength": 1},
+          "controlDomainId": {"type": "string","minLength": 1},
+          "identityRoot": {"type": "string","minLength": 1},
+          "keyId": {"type": "string","minLength": 1},
+          "algorithm": {"type": "string","minLength": 1},
+          "publicKey": {"type": "string","minLength": 1}
+        }
+      }
+    },
+    "reviews": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["payload","signature"],
+        "properties": {
+          "payload": {"type": "object"},
+          "signature": {"type": "string","minLength": 1}
+        }
+      }
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload","signatures"],
+      "properties": {
+        "payload": {"type": "object"},
+        "signatures": {"type": "array","minItems": 2}
+      }
+    },
+    "freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload","freezeDigest"],
+      "properties": {
+        "payload": {"type": "object"},
+        "freezeDigest": {"type": "string","pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["establishes","doesNotImply"],
+      "properties": {
+        "establishes": {"type": "array","minItems": 4,"items": {"type": "string"}},
+        "doesNotImply": {"type": "array","minItems": 5,"items": {"type": "string"}}
+      }
+    }
+  }
+}
