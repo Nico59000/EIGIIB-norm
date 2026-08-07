@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eigiib.example.invalid/schemas/idp-a2-bridge-binding.schema.json",
+  "title": "EIGIIB-IDP-A2 bridge binding registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "profileState", "registryScope", "sourceA1", "principals", "endpoints", "pinsets", "transportProfiles", "bindings", "rules"],
+  "properties": {
+    "standard": {"const": "EIGIIB-IDP-A2-0.1"},
+    "profileState": {"enum": ["draft", "active", "retired"]},
+    "registryScope": {"enum": ["structural-only", "operational"]},
+    "sourceA1": {
+      "type": "object", "additionalProperties": false,
+      "required": ["head", "policyPath", "policyBlobSha"],
+      "properties": {
+        "head": {"const": "ec352636690ee22135cfc7a3d3e2067ee323f2cf"},
+        "policyPath": {"const": "conformance/idp-policy.json"},
+        "policyBlobSha": {"const": "7aac9aa7223eadd3739c0b59d4275eeed58bb3d1"}
+      }
+    },
+    "principals": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "role", "rootAuthority", "controlDomainId", "identityRoot", "operationalState", "authenticator"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "role": {"enum": ["local-root", "bridge-origin", "bridge-peer", "bridge-return-receiver", "bridge-return-peer", "restricted-review-origin", "restricted-review-peer"]},
+          "rootAuthority": {"type": "boolean"},
+          "controlDomainId": {"type": "string", "minLength": 1},
+          "identityRoot": {"type": "string", "minLength": 1},
+          "operationalState": {"enum": ["planned", "active", "retired"]},
+          "authenticator": {
+            "type": "object", "additionalProperties": false,
+            "required": ["kind", "keyId", "fingerprintAlgorithm", "publicKeyFingerprint", "synthetic"],
+            "properties": {
+              "kind": {"const": "asymmetric-key"},
+              "keyId": {"type": "string", "minLength": 1},
+              "fingerprintAlgorithm": {"const": "sha256"},
+              "publicKeyFingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "synthetic": {"type": "boolean"}
+            }
+          }
+        }
+      }
+    },
+    "endpoints": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "channelId", "side", "purpose", "expectedPrincipalId", "locatorState", "locator", "pinsetId", "operationalState"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "channelId": {"enum": ["private-bridge-out", "private-bridge-return", "restricted-review"]},
+          "side": {"enum": ["local", "remote"]},
+          "purpose": {"enum": ["origin", "peer", "receiver"]},
+          "expectedPrincipalId": {"type": "string", "minLength": 1},
+          "locatorState": {"enum": ["unbound", "bound"]},
+          "locator": {"type": ["string", "null"]},
+          "pinsetId": {"type": ["string", "null"]},
+          "operationalState": {"enum": ["planned", "active", "retired"]}
+        }
+      }
+    },
+    "pinsets": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "endpointId", "algorithm", "pins", "synthetic", "commitment"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "endpointId": {"type": "string", "minLength": 1},
+          "algorithm": {"const": "sha256"},
+          "pins": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+          "synthetic": {"type": "boolean"},
+          "commitment": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "transportProfiles": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "channelId", "direction", "protocolFamily", "peerAuthentication", "confidentialityRequired", "integrityRequired", "endpointPinningRequired", "channelBindingRequired", "operationalState"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "channelId": {"enum": ["private-bridge-out", "private-bridge-return", "restricted-review"]},
+          "direction": {"enum": ["outbound", "inbound", "bidirectional"]},
+          "protocolFamily": {"enum": ["ssh", "tls"]},
+          "peerAuthentication": {"const": "mutual-asymmetric"},
+          "confidentialityRequired": {"const": true},
+          "integrityRequired": {"const": true},
+          "endpointPinningRequired": {"const": true},
+          "channelBindingRequired": {"const": true},
+          "operationalState": {"enum": ["planned", "active", "retired"]}
+        }
+      }
+    },
+    "bindings": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "channelId", "direction", "localPrincipalId", "remotePrincipalId", "localEndpointId", "remoteEndpointId", "transportProfileId", "expectedPinsetId", "allowedClasses", "state", "contextCommitment"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "channelId": {"enum": ["private-bridge-out", "private-bridge-return", "restricted-review"]},
+          "direction": {"enum": ["outbound", "inbound", "bidirectional"]},
+          "localPrincipalId": {"type": "string", "minLength": 1},
+          "remotePrincipalId": {"type": "string", "minLength": 1},
+          "localEndpointId": {"type": "string", "minLength": 1},
+          "remoteEndpointId": {"type": "string", "minLength": 1},
+          "transportProfileId": {"type": "string", "minLength": 1},
+          "expectedPinsetId": {"type": "string", "minLength": 1},
+          "allowedClasses": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["D0", "D1", "D2", "D3", "D4"]}},
+          "state": {"enum": ["structural-only", "operational"]},
+          "contextCommitment": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "rules": {
+      "type": "object", "additionalProperties": false,
+      "required": ["bridgeCannotAssertRootAuthority", "crossRoutePrincipalReuseForbidden", "crossRouteEndpointReuseForbidden", "crossRoutePinsetReuseForbidden", "crossRouteTransportReuseForbidden", "directionBindingRequired", "principalRoleBindingRequired", "endpointPrincipalBindingRequired", "transportChannelBindingRequired", "remotePinsetBindingRequired", "contextCommitmentRequired", "structuralLocatorsMustRemainUnbound", "structuralAuthenticatorsMustBeSynthetic", "operationalBindingRequiresNonSyntheticAuthenticatorAndPins", "d5BridgeTransportForbidden"],
+      "properties": {
+        "bridgeCannotAssertRootAuthority": {"const": true},
+        "crossRoutePrincipalReuseForbidden": {"const": true},
+        "crossRouteEndpointReuseForbidden": {"const": true},
+        "crossRoutePinsetReuseForbidden": {"const": true},
+        "crossRouteTransportReuseForbidden": {"const": true},
+        "directionBindingRequired": {"const": true},
+        "principalRoleBindingRequired": {"const": true},
+        "endpointPrincipalBindingRequired": {"const": true},
+        "transportChannelBindingRequired": {"const": true},
+        "remotePinsetBindingRequired": {"const": true},
+        "contextCommitmentRequired": {"const": true},
+        "structuralLocatorsMustRemainUnbound": {"const": true},
+        "structuralAuthenticatorsMustBeSynthetic": {"const": true},
+        "operationalBindingRequiresNonSyntheticAuthenticatorAndPins": {"const": true},
+        "d5BridgeTransportForbidden": {"const": true}
+      }
+    }
+  }
+}
