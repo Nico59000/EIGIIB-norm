@@ -1,0 +1,48 @@
+{
+  "standard": "EIGIIB-P1-A9-F1-RUNNER-DISTRIBUTION-SUCCESSION-1.0",
+  "platform": "windows-2025",
+  "selectionPolicy": "exact-image-version-and-git-version",
+  "nonWindowsPolicyPath": "tests/fixtures/p1-a7/a7.7-toolchain-policy.json",
+  "generations": [
+    {
+      "generation": 0,
+      "id": "windows-2025-g0",
+      "predecessor": null,
+      "policyPath": "tests/fixtures/p1-a7/a7.7-toolchain-policy.json",
+      "imageVersion": "20260714.173.1",
+      "git": "git version 2.55.0.windows.2",
+      "changedFromPredecessor": []
+    },
+    {
+      "generation": 1,
+      "id": "windows-2025-g1",
+      "predecessor": "windows-2025-g0",
+      "policyPath": "tests/fixtures/p1-a9/a7.7-toolchain-policy-revision.json",
+      "imageVersion": "20260728.188.1",
+      "git": "git version 2.55.0.windows.3",
+      "changedFromPredecessor": ["imageVersion", "git"]
+    },
+    {
+      "generation": 2,
+      "id": "windows-2025-g2",
+      "predecessor": "windows-2025-g1",
+      "policyPath": "tests/fixtures/p1-a9/a7.7-toolchain-policy-revision-2.json",
+      "imageVersion": "20260803.193.1",
+      "git": "git version 2.55.0.windows.3",
+      "changedFromPredecessor": ["imageVersion"]
+    }
+  ],
+  "claimBoundary": {
+    "establishes": [
+      "append-only-exact-runner-distribution-registration",
+      "bounded-predecessor-to-successor-policy-diff",
+      "fail-closed-unregistered-distribution-selection"
+    ],
+    "doesNotImply": [
+      "future-runner-image-compatibility",
+      "unregistered-toolchain-equivalence",
+      "production-runner-trust",
+      "universal-windows-portability"
+    ]
+  }
+}

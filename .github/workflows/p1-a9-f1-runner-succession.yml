@@ -1,0 +1,48 @@
+name: P1-A9-F1 runner distribution succession
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  runner-succession:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform: ubuntu-24.04
+          - os: macos-15
+            platform: macos-15
+          - os: windows-2025
+            platform: windows-2025
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Validate append-only succession registry
+        run: >-
+          python tools/eigiib_p1_a9_f1_runner_succession.py .
+          --registry tests/fixtures/p1-a9/a7.7-toolchain-policy-succession.json
+          --json
+      - name: Unit tests
+        run: python -m unittest tests/test_eigiib_p1_a9_f1_runner_succession.py -v
+      - name: Select observed Windows distribution
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          python tools/eigiib_p1_a9_f1_runner_succession.py . \
+            --registry tests/fixtures/p1-a9/a7.7-toolchain-policy-succession.json \
+            --select-policy \
+            --platform windows-2025 \
+            --image-version "$ImageVersion" \
+            --git-version "$(git --version)"
