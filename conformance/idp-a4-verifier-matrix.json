@@ -1,0 +1,20 @@
+{
+  "standard": "EIGIIB-IDP-A4-VERIFIER-MATRIX-1.0",
+  "cases": [
+    {"id":"positive","mutation":null,"expected":"conformant"},
+    {"id":"public-exposes-payload-digest","mutation":{"target":"public.records.0","op":"add","key":"payloadDigest","value":"3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a"},"expected":"nonconformant"},
+    {"id":"public-exposes-salt","mutation":{"target":"public.records.0","op":"add","key":"salt","value":"1111111111111111111111111111111111111111111111111111111111111111"},"expected":"nonconformant"},
+    {"id":"public-exposes-internal-id","mutation":{"target":"public.records.0","op":"add","key":"internalArtifactId","value":"synthetic-internal-artifact-a"},"expected":"nonconformant"},
+    {"id":"public-exposes-endpoint","mutation":{"target":"public.records.0","op":"add","key":"endpoint","value":"ssh://private.example"},"expected":"nonconformant"},
+    {"id":"commitment-mismatch","mutation":{"target":"public.records.0","op":"replace","key":"commitment","value":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},"expected":"nonconformant"},
+    {"id":"public-handle-reuse","mutation":{"target":"public.records.1","op":"copy","key":"publicHandle","from":"public.records.0.publicHandle"},"expected":"nonconformant"},
+    {"id":"salt-reuse","mutation":{"target":"private.witnesses.1","op":"copy","key":"salt","from":"private.witnesses.0.salt"},"expected":"nonconformant"},
+    {"id":"zero-salt","mutation":{"target":"private.witnesses.0","op":"replace","key":"salt","value":"0000000000000000000000000000000000000000000000000000000000000000"},"expected":"nonconformant"},
+    {"id":"withdrawal-target-missing","mutation":{"target":"public.withdrawals.0","op":"replace","key":"recordId","value":"pub-missing-999"},"expected":"nonconformant"},
+    {"id":"withdrawn-record-no-event","mutation":{"target":"public","op":"replace","key":"withdrawals","value":[]},"expected":"nonconformant"},
+    {"id":"active-record-claims-withdrawal","mutation":{"target":"public.records.0","op":"replace","key":"withdrawalId","value":"withdrawal-beta-001"},"expected":"nonconformant"},
+    {"id":"withdrawal-exposes-internal-id","mutation":{"target":"public.withdrawals.0","op":"add","key":"internalArtifactId","value":"synthetic-internal-artifact-a"},"expected":"nonconformant"},
+    {"id":"withdrawal-precedes-publication","mutation":{"target":"public.withdrawals.0","op":"replace","key":"effectiveAt","value":"2029-12-31T00:00:00Z"},"expected":"nonconformant"},
+    {"id":"published-at-not-utc-z","mutation":{"target":"public.records.0","op":"replace","key":"publishedAt","value":"2030-01-01T12:00:00+01:00"},"expected":"nonconformant"}
+  ]
+}

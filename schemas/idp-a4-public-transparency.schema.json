@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["standard", "commitmentProfile", "records", "withdrawals", "claimBoundary"],
+  "properties": {
+    "standard": {"const": "EIGIIB-IDP-A4-PUBLIC-TRANSPARENCY-1.0"},
+    "commitmentProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "domainSeparator", "saltBytes", "saltPolicy", "openingMaterialPublic"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "domainSeparator": {"const": "EIGIIB-IDP-A4-COMMITMENT-1.0"},
+        "saltBytes": {"const": 32},
+        "saltPolicy": {"const": "fresh-per-public-record"},
+        "openingMaterialPublic": {"const": false}
+      }
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["recordId", "recordType", "publicationClass", "publicHandle", "commitment", "subjectDisclosure", "verificationState", "publishedAt", "state", "withdrawalId"],
+        "properties": {
+          "recordId": {"type": "string", "pattern": "^pub-[a-z0-9-]+$"},
+          "recordType": {"const": "restricted-state-announcement"},
+          "publicationClass": {"const": "D0"},
+          "publicHandle": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "commitment": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "subjectDisclosure": {"const": "restricted-nonpublic"},
+          "verificationState": {"enum": ["verified-within-declared-boundary", "not-verified"]},
+          "publishedAt": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+          "state": {"enum": ["active", "withdrawn"]},
+          "withdrawalId": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "withdrawals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["withdrawalId", "recordId", "effectiveAt", "reasonClass"],
+        "properties": {
+          "withdrawalId": {"type": "string"},
+          "recordId": {"type": "string"},
+          "effectiveAt": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+          "reasonClass": {"enum": ["policy-change", "superseded", "claim-retracted", "publication-error"]}
+        }
+      }
+    },
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["establishes", "doesNotImply"],
+      "properties": {
+        "establishes": {"type": "array", "items": {"type": "string"}},
+        "doesNotImply": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}
