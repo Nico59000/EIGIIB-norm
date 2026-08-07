@@ -1,0 +1,20 @@
+{
+  "standard": "EIGIIB-IDP-A5-VERIFIER-MATRIX-1.0",
+  "authorities": [
+    "tools/eigiib_idp_a5_check.py",
+    "tools/eigiib_idp_a5_independent.py"
+  ],
+  "requiredAgreement": "exact-accept-or-reject",
+  "negativeCoverage": [
+    "source-drift",
+    "projection-byte-drift",
+    "review-signature-corruption",
+    "authority-independence-loss",
+    "threshold-weakening",
+    "release-signature-loss",
+    "release-before-review",
+    "freeze-before-release",
+    "freeze-binding-drift",
+    "mutable-successor-policy"
+  ]
+}

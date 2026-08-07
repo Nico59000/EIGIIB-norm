@@ -1,0 +1,119 @@
+{
+  "standard": "EIGIIB-IDP-A5-SELECTIVE-TRANSPARENCY-FREEZE-1.0",
+  "source": {
+    "a4Head": "58a103c2fa11b32380c0d7a8bb03d29017242d29",
+    "a4ProjectionSha256": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e"
+  },
+  "reviewPolicy": {
+    "threshold": 2,
+    "authorityCount": 3,
+    "distinctControlDomains": true,
+    "releaseRequiresThresholdSignatures": true
+  },
+  "authorityProfiles": [
+    {
+      "authorityId": "idp-a5-review-alpha",
+      "role": "independent-disclosure-reviewer",
+      "controlDomainId": "independent-review-alpha-control",
+      "identityRoot": "synthetic:idp-a5:alpha",
+      "keyId": "idp-a5-review-alpha-ed25519-4",
+      "algorithm": "ed25519",
+      "publicKey": "M1ViKRrxm2QrW0LE2zqjExMjtmjMa2aGImb6yu3V6Yg="
+    },
+    {
+      "authorityId": "idp-a5-review-beta",
+      "role": "independent-disclosure-reviewer",
+      "controlDomainId": "independent-review-beta-control",
+      "identityRoot": "synthetic:idp-a5:beta",
+      "keyId": "idp-a5-review-beta-ed25519-4",
+      "algorithm": "ed25519",
+      "publicKey": "igF4Zxt4xzhkIs8e3Y/6GePd/y7v0SGn6KKo+eoh3mU="
+    },
+    {
+      "authorityId": "idp-a5-review-gamma",
+      "role": "independent-disclosure-reviewer",
+      "controlDomainId": "independent-review-gamma-control",
+      "identityRoot": "synthetic:idp-a5:gamma",
+      "keyId": "idp-a5-review-gamma-ed25519-4",
+      "algorithm": "ed25519",
+      "publicKey": "k5Xap85+I4ZX+C9p5/+10377u723WOyqakRA18QYguE="
+    }
+  ],
+  "reviews": [
+    {
+      "payload": {
+        "reviewId": "review-alpha-001",
+        "authorityId": "idp-a5-review-alpha",
+        "projectionDigest": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e",
+        "sourceA4Head": "58a103c2fa11b32380c0d7a8bb03d29017242d29",
+        "decision": "approve",
+        "reviewedAt": "2030-01-04T12:00:00Z",
+        "boundary": "public-projection-only-no-private-opening"
+      },
+      "signature": "M72kja7egLJIS4bR/J0zvpRx9DH8jlDG3Wd4E1WCP0Dvq/fFrJWgFgEBzJO80xN6AnkdT8uFHKh6TzA/4ATJCg=="
+    },
+    {
+      "payload": {
+        "reviewId": "review-beta-001",
+        "authorityId": "idp-a5-review-beta",
+        "projectionDigest": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e",
+        "sourceA4Head": "58a103c2fa11b32380c0d7a8bb03d29017242d29",
+        "decision": "approve",
+        "reviewedAt": "2030-01-04T12:05:00Z",
+        "boundary": "public-projection-only-no-private-opening"
+      },
+      "signature": "Qpf1UhiPUnLTMFoZ8eQLSRfpPFk5OdlDNTfuAJfZeE1F1ZZW6dnEUxLBoFHCE5y8dbymL6JwkarRoWq82pqzDA=="
+    }
+  ],
+  "release": {
+    "payload": {
+      "releaseId": "idp-a5-release-001",
+      "projectionDigest": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e",
+      "sourceA4Head": "58a103c2fa11b32380c0d7a8bb03d29017242d29",
+      "approvalReviewIds": [
+        "review-alpha-001",
+        "review-beta-001"
+      ],
+      "threshold": 2,
+      "approvedAt": "2030-01-04T12:10:00Z",
+      "decision": "approved-for-declared-public-projection"
+    },
+    "signatures": [
+      {
+        "authorityId": "idp-a5-review-alpha",
+        "signature": "s+kBxiG+Ibc9NFvHCAUDOi1EMzkdcblGo8fIUmeQek9GGuPqjltEG3hjO4bbzrATeQR4Um35ofm8vEt88teyAg=="
+      },
+      {
+        "authorityId": "idp-a5-review-beta",
+        "signature": "YrUgm83cLjrGAeHaOnCPDCyUp5Bk2q43JY2kxODuaFeOdhKVkUhdNhjkNKy+bl8dMyiHH9gs771F9HD+vX9zBg=="
+      }
+    ]
+  },
+  "freeze": {
+    "payload": {
+      "freezeId": "idp-a5-selective-transparency-freeze-001",
+      "releaseId": "idp-a5-release-001",
+      "projectionDigest": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e",
+      "approvalSetDigest": "ea2324de5bdc865c5f6ba0ead63eb70db3a6e0f7bb13d05a3d2c474f91857cad",
+      "frozenAt": "2030-01-04T12:15:00Z",
+      "state": "frozen",
+      "successorPolicy": "append-only-supersession-required"
+    },
+    "freezeDigest": "1fd43cf45a3cd30470f301d4cfe8ce2945ab9ce25655433a5174fafe95f4d624"
+  },
+  "claimBoundary": {
+    "establishes": [
+      "independent-review-of-exact-public-projection",
+      "two-of-three-multi-authority-release-approval",
+      "exact-public-projection-replay",
+      "append-only-final-selective-transparency-freeze"
+    ],
+    "doesNotImply": [
+      "production-reviewer-identity-or-key-custody",
+      "publication-of-any-real-restricted-artifact",
+      "public-opening-of-opaque-commitments",
+      "universal-confidentiality-or-unlinkability",
+      "authorization-to-publish-any-projection-not-bound-to-this-release"
+    ]
+  }
+}

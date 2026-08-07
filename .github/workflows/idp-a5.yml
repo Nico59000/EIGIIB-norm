@@ -1,0 +1,40 @@
+name: EIGIIB IDP-A5
+on:
+  pull_request:
+    paths:
+      - 'extensions/IDP-A5-*'
+      - 'conformance/idp-a5-*'
+      - 'schemas/idp-a5-*'
+      - 'tools/eigiib_idp_a5_*'
+      - 'tests/test_eigiib_idp_a5.py'
+      - 'docs/IDP-A5-*'
+      - '.github/workflows/idp-a5.yml'
+  push:
+    branches:
+      - 'agent/idp-a5-independent-disclosure-review-multi-authority-release-public-projection-final-freeze'
+permissions:
+  contents: read
+jobs:
+  idp-a5:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Install pinned verifiers
+        run: python -m pip install --disable-pip-version-check --no-input jsonschema==4.26.0 cryptography==46.0.4
+      - name: Closed release schema
+        run: python -c "import json; from jsonschema import Draft202012Validator as V; s=json.load(open('schemas/idp-a5-release-authority.schema.json',encoding='utf-8')); d=json.load(open('conformance/idp-a5-release-authority.json',encoding='utf-8')); V.check_schema(s); V(s).validate(d)"
+      - name: Reference release authority
+        run: python tools/eigiib_idp_a5_check.py --authority conformance/idp-a5-release-authority.json --projection conformance/idp-a5-public-projection.json --json
+      - name: Independent release authority
+        run: python tools/eigiib_idp_a5_independent.py --authority conformance/idp-a5-release-authority.json --projection conformance/idp-a5-public-projection.json --json
+      - name: Differential review release freeze matrix
+        run: python tools/eigiib_idp_a5_matrix.py
+      - name: Unit tests
+        run: python -m unittest tests.test_eigiib_idp_a5 -v

@@ -1,0 +1,9 @@
+{
+  "standard": "EIGIIB-IDP-A5-ADOPTION-TRANSITION-1.0",
+  "predecessor": "IDP-A4",
+  "predecessorHead": "58a103c2fa11b32380c0d7a8bb03d29017242d29",
+  "successor": "IDP-A5",
+  "projectionDigest": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e",
+  "transition": "review-before-release-before-freeze",
+  "claimBoundary": "structural-and-synthetic-cryptographic-replay-only"
+}
