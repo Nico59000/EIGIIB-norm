@@ -33,15 +33,7 @@ jobs:
       - name: Install pinned schema verifier
         run: python -m pip install --disable-pip-version-check --no-input jsonschema==4.26.0
       - name: Closed schema
-        shell: bash
-        run: python - <<'PY'
-          import json
-          from jsonschema import Draft202012Validator
-          schema=json.load(open('schemas/idp-policy.schema.json',encoding='utf-8'))
-          data=json.load(open('conformance/idp-policy.json',encoding='utf-8'))
-          Draft202012Validator.check_schema(schema)
-          Draft202012Validator(schema).validate(data)
-          PY
+        run: python -c "import json; from jsonschema import Draft202012Validator as V; s=json.load(open('schemas/idp-policy.schema.json',encoding='utf-8')); d=json.load(open('conformance/idp-policy.json',encoding='utf-8')); V.check_schema(s); V(s).validate(d)"
       - name: Structural authority
         run: python tools/eigiib_idp_check.py conformance/idp-policy.json --require-conformant --json
       - name: Independent structural authority
