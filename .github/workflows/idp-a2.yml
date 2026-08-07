@@ -1,0 +1,43 @@
+name: EIGIIB IDP-A2
+
+on:
+  pull_request:
+    paths:
+      - 'extensions/IDP-A2-*'
+      - 'conformance/idp-a2-*'
+      - 'schemas/idp-a2-*'
+      - 'tools/eigiib_idp_a2_*'
+      - 'tests/test_eigiib_idp_a2.py'
+      - 'docs/IDP-A2-*'
+      - '.github/workflows/idp-a2.yml'
+  push:
+    branches:
+      - 'agent/idp-a2-authenticated-bridge-identity-transport-binding-endpoint-pinning-anti-confusion-replay'
+
+permissions:
+  contents: read
+
+jobs:
+  idp-a2:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.14'
+      - name: Install pinned schema verifier
+        run: python -m pip install --disable-pip-version-check --no-input jsonschema==4.26.0
+      - name: Closed schema
+        run: python -c "import json; from jsonschema import Draft202012Validator; s=json.load(open('schemas/idp-a2-bridge-binding.schema.json',encoding='utf-8')); d=json.load(open('conformance/idp-a2-bridge-binding.json',encoding='utf-8')); Draft202012Validator.check_schema(s); Draft202012Validator(s).validate(d)"
+      - name: Structural bridge authority
+        run: python tools/eigiib_idp_a2_check.py conformance/idp-a2-bridge-binding.json --require-conformant --json
+      - name: Independent structural bridge authority
+        run: python tools/eigiib_idp_a2_independent.py conformance/idp-a2-bridge-binding.json --require-conformant --json
+      - name: Differential anti-confusion matrix
+        run: python tools/eigiib_idp_a2_matrix.py . --json
+      - name: Unit tests
+        run: python -m unittest tests.test_eigiib_idp_a2 -v
