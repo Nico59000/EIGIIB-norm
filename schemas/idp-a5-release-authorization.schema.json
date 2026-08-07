@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "standard",
+    "source",
+    "projection",
+    "reviewPolicy",
+    "authorities",
+    "authoritySetDigest",
+    "reviews",
+    "reviewSetDigest",
+    "freeze",
+    "claimBoundary"
+  ],
+  "properties": {
+    "standard": {
+      "const": "EIGIIB-IDP-A5-DISCLOSURE-RELEASE-AUTHORITY-1.0"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slice",
+        "head",
+        "registryPath",
+        "registrySha256",
+        "registryCanonicalSha256"
+      ],
+      "properties": {
+        "slice": {
+          "const": "IDP-A4"
+        },
+        "head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "registryPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "registrySha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "registryCanonicalSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "canonicalSha256",
+        "replayMode"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "canonicalSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "replayMode": {
+          "const": "byte-exact-copy"
+        }
+      }
+    },
+    "reviewPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requiredApprovals",
+        "totalAuthorities",
+        "decisionVocabulary",
+        "independenceFields",
+        "approvalBinding"
+      ],
+      "properties": {
+        "requiredApprovals": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "totalAuthorities": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "decisionVocabulary": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "approve",
+              "reject"
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "independenceFields": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "principalId",
+              "controlDomainId",
+              "identityRoot"
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "approvalBinding": {
+          "const": "exact-projection-sha256"
+        }
+      }
+    },
+    "authorities": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "authorityId",
+          "principalId",
+          "role",
+          "controlDomainId",
+          "identityRoot",
+          "implementation"
+        ],
+        "properties": {
+          "authorityId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "principalId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "const": "disclosure-reviewer"
+          },
+          "controlDomainId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identityRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "implementation": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "authoritySetDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "reviews": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reviewId",
+          "authorityId",
+          "projectionDigest",
+          "decision",
+          "reviewedAt",
+          "findings"
+        ],
+        "properties": {
+          "reviewId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorityId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "projectionDigest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "decision": {
+            "enum": [
+              "approve",
+              "reject"
+            ]
+          },
+          "reviewedAt": {
+            "type": "string",
+            "pattern": "Z$"
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "reviewSetDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "freezeId",
+        "projectionDigest",
+        "approvedBy",
+        "frozenAt",
+        "state",
+        "publicationAuthorized",
+        "publicationDisposition"
+      ],
+      "properties": {
+        "freezeId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "projectionDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "approvedBy": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "frozenAt": {
+          "type": "string",
+          "pattern": "Z$"
+        },
+        "state": {
+          "const": "structural-frozen"
+        },
+        "publicationAuthorized": {
+          "const": false
+        },
+        "publicationDisposition": {
+          "const": "not-published"
+        }
+      }
+    },
+    "claimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "establishes",
+        "doesNotImply"
+      ],
+      "properties": {
+        "establishes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "doesNotImply": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

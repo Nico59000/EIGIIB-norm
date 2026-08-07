@@ -1,0 +1,104 @@
+{
+  "standard": "EIGIIB-IDP-A5-DISCLOSURE-RELEASE-AUTHORITY-1.0",
+  "source": {
+    "slice": "IDP-A4",
+    "head": "353c854ddce61207d8a053d61be9e3d4ffdfc2e4",
+    "registryPath": "conformance/idp-a4-public-transparency.json",
+    "registrySha256": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e",
+    "registryCanonicalSha256": "7b73b5765806bab8fd2469b6570dcd39ab76018783735460831a7d5693cdddca"
+  },
+  "projection": {
+    "path": "conformance/idp-a5-public-projection.json",
+    "sha256": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e",
+    "canonicalSha256": "7b73b5765806bab8fd2469b6570dcd39ab76018783735460831a7d5693cdddca",
+    "replayMode": "byte-exact-copy"
+  },
+  "reviewPolicy": {
+    "requiredApprovals": 2,
+    "totalAuthorities": 3,
+    "decisionVocabulary": [
+      "approve",
+      "reject"
+    ],
+    "independenceFields": [
+      "principalId",
+      "controlDomainId",
+      "identityRoot"
+    ],
+    "approvalBinding": "exact-projection-sha256"
+  },
+  "authorities": [
+    {
+      "authorityId": "reviewer-alpha",
+      "principalId": "synthetic-disclosure-reviewer-alpha",
+      "role": "disclosure-reviewer",
+      "controlDomainId": "synthetic-review-alpha-control",
+      "identityRoot": "synthetic:disclosure-review:alpha",
+      "implementation": "eigiib-idp-a5-review-alpha-v1"
+    },
+    {
+      "authorityId": "reviewer-beta",
+      "principalId": "synthetic-disclosure-reviewer-beta",
+      "role": "disclosure-reviewer",
+      "controlDomainId": "synthetic-review-beta-control",
+      "identityRoot": "synthetic:disclosure-review:beta",
+      "implementation": "eigiib-idp-a5-review-beta-v1"
+    },
+    {
+      "authorityId": "reviewer-gamma",
+      "principalId": "synthetic-disclosure-reviewer-gamma",
+      "role": "disclosure-reviewer",
+      "controlDomainId": "synthetic-review-gamma-control",
+      "identityRoot": "synthetic:disclosure-review:gamma",
+      "implementation": "eigiib-idp-a5-review-gamma-v1"
+    }
+  ],
+  "authoritySetDigest": "c256a77b0418d9a27b87db100292c6d29a3774420cb40ccfbef10b8c3400539b",
+  "reviews": [
+    {
+      "reviewId": "review-alpha-001",
+      "authorityId": "reviewer-alpha",
+      "projectionDigest": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e",
+      "decision": "approve",
+      "reviewedAt": "2030-01-04T12:00:00Z",
+      "findings": []
+    },
+    {
+      "reviewId": "review-beta-001",
+      "authorityId": "reviewer-beta",
+      "projectionDigest": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e",
+      "decision": "approve",
+      "reviewedAt": "2030-01-04T12:05:00Z",
+      "findings": []
+    }
+  ],
+  "reviewSetDigest": "ffd4b35e91ff37046116cd0f6e76ce48546e878564e7dcd49da8ab924ac7d7af",
+  "freeze": {
+    "freezeId": "idp-a5-selective-transparency-freeze-001",
+    "projectionDigest": "2d9cddbf57867b0e5a19ee7e5629f703ed75a734cc5b7fe4bbec5b0d12a1a85e",
+    "approvedBy": [
+      "reviewer-alpha",
+      "reviewer-beta"
+    ],
+    "frozenAt": "2030-01-04T12:10:00Z",
+    "state": "structural-frozen",
+    "publicationAuthorized": false,
+    "publicationDisposition": "not-published"
+  },
+  "claimBoundary": {
+    "establishes": [
+      "independent-disclosure-review-against-exact-projection",
+      "two-of-three-multi-authority-structural-approval",
+      "byte-exact-public-projection-replay",
+      "post-review-structural-selective-transparency-freeze"
+    ],
+    "doesNotImply": [
+      "production-publication-authorization",
+      "production-reviewer-identity-or-key-control",
+      "external-registry-or-endpoint-publication",
+      "production-opening-material-custody",
+      "universal-unlinkability-or-side-channel-resistance",
+      "merge-of-predecessor-pull-requests"
+    ]
+  }
+}

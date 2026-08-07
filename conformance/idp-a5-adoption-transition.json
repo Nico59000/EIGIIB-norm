@@ -1,0 +1,22 @@
+{
+  "standard": "EIGIIB-IDP-A5-ADOPTION-TRANSITION-1.0",
+  "predecessor": {
+    "slice": "IDP-A4",
+    "head": "353c854ddce61207d8a053d61be9e3d4ffdfc2e4"
+  },
+  "maintenancePrerequisite": {
+    "slice": "P1-A9-F1",
+    "head": "7d1e6c1ad45dbea2e1d6e756981dee5ecd291f30",
+    "purpose": "append-only-runner-distribution-succession"
+  },
+  "target": "IDP-A5",
+  "adoptionState": "structural-freeze-candidate",
+  "claimBoundary": {
+    "doesNotImply": [
+      "merge-of-predecessor-pull-requests",
+      "production-publication-authorization",
+      "production-reviewer-identity-or-key-control",
+      "external-publication-or-distribution"
+    ]
+  }
+}

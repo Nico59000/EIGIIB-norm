@@ -1,0 +1,25 @@
+{
+  "standard": "EIGIIB-IDP-A5-VERIFIER-MATRIX-1.0",
+  "positiveCase": "positive",
+  "negativeCases": [
+    "insufficient-approvals",
+    "duplicate-review-authority",
+    "unknown-review-authority",
+    "review-projection-digest-mismatch",
+    "review-after-freeze",
+    "approved-by-mismatch",
+    "freeze-projection-digest-mismatch",
+    "publication-authorized-true",
+    "publication-disposition-published",
+    "projection-byte-mutation",
+    "source-head-mismatch",
+    "source-path-mismatch",
+    "threshold-zero",
+    "authority-principal-collision",
+    "authority-control-domain-collision",
+    "authority-identity-root-collision",
+    "approval-with-findings",
+    "reject-listed-as-approver"
+  ],
+  "expectedAgreement": "reference-and-independent-verifiers-must-match"
+}
